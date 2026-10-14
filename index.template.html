@@ -272,6 +272,15 @@
   const TOTAL_COLS = COLS.length + 1; // + columna de acciones (no es un dato del dataset)
   const ESTADO_LABELS = { NOT_STARTED: 'No iniciada', IN_PROGRESS: 'En curso', CANCELLED: 'Cancelada', COMPLETED: 'Finalizada' };
   const DIA_ORDER = ['Lunes', 'Miércoles', 'Martes', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  const MESES_ES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+  function mesSortKey(mesStr) {
+    const parts = (mesStr || '').trim().split(' ');
+    const anio = parts[parts.length - 1];
+    const nombre = parts.slice(0, -1).join(' ');
+    const idx = MESES_ES.indexOf(nombre);
+    return `${anio}-${String(idx + 1).padStart(2, '0')}`;
+  }
   const COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.2"/><path d="M3.5 10.5h-1A1 1 0 0 1 1.5 9.5v-7A1 1 0 0 1 2.5 1.5h7a1 1 0 0 1 1 1v1"/></svg>';
   const CHECK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 7-7"/></svg>';
 
@@ -415,7 +424,8 @@
   }
 
   function populateFilters(rows) {
-    const meses = [...new Set(rows.map((r) => r.mes).filter(Boolean))];
+    const meses = [...new Set(rows.map((r) => r.mes).filter(Boolean))]
+      .sort((a, b) => mesSortKey(a).localeCompare(mesSortKey(b)));
     mesEl.replaceChildren(new Option('Todos los meses', ''), ...meses.map((m) => new Option(m, m)));
 
     const diasSet = new Set();
