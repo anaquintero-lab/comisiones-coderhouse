@@ -1,0 +1,40 @@
+name: Actualizar comisiones Coderhouse
+
+on:
+  schedule:
+    # Todos los lunes a las 12:00 hora Argentina (UTC-3) = 15:00 UTC
+    - cron: "0 15 * * 1"
+  workflow_dispatch: {}  # permite correrlo manualmente desde la pestaña Actions
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install requests
+
+      - name: Generar index.html actualizado
+        env:
+          CODERHOUSE_API_URL: https://api-prod.coderhouse.com/api
+          CLAUDE_STUDENT_API_KEY: ${{ secrets.CLAUDE_STUDENT_API_KEY }}
+          CLAUDE_FINANCE_API_KEY: ${{ secrets.CLAUDE_FINANCE_API_KEY }}
+        run: python3 scripts/actualizar_comisiones.py
+
+      - name: Commitear y pushear si cambió algo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet || git commit -m "Actualizar comisiones (automático)"
+          git push
