@@ -28,6 +28,7 @@
         <option value="asc">Ascendente</option>
         <option value="desc">Descendente</option>
       </select>
+      <button class="filter-input f-copy-consecutive" type="button">Copiar consecutivas</button>
       <button class="btn-reset f-reset" type="button">Limpiar filtros</button>
     </div>
     <p class="count-line" id="count"></p>
@@ -139,6 +140,13 @@
     padding: .5rem .9rem;
   }
   #dash-root .filter-input:focus { outline: 2px solid var(--ch-accent); outline-offset: 1px; }
+
+  #dash-root .f-copy-consecutive {
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  #dash-root .f-copy-consecutive.is-copied { color: var(--ch-ok); border-color: var(--ch-ok); }
 
   #dash-root .f-search { flex: 1 1 14rem; min-width: 12rem; border-radius: 999px; }
 
@@ -278,6 +286,7 @@
   const sortFieldEl = document.querySelector('.f-sort-field');
   const sortDirEl = document.querySelector('.f-sort-dir');
   const resetBtn = document.querySelector('.f-reset');
+  const copyConsecutiveBtn = document.querySelector('.f-copy-consecutive');
 
   function showMessage(text) {
     tbody.replaceChildren();
@@ -443,23 +452,73 @@
     countEl.textContent = trs.length ? `Mostrando ${visible} de ${trs.length} comisiones` : '';
   }
 
+  function matchesFilters(r) {
+    const q = searchEl.value.trim().toLowerCase();
+    const mes = mesEl.value;
+    const dia = diaEl.value;
+    const hora = horaEl.value;
+    const estado = estadoEl.value;
+    const curso = String(r.curso || '').toLowerCase();
+    const comision = String(r.comision || '').toLowerCase();
+    const diasRow = (r.dia || '').split(',').map((s) => s.trim());
+    return (
+      (!q || curso.includes(q) || comision.includes(q)) &&
+      (!mes || r.mes === mes) &&
+      (!dia || diasRow.includes(dia)) &&
+      (!hora || r.hora_inicio === hora) &&
+      (!estado || r.estado === estado)
+    );
+  }
+
   [searchEl, mesEl, diaEl, horaEl, estadoEl].forEach((el) => {
     el.addEventListener('input', applyFilters);
     el.addEventListener('change', applyFilters);
   });
 
   let latestRows = DATA;
+  let renderedRows = [];
 
   function renderRows() {
     if (!latestRows.length) {
+      renderedRows = [];
       showMessage('No hay comisiones para mostrar.');
       countEl.textContent = '';
       return;
     }
     const sorted = sortRows(latestRows, sortFieldEl.value, sortDirEl.value);
+    renderedRows = sorted;
     buildRows(sorted);
     applyFilters();
   }
+
+  function copyConsecutive() {
+    const visibles = renderedRows.filter(matchesFilters);
+    if (!visibles.length) return;
+    const tres = visibles.slice(0, 3);
+    const text = tres.map((r) => [
+      `Comisión: ${r.comision}`,
+      `Día: ${r.dia || '—'}`,
+      `Horario: ${r.horario || '—'}`,
+      `Inicio: ${r.fecha_inicio || '—'}`,
+      `Fin: ${r.fecha_fin || '—'}`
+    ].join('\n')).join('\n\n');
+    const original = copyConsecutiveBtn.textContent;
+    const done = () => {
+      copyConsecutiveBtn.classList.add('is-copied');
+      copyConsecutiveBtn.textContent = 'Copiado';
+      setTimeout(() => {
+        copyConsecutiveBtn.classList.remove('is-copied');
+        copyConsecutiveBtn.textContent = original;
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  copyConsecutiveBtn.addEventListener('click', copyConsecutive);
 
   [sortFieldEl, sortDirEl].forEach((el) => {
     el.addEventListener('change', renderRows);
