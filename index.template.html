@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comisiones Coderhouse</title>
+</head>
+<body>
+<div id="dash-root">
+<div class="page">
+  <header class="page-head">
+    <h1 class="page-title">Comisiones Coderhouse</h1>
+    <p class="page-sub" id="takeaway">—</p>
+  </header>
+
+  <section class="card filters-card">
+    <div class="filters">
+      <input type="text" class="filter-input f-search" placeholder="Buscar curso o comisión…" aria-label="Buscar curso o comisión">
+      <select class="filter-input f-mes" aria-label="Mes"></select>
+      <select class="filter-input f-dia" aria-label="Día"></select>
+      <select class="filter-input f-hora" aria-label="Hora"></select>
+      <select class="filter-input f-estado" aria-label="Estado"></select>
+      <button class="btn-reset f-reset" type="button">Limpiar filtros</button>
+    </div>
+    <p class="count-line" id="count"></p>
+  </section>
+
+  <section class="card table-card">
+    <div class="table-wrap">
+      <table class="comisiones-table">
+        <thead>
+          <tr>
+            <th>Curso</th>
+            <th>Comisión</th>
+            <th>Día</th>
+            <th>Horario (ARG)</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Modalidad</th>
+            <th>Inscriptos</th>
+            <th>Cupo</th>
+            <th>Profesores</th>
+            <th class="col-actions">Copiar</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+</div>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #f9f3e9;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+
+  #dash-root {
+    --ch-bg: #f9f3e9;
+    --ch-card: #ffffff;
+    --ch-ink: #14110f;
+    --ch-ink-muted: #6b6258;
+    --ch-accent: #ff632b;
+    --ch-accent-ink: #ffffff;
+    --ch-border: #ece3d4;
+    --ch-ok: #1a9c5a;
+    --ch-warn: #c98a00;
+    --ch-bad: #d64545;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+
+  #dash-root .page {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: var(--ch-ink);
+    background: var(--ch-bg);
+    border-radius: 16px;
+    padding: 1.25rem;
+  }
+
+  #dash-root .page-head { margin-bottom: 1.25rem; }
+  #dash-root .page-title {
+    font-family: Arial, sans-serif;
+    font-weight: 800;
+    letter-spacing: -.01em;
+    font-size: 1.6rem;
+    margin: 0 0 .4rem 0;
+    color: var(--ch-ink);
+  }
+  #dash-root .page-title::after {
+    content: '';
+    display: block;
+    width: 2.75rem;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--ch-accent);
+    margin-top: .5rem;
+  }
+  #dash-root .page-sub {
+    margin: 0;
+    color: var(--ch-ink-muted);
+    font-size: .95rem;
+  }
+
+  #dash-root .card {
+    background: var(--ch-card);
+    border: 1px solid var(--ch-border);
+    border-radius: 14px;
+    padding: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  #dash-root .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    align-items: center;
+  }
+
+  #dash-root .filter-input {
+    font-family: inherit;
+    font-size: .9rem;
+    color: var(--ch-ink);
+    background: var(--ch-bg);
+    border: 1px solid var(--ch-border);
+    border-radius: 999px;
+    padding: .5rem .9rem;
+  }
+  #dash-root .filter-input:focus { outline: 2px solid var(--ch-accent); outline-offset: 1px; }
+
+  #dash-root .f-search { flex: 1 1 14rem; min-width: 12rem; border-radius: 999px; }
+
+  #dash-root .btn-reset {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: .82rem;
+    color: var(--ch-ink);
+    background: transparent;
+    border: 1px solid var(--ch-ink);
+    border-radius: 999px;
+    padding: .5rem .9rem;
+    cursor: pointer;
+  }
+  #dash-root .btn-reset:hover { color: var(--ch-accent-ink); background: var(--ch-ink); border-color: var(--ch-ink); }
+
+  #dash-root .count-line {
+    margin: .6rem 0 0 0;
+    font-size: .82rem;
+    color: var(--ch-ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  #dash-root .table-wrap {
+    max-height: 70vh;
+    overflow: auto;
+    border-radius: 10px;
+  }
+
+  #dash-root .comisiones-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #dash-root .comisiones-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--ch-card);
+    text-align: left;
+    font-weight: 700;
+    font-size: .74rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--ch-ink-muted);
+    padding: .6rem .6rem;
+    border-bottom: 2px solid var(--ch-ink);
+    white-space: nowrap;
+  }
+
+  #dash-root .comisiones-table tbody td {
+    padding: .55rem .6rem;
+    border-bottom: 1px solid var(--ch-border);
+    color: var(--ch-ink);
+    white-space: nowrap;
+  }
+
+  #dash-root .comisiones-table tbody td:first-child {
+    white-space: normal;
+    min-width: 16rem;
+    font-weight: 600;
+  }
+
+  #dash-root .comisiones-table tbody tr:hover td {
+    background: #fdf8f0;
+  }
+
+  #dash-root .status-msg {
+    text-align: center;
+    color: var(--ch-ink-muted);
+    padding: 1.5rem !important;
+    white-space: normal !important;
+  }
+
+  #dash-root .comisiones-table tbody td.cell-profesores {
+    white-space: normal;
+    min-width: 12rem;
+    color: var(--ch-ink-muted);
+  }
+
+  #dash-root .badge {
+    display: inline-block;
+    padding: .2rem .55rem;
+    border-radius: 999px;
+    font-size: .76rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  #dash-root .badge-ok { background: #e6f6ec; color: var(--ch-ok); }
+  #dash-root .badge-warn { background: #fdf0d8; color: var(--ch-warn); }
+  #dash-root .badge-bad { background: #fbe7e7; color: var(--ch-bad); }
+  #dash-root .badge-neutral { background: #eeeae3; color: var(--ch-ink-muted); }
+
+  #dash-root .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: .78rem;
+    color: var(--ch-accent-ink);
+    background: var(--ch-accent);
+    border: 1px solid var(--ch-accent);
+    border-radius: 999px;
+    padding: .35rem .7rem;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  #dash-root .copy-btn:hover { filter: brightness(0.92); }
+  #dash-root .copy-btn svg { width: 13px; height: 13px; flex: none; }
+  #dash-root .copy-btn.is-copied { background: var(--ch-ok); border-color: var(--ch-ok); color: #fff; }
+</style>
+
+<script>
+  window.__COMISIONES_DATA__ = [];
+</script>
+<script>
+(function () {
+  const DATA = Array.isArray(window.__COMISIONES_DATA__) ? window.__COMISIONES_DATA__ : [];
+  const COLS = ['curso', 'comision', 'dia', 'horario', 'fecha_inicio', 'fecha_fin', 'estado', 'modalidad', 'inscriptos', 'cupo_max', 'profesores'];
+  const TOTAL_COLS = COLS.length + 1; // + columna de acciones (no es un dato del dataset)
+  const ESTADO_LABELS = { NOT_STARTED: 'No iniciada', IN_PROGRESS: 'En curso', CANCELLED: 'Cancelada', COMPLETED: 'Finalizada' };
+  const DIA_ORDER = ['Lunes', 'Miércoles', 'Martes', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  const COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.2"/><path d="M3.5 10.5h-1A1 1 0 0 1 1.5 9.5v-7A1 1 0 0 1 2.5 1.5h7a1 1 0 0 1 1 1v1"/></svg>';
+  const CHECK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 7-7"/></svg>';
+
+  const tbody = document.getElementById('tbody');
+  const takeaway = document.getElementById('takeaway');
+  const countEl = document.getElementById('count');
+  const searchEl = document.querySelector('.f-search');
+  const mesEl = document.querySelector('.f-mes');
+  const diaEl = document.querySelector('.f-dia');
+  const horaEl = document.querySelector('.f-hora');
+  const estadoEl = document.querySelector('.f-estado');
+  const resetBtn = document.querySelector('.f-reset');
+
+  function showMessage(text) {
+    tbody.replaceChildren();
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = TOTAL_COLS;
+    td.className = 'status-msg';
+    td.textContent = text;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    countEl.textContent = '';
+  }
+
+  function buildRows(rows) {
+    tbody.replaceChildren();
+    const frag = document.createDocumentFragment();
+    rows.forEach((r) => {
+      const tr = document.createElement('tr');
+      tr.dataset.key = String(r.comision);
+      tr.dataset.curso = (r.curso || '').toLowerCase();
+      tr.dataset.comision = String(r.comision || '').toLowerCase();
+      tr.dataset.mes = r.mes || '';
+      tr.dataset.dia = r.dia || '';
+      tr.dataset.hora = r.hora_inicio || '';
+      tr.dataset.estado = r.estado || '';
+
+      COLS.forEach((c) => {
+        const td = document.createElement('td');
+        let v = r[c];
+        if (c === 'estado') {
+          v = ESTADO_LABELS[v] || v;
+          const cls = r.estado === 'IN_PROGRESS' ? 'badge badge-ok'
+            : r.estado === 'CANCELLED' ? 'badge badge-bad'
+            : r.estado === 'COMPLETED' ? 'badge badge-neutral'
+            : 'badge badge-warn';
+          td.innerHTML = '';
+          const span = document.createElement('span');
+          span.className = cls;
+          span.textContent = (v === null || v === undefined || v === '') ? '—' : String(v);
+          td.appendChild(span);
+        } else {
+          td.textContent = (v === null || v === undefined || v === '') ? '—' : String(v);
+        }
+        if (c === 'profesores') td.classList.add('cell-profesores');
+        tr.appendChild(td);
+      });
+
+      const actionTd = document.createElement('td');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.innerHTML = COPY_ICON + '<span>Copiar</span>';
+      btn.setAttribute('aria-label', `Copiar comisión ${r.comision}`);
+      btn.addEventListener('click', () => copyCommission(btn, r));
+      actionTd.appendChild(btn);
+      tr.appendChild(actionTd);
+
+      frag.appendChild(tr);
+    });
+    tbody.appendChild(frag);
+  }
+
+  function copyCommission(btn, r) {
+    const text = [
+      `Comisión: ${r.comision}`,
+      `Día: ${r.dia || '—'}`,
+      `Horario: ${r.horario || '—'}`,
+      `Inicio: ${r.fecha_inicio || '—'}`,
+      `Fin: ${r.fecha_fin || '—'}`
+    ].join('\n');
+    const done = () => {
+      btn.classList.add('is-copied');
+      btn.innerHTML = CHECK_ICON + '<span>Copiado</span>';
+      setTimeout(() => {
+        btn.classList.remove('is-copied');
+        btn.innerHTML = COPY_ICON + '<span>Copiar</span>';
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, done) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
+    } catch (e) {
+      /* sin feedback si tampoco funciona el fallback */
+    }
+  }
+
+  function populateFilters(rows) {
+    const meses = [...new Set(rows.map((r) => r.mes).filter(Boolean))];
+    mesEl.replaceChildren(new Option('Todos los meses', ''), ...meses.map((m) => new Option(m, m)));
+
+    const diasSet = new Set();
+    rows.forEach((r) => (r.dia || '').split(',').map((s) => s.trim()).filter(Boolean).forEach((d) => diasSet.add(d)));
+    const dias = DIA_ORDER.filter((d) => diasSet.has(d));
+    diaEl.replaceChildren(new Option('Todos los días', ''), ...dias.map((d) => new Option(d, d)));
+
+    const horas = [...new Set(rows.map((r) => r.hora_inicio).filter(Boolean))].sort();
+    horaEl.replaceChildren(new Option('Todas las horas', ''), ...horas.map((h) => new Option(h, h)));
+
+    const estados = [...new Set(rows.map((r) => r.estado).filter(Boolean))];
+    estadoEl.replaceChildren(new Option('Todos los estados', ''), ...estados.map((e) => new Option(ESTADO_LABELS[e] || e, e)));
+  }
+
+  function applyFilters() {
+    const q = searchEl.value.trim().toLowerCase();
+    const mes = mesEl.value;
+    const dia = diaEl.value;
+    const hora = horaEl.value;
+    const estado = estadoEl.value;
+
+    const trs = tbody.querySelectorAll('tr[data-key]');
+    let visible = 0;
+    trs.forEach((tr) => {
+      const match =
+        (!q || tr.dataset.curso.includes(q) || tr.dataset.comision.includes(q)) &&
+        (!mes || tr.dataset.mes === mes) &&
+        (!dia || tr.dataset.dia.split(',').map((s) => s.trim()).includes(dia)) &&
+        (!hora || tr.dataset.hora === hora) &&
+        (!estado || tr.dataset.estado === estado);
+      tr.style.display = match ? '' : 'none';
+      if (match) visible += 1;
+    });
+    countEl.textContent = trs.length ? `Mostrando ${visible} de ${trs.length} comisiones` : '';
+  }
+
+  [searchEl, mesEl, diaEl, horaEl, estadoEl].forEach((el) => {
+    el.addEventListener('input', applyFilters);
+    el.addEventListener('change', applyFilters);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    searchEl.value = '';
+    mesEl.value = '';
+    diaEl.value = '';
+    horaEl.value = '';
+    estadoEl.value = '';
+    applyFilters();
+  });
+
+  const rows = DATA;
+
+  if (rows.length) {
+    buildRows(rows);
+    populateFilters(rows);
+  } else {
+    showMessage('No hay comisiones para mostrar.');
+  }
+
+  const cursos = new Set(rows.map((r) => r.curso)).size;
+  const primera = rows[0] && rows[0].fecha_inicio;
+  const ultima = rows[rows.length - 1] && rows[rows.length - 1].fecha_inicio;
+  takeaway.textContent = rows.length
+    ? `${rows.length} comisiones (datos del Back Office al 14/10/2026), en ${cursos} cursos distintos. Instantánea estática — no se actualiza sola.`
+    : 'No hay comisiones para mostrar.';
+
+  applyFilters();
+})();
+</script>
+
+</body>
+</html>
