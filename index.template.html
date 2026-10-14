@@ -20,6 +20,14 @@
       <select class="filter-input f-dia" aria-label="Día"></select>
       <select class="filter-input f-hora" aria-label="Hora"></select>
       <select class="filter-input f-estado" aria-label="Estado"></select>
+      <select class="filter-input f-sort-field" aria-label="Ordenar por">
+        <option value="fecha_inicio">Ordenar por: Fecha de inicio</option>
+        <option value="comision">Ordenar por: Número de comisión</option>
+      </select>
+      <select class="filter-input f-sort-dir" aria-label="Dirección de orden">
+        <option value="asc">Ascendente</option>
+        <option value="desc">Descendente</option>
+      </select>
       <button class="btn-reset f-reset" type="button">Limpiar filtros</button>
     </div>
     <p class="count-line" id="count"></p>
@@ -267,6 +275,8 @@
   const diaEl = document.querySelector('.f-dia');
   const horaEl = document.querySelector('.f-hora');
   const estadoEl = document.querySelector('.f-estado');
+  const sortFieldEl = document.querySelector('.f-sort-field');
+  const sortDirEl = document.querySelector('.f-sort-dir');
   const resetBtn = document.querySelector('.f-reset');
 
   function showMessage(text) {
@@ -369,6 +379,32 @@
     }
   }
 
+  function parseFechaDMY(str) {
+    if (!str) return 0;
+    const parts = str.split('/');
+    if (parts.length !== 3) return 0;
+    const d = Number(parts[0]);
+    const m = Number(parts[1]);
+    const y = Number(parts[2]);
+    return new Date(y, m - 1, d).getTime();
+  }
+
+  function sortRows(rows, field, dir) {
+    const sorted = rows.slice();
+    sorted.sort((a, b) => {
+      let va, vb;
+      if (field === 'comision') {
+        va = Number(a.comision) || 0;
+        vb = Number(b.comision) || 0;
+      } else {
+        va = parseFechaDMY(a.fecha_inicio);
+        vb = parseFechaDMY(b.fecha_inicio);
+      }
+      return dir === 'desc' ? vb - va : va - vb;
+    });
+    return sorted;
+  }
+
   function populateFilters(rows) {
     const meses = [...new Set(rows.map((r) => r.mes).filter(Boolean))];
     mesEl.replaceChildren(new Option('Todos los meses', ''), ...meses.map((m) => new Option(m, m)));
@@ -412,6 +448,23 @@
     el.addEventListener('change', applyFilters);
   });
 
+  let latestRows = DATA;
+
+  function renderRows() {
+    if (!latestRows.length) {
+      showMessage('No hay comisiones para mostrar.');
+      countEl.textContent = '';
+      return;
+    }
+    const sorted = sortRows(latestRows, sortFieldEl.value, sortDirEl.value);
+    buildRows(sorted);
+    applyFilters();
+  }
+
+  [sortFieldEl, sortDirEl].forEach((el) => {
+    el.addEventListener('change', renderRows);
+  });
+
   resetBtn.addEventListener('click', () => {
     searchEl.value = '';
     mesEl.value = '';
@@ -421,23 +474,15 @@
     applyFilters();
   });
 
-  const rows = DATA;
-
-  if (rows.length) {
-    buildRows(rows);
-    populateFilters(rows);
-  } else {
-    showMessage('No hay comisiones para mostrar.');
+  if (latestRows.length) {
+    populateFilters(latestRows);
   }
+  renderRows();
 
-  const cursos = new Set(rows.map((r) => r.curso)).size;
-  const primera = rows[0] && rows[0].fecha_inicio;
-  const ultima = rows[rows.length - 1] && rows[rows.length - 1].fecha_inicio;
-  takeaway.textContent = rows.length
-    ? `${rows.length} comisiones (datos del Back Office al 14/10/2026), en ${cursos} cursos distintos. Instantánea estática — no se actualiza sola.`
+  const cursos = new Set(latestRows.map((r) => r.curso)).size;
+  takeaway.textContent = latestRows.length
+    ? `${latestRows.length} comisiones, en ${cursos} cursos distintos. Instantánea estática — no se actualiza sola.`
     : 'No hay comisiones para mostrar.';
-
-  applyFilters();
 })();
 </script>
 
