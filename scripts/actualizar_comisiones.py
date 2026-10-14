@@ -31,6 +31,9 @@ MONTH_NAMES = [
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre",
 ]
 
+# La API rechaza limit > 100 (400 Bad Request: "limit must not be greater than 100")
+PAGE_SIZE = 100
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_PATH = os.path.join(REPO_ROOT, "index.template.html")
 OUTPUT_PATH = os.path.join(REPO_ROOT, "index.html")
@@ -45,33 +48,51 @@ def finance_headers():
 
 
 def get_all_cohorts():
-    """Pagina GET /student/enrollment/m2m/admin/cohorts hasta traer todo."""
+    """Pagina GET /student/enrollment/m2m/admin/cohorts hasta traer todo.
+
+    La respuesta tiene la forma {"data": [...], "pagination": {"page",
+    "limit", "total", "totalPages", "hasNextPage", "hasPreviousPage"}}.
+    """
     cohorts = []
     page = 1
-    page_size = 200
     while True:
         resp = requests.get(
             f"{API_URL}/student/enrollment/m2m/admin/cohorts",
             headers=student_headers(),
-            params={"page": page, "limit": page_size},
+            params={"page": page, "limit": PAGE_SIZE},
             timeout=60,
         )
         resp.raise_for_status()
         data = resp.json()
-        # La forma exacta de paginación puede variar; soporta ambas formas
-        # comunes: {"data": [...], "total": N} o una lista directa.
-        items = data.get("data", data) if isinstance(data, dict) else data
-        if not items:
-            break
+        items = data.get("data", [])
         cohorts.extend(items)
-        if len(items) < page_size:
+
+        pagination = data.get("pagination") or {}
+        if not pagination.get("hasNextPage"):
             break
         page += 1
     return cohorts
 
 
+def _product_title(product):
+    """El título vive en localizations[], no en un campo plano."""
+    locs = product.get("localizations") or []
+    for loc in locs:
+        if loc.get("language") == "es" and loc.get("isDefault"):
+            return loc.get("title")
+    for loc in locs:
+        if loc.get("language") == "es":
+            return loc.get("title")
+    if locs:
+        return locs[0].get("title")
+    return product.get("title") or product.get("name")
+
+
 def search_products(product_ids):
-    """POST /finance/product/m2m/products/search — confirmado de solo lectura."""
+    """POST /finance/product/m2m/products/search — confirmado de solo lectura.
+
+    Devuelve directamente una lista de productos (no envuelta en {"data": [...]}).
+    """
     product_map = {}
     chunk_size = 50
     ids = list(product_ids)
@@ -85,16 +106,17 @@ def search_products(product_ids):
         )
         resp.raise_for_status()
         data = resp.json()
-        items = data.get("data", data) if isinstance(data, dict) else data
+        items = data if isinstance(data, list) else data.get("data", [])
         for p in items:
             pid = p.get("id") or p.get("productId")
-            title = p.get("title") or p.get("name")
+            title = _product_title(p)
             if pid is not None and title:
                 product_map[pid] = title
     return product_map
 
 
 def get_professors_for_cohort(cohort_id):
+    """GET /platform/staff/m2m/admin/assignments/cohort/{id} — devuelve una lista."""
     try:
         resp = requests.get(
             f"{API_URL}/platform/staff/m2m/admin/assignments/cohort/{cohort_id}",
@@ -103,7 +125,7 @@ def get_professors_for_cohort(cohort_id):
         )
         resp.raise_for_status()
         data = resp.json()
-        items = data.get("data", data) if isinstance(data, dict) else data
+        items = data if isinstance(data, list) else data.get("data", [])
         names = []
         for a in items or []:
             if a.get("active", True) and a.get("professorName"):
@@ -115,7 +137,7 @@ def get_professors_for_cohort(cohort_id):
 
 def get_all_professors(cohort_ids):
     result = {}
-    with ThreadPoolExecutor(max_workers=16) as ex:
+    with ThreadPoolExecutor(max_workers=32) as ex:
         futures = [ex.submit(get_professors_for_cohort, cid) for cid in cohort_ids]
         for fut in as_completed(futures):
             cid, names = fut.result()
@@ -133,9 +155,9 @@ def to_arg_dt(iso_str):
 def build_rows(cohorts, product_map, professors_map):
     rows = []
     for c in cohorts:
-        cohort_id = c.get("id") or c.get("cohortId")
+        cohort_id = c.get("id")
         product_id = c.get("productId")
-        curso = product_map.get(product_id, c.get("productTitle", "—"))
+        curso = product_map.get(product_id) or c.get("name", "—")
 
         start_dt = to_arg_dt(c.get("startDate"))
         end_dt = to_arg_dt(c.get("endDate"))
@@ -161,8 +183,8 @@ def build_rows(cohorts, product_map, professors_map):
             "estado": c.get("status", ""),
             "modalidad": c.get("modality", ""),
             "pais": c.get("country", ""),
-            "inscriptos": c.get("enrolledCount", 0),
-            "cupo_max": c.get("maxCapacity", 0),
+            "inscriptos": c.get("currentStudents", 0),
+            "cupo_max": c.get("maxStudents", 0),
             "profesores": ", ".join(professors_map.get(cohort_id, [])),
         })
 
@@ -197,7 +219,7 @@ def main():
     print(f"Buscando {len(product_ids)} productos...", file=sys.stderr)
     product_map = search_products(product_ids)
 
-    cohort_ids = [c.get("id") or c.get("cohortId") for c in cohorts]
+    cohort_ids = [c.get("id") for c in cohorts]
     print("Buscando profesores asignados...", file=sys.stderr)
     professors_map = get_all_professors(cohort_ids)
 
