@@ -6,6 +6,7 @@
 <title>Comisiones Coderhouse</title>
 </head>
 <body>
+<div id="dash-root">
 <div class="page">
   <header class="page-head">
     <h1 class="page-title">Comisiones Coderhouse</h1>
@@ -36,20 +37,20 @@
 
   <section class="card table-card">
     <div class="table-wrap">
-      <table class="comisiones-table" data-source="comisiones" data-row-key="comision">
+      <table class="comisiones-table">
         <thead>
           <tr>
-            <th data-field="curso">Curso</th>
-            <th data-field="comision">Comisión</th>
-            <th data-field="dia">Día</th>
-            <th data-field="horario">Horario (ARG)</th>
-            <th data-field="fecha_inicio">Inicio</th>
-            <th data-field="fecha_fin">Fin</th>
-            <th data-field="estado">Estado</th>
-            <th data-field="modalidad">Modalidad</th>
-            <th data-field="inscriptos">Inscriptos</th>
-            <th data-field="cupo_max">Cupo</th>
-            <th data-field="profesores">Profesores</th>
+            <th>Curso</th>
+            <th>Comisión</th>
+            <th>Día</th>
+            <th>Horario (ARG)</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Modalidad</th>
+            <th>Inscriptos</th>
+            <th>Cupo</th>
+            <th>Profesores</th>
             <th class="col-actions">Copiar</th>
           </tr>
         </thead>
@@ -58,11 +59,15 @@
     </div>
   </section>
 </div>
-
+</div>
 <style>
-  /* Paleta tomada del sitio público de Coderhouse (coderhouse.com):
-     fondo crema, negro, naranja de acento. Colores fijos (no seguimos el
-     tema claro/oscuro del visor) porque el pedido fue reproducir esa marca. */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #f9f3e9;
+    font-family: 'Segoe UI', Arial, sans-serif;
+  }
+
   #dash-root {
     --ch-bg: #f9f3e9;
     --ch-card: #ffffff;
@@ -74,6 +79,9 @@
     --ch-ok: #1a9c5a;
     --ch-warn: #c98a00;
     --ch-bad: #d64545;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
   }
 
   #dash-root .page {
@@ -89,7 +97,7 @@
     font-family: Arial, sans-serif;
     font-weight: 800;
     letter-spacing: -.01em;
-    font-size: var(--cds-font-size-title, 1.6rem);
+    font-size: 1.6rem;
     margin: 0 0 .4rem 0;
     color: var(--ch-ink);
   }
@@ -105,14 +113,14 @@
   #dash-root .page-sub {
     margin: 0;
     color: var(--ch-ink-muted);
-    font-size: var(--cds-font-size-body, .95rem);
+    font-size: .95rem;
   }
 
   #dash-root .card {
     background: var(--ch-card);
     border: 1px solid var(--ch-border);
     border-radius: 14px;
-    padding: var(--cds-pad-lg, 1.1rem);
+    padding: 1.1rem;
     margin-bottom: 1rem;
   }
 
@@ -256,7 +264,11 @@
 </style>
 
 <script>
+  window.__COMISIONES_DATA__ = [];
+</script>
+<script>
 (function () {
+  const DATA = Array.isArray(window.__COMISIONES_DATA__) ? window.__COMISIONES_DATA__ : [];
   const COLS = ['curso', 'comision', 'dia', 'horario', 'fecha_inicio', 'fecha_fin', 'estado', 'modalidad', 'inscriptos', 'cupo_max', 'profesores'];
   const TOTAL_COLS = COLS.length + 1; // + columna de acciones (no es un dato del dataset)
   const ESTADO_LABELS = { NOT_STARTED: 'No iniciada', IN_PROGRESS: 'En curso', CANCELLED: 'Cancelada', COMPLETED: 'Finalizada' };
@@ -359,8 +371,6 @@
         tr.appendChild(td);
       });
 
-      // Columna de acciones: no muestra un valor del dataset, así que no lleva
-      // data-source/data-field — es un control, no una cita de dato.
       const actionTd = document.createElement('td');
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -541,7 +551,7 @@
     el.addEventListener('change', applyFilters);
   });
 
-  let latestRows = [];
+  let latestRows = DATA;
   let renderedRows = [];
 
   function renderRows() {
@@ -600,39 +610,15 @@
     applyFilters();
   });
 
-  let built = false;
+  if (latestRows.length) {
+    populateFilters(latestRows);
+  }
+  renderRows();
 
-  dash.onData(() => {
-    const ds = dash.data('comisiones');
-
-    if (ds.status === 'loading') {
-      takeaway.textContent = 'Cargando comisiones…';
-      showMessage('Cargando datos…');
-      return;
-    }
-    if (ds.status === 'error' || ds.status === 'connect' || ds.status === 'declined') {
-      takeaway.textContent = 'No se pudo cargar la información.';
-      showMessage('No se pudo cargar la información.');
-      return;
-    }
-
-    const rows = Array.isArray(ds.data) ? ds.data : [];
-    latestRows = rows;
-
-    if (!built) {
-      populateFilters(rows);
-      built = true;
-    }
-
-    renderRows();
-
-    const cursos = new Set(rows.map((r) => r.curso)).size;
-    const primera = rows[0] && rows[0].fecha_inicio;
-    const ultima = rows[rows.length - 1] && rows[rows.length - 1].fecha_inicio;
-    takeaway.textContent = rows.length
-      ? `${rows.length} comisiones creadas en el Back Office (de ${primera} a ${ultima}), en ${cursos} cursos distintos. Se actualiza lunes, miércoles y viernes.`
-      : 'No hay comisiones para mostrar.';
-  });
+  const cursos = new Set(latestRows.map((r) => r.curso)).size;
+  takeaway.textContent = latestRows.length
+    ? `${latestRows.length} comisiones, en ${cursos} cursos distintos. Instantánea estática — no se actualiza sola.`
+    : 'No hay comisiones para mostrar.';
 })();
 </script>
 
