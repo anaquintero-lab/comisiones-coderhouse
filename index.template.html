@@ -6,7 +6,6 @@
 <title>Comisiones Coderhouse</title>
 </head>
 <body>
-<div id="dash-root">
 <div class="page">
   <header class="page-head">
     <h1 class="page-title">Comisiones Coderhouse</h1>
@@ -16,6 +15,7 @@
   <section class="card filters-card">
     <div class="filters">
       <input type="text" class="filter-input f-search" placeholder="Buscar curso o comisión…" aria-label="Buscar curso o comisión">
+      <select class="filter-input f-curso" aria-label="Curso"></select>
       <select class="filter-input f-mes" aria-label="Mes"></select>
       <select class="filter-input f-dia" aria-label="Día"></select>
       <select class="filter-input f-hora" aria-label="Hora"></select>
@@ -36,20 +36,20 @@
 
   <section class="card table-card">
     <div class="table-wrap">
-      <table class="comisiones-table">
+      <table class="comisiones-table" data-source="comisiones" data-row-key="comision">
         <thead>
           <tr>
-            <th>Curso</th>
-            <th>Comisión</th>
-            <th>Día</th>
-            <th>Horario (ARG)</th>
-            <th>Inicio</th>
-            <th>Fin</th>
-            <th>Estado</th>
-            <th>Modalidad</th>
-            <th>Inscriptos</th>
-            <th>Cupo</th>
-            <th>Profesores</th>
+            <th data-field="curso">Curso</th>
+            <th data-field="comision">Comisión</th>
+            <th data-field="dia">Día</th>
+            <th data-field="horario">Horario (ARG)</th>
+            <th data-field="fecha_inicio">Inicio</th>
+            <th data-field="fecha_fin">Fin</th>
+            <th data-field="estado">Estado</th>
+            <th data-field="modalidad">Modalidad</th>
+            <th data-field="inscriptos">Inscriptos</th>
+            <th data-field="cupo_max">Cupo</th>
+            <th data-field="profesores">Profesores</th>
             <th class="col-actions">Copiar</th>
           </tr>
         </thead>
@@ -58,15 +58,11 @@
     </div>
   </section>
 </div>
-</div>
-<style>
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
-  body {
-    background: #f9f3e9;
-    font-family: 'Segoe UI', Arial, sans-serif;
-  }
 
+<style>
+  /* Paleta tomada del sitio público de Coderhouse (coderhouse.com):
+     fondo crema, negro, naranja de acento. Colores fijos (no seguimos el
+     tema claro/oscuro del visor) porque el pedido fue reproducir esa marca. */
   #dash-root {
     --ch-bg: #f9f3e9;
     --ch-card: #ffffff;
@@ -78,9 +74,6 @@
     --ch-ok: #1a9c5a;
     --ch-warn: #c98a00;
     --ch-bad: #d64545;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1.5rem 1rem;
   }
 
   #dash-root .page {
@@ -96,7 +89,7 @@
     font-family: Arial, sans-serif;
     font-weight: 800;
     letter-spacing: -.01em;
-    font-size: 1.6rem;
+    font-size: var(--cds-font-size-title, 1.6rem);
     margin: 0 0 .4rem 0;
     color: var(--ch-ink);
   }
@@ -112,14 +105,14 @@
   #dash-root .page-sub {
     margin: 0;
     color: var(--ch-ink-muted);
-    font-size: .95rem;
+    font-size: var(--cds-font-size-body, .95rem);
   }
 
   #dash-root .card {
     background: var(--ch-card);
     border: 1px solid var(--ch-border);
     border-radius: 14px;
-    padding: 1.1rem;
+    padding: var(--cds-pad-lg, 1.1rem);
     margin-bottom: 1rem;
   }
 
@@ -263,16 +256,36 @@
 </style>
 
 <script>
-  window.__COMISIONES_DATA__ = [];
-</script>
-<script>
 (function () {
-  const DATA = Array.isArray(window.__COMISIONES_DATA__) ? window.__COMISIONES_DATA__ : [];
   const COLS = ['curso', 'comision', 'dia', 'horario', 'fecha_inicio', 'fecha_fin', 'estado', 'modalidad', 'inscriptos', 'cupo_max', 'profesores'];
   const TOTAL_COLS = COLS.length + 1; // + columna de acciones (no es un dato del dataset)
   const ESTADO_LABELS = { NOT_STARTED: 'No iniciada', IN_PROGRESS: 'En curso', CANCELLED: 'Cancelada', COMPLETED: 'Finalizada' };
   const DIA_ORDER = ['Lunes', 'Miércoles', 'Martes', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   const MESES_ES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+  // Cursos corporativos / a medida para empresas (B2B), a excluir del
+  // desplegable de "Curso" (no de la tabla ni del resto del dataset).
+  const CURSOS_B2B_EXCLUIDOS = new Set([
+    'B2B Coresa Group | Introducción a Inteligencia Artificial',
+    'B2B | Fenicio Ecommerce - IA aplicada al Marketing y Diseño',
+    'B2B | IA aplicada al trabajo diario',
+    'B2B | Multimedia con IA: imágenes y videos',
+    'B2B: Google Workspace & IA',
+    'Excel Avanzado (B2B)',
+    'Liderazgo y gestión de equipos (B2B)',
+    'Excel B2B 105895',
+    'Adidas 1 | Microsoft 365 Copilot',
+    'Adidas 2 | Power Platform Inicial',
+    'Fabric Sushi | Claude de cero a héroe',
+    'Grupo Robayna | Claude de cero a héroe',
+    'Naranja X: Creación de Contenido con IA',
+    'Onomy: Dirige la IA para tu Negocio',
+    'Mentoría digital estratégica para supervisores de Claro',
+  ]);
+
+  function esCursoB2B(nombre) {
+    return CURSOS_B2B_EXCLUIDOS.has(nombre) || /b2b/i.test(nombre || '');
+  }
 
   function mesSortKey(mesStr) {
     const parts = (mesStr || '').trim().split(' ');
@@ -288,6 +301,7 @@
   const takeaway = document.getElementById('takeaway');
   const countEl = document.getElementById('count');
   const searchEl = document.querySelector('.f-search');
+  const cursoEl = document.querySelector('.f-curso');
   const mesEl = document.querySelector('.f-mes');
   const diaEl = document.querySelector('.f-dia');
   const horaEl = document.querySelector('.f-hora');
@@ -316,11 +330,13 @@
       const tr = document.createElement('tr');
       tr.dataset.key = String(r.comision);
       tr.dataset.curso = (r.curso || '').toLowerCase();
+      tr.dataset.cursoRaw = r.curso || '';
       tr.dataset.comision = String(r.comision || '').toLowerCase();
       tr.dataset.mes = r.mes || '';
       tr.dataset.dia = r.dia || '';
       tr.dataset.hora = r.hora_inicio || '';
       tr.dataset.estado = r.estado || '';
+      tr.dataset.fechaInicio = r.fecha_inicio || '';
 
       COLS.forEach((c) => {
         const td = document.createElement('td');
@@ -343,6 +359,8 @@
         tr.appendChild(td);
       });
 
+      // Columna de acciones: no muestra un valor del dataset, así que no lleva
+      // data-source/data-field — es un control, no una cita de dato.
       const actionTd = document.createElement('td');
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -423,7 +441,36 @@
     return sorted;
   }
 
+  // Vista por defecto: solo comisiones "En curso" o "No iniciada" con fecha
+  // de inicio desde hoy (hora Argentina) en adelante. No se borran del
+  // dataset ni de la tabla: siguen pudiendo encontrarse buscando por
+  // número de comisión o nombre de curso, o eligiendo un Estado/Curso
+  // puntual en los desplegables (eso "levanta" el filtro por defecto).
+  function hoyArgentinaTimestamp() {
+    const fmt = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const parts = fmt.formatToParts(new Date());
+    const y = Number(parts.find((p) => p.type === 'year').value);
+    const m = Number(parts.find((p) => p.type === 'month').value);
+    const d = Number(parts.find((p) => p.type === 'day').value);
+    return new Date(y, m - 1, d).getTime();
+  }
+
+  function esVigenteOFutura(estado, fechaInicioStr) {
+    const esVigente = estado === 'IN_PROGRESS' || estado === 'NOT_STARTED';
+    return esVigente && parseFechaDMY(fechaInicioStr) >= hoyArgentinaTimestamp();
+  }
+
   function populateFilters(rows) {
+    const cursos2 = [...new Set(rows.map((r) => r.curso).filter(Boolean))]
+      .filter((c) => !esCursoB2B(c))
+      .sort((a, b) => a.localeCompare(b, 'es'));
+    cursoEl.replaceChildren(new Option('Todos los cursos', ''), ...cursos2.map((c) => new Option(c, c)));
+
     const meses = [...new Set(rows.map((r) => r.mes).filter(Boolean))]
       .sort((a, b) => mesSortKey(a).localeCompare(mesSortKey(b)));
     mesEl.replaceChildren(new Option('Todos los meses', ''), ...meses.map((m) => new Option(m, m)));
@@ -442,20 +489,25 @@
 
   function applyFilters() {
     const q = searchEl.value.trim().toLowerCase();
+    const curso2 = cursoEl.value;
     const mes = mesEl.value;
     const dia = diaEl.value;
     const hora = horaEl.value;
     const estado = estadoEl.value;
+
+    const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
 
     const trs = tbody.querySelectorAll('tr[data-key]');
     let visible = 0;
     trs.forEach((tr) => {
       const match =
         (!q || tr.dataset.curso.includes(q) || tr.dataset.comision.includes(q)) &&
+        (!curso2 || tr.dataset.cursoRaw === curso2) &&
         (!mes || tr.dataset.mes === mes) &&
         (!dia || tr.dataset.dia.split(',').map((s) => s.trim()).includes(dia)) &&
         (!hora || tr.dataset.hora === hora) &&
-        (!estado || tr.dataset.estado === estado);
+        (!estado || tr.dataset.estado === estado) &&
+        (hayOverride || esVigenteOFutura(tr.dataset.estado, tr.dataset.fechaInicio));
       tr.style.display = match ? '' : 'none';
       if (match) visible += 1;
     });
@@ -464,6 +516,7 @@
 
   function matchesFilters(r) {
     const q = searchEl.value.trim().toLowerCase();
+    const curso2 = cursoEl.value;
     const mes = mesEl.value;
     const dia = diaEl.value;
     const hora = horaEl.value;
@@ -471,21 +524,24 @@
     const curso = String(r.curso || '').toLowerCase();
     const comision = String(r.comision || '').toLowerCase();
     const diasRow = (r.dia || '').split(',').map((s) => s.trim());
+    const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
     return (
       (!q || curso.includes(q) || comision.includes(q)) &&
+      (!curso2 || r.curso === curso2) &&
       (!mes || r.mes === mes) &&
       (!dia || diasRow.includes(dia)) &&
       (!hora || r.hora_inicio === hora) &&
-      (!estado || r.estado === estado)
+      (!estado || r.estado === estado) &&
+      (hayOverride || esVigenteOFutura(r.estado, r.fecha_inicio))
     );
   }
 
-  [searchEl, mesEl, diaEl, horaEl, estadoEl].forEach((el) => {
+  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl].forEach((el) => {
     el.addEventListener('input', applyFilters);
     el.addEventListener('change', applyFilters);
   });
 
-  let latestRows = DATA;
+  let latestRows = [];
   let renderedRows = [];
 
   function renderRows() {
@@ -536,6 +592,7 @@
 
   resetBtn.addEventListener('click', () => {
     searchEl.value = '';
+    cursoEl.value = '';
     mesEl.value = '';
     diaEl.value = '';
     horaEl.value = '';
@@ -543,15 +600,39 @@
     applyFilters();
   });
 
-  if (latestRows.length) {
-    populateFilters(latestRows);
-  }
-  renderRows();
+  let built = false;
 
-  const cursos = new Set(latestRows.map((r) => r.curso)).size;
-  takeaway.textContent = latestRows.length
-    ? `${latestRows.length} comisiones, en ${cursos} cursos distintos. Instantánea estática — no se actualiza sola.`
-    : 'No hay comisiones para mostrar.';
+  dash.onData(() => {
+    const ds = dash.data('comisiones');
+
+    if (ds.status === 'loading') {
+      takeaway.textContent = 'Cargando comisiones…';
+      showMessage('Cargando datos…');
+      return;
+    }
+    if (ds.status === 'error' || ds.status === 'connect' || ds.status === 'declined') {
+      takeaway.textContent = 'No se pudo cargar la información.';
+      showMessage('No se pudo cargar la información.');
+      return;
+    }
+
+    const rows = Array.isArray(ds.data) ? ds.data : [];
+    latestRows = rows;
+
+    if (!built) {
+      populateFilters(rows);
+      built = true;
+    }
+
+    renderRows();
+
+    const cursos = new Set(rows.map((r) => r.curso)).size;
+    const primera = rows[0] && rows[0].fecha_inicio;
+    const ultima = rows[rows.length - 1] && rows[rows.length - 1].fecha_inicio;
+    takeaway.textContent = rows.length
+      ? `${rows.length} comisiones creadas en el Back Office (de ${primera} a ${ultima}), en ${cursos} cursos distintos. Se actualiza lunes, miércoles y viernes.`
+      : 'No hay comisiones para mostrar.';
+  });
 })();
 </script>
 
