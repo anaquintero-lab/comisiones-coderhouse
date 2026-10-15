@@ -346,7 +346,7 @@
       tr.dataset.comision = String(r.comision || '').toLowerCase();
       tr.dataset.mes = r.mes || '';
       tr.dataset.dia = r.dia || '';
-      tr.dataset.hora = r.hora_inicio || '';
+      tr.dataset.hora = horaInicioClave(r.hora_inicio);
       tr.dataset.estado = r.estado || '';
       tr.dataset.fechaInicio = r.fecha_inicio || '';
 
@@ -435,6 +435,17 @@
     return new Date(y, m - 1, d).getTime();
   }
 
+  // Normaliza la hora de inicio a "HH:MM", sin importar si el dato viene
+  // como "13:20", "13:20 hs" o como un rango "13:20 a 15:20": siempre toma
+  // el primer HH:MM que encuentra. Así el desplegable de Hora y el filtro
+  // comparan siempre contra el mismo formato y no quedan huérfanos entre sí.
+  function horaInicioClave(valor) {
+    if (!valor) return '';
+    const m = String(valor).match(/(\d{1,2}):(\d{2})/);
+    if (!m) return '';
+    return `${m[1].padStart(2, '0')}:${m[2]}`;
+  }
+
   function sortRows(rows, field, dir) {
     const sorted = rows.slice();
     sorted.sort((a, b) => {
@@ -475,6 +486,20 @@
     return esVigente && parseFechaDMY(fechaInicioStr) >= hoyArgentinaTimestamp();
   }
 
+  // Combina la restricción de fecha con el resto de los filtros. Las "No
+  // iniciada" NUNCA deben mostrarse con fecha de inicio pasada: ni en la
+  // vista por defecto ni aunque el usuario las busque a propósito con el
+  // desplegable de Estado (a diferencia de Cancelada/Finalizada, donde
+  // elegir el Estado sí "levanta" la restricción para poder encontrarlas
+  // aunque sean viejas).
+  function pasaFiltroFecha(estado, fechaInicioStr, hayOverride) {
+    if (estado === 'NOT_STARTED') {
+      return parseFechaDMY(fechaInicioStr) >= hoyArgentinaTimestamp();
+    }
+    if (hayOverride) return true;
+    return esVigenteOFutura(estado, fechaInicioStr);
+  }
+
   function populateFilters(rows) {
     const cursos2 = [...new Set(rows.map((r) => r.curso).filter(Boolean))]
       .filter((c) => !esCursoB2B(c))
@@ -490,7 +515,7 @@
     const dias = DIA_ORDER.filter((d) => diasSet.has(d));
     diaEl.replaceChildren(new Option('Todos los días', ''), ...dias.map((d) => new Option(d, d)));
 
-    const horas = [...new Set(rows.map((r) => r.hora_inicio).filter(Boolean))].sort();
+    const horas = [...new Set(rows.map((r) => horaInicioClave(r.hora_inicio)).filter(Boolean))].sort();
     horaEl.replaceChildren(new Option('Todas las horas', ''), ...horas.map((h) => new Option(h, h)));
 
     const estados = [...new Set(rows.map((r) => r.estado).filter(Boolean))];
@@ -517,7 +542,7 @@
         (!dia || tr.dataset.dia.split(',').map((s) => s.trim()).includes(dia)) &&
         (!hora || tr.dataset.hora === hora) &&
         (!estado || tr.dataset.estado === estado) &&
-        (hayOverride || esVigenteOFutura(tr.dataset.estado, tr.dataset.fechaInicio));
+        pasaFiltroFecha(tr.dataset.estado, tr.dataset.fechaInicio, hayOverride);
       tr.style.display = match ? '' : 'none';
       if (match) visible += 1;
     });
@@ -540,9 +565,9 @@
       (!curso2 || r.curso === curso2) &&
       (!mes || r.mes === mes) &&
       (!dia || diasRow.includes(dia)) &&
-      (!hora || r.hora_inicio === hora) &&
+      (!hora || horaInicioClave(r.hora_inicio) === hora) &&
       (!estado || r.estado === estado) &&
-      (hayOverride || esVigenteOFutura(r.estado, r.fecha_inicio))
+      pasaFiltroFecha(r.estado, r.fecha_inicio, hayOverride)
     );
   }
 
