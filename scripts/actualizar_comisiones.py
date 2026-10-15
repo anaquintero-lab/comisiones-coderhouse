@@ -116,7 +116,11 @@ def search_products(product_ids):
 
 
 def get_professors_for_cohort(cohort_id):
-    """GET /platform/staff/m2m/admin/assignments/cohort/{id} — devuelve una lista."""
+    """GET /platform/staff/m2m/admin/assignments/cohort/{id} — devuelve una lista.
+
+    Cada item trae `status`: ACTIVE | CANCELLED | COMPLETED. Solo los ACTIVE
+    siguen asignados — CANCELLED es un profesor desasignado ("dado de baja").
+    """
     try:
         resp = requests.get(
             f"{API_URL}/platform/staff/m2m/admin/assignments/cohort/{cohort_id}",
@@ -128,7 +132,7 @@ def get_professors_for_cohort(cohort_id):
         items = data if isinstance(data, list) else data.get("data", [])
         names = []
         for a in items or []:
-            if a.get("active", True) and a.get("professorName"):
+            if a.get("status") == "ACTIVE" and a.get("professorName"):
                 names.append(a["professorName"])
         return cohort_id, names
     except Exception:
@@ -145,6 +149,52 @@ def get_all_professors(cohort_ids):
     return result
 
 
+def get_zoom_end_for_cohort(cohort):
+    """Busca la primera clase con Zoom configurado (`providerClassLink` no
+    nulo) de la comisión, y devuelve su `scheduledEndAt` (UTC ISO) o None si
+    no hay ninguna clase con Zoom configurado todavía.
+
+    GET /education/scheduling/m2m/cohorts/{id}/classes?fromDate=...&toDate=...
+    (mismo header que student-enrollment/platform-staff).
+    """
+    cohort_id = cohort.get("id")
+    start_dt = to_arg_dt(cohort.get("startDate"))
+    end_dt = to_arg_dt(cohort.get("endDate"))
+    if not start_dt:
+        return cohort_id, None
+
+    from_date = (start_dt - datetime.timedelta(days=30)).date().isoformat()
+    to_date = (end_dt.date() if end_dt else (start_dt + datetime.timedelta(days=180)).date()).isoformat()
+
+    try:
+        resp = requests.get(
+            f"{API_URL}/education/scheduling/m2m/cohorts/{cohort_id}/classes",
+            headers=student_headers(),
+            params={"fromDate": from_date, "toDate": to_date},
+            timeout=30,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        items = data if isinstance(data, list) else data.get("data", [])
+        con_zoom = [c for c in (items or []) if c.get("providerClassLink")]
+        if not con_zoom:
+            return cohort_id, None
+        con_zoom.sort(key=lambda c: c.get("scheduledStartAt") or "")
+        return cohort_id, con_zoom[0].get("scheduledEndAt")
+    except Exception:
+        return cohort_id, None
+
+
+def get_all_zoom_ends(cohorts):
+    result = {}
+    with ThreadPoolExecutor(max_workers=32) as ex:
+        futures = [ex.submit(get_zoom_end_for_cohort, c) for c in cohorts]
+        for fut in as_completed(futures):
+            cid, end_iso = fut.result()
+            result[cid] = end_iso
+    return result
+
+
 def to_arg_dt(iso_str):
     if not iso_str:
         return None
@@ -152,7 +202,7 @@ def to_arg_dt(iso_str):
     return dt.astimezone(TZ)
 
 
-def build_rows(cohorts, product_map, professors_map):
+def build_rows(cohorts, product_map, professors_map, zoom_ends_map):
     rows = []
     for c in cohorts:
         cohort_id = c.get("id")
@@ -165,8 +215,18 @@ def build_rows(cohorts, product_map, professors_map):
         week_days = c.get("weekDays") or []
         dias = ", ".join(DAY_NAMES[d] for d in week_days if 0 <= d <= 6)
 
+        # La hora de INICIO sale siempre de startDate (Back Office). La de
+        # FIN sale de la primera clase con Zoom configurado si existe
+        # (scheduledEndAt); si no hay ninguna, fallback a
+        # startDate + minutesPerClass (comportamiento anterior).
         hora_inicio = start_dt.strftime("%H:%M") if start_dt else ""
-        hora_fin = end_dt.strftime("%H:%M") if end_dt else ""
+        zoom_end_iso = zoom_ends_map.get(cohort_id)
+        fin_dt = to_arg_dt(zoom_end_iso) if zoom_end_iso else None
+        if not fin_dt and start_dt:
+            minutos = c.get("minutesPerClass") or 0
+            if minutos:
+                fin_dt = start_dt + datetime.timedelta(minutes=minutos)
+        hora_fin = fin_dt.strftime("%H:%M") if fin_dt else ""
         horario = f"{hora_inicio} a {hora_fin}" if hora_inicio and hora_fin else hora_inicio
 
         mes = f"{MONTH_NAMES[start_dt.month]} {start_dt.year}" if start_dt else ""
@@ -223,7 +283,10 @@ def main():
     print("Buscando profesores asignados...", file=sys.stderr)
     professors_map = get_all_professors(cohort_ids)
 
-    rows = build_rows(cohorts, product_map, professors_map)
+    print("Buscando clases con Zoom configurado...", file=sys.stderr)
+    zoom_ends_map = get_all_zoom_ends(cohorts)
+
+    rows = build_rows(cohorts, product_map, professors_map, zoom_ends_map)
 
     html = render_html(rows)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
