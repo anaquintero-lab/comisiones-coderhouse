@@ -19,6 +19,17 @@
       <select class="filter-input f-curso" aria-label="Curso"></select>
       <select class="filter-input f-mes" aria-label="Mes"></select>
       <select class="filter-input f-dia" aria-label="Día"></select>
+      <select class="filter-input f-pais" aria-label="País / Zona horaria">
+        <option value="AR">🇦🇷 Argentina (UTC-3)</option>
+        <option value="UY">🇺🇾 Uruguay (UTC-3)</option>
+        <option value="CL">🇨🇱 Chile (UTC-3 / UTC-4)</option>
+        <option value="CO">🇨🇴 Colombia (UTC-5)</option>
+        <option value="ES">🇪🇸 España (UTC+1 / UTC+2)</option>
+        <option value="US">🇺🇸 Estados Unidos (EST / UTC-5)</option>
+        <option value="MX">🇲🇽 México (CST / UTC-6)</option>
+        <option value="PE">🇵🇪 Perú (UTC-5)</option>
+        <option value="VE">🇻🇪 Venezuela (UTC-4)</option>
+      </select>
       <select class="filter-input f-hora" aria-label="Hora"></select>
       <select class="filter-input f-estado" aria-label="Estado"></select>
       <select class="filter-input f-sort-field" aria-label="Ordenar por">
@@ -43,7 +54,7 @@
             <th>Curso</th>
             <th>Comisión</th>
             <th>Día</th>
-            <th>Horario (ARG)</th>
+            <th id="th-horario">Horario (AR)</th>
             <th>Inicio</th>
             <th>Fin</th>
             <th>Estado</th>
@@ -316,7 +327,9 @@
   const cursoEl = document.querySelector('.f-curso');
   const mesEl = document.querySelector('.f-mes');
   const diaEl = document.querySelector('.f-dia');
+  const paisEl = document.querySelector('.f-pais');
   const horaEl = document.querySelector('.f-hora');
+  const thHorario = document.getElementById('th-horario');
   const estadoEl = document.querySelector('.f-estado');
   const sortFieldEl = document.querySelector('.f-sort-field');
   const sortDirEl = document.querySelector('.f-sort-dir');
@@ -337,8 +350,10 @@
 
   function buildRows(rows) {
     tbody.replaceChildren();
+    const paisCod = paisEl.value;
     const frag = document.createDocumentFragment();
     rows.forEach((r) => {
+      const horarioZona = getHorarioEnZona(r, paisCod);
       const tr = document.createElement('tr');
       tr.dataset.key = String(r.comision);
       tr.dataset.curso = (r.curso || '').toLowerCase();
@@ -346,13 +361,13 @@
       tr.dataset.comision = String(r.comision || '').toLowerCase();
       tr.dataset.mes = r.mes || '';
       tr.dataset.dia = r.dia || '';
-      tr.dataset.hora = horaInicioClave(r.hora_inicio);
+      tr.dataset.hora = horarioZona.inicio;
       tr.dataset.estado = r.estado || '';
       tr.dataset.fechaInicio = r.fecha_inicio || '';
 
       COLS.forEach((c) => {
         const td = document.createElement('td');
-        let v = r[c];
+        let v = c === 'horario' ? horarioZona.texto : r[c];
         if (c === 'estado') {
           v = ESTADO_LABELS[v] || v;
           const cls = r.estado === 'IN_PROGRESS' ? 'badge badge-ok'
@@ -446,6 +461,74 @@
     return `${m[1].padStart(2, '0')}:${m[2]}`;
   }
 
+  // Zona horaria IANA de cada país del desplegable, para recalcular los
+  // horarios (en base al dato real de Argentina) respetando el horario de
+  // verano donde corresponda (Chile, España, Estados Unidos), en vez de
+  // aplicar una diferencia fija que se desactualizaría dos veces al año.
+  const PAISES_TZ = {
+    AR: 'America/Argentina/Buenos_Aires',
+    UY: 'America/Montevideo',
+    CL: 'America/Santiago',
+    CO: 'America/Bogota',
+    ES: 'Europe/Madrid',
+    US: 'America/New_York',
+    MX: 'America/Mexico_City',
+    PE: 'America/Lima',
+    VE: 'America/Caracas',
+  };
+
+  // Extrae todas las horas "HH:MM" que aparezcan en un texto (por ejemplo,
+  // las dos de un rango "13:20 a 15:20").
+  function horasEnTexto(valor) {
+    if (!valor) return [];
+    const matches = [...String(valor).matchAll(/(\d{1,2}):(\d{2})/g)];
+    return matches.map((m) => `${m[1].padStart(2, '0')}:${m[2]}`);
+  }
+
+  // Convierte una fecha/hora LOCAL de Argentina (siempre UTC-3, sin horario
+  // de verano) al instante UTC real.
+  function argLocalAUtc(fechaDMY, horaHHMM) {
+    if (!fechaDMY || !horaHHMM) return null;
+    const parts = fechaDMY.split('/');
+    if (parts.length !== 3) return null;
+    const [hh, mm] = horaHHMM.split(':').map(Number);
+    const d = Number(parts[0]);
+    const m = Number(parts[1]);
+    const y = Number(parts[2]);
+    if (!y || !m || !d || Number.isNaN(hh) || Number.isNaN(mm)) return null;
+    return new Date(Date.UTC(y, m - 1, d, hh + 3, mm, 0));
+  }
+
+  // Dado un dato de hora en Argentina y la fecha de esa clase, devuelve la
+  // hora equivalente en la zona horaria del país elegido.
+  function formatHoraEnZona(fechaDMY, horaHHMM, tz) {
+    const instante = argLocalAUtc(fechaDMY, horaHHMM);
+    if (!instante) return horaHHMM;
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: tz,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+    return fmt.format(instante);
+  }
+
+  // Arma el texto de la columna "Horario" y la hora de inicio normalizada
+  // (para el desplegable de Hora) en la zona horaria elegida. Si el país
+  // elegido es Argentina (o no se reconoce), devuelve los datos tal cual
+  // vienen del Back Office, sin recalcular nada.
+  function getHorarioEnZona(r, paisCod) {
+    const horas = horasEnTexto(r.horario || r.hora_inicio);
+    if (!horas.length) return { texto: r.horario || '', inicio: '' };
+    const tz = PAISES_TZ[paisCod];
+    if (!paisCod || paisCod === 'AR' || !tz) {
+      return { texto: r.horario || horas.join(' a '), inicio: horas[0] };
+    }
+    const convertidas = horas.map((h) => formatHoraEnZona(r.fecha_inicio, h, tz));
+    const texto = convertidas.length > 1 ? `${convertidas[0]} a ${convertidas[1]}` : convertidas[0];
+    return { texto, inicio: convertidas[0] };
+  }
+
   function sortRows(rows, field, dir) {
     const sorted = rows.slice();
     sorted.sort((a, b) => {
@@ -515,11 +598,19 @@
     const dias = DIA_ORDER.filter((d) => diasSet.has(d));
     diaEl.replaceChildren(new Option('Todos los días', ''), ...dias.map((d) => new Option(d, d)));
 
-    const horas = [...new Set(rows.map((r) => horaInicioClave(r.hora_inicio)).filter(Boolean))].sort();
-    horaEl.replaceChildren(new Option('Todas las horas', ''), ...horas.map((h) => new Option(h, h)));
+    poblarHoras(rows);
 
     const estados = [...new Set(rows.map((r) => r.estado).filter(Boolean))];
     estadoEl.replaceChildren(new Option('Todos los estados', ''), ...estados.map((e) => new Option(ESTADO_LABELS[e] || e, e)));
+  }
+
+  // El desplegable de Hora depende del país elegido (cada país ve sus
+  // propios horarios convertidos), así que se arma aparte y se vuelve a
+  // construir cada vez que cambia el país, sin tocar los demás filtros.
+  function poblarHoras(rows) {
+    const paisCod = paisEl.value;
+    const horas = [...new Set(rows.map((r) => getHorarioEnZona(r, paisCod).inicio).filter(Boolean))].sort();
+    horaEl.replaceChildren(new Option('Todas las horas', ''), ...horas.map((h) => new Option(h, h)));
   }
 
   function applyFilters() {
@@ -565,7 +656,7 @@
       (!curso2 || r.curso === curso2) &&
       (!mes || r.mes === mes) &&
       (!dia || diasRow.includes(dia)) &&
-      (!hora || horaInicioClave(r.hora_inicio) === hora) &&
+      (!hora || getHorarioEnZona(r, paisEl.value).inicio === hora) &&
       (!estado || r.estado === estado) &&
       pasaFiltroFecha(r.estado, r.fecha_inicio, hayOverride)
     );
@@ -574,6 +665,16 @@
   [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl].forEach((el) => {
     el.addEventListener('input', applyFilters);
     el.addEventListener('change', applyFilters);
+  });
+
+  // Cambiar de país no filtra filas: recalcula los horarios mostrados y el
+  // desplegable de Hora en la nueva zona, y reconstruye la tabla. La hora
+  // elegida se reinicia porque el valor anterior correspondía a otra zona.
+  paisEl.addEventListener('change', () => {
+    horaEl.value = '';
+    thHorario.textContent = `Horario (${paisEl.value})`;
+    poblarHoras(latestRows);
+    renderRows();
   });
 
   let latestRows = DATA;
