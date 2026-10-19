@@ -15,6 +15,7 @@ import os
 import sys
 import json
 import datetime
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from zoneinfo import ZoneInfo
 
@@ -203,6 +204,25 @@ def to_arg_dt(iso_str):
 
 
 def build_rows(cohorts, product_map, professors_map, zoom_ends_map):
+    """Arma UNA fila por cada comisión que trajo la API, sin excepción.
+
+    No hay ningún filtro por `status` acá ni en `get_all_cohorts`: se
+    procesan TODAS las comisiones devueltas por el Back Office, sea cual
+    sea su estado (NOT_STARTED, IN_PROGRESS, COMPLETED o CANCELLED). El
+    campo `estado` de cada fila sale siempre de `c.get("status")`, es
+    decir, del valor que la API tiene en ESTE momento — si una comisión
+    pasó a CANCELLED desde la última corrida, esta fila ya la refleja así.
+
+    Lo mismo vale para `fecha_inicio`, `fecha_fin` y `horario`: cada
+    corrida reconstruye el archivo entero desde cero a partir de la
+    respuesta fresca de la API (no hay merge con un JSON/HTML anterior ni
+    caché intermedia), así que una postergación o cambio de cursada en el
+    Back Office siempre se refleja en la próxima actualización.
+
+    Que una comisión no tenga profesores ACTIVOS asignados (o directamente
+    ninguno) nunca la excluye: `professors_map.get(cohort_id, [])` cae a
+    una lista vacía y la fila se arma igual, con "profesores": "".
+    """
     rows = []
     for c in cohorts:
         cohort_id = c.get("id")
@@ -215,10 +235,10 @@ def build_rows(cohorts, product_map, professors_map, zoom_ends_map):
         week_days = c.get("weekDays") or []
         dias = ", ".join(DAY_NAMES[d] for d in week_days if 0 <= d <= 6)
 
-        # La hora de INICIO sale siempre de startDate (Back Office). La de
-        # FIN sale de la primera clase con Zoom configurado si existe
-        # (scheduledEndAt); si no hay ninguna, fallback a
-        # startDate + minutesPerClass (comportamiento anterior).
+        # La hora de INICIO sale siempre de startDate (Back Office, dato
+        # fresco de esta corrida). La de FIN sale de la primera clase con
+        # Zoom configurado si existe (scheduledEndAt); si no hay ninguna,
+        # fallback a startDate + minutesPerClass (comportamiento anterior).
         hora_inicio = start_dt.strftime("%H:%M") if start_dt else ""
         zoom_end_iso = zoom_ends_map.get(cohort_id)
         fin_dt = to_arg_dt(zoom_end_iso) if zoom_end_iso else None
@@ -238,8 +258,11 @@ def build_rows(cohorts, product_map, professors_map, zoom_ends_map):
             "horario": horario,
             "hora_inicio": hora_inicio,
             "mes": mes,
+            # fecha_inicio/fecha_fin: siempre el startDate/endDate ACTUAL
+            # de la API, nunca un valor arrastrado de una corrida previa.
             "fecha_inicio": start_dt.strftime("%d/%m/%Y") if start_dt else "",
             "fecha_fin": end_dt.strftime("%d/%m/%Y") if end_dt else "",
+            # estado: siempre el status ACTUAL de la API (incluye CANCELLED).
             "estado": c.get("status", ""),
             "modalidad": c.get("modality", ""),
             "pais": c.get("country", ""),
@@ -249,6 +272,15 @@ def build_rows(cohorts, product_map, professors_map, zoom_ends_map):
         })
 
     rows.sort(key=lambda r: (r["fecha_inicio"] or "", r["hora_inicio"] or ""))
+
+    # Chequeo de integridad: tiene que haber exactamente una fila por
+    # comisión traída de la API. Si esto alguna vez no se cumple, es señal
+    # de que algo empezó a filtrar comisiones silenciosamente.
+    assert len(rows) == len(cohorts), (
+        f"Se armaron {len(rows)} filas pero la API trajo {len(cohorts)} "
+        "comisiones — alguna se perdió en el camino."
+    )
+
     return rows
 
 
@@ -287,6 +319,13 @@ def main():
     zoom_ends_map = get_all_zoom_ends(cohorts)
 
     rows = build_rows(cohorts, product_map, professors_map, zoom_ends_map)
+
+    # Desglose por estado para verificar en el log de cada corrida que
+    # ninguna comisión (ni las CANCELLED) se está perdiendo en el camino.
+    conteo_estados = Counter(r["estado"] or "(sin estado)" for r in rows)
+    print("Comisiones por estado en esta corrida:", file=sys.stderr)
+    for estado, cantidad in sorted(conteo_estados.items()):
+        print(f"  {estado}: {cantidad}", file=sys.stderr)
 
     html = render_html(rows)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
