@@ -20,7 +20,7 @@
       <select class="filter-input f-mes" aria-label="Mes"></select>
       <select class="filter-input f-dia" aria-label="Día"></select>
       <select class="filter-input f-pais" aria-label="País / Zona horaria">
-        <option value="AR">🇦🇷 Argentina (UTC-3)</option>
+        <option value="AR" selected>🇦🇷 Argentina (UTC-3)</option>
         <option value="UY">🇺🇾 Uruguay (UTC-3)</option>
         <option value="CL">🇨🇱 Chile (UTC-3 / UTC-4)</option>
         <option value="CO">🇨🇴 Colombia (UTC-5)</option>
@@ -731,9 +731,21 @@
     cursoEl.value = '';
     mesEl.value = '';
     diaEl.value = '';
-    horaEl.value = '';
     estadoEl.value = '';
-    applyFilters();
+    const cambioPais = paisEl.value !== 'AR';
+    paisEl.value = 'AR';
+    if (cambioPais) {
+      // El país cambió: el desplegable de Hora y la columna Horario están
+      // calculados para la zona anterior, así que hay que rearmarlos para
+      // Argentina antes de volver a filtrar.
+      horaEl.value = '';
+      thHorario.textContent = 'Horario (AR)';
+      poblarHoras(latestRows);
+      renderRows();
+    } else {
+      horaEl.value = '';
+      applyFilters();
+    }
   });
 
   if (latestRows.length) {
