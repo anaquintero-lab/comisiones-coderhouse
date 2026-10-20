@@ -392,7 +392,7 @@
       btn.className = 'copy-btn';
       btn.innerHTML = COPY_ICON + '<span>Copiar</span>';
       btn.setAttribute('aria-label', `Copiar comisión ${r.comision}`);
-      btn.addEventListener('click', () => copyCommission(btn, r));
+      btn.addEventListener('click', () => copyCommission(btn, r, horarioZona.texto));
       actionTd.appendChild(btn);
       tr.appendChild(actionTd);
 
@@ -401,11 +401,11 @@
     tbody.appendChild(frag);
   }
 
-  function copyCommission(btn, r) {
+  function copyCommission(btn, r, horarioTexto) {
     const text = [
       `Comisión: ${r.comision}`,
       `Día: ${r.dia || '—'}`,
-      `Horario: ${r.horario || '—'}`,
+      `Horario: ${horarioTexto || r.horario || '—'}`,
       `Inicio: ${r.fecha_inicio || '—'}`,
       `Fin: ${r.fecha_fin || '—'}`
     ].join('\n');
@@ -700,7 +700,7 @@
     const text = tres.map((r) => [
       `Comisión: ${r.comision}`,
       `Día: ${r.dia || '—'}`,
-      `Horario: ${r.horario || '—'}`,
+      `Horario: ${getHorarioEnZona(r, paisEl.value).texto || r.horario || '—'}`,
       `Inicio: ${r.fecha_inicio || '—'}`,
       `Fin: ${r.fecha_fin || '—'}`
     ].join('\n')).join('\n\n');
