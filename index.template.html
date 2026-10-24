@@ -4,21 +4,35 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Comisiones Coderhouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 <div id="dash-root">
 <div class="page">
   <header class="page-head">
-    <h1 class="page-title">Comisiones Coderhouse</h1>
+    <h1 class="page-title">Coderhouse Tools</h1>
     <p class="page-sub" id="takeaway">—</p>
   </header>
 
+  <nav class="tabs-nav" role="tablist">
+    <button type="button" class="tab-btn is-active" data-tab="comisiones" role="tab" aria-selected="true">Comisiones</button>
+    <button type="button" class="tab-btn" data-tab="calculadora" role="tab" aria-selected="false">Calculadora de cambios</button>
+  </nav>
+
+  <div id="tab-panel-comisiones" class="tab-panel is-active">
+
   <section class="card filters-card">
     <div class="filters">
-      <input type="text" class="filter-input f-search" placeholder="Buscar curso o comisión…" aria-label="Buscar curso o comisión">
+      <div class="field-icon-wrap field-icon-left filters-search-wrap">
+        <span class="field-icon" aria-hidden="true">🔎</span>
+        <input type="text" class="filter-input f-search" placeholder="Buscar curso o comisión…" aria-label="Buscar curso o comisión">
+      </div>
       <select class="filter-input f-curso" aria-label="Curso"></select>
       <select class="filter-input f-mes" aria-label="Mes"></select>
       <select class="filter-input f-dia" aria-label="Día"></select>
+      <div class="field-icon-wrap field-icon-right">
       <select class="filter-input f-pais" aria-label="País / Zona horaria">
         <option value="AR" selected>🇦🇷 Argentina (UTC-3)</option>
         <option value="UY">🇺🇾 Uruguay (UTC-3)</option>
@@ -30,6 +44,8 @@
         <option value="PE">🇵🇪 Perú (UTC-5)</option>
         <option value="VE">🇻🇪 Venezuela (UTC-4)</option>
       </select>
+      <span class="field-icon" aria-hidden="true">🌐</span>
+      </div>
       <select class="filter-input f-hora" aria-label="Hora"></select>
       <select class="filter-input f-estado" aria-label="Estado"></select>
       <select class="filter-input f-sort-field" aria-label="Ordenar por">
@@ -58,8 +74,7 @@
             <th>Inicio</th>
             <th>Fin</th>
             <th>Estado</th>
-            <th>Modalidad</th>
-            <th>Inscriptos</th>
+            <th>Insc.</th>
             <th>Cupo</th>
             <th>Profesores</th>
             <th class="col-actions">Copiar</th>
@@ -69,23 +84,109 @@
       </table>
     </div>
   </section>
+
+  </div>
+
+  <div id="tab-panel-calculadora" class="tab-panel">
+    <div class="calc-update-bar">
+      <span class="calc-update-timestamp" id="precios-last-updated">Precios: ver fecha del último scrapeo automático en el historial del repo</span>
+      <a class="calc-update-btn" href="https://github.com/anaquintero-lab/comisiones-coderhouse/actions/workflows/scraper.yml" target="_blank" rel="noopener"
+         title="Abre GitHub Actions para correr el scraper de precios públicos ahora mismo (también corre solo todos los días)">🔄 Actualizar precios</a>
+    </div>
+    <section class="card calc-card">
+      <div class="calc-grid">
+        <div class="control-group">
+          <label for="calc-pais">País / Moneda</label>
+          <div class="field-icon-wrap field-icon-right">
+            <select id="calc-pais" class="filter-input">
+              <option value="AR" selected>🇦🇷 Argentina (ARS)</option>
+              <option value="UY">🇺🇾 Uruguay (UYU)</option>
+              <option value="CL">🇨🇱 Chile (CLP)</option>
+              <option value="CO">🇨🇴 Colombia (COP)</option>
+              <option value="ES">🇪🇸 España (EUR)</option>
+              <option value="US">🇺🇸 Estados Unidos (USD)</option>
+              <option value="MX">🇲🇽 México (MXN)</option>
+              <option value="PE">🇵🇪 Perú (PEN)</option>
+              <option value="VE">🇻🇪 Venezuela (USD)</option>
+            </select>
+            <span class="field-icon" aria-hidden="true">🌐</span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="calc-buscar">Buscar curso</label>
+          <div class="field-icon-wrap field-icon-left">
+            <span class="field-icon" aria-hidden="true">🔎</span>
+            <input type="text" id="calc-buscar" class="filter-input" placeholder="Ej: Python, UX/UI…">
+          </div>
+        </div>
+        <div class="control-group calc-group-wide">
+          <label for="calc-curso">Curso</label>
+          <div class="field-icon-wrap field-icon-left">
+            <span class="field-icon" aria-hidden="true">👤</span>
+            <select id="calc-curso" class="filter-input"></select>
+          </div>
+        </div>
+      </div>
+      <p class="calc-note" id="calc-note"></p>
+    </section>
+
+    <div class="calc-metrics">
+      <div class="calc-metric-card">
+        <div class="calc-metric-title">Precio de lista <span>(sin descuento)</span></div>
+        <div class="calc-metric-value-row">
+          <div class="calc-metric-value" id="calc-val-lista">—</div>
+          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-lista" aria-label="Copiar precio de lista"></button>
+        </div>
+        <div class="calc-metric-sub">Valor base oficial del curso actual</div>
+      </div>
+      <div class="calc-metric-card calc-highlight">
+        <div class="calc-metric-title">Precio final <span>(con descuento vigente)</span></div>
+        <div class="calc-metric-value-row">
+          <div class="calc-metric-value calc-text-accent" id="calc-val-final">—</div>
+          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-final" aria-label="Copiar precio final"></button>
+        </div>
+        <div class="calc-metric-sub" id="calc-descuento-info">—</div>
+      </div>
+      <div class="calc-metric-card calc-accent-rosa-soft">
+        <div class="calc-metric-title">Cambio de comisión <span>(25%)</span></div>
+        <div class="calc-metric-value-row">
+          <div class="calc-metric-value" id="calc-val-comision">—</div>
+          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-comision" aria-label="Copiar cambio de comisión"></button>
+        </div>
+        <div class="calc-metric-sub">25% sobre el precio de lista del curso actual</div>
+      </div>
+      <div class="calc-metric-card calc-accent-rosa">
+        <div class="calc-metric-title">Cambio de curso <span>(50%)</span></div>
+        <div class="calc-metric-value-row">
+          <div class="calc-metric-value calc-text-rosa" id="calc-val-destino">—</div>
+          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-curso" aria-label="Copiar cambio de curso"></button>
+        </div>
+        <div class="calc-metric-sub">50% sobre el precio de lista del curso actual</div>
+      </div>
+    </div>
+
+    <p class="calc-source-note">Precios públicos tomados de coderhouse.com (web), por país. Se actualizan solos todos los días (sin intervención manual). Si un curso no tiene precio público disponible, no aparece en el listado.</p>
+  </div>
+
 </div>
 </div>
 <style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    background: #f9f3e9;
-    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #F8F2E8;
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
   }
 
   #dash-root {
-    --ch-bg: #f9f3e9;
+    --ch-bg: #F8F2E8;
     --ch-card: #ffffff;
-    --ch-ink: #14110f;
+    --ch-ink: #171717;
     --ch-ink-muted: #6b6258;
-    --ch-accent: #ff632b;
+    --ch-accent: #FF632B;
     --ch-accent-ink: #ffffff;
+    --ch-rosa: #FE64A3;
+    --ch-amarillo: #FE872D;
     --ch-border: #ece3d4;
     --ch-ok: #1a9c5a;
     --ch-warn: #c98a00;
@@ -95,20 +196,159 @@
     padding: 1.5rem 1rem;
   }
 
+  #dash-root, #dash-root *, #dash-root *::before, #dash-root *::after {
+    box-sizing: border-box;
+  }
+
   #dash-root .page {
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
     color: var(--ch-ink);
     background: var(--ch-bg);
     border-radius: 16px;
     padding: 1.25rem;
+    width: 100%;
+    max-width: 100%;
   }
+
+  #dash-root .tabs-nav {
+    display: flex;
+    gap: .6rem;
+    margin-bottom: 1.1rem;
+  }
+  #dash-root .tab-btn {
+    font-family: inherit;
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--ch-ink-muted);
+    background: var(--ch-card);
+    border: 1.5px solid var(--ch-border);
+    border-radius: 999px;
+    padding: .6rem 1.15rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+  }
+  #dash-root .tab-btn:hover { color: var(--ch-ink); border-color: var(--ch-ink-muted); }
+  #dash-root .tab-btn.is-active {
+    color: #fff;
+    background: var(--ch-accent);
+    border-color: var(--ch-accent);
+    box-shadow: 0 3px 10px rgba(255, 99, 43, .35);
+  }
+  #dash-root .tab-panel { display: none; }
+  #dash-root .tab-panel.is-active { display: block; }
+
+  #dash-root .calc-card { }
+  #dash-root .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  #dash-root .calc-group-wide { grid-column: span 1; }
+  #dash-root .control-group { display: flex; flex-direction: column; gap: .35rem; }
+  #dash-root .control-group label {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--ch-ink-muted);
+  }
+  #dash-root .calc-card { box-shadow: 0 3px 14px rgba(23, 23, 23, .05); }
+  #dash-root .calc-card .filter-input { border-radius: 10px; width: 100%; }
+  #dash-root .calc-note { margin: .8rem 0 0 0; font-size: .82rem; color: var(--ch-ink-muted); }
+
+  #dash-root .field-icon-wrap { position: relative; }
+  #dash-root .field-icon-wrap .filter-input { width: 100%; }
+  #dash-root .field-icon-wrap.field-icon-left .filter-input { padding-left: 2.15rem; }
+  #dash-root .field-icon-wrap.field-icon-right .filter-input { padding-right: 2.15rem; }
+  #dash-root .field-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: .92rem;
+    opacity: .55;
+    pointer-events: none;
+  }
+  #dash-root .field-icon-wrap.field-icon-left .field-icon { left: .85rem; }
+  #dash-root .field-icon-wrap.field-icon-right .field-icon { right: .95rem; }
+
+  #dash-root .calc-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  #dash-root .calc-metric-card {
+    background: var(--ch-card);
+    border: 1px solid var(--ch-border);
+    border-radius: 14px;
+    padding: 1.1rem;
+    box-shadow: 0 2px 10px rgba(23, 23, 23, .04);
+  }
+  #dash-root .calc-metric-card.calc-highlight {
+    border: 1.5px solid var(--ch-accent);
+    background: linear-gradient(145deg, #fffaf6, #ffe9db);
+    box-shadow: 0 6px 20px rgba(255, 99, 43, .2);
+  }
+  #dash-root .calc-metric-card.calc-accent-rosa { border: 1.5px solid var(--ch-rosa); }
+  #dash-root .calc-metric-card.calc-accent-rosa-soft { border: 1.5px solid #ffa3cb; }
+  #dash-root .calc-metric-title {
+    font-size: .74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--ch-ink-muted);
+    margin-bottom: .5rem;
+  }
+  #dash-root .calc-metric-title span { font-weight: 500; text-transform: none; letter-spacing: 0; }
+  #dash-root .calc-metric-value { font-size: 1.7rem; font-weight: 800; color: var(--ch-ink); margin-bottom: .25rem; font-variant-numeric: tabular-nums; }
+  #dash-root .calc-text-accent { color: var(--ch-accent); }
+  #dash-root .calc-text-rosa { color: var(--ch-rosa); }
+  #dash-root .calc-metric-sub { font-size: .78rem; color: var(--ch-ink-muted); }
+  #dash-root .calc-metric-value-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .25rem; }
+  #dash-root .calc-metric-value-row .calc-metric-value { margin-bottom: 0; }
+  #dash-root .calc-copy-btn { font-size: .68rem; padding: .25rem .55rem; flex: none; }
+  #dash-root .calc-copy-btn svg { width: 11px; height: 11px; }
+
+  #dash-root .calc-source-note { font-size: .76rem; color: var(--ch-ink-muted); margin: 0; }
+  #dash-root .calc-update-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .5rem .9rem;
+    margin-bottom: .9rem;
+  }
+  #dash-root .calc-update-timestamp {
+    font-size: .76rem;
+    color: var(--ch-ink-muted);
+  }
+  #dash-root .calc-update-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    font-family: inherit;
+    font-size: .82rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--ch-accent);
+    border: none;
+    border-radius: 999px;
+    padding: .45rem .95rem;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12);
+    cursor: pointer;
+    transition: filter .15s;
+  }
+  #dash-root .calc-update-btn:hover { filter: brightness(.94); }
 
   #dash-root .page-head { margin-bottom: 1.25rem; }
   #dash-root .page-title {
     font-family: Arial, sans-serif;
     font-weight: 800;
     letter-spacing: -.01em;
-    font-size: 1.6rem;
+    font-size: 2.1rem;
     margin: 0 0 .4rem 0;
     color: var(--ch-ink);
   }
@@ -125,6 +365,11 @@
     margin: 0;
     color: var(--ch-ink-muted);
     font-size: .95rem;
+    background: #efe6d6;
+    border: 1px solid var(--ch-border);
+    border-radius: 12px;
+    padding: .7rem 1rem;
+    display: inline-block;
   }
 
   #dash-root .card {
@@ -150,6 +395,7 @@
     border: 1px solid var(--ch-border);
     border-radius: 999px;
     padding: .5rem .9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
   #dash-root .filter-input:focus { outline: 2px solid var(--ch-accent); outline-offset: 1px; }
 
@@ -160,7 +406,8 @@
   }
   #dash-root .f-copy-consecutive.is-copied { color: var(--ch-ok); border-color: var(--ch-ok); }
 
-  #dash-root .f-search { flex: 1 1 14rem; min-width: 12rem; border-radius: 999px; }
+  #dash-root .f-search { border-radius: 999px; }
+  #dash-root .filters-search-wrap { flex: 1 1 14rem; min-width: 12rem; }
 
   #dash-root .btn-reset {
     font-family: inherit;
@@ -205,13 +452,13 @@
     text-transform: uppercase;
     letter-spacing: .03em;
     color: var(--ch-ink-muted);
-    padding: .6rem .6rem;
+    padding: .6rem .45rem;
     border-bottom: 2px solid var(--ch-ink);
     white-space: nowrap;
   }
 
   #dash-root .comisiones-table tbody td {
-    padding: .55rem .6rem;
+    padding: .55rem .45rem;
     border-bottom: 1px solid var(--ch-border);
     color: var(--ch-ink);
     white-space: nowrap;
@@ -280,7 +527,7 @@
 <script>
 (function () {
   const DATA = Array.isArray(window.__COMISIONES_DATA__) ? window.__COMISIONES_DATA__ : [];
-  const COLS = ['curso', 'comision', 'dia', 'horario', 'fecha_inicio', 'fecha_fin', 'estado', 'modalidad', 'inscriptos', 'cupo_max', 'profesores'];
+  const COLS = ['curso', 'comision', 'dia', 'horario', 'fecha_inicio', 'fecha_fin', 'estado', 'inscriptos', 'cupo_max', 'profesores'];
   const TOTAL_COLS = COLS.length + 1; // + columna de acciones (no es un dato del dataset)
   const ESTADO_LABELS = { NOT_STARTED: 'No iniciada', IN_PROGRESS: 'En curso', CANCELLED: 'Cancelada', COMPLETED: 'Finalizada' };
   const DIA_ORDER = ['Lunes', 'Miércoles', 'Martes', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
@@ -757,6 +1004,194 @@
   takeaway.textContent = latestRows.length
     ? `${latestRows.length} comisiones, en ${cursos} cursos distintos. Instantánea estática — no se actualiza sola.`
     : 'No hay comisiones para mostrar.';
+})();
+</script>
+
+<script>
+  window.__PRECIOS_DATA__ = [];
+</script>
+<script>
+(function () {
+  // --- Tabs ---
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const panels = {
+    comisiones: document.getElementById('tab-panel-comisiones'),
+    calculadora: document.getElementById('tab-panel-calculadora'),
+  };
+  tabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach((b) => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
+      Object.values(panels).forEach((p) => p.classList.remove('is-active'));
+      const target = panels[btn.dataset.tab];
+      if (target) target.classList.add('is-active');
+    });
+  });
+
+  // --- Calculadora de precios ---
+  const PRECIOS = Array.isArray(window.__PRECIOS_DATA__) ? window.__PRECIOS_DATA__ : [];
+  const LOCALE_POR_PAIS = {
+    AR: 'es-AR', UY: 'es-UY', CL: 'es-CL', CO: 'es-CO', ES: 'es-ES',
+    US: 'en-US', MX: 'es-MX', PE: 'es-PE', VE: 'es-VE',
+  };
+
+  const calcPaisEl = document.getElementById('calc-pais');
+  const calcBuscarEl = document.getElementById('calc-buscar');
+  const calcCursoEl = document.getElementById('calc-curso');
+  const calcNoteEl = document.getElementById('calc-note');
+  const valListaEl = document.getElementById('calc-val-lista');
+  const valFinalEl = document.getElementById('calc-val-final');
+  const descuentoInfoEl = document.getElementById('calc-descuento-info');
+  const valComisionEl = document.getElementById('calc-val-comision');
+  const valDestinoEl = document.getElementById('calc-val-destino');
+  const copyListaBtn = document.getElementById('calc-copy-lista');
+  const copyFinalBtn = document.getElementById('calc-copy-final');
+  const copyComisionBtn = document.getElementById('calc-copy-comision');
+  const copyCursoBtn = document.getElementById('calc-copy-curso');
+
+  if (!calcPaisEl || !PRECIOS) return; // seguridad si el markup no está (no debería pasar)
+
+  // Iconos propios para los botones de copiar de esta pestaña (misma pieza
+  // visual que usa la tabla de comisiones, duplicada acá porque este script
+  // corre en su propio alcance/IIFE, separado del de la tabla).
+  const CALC_COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.2"/><path d="M3.5 10.5h-1A1 1 0 0 1 1.5 9.5v-7A1 1 0 0 1 2.5 1.5h7a1 1 0 0 1 1 1v1"/></svg>';
+  const CALC_CHECK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 7-7"/></svg>';
+
+  function calcFallbackCopy(text, done) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
+    } catch (e) {
+      /* sin feedback si tampoco funciona el fallback */
+    }
+  }
+
+  function formatMoney(amount, currency, paisCod) {
+    if (amount == null || Number.isNaN(amount)) return 'No disponible';
+    const locale = LOCALE_POR_PAIS[paisCod] || 'es-AR';
+    try {
+      return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 }).format(amount);
+    } catch (e) {
+      return `${amount} ${currency}`;
+    }
+  }
+
+  function formatMoneyConCodigo(amount, currency, paisCod) {
+    if (amount == null || Number.isNaN(amount)) return null;
+    return `${formatMoney(amount, currency, paisCod)} ${currency}`;
+  }
+
+  function cursoPorId(id) {
+    return PRECIOS.find((c) => c.id === id) || null;
+  }
+
+  function poblarSelectCursos(selectEl, cursos, filtroTexto) {
+    const prevValue = selectEl.value;
+    const texto = (filtroTexto || '').toLowerCase();
+    const filtrados = texto
+      ? cursos.filter((c) => c.titulo.toLowerCase().includes(texto))
+      : cursos;
+    selectEl.replaceChildren(
+      ...filtrados.map((c) => new Option(c.titulo, c.id))
+    );
+    if (filtrados.some((c) => c.id === prevValue)) {
+      selectEl.value = prevValue;
+    } else if (filtrados.length) {
+      selectEl.value = filtrados[0].id;
+    }
+  }
+
+  function recalcular() {
+    const paisCod = calcPaisEl.value;
+    const cursoActual = cursoPorId(calcCursoEl.value);
+
+    if (!cursoActual) {
+      [valListaEl, valFinalEl, valComisionEl, valDestinoEl].forEach((el) => { el.textContent = '—'; });
+      descuentoInfoEl.textContent = 'Elegí un curso para ver sus precios.';
+      return;
+    }
+
+    const precioActual = cursoActual.precios[paisCod];
+    if (!precioActual) {
+      valListaEl.textContent = 'No disponible';
+      valFinalEl.textContent = 'No disponible';
+      valComisionEl.textContent = 'No disponible';
+      valDestinoEl.textContent = 'No disponible';
+      descuentoInfoEl.textContent = 'Este curso no tiene precio público cargado para el país seleccionado.';
+    } else {
+      valListaEl.textContent = formatMoney(precioActual.list, precioActual.currency, paisCod);
+      valFinalEl.textContent = formatMoney(precioActual.final, precioActual.currency, paisCod);
+      descuentoInfoEl.textContent = precioActual.discount_pct
+        ? `${precioActual.discount_pct}% OFF vigente en coderhouse.com`
+        : 'Sin descuento vigente.';
+      valComisionEl.textContent = formatMoney(Math.round(precioActual.list * 0.25), precioActual.currency, paisCod);
+      valDestinoEl.textContent = formatMoney(Math.round(precioActual.list * 0.5), precioActual.currency, paisCod);
+    }
+  }
+
+  function valorParaCopiar(tipo) {
+    const paisCod = calcPaisEl.value;
+    const cursoActual = cursoPorId(calcCursoEl.value);
+    if (!cursoActual) return null;
+    const precioActual = cursoActual.precios[paisCod];
+    if (!precioActual) return null;
+    if (tipo === 'lista') return formatMoneyConCodigo(precioActual.list, precioActual.currency, paisCod);
+    if (tipo === 'final') return formatMoneyConCodigo(precioActual.final, precioActual.currency, paisCod);
+    if (tipo === 'comision') return formatMoneyConCodigo(Math.round(precioActual.list * 0.25), precioActual.currency, paisCod);
+    if (tipo === 'curso') return formatMoneyConCodigo(Math.round(precioActual.list * 0.5), precioActual.currency, paisCod);
+    return null;
+  }
+
+  function copiarCampo(tipo, btn) {
+    const texto = valorParaCopiar(tipo);
+    if (!texto) return;
+    const done = () => {
+      btn.classList.add('is-copied');
+      btn.innerHTML = CALC_CHECK_ICON + '<span>Copiado</span>';
+      setTimeout(() => {
+        btn.classList.remove('is-copied');
+        btn.innerHTML = CALC_COPY_ICON + '<span>Copiar</span>';
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texto).then(done).catch(() => calcFallbackCopy(texto, done));
+    } else {
+      calcFallbackCopy(texto, done);
+    }
+  }
+
+  calcPaisEl.addEventListener('change', recalcular);
+  calcCursoEl.addEventListener('change', recalcular);
+  calcBuscarEl.addEventListener('input', () => {
+    poblarSelectCursos(calcCursoEl, PRECIOS, calcBuscarEl.value);
+    recalcular();
+  });
+
+  [
+    [copyListaBtn, 'lista'],
+    [copyFinalBtn, 'final'],
+    [copyComisionBtn, 'comision'],
+    [copyCursoBtn, 'curso'],
+  ].forEach(([btn, tipo]) => {
+    btn.innerHTML = CALC_COPY_ICON + '<span>Copiar</span>';
+    btn.addEventListener('click', () => copiarCampo(tipo, btn));
+  });
+
+  if (PRECIOS.length) {
+    poblarSelectCursos(calcCursoEl, PRECIOS, '');
+    calcNoteEl.textContent = `${PRECIOS.length} cursos con precio público disponible.`;
+    recalcular();
+  } else {
+    calcNoteEl.textContent = 'Todavía no hay precios cargados.';
+  }
 })();
 </script>
 

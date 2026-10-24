@@ -284,11 +284,12 @@ def build_rows(cohorts, product_map, professors_map, zoom_ends_map):
     return rows
 
 
-def render_html(rows):
+def render_html(rows, precios):
     with open(TEMPLATE_PATH, encoding="utf-8") as f:
         template = f.read()
 
     data_json = json.dumps(rows, ensure_ascii=False)
+    precios_json = json.dumps(precios, ensure_ascii=False)
     today = datetime.datetime.now(TZ).strftime("%d/%m/%Y %H:%M")
 
     html = template.replace(
@@ -296,10 +297,219 @@ def render_html(rows):
         f"window.__COMISIONES_DATA__ = {data_json};",
     )
     html = html.replace(
+        "window.__PRECIOS_DATA__ = [];",
+        f"window.__PRECIOS_DATA__ = {precios_json};",
+    )
+    html = html.replace(
         "Instantánea estática — no se actualiza sola.",
         f"Datos actualizados automáticamente el {today} (hora Argentina).",
     )
     return html
+
+
+# ---------------------------------------------------------------------------
+# Calculadora de precios: scraping de precios públicos de coderhouse.com
+#
+# No existe ningún precio real cargado en el módulo de pricing del API de
+# Coderhouse (se probó en ~175 productos distintos, incluidas las 5
+# materias de Python, y siempre devuelve price=null; /regions y
+# /regions/countries también vuelven vacíos). Los precios públicos SÍ están
+# en coderhouse.com: cada página de curso/carrera trae, para cada país, un
+# bloque "Tachado" (precio de lista) y "Total" (precio final con el
+# descuento vigente). Un mismo curso tiene una sola página pública aunque
+# en el Back Office esté partido en varias materias/comisiones con nombres
+# distintos (ej. "AI Engineering (V2) Diplomatura" y "AI Engineering" son
+# la misma página pública "Curso de AI Engineering").
+# ---------------------------------------------------------------------------
+
+PRECIOS_SITEMAP_URL = "https://www.coderhouse.com/sitemap_es-AR.xml"
+
+# País -> prefijo de locale en la URL. None = página sin prefijo (precio
+# genérico "resto del mundo" en USD, que es el que efectivamente se le
+# muestra a Estados Unidos y Venezuela).
+PRECIOS_COUNTRY_PREFIX = {
+    "AR": "ar", "UY": "uy", "CL": "cl", "CO": "co", "ES": "es",
+    "MX": "mx", "PE": "pe", "US": None, "VE": None,
+}
+
+PRECIOS_AMOUNT_RE = __import__("re").compile(
+    r'[\$€]\s*([\d.,]+)\s*([A-Z]{3})|S/\.\s*([\d.,]+)\s*([A-Z]{3})'
+)
+
+# Nombres de curso del Back Office que son B2B/demo/internos y nunca van a
+# tener una página pública de precios en coderhouse.com.
+PRECIOS_PALABRAS_NO_PUBLICAS = (
+    "demo", "prueba", "b2b", "test", "adidas", "fenicio", "coresa",
+    "dasa", "|", "interno", "staff", "capacitacion interna",
+)
+
+PRECIOS_STOPWORDS = {
+    "de", "la", "el", "los", "las", "y", "a", "en", "para", "con", "del",
+    "al", "un", "una", "online", "curso", "cursos", "carrera", "diplomatura",
+    "diplomaturas", "v1", "v2", "v3", "en", "b2b", "coderhouse", "ch",
+}
+
+
+def _precios_normalizar(texto):
+    import re
+    import unicodedata
+    texto = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode("ascii")
+    texto = texto.lower()
+    texto = re.sub(r"\(demo\)|\(diplomatura\)|\(diplotamtura\)|\(v\d+\)|\(en\)", " ", texto)
+    texto = re.sub(r"[^a-z0-9]+", " ", texto)
+    tokens = [t for t in texto.split() if t and t not in PRECIOS_STOPWORDS]
+    return set(tokens)
+
+
+def _precios_es_curso_publico(nombre):
+    bajo = (nombre or "").lower()
+    return not any(p in bajo for p in PRECIOS_PALABRAS_NO_PUBLICAS)
+
+
+def _precios_descubrir_urls_catalogo():
+    """Lee el sitemap de Argentina y devuelve los paths /cursos/slug y
+    /carreras/slug (sin prefijo de país) que son páginas de producto reales."""
+    import re
+    resp = requests.get(PRECIOS_SITEMAP_URL, timeout=30)
+    resp.raise_for_status()
+    locs = re.findall(r"<loc>([^<]+)</loc>", resp.text)
+    paths = []
+    for loc in locs:
+        m = re.match(r"https://www\.coderhouse\.com/ar/(cursos|carreras)/([^/]+)/?$", loc)
+        if m:
+            paths.append(f"{m.group(1)}/{m.group(2)}")
+    return sorted(set(paths))
+
+
+def _precios_extraer_par(html, label):
+    import re
+    m = re.search(rf'data-framer-name="{label}[^"]*"', html)
+    if not m:
+        return None
+    seg = html[m.end():m.end() + 400]
+    am = PRECIOS_AMOUNT_RE.search(seg)
+    if not am:
+        return None
+    if am.group(1):
+        monto_str, moneda = am.group(1), am.group(2)
+    else:
+        monto_str, moneda = am.group(3), am.group(4)
+    try:
+        return int(monto_str.replace(".", "").replace(",", "")), moneda
+    except ValueError:
+        return None
+
+
+def _precios_extraer_titulo(html):
+    import re
+    m = re.search(r"<title[^>]*>([^<|]+)", html, re.IGNORECASE)
+    return m.group(1).strip() if m else None
+
+
+def _precios_fetch_pagina(path, prefix):
+    url = f"https://www.coderhouse.com/{prefix}/{path}" if prefix else f"https://www.coderhouse.com/{path}"
+    try:
+        resp = requests.get(url, timeout=25, headers={"User-Agent": "Mozilla/5.0"})
+        resp.raise_for_status()
+        # coderhouse.com no declara charset en el header Content-Type, así
+        # que requests adivina mal la codificación por defecto; la página
+        # es UTF-8 (tiene <meta charset="utf-8">), forzarlo evita que los
+        # acentos salgan mal (ej. "Administración" -> "AdministraciÃ³n").
+        resp.encoding = "utf-8"
+        return resp.text
+    except Exception as e:
+        print(f"  aviso: no se pudo traer {url}: {e}", file=sys.stderr)
+        return ""
+
+
+def _precios_scrapear_curso(path):
+    cache = {}
+    titulo = None
+    precios_por_pais = {}
+    for pais, prefix in PRECIOS_COUNTRY_PREFIX.items():
+        if prefix not in cache:
+            cache[prefix] = _precios_fetch_pagina(path, prefix)
+        html = cache[prefix]
+        if not html:
+            continue
+        if titulo is None:
+            titulo = _precios_extraer_titulo(html)
+        tachado = _precios_extraer_par(html, "Tachado")
+        total = _precios_extraer_par(html, "Total")
+        if not tachado or not total:
+            continue
+        lista, moneda1 = tachado
+        final, moneda2 = total
+        moneda = moneda1 or moneda2
+        if lista <= 0:
+            continue
+        descuento_pct = round((1 - final / lista) * 100) if lista else 0
+        precios_por_pais[pais] = {
+            "list": lista, "final": final, "currency": moneda, "discount_pct": descuento_pct,
+        }
+    return titulo, precios_por_pais
+
+
+def scrape_catalogo_precios():
+    """Trae precio de lista + final por país para cada curso/carrera público
+    de coderhouse.com. Devuelve {path: {"titulo", "tipo", "precios"}}."""
+    paths = _precios_descubrir_urls_catalogo()
+    catalogo = {}
+    with ThreadPoolExecutor(max_workers=6) as ex:
+        futs = {ex.submit(_precios_scrapear_curso, p): p for p in paths}
+        for fut in as_completed(futs):
+            path = futs[fut]
+            try:
+                titulo, precios = fut.result()
+            except Exception as e:
+                print(f"  aviso: fallo scrapeando {path}: {e}", file=sys.stderr)
+                continue
+            if not titulo or not precios:
+                continue
+            tipo = "carrera" if path.startswith("carreras/") else "curso"
+            titulo_limpio = titulo.replace("Curso de ", "").replace("Carrera de ", "").strip()
+            catalogo[path] = {"titulo": titulo_limpio, "tipo": tipo, "precios": precios}
+    return catalogo
+
+
+def construir_precios_data(rows, catalogo):
+    """Matchea los nombres de curso del Back Office contra el catálogo
+    público scrapeado y arma la lista final para la calculadora. Un curso
+    que no matchea con score >= 0.8 queda afuera (mejor no mostrar precio
+    que mostrar uno incorrecto)."""
+    nombres_curso = sorted({r["curso"] for r in rows if _precios_es_curso_publico(r["curso"])})
+
+    catalogo_tokens = {}
+    for path, info in catalogo.items():
+        tokens = _precios_normalizar(info["titulo"]) | _precios_normalizar(path.split("/")[-1].replace("-", " "))
+        catalogo_tokens[path] = tokens
+
+    paths_usados = set()
+    for nombre in nombres_curso:
+        ctoks = _precios_normalizar(nombre)
+        if not ctoks:
+            continue
+        mejor_path, mejor_score = None, 0
+        for path, tokens in catalogo_tokens.items():
+            overlap = ctoks & tokens
+            if not overlap:
+                continue
+            score = len(overlap) / len(ctoks)
+            if score > mejor_score:
+                mejor_score, mejor_path = score, path
+        if mejor_path and mejor_score >= 0.8:
+            paths_usados.add(mejor_path)
+
+    precios_data = []
+    for path in sorted(paths_usados, key=lambda p: catalogo[p]["titulo"]):
+        info = catalogo[path]
+        precios_data.append({
+            "id": path.split("/")[-1],
+            "titulo": info["titulo"],
+            "tipo": info["tipo"],
+            "precios": info["precios"],
+        })
+    return precios_data
 
 
 def main():
@@ -327,11 +537,23 @@ def main():
     for estado, cantidad in sorted(conteo_estados.items()):
         print(f"  {estado}: {cantidad}", file=sys.stderr)
 
-    html = render_html(rows)
+    print("Scrapeando precios públicos de coderhouse.com...", file=sys.stderr)
+    try:
+        catalogo_precios = scrape_catalogo_precios()
+        precios_data = construir_precios_data(rows, catalogo_precios)
+        print(f"  {len(precios_data)} cursos con precio público matcheado", file=sys.stderr)
+    except Exception as e:
+        # La calculadora de precios es una funcionalidad adicional: si el
+        # scraping de coderhouse.com falla (sitio caído, cambio de HTML,
+        # etc.) no debe tirar abajo la actualización de comisiones.
+        print(f"  aviso: no se pudieron traer precios ({e}); la calculadora quedará vacía esta corrida", file=sys.stderr)
+        precios_data = []
+
+    html = render_html(rows, precios_data)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(html)
 
-    print(f"Listo: {OUTPUT_PATH} ({len(rows)} comisiones)", file=sys.stderr)
+    print(f"Listo: {OUTPUT_PATH} ({len(rows)} comisiones, {len(precios_data)} precios)", file=sys.stderr)
 
 
 if __name__ == "__main__":
