@@ -5,8 +5,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 214800,
-        "final": 171840,
+        "list": 225500,
+        "final": 180400,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -18,9 +18,9 @@
       },
       "CL": {
         "list": 625900,
-        "final": 312950,
+        "final": 250360,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1447050,
@@ -36,15 +36,15 @@
       },
       "MX": {
         "list": 7315,
-        "final": 3658,
+        "final": 2926,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1293,
-        "final": 646,
+        "final": 517,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 611,
@@ -58,7 +58,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "ai-automation",
@@ -66,8 +67,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 233300,
-        "final": 186640,
+        "list": 245000,
+        "final": 196000,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -79,9 +80,9 @@
       },
       "CL": {
         "list": 676500,
-        "final": 338250,
+        "final": 270600,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1564200,
@@ -97,15 +98,15 @@
       },
       "MX": {
         "list": 7920,
-        "final": 3960,
+        "final": 3168,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1375,
-        "final": 688,
+        "final": 550,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 658,
@@ -119,68 +120,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "carrera-ai-automation",
-    "titulo": "AI Automation",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 431100,
-        "final": 280215,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 37400,
-        "final": 18700,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1251800,
-        "final": 500720,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 2894100,
-        "final": 868230,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 1397,
-        "final": 699,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 14630,
-        "final": 5852,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 2585,
-        "final": 1034,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1223,
-        "final": 612,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1223,
-        "final": 612,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "ai-automation-avanzado",
@@ -188,8 +129,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 197800,
-        "final": 158240,
+        "list": 207700,
+        "final": 166160,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -201,9 +142,9 @@
       },
       "CL": {
         "list": 575300,
-        "final": 287650,
+        "final": 230120,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1329900,
@@ -219,15 +160,15 @@
       },
       "MX": {
         "list": 6710,
-        "final": 3355,
+        "final": 2684,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1210,
-        "final": 605,
+        "final": 484,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 565,
@@ -241,7 +182,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "ai-engineering",
@@ -249,8 +191,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 228700,
-        "final": 182960,
+        "list": 240100,
+        "final": 192080,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -262,9 +204,9 @@
       },
       "CL": {
         "list": 664000,
-        "final": 332000,
+        "final": 265600,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1535000,
@@ -280,15 +222,15 @@
       },
       "MX": {
         "list": 7761,
-        "final": 3881,
+        "final": 3104,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1371,
-        "final": 686,
+        "final": 548,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 649,
@@ -302,68 +244,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "carrera-ai-marketing",
-    "titulo": "AI Marketing",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 624400,
-        "final": 405860,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 55110,
-        "final": 27555,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1848000,
-        "final": 739200,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 4303200,
-        "final": 1290960,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 2134,
-        "final": 1067,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 21560,
-        "final": 8624,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 3520,
-        "final": 1408,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1809,
-        "final": 905,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1809,
-        "final": 905,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "administracion-de-empresas",
@@ -371,8 +253,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 94000,
-        "final": 75200,
+        "list": 98700,
+        "final": 78960,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -384,9 +266,9 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
@@ -402,15 +284,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -424,7 +306,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "business-analytics",
@@ -432,8 +315,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 218295,
-        "final": 174636,
+        "list": 229200,
+        "final": 183360,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -445,9 +328,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -463,15 +346,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -485,7 +368,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "canva",
@@ -493,8 +377,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 98300,
-        "final": 78640,
+        "list": 103200,
+        "final": 82560,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -506,9 +390,9 @@
       },
       "CL": {
         "list": 469700,
-        "final": 234850,
+        "final": 187880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1383800,
@@ -524,15 +408,15 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 358,
@@ -546,7 +430,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "ciber-seguridad",
@@ -554,8 +439,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 231000,
-        "final": 184800,
+        "list": 242600,
+        "final": 194080,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -567,9 +452,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -585,15 +470,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -607,7 +492,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "cloudcomputing-aws",
@@ -615,8 +501,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 264495,
-        "final": 211596,
+        "list": 277700,
+        "final": 222160,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -628,9 +514,9 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
@@ -646,15 +532,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -668,7 +554,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "community-manager",
@@ -676,8 +563,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -689,9 +576,9 @@
       },
       "CL": {
         "list": 532400,
-        "final": 266200,
+        "final": 212960,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -707,15 +594,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -729,68 +616,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "carrera-marketing-en-redes",
-    "titulo": "Community Manager",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 623700,
-        "final": 405405,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 56430,
-        "final": 28215,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1786400,
-        "final": 714560,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 4346100,
-        "final": 1303830,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 1980,
-        "final": 990,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 22110,
-        "final": 8844,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 3410,
-        "final": 1364,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1824,
-        "final": 912,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1824,
-        "final": 912,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "contabilidad",
@@ -798,8 +625,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 94000,
-        "final": 75200,
+        "list": 98700,
+        "final": 78960,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -811,9 +638,9 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
@@ -829,15 +656,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -851,7 +678,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "contenido-para-redesociales",
@@ -859,8 +687,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 167475,
-        "final": 133980,
+        "list": 175800,
+        "final": 140640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -872,9 +700,9 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
@@ -890,15 +718,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -912,7 +740,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "copywriting",
@@ -920,8 +749,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -933,9 +762,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -951,15 +780,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -973,7 +802,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "creacion-de-contenido-con-ai",
@@ -981,8 +811,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 233300,
-        "final": 186640,
+        "list": 245000,
+        "final": 196000,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -994,9 +824,9 @@
       },
       "CL": {
         "list": 676500,
-        "final": 338250,
+        "final": 270600,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1564200,
@@ -1012,15 +842,15 @@
       },
       "MX": {
         "list": 7920,
-        "final": 3960,
+        "final": 3168,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1375,
-        "final": 688,
+        "final": 550,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 658,
@@ -1034,7 +864,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "customer-experience",
@@ -1042,8 +873,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1055,9 +886,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -1073,15 +904,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -1095,7 +926,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "data-analytics",
@@ -1103,8 +935,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 277200,
-        "final": 221760,
+        "list": 291100,
+        "final": 232880,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1116,9 +948,9 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
@@ -1134,15 +966,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 935,
-        "final": 468,
+        "final": 374,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -1156,68 +988,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "carrera-data-analytics-live",
-    "titulo": "Data Analytics",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 614460,
-        "final": 399399,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 49720,
-        "final": 24860,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1677500,
-        "final": 671000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 4001800,
-        "final": 1200540,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 1947,
-        "final": 974,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 19690,
-        "final": 7876,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 2420,
-        "final": 968,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1658,
-        "final": 829,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1658,
-        "final": 829,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "data-engineering",
@@ -1225,8 +997,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 231000,
-        "final": 184800,
+        "list": 242600,
+        "final": 194080,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1238,9 +1010,9 @@
       },
       "CL": {
         "list": 664000,
-        "final": 332000,
+        "final": 265600,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1535000,
@@ -1256,15 +1028,15 @@
       },
       "MX": {
         "list": 7761,
-        "final": 3881,
+        "final": 3104,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1371,
-        "final": 686,
+        "final": 548,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 649,
@@ -1278,7 +1050,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "data-science-fundamentos-para-la-ciencia-de-datos",
@@ -1286,8 +1059,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 344190,
-        "final": 275352,
+        "list": 361400,
+        "final": 289120,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1299,9 +1072,9 @@
       },
       "CL": {
         "list": 1117600,
-        "final": 558800,
+        "final": 447040,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 3121800,
@@ -1317,15 +1090,15 @@
       },
       "MX": {
         "list": 13640,
-        "final": 6820,
+        "final": 5456,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1980,
-        "final": 990,
+        "final": 792,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 1101,
@@ -1339,7 +1112,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "data-science-machine-learning-para-la-ciencia-de-datos",
@@ -1347,8 +1121,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 411310,
-        "final": 329048,
+        "list": 431900,
+        "final": 345520,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1360,9 +1134,9 @@
       },
       "CL": {
         "list": 1180300,
-        "final": 590150,
+        "final": 472120,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 3166900,
@@ -1378,15 +1152,15 @@
       },
       "MX": {
         "list": 14520,
-        "final": 7260,
+        "final": 5808,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 2365,
-        "final": 1183,
+        "final": 946,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 1316,
@@ -1400,7 +1174,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "data-science-nlp-deep-learning-aplicado-a-ciencia-de-datos",
@@ -1408,8 +1183,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 182490,
-        "final": 145992,
+        "list": 191600,
+        "final": 153280,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1421,9 +1196,9 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
@@ -1439,15 +1214,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -1461,312 +1236,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "carrera-online-de-data-scientist",
-    "titulo": "Data Scientist",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 1215190,
-        "final": 789874,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 105110,
-        "final": 52555,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 3480400,
-        "final": 1392160,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 9115700,
-        "final": 2734710,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 4499,
-        "final": 2250,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 42130,
-        "final": 16852,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 6050,
-        "final": 2420,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 3582,
-        "final": 1791,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 3582,
-        "final": 1791,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
-  },
-  {
-    "id": "carrera-desarrollo-backend",
-    "titulo": "Desarrollo Backend",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 1310925,
-        "final": 852101,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 101750,
-        "final": 50875,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 3063500,
-        "final": 1225400,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 8056400,
-        "final": 2416920,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 4147,
-        "final": 2074,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 40260,
-        "final": 16104,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 5610,
-        "final": 2244,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 3274,
-        "final": 1637,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 3274,
-        "final": 1637,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
-  },
-  {
-    "id": "carrera-online-desarrollo-frontend",
-    "titulo": "Desarrollo Frontend React",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 697620,
-        "final": 453453,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 58080,
-        "final": 29040,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1941500,
-        "final": 776600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 4549600,
-        "final": 1364880,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 2233,
-        "final": 1117,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 22990,
-        "final": 9196,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 3080,
-        "final": 1232,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1888,
-        "final": 944,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1888,
-        "final": 944,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
-  },
-  {
-    "id": "carrera-desarrollo-fullstack",
-    "titulo": "Desarrollo Full Stack",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 1451835,
-        "final": 943693,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 116820,
-        "final": 58410,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 3545300,
-        "final": 1418120,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 9166300,
-        "final": 2749890,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 4620,
-        "final": 2310,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 45870,
-        "final": 18348,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 6490,
-        "final": 2596,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 3754,
-        "final": 1877,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 3754,
-        "final": 1877,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
-  },
-  {
-    "id": "carrera-online-desarrollo-ux-ui",
-    "titulo": "Desarrollo UX/UI",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 935195,
-        "final": 607877,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 78540,
-        "final": 39270,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 2629000,
-        "final": 1051600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 6201800,
-        "final": 1860540,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 3100,
-        "final": 1550,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 31240,
-        "final": 12496,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 5500,
-        "final": 2200,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 2560,
-        "final": 1280,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 2560,
-        "final": 1280,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "desarrollo-web-online",
@@ -1774,8 +1245,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 218295,
-        "final": 174636,
+        "list": 229200,
+        "final": 183360,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1787,9 +1258,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -1805,15 +1276,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -1827,7 +1298,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "desarrollo-aplicaciones",
@@ -1835,8 +1307,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 279510,
-        "final": 223608,
+        "list": 293500,
+        "final": 234800,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1848,9 +1320,9 @@
       },
       "CL": {
         "list": 772200,
-        "final": 386100,
+        "final": 308880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1787500,
@@ -1866,15 +1338,15 @@
       },
       "MX": {
         "list": 9130,
-        "final": 4565,
+        "final": 3652,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1265,
-        "final": 633,
+        "final": 506,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 736,
@@ -1888,68 +1360,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "desarrollo-de-aplicaciones",
-    "titulo": "Desarrollo de Aplicaciones",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 977130,
-        "final": 635135,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 80630,
-        "final": 40315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 2713700,
-        "final": 1085480,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 6337100,
-        "final": 1901130,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 3168,
-        "final": 1584,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 32120,
-        "final": 12848,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 4345,
-        "final": 1738,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 2624,
-        "final": 1312,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 2624,
-        "final": 1312,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "devops-cloud",
@@ -1957,8 +1369,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 252000,
-        "final": 201600,
+        "list": 264600,
+        "final": 211680,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -1970,9 +1382,9 @@
       },
       "CL": {
         "list": 724400,
-        "final": 362200,
+        "final": 289760,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1675000,
@@ -1988,15 +1400,15 @@
       },
       "MX": {
         "list": 8467,
-        "final": 4234,
+        "final": 3387,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1496,
-        "final": 748,
+        "final": 598,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 708,
@@ -2010,72 +1422,74 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "carrera-online-diseno-digital",
-    "titulo": "Diseño UX/UI",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 922700,
-        "final": 599755,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 78540,
-        "final": 39270,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 2629000,
-        "final": 1051600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 6201800,
-        "final": 1860540,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 3234,
-        "final": 1617,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 31240,
-        "final": 12496,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 5500,
-        "final": 2200,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 2560,
-        "final": 1280,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 2560,
-        "final": 1280,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "ux-ui-online",
     "titulo": "Diseño UX/UI",
+    "tipo": "curso",
+    "precios": {
+      "AR": {
+        "list": 274900,
+        "final": 219920,
+        "currency": "ARS",
+        "discount_pct": 20
+      },
+      "UY": {
+        "list": 20460,
+        "final": 10230,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "CL": {
+        "list": 687500,
+        "final": 275000,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "CO": {
+        "list": 1652200,
+        "final": 660880,
+        "currency": "COP",
+        "discount_pct": 60
+      },
+      "ES": {
+        "list": 847,
+        "final": 424,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
+      "MX": {
+        "list": 8250,
+        "final": 3300,
+        "currency": "MXN",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 1430,
+        "final": 572,
+        "currency": "PEN",
+        "discount_pct": 60
+      },
+      "US": {
+        "list": 672,
+        "final": 336,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 672,
+        "final": 336,
+        "currency": "USD",
+        "discount_pct": 50
+      }
+    },
+    "promo": "CODERWEEN 💣"
+  },
+  {
+    "id": "ux-ui-avanzado-online",
+    "titulo": "Diseño UX/UI Avanzado",
     "tipo": "curso",
     "precios": {
       "AR": {
@@ -2092,9 +1506,9 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
@@ -2110,76 +1524,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 1430,
-        "final": 715,
-        "currency": "PEN",
-        "discount_pct": 50
-      },
-      "US": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
-  },
-  {
-    "id": "ux-ui-avanzado-online",
-    "titulo": "Diseño UX/UI Avanzado",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 249300,
-        "final": 199440,
-        "currency": "ARS",
-        "discount_pct": 20
-      },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 687500,
-        "final": 343750,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1652200,
-        "final": 660880,
-        "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 847,
-        "final": 424,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 8250,
-        "final": 4125,
-        "currency": "MXN",
-        "discount_pct": 50
-      },
       "PE": {
         "list": 1430,
-        "final": 715,
+        "final": 572,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -2193,7 +1546,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "ecommerce-online",
@@ -2201,8 +1555,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2214,9 +1568,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -2232,15 +1586,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2254,7 +1608,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "fotografia-rrss",
@@ -2262,8 +1617,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2275,9 +1630,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -2293,15 +1648,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2315,7 +1670,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "excel",
@@ -2323,8 +1679,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 161700,
-        "final": 129360,
+        "list": 169800,
+        "final": 135840,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2336,9 +1692,9 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
@@ -2354,15 +1710,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -2376,7 +1732,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "excel-avanzado",
@@ -2384,8 +1741,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 111300,
-        "final": 89040,
+        "list": 116900,
+        "final": 93520,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2397,9 +1754,9 @@
       },
       "CL": {
         "list": 342000,
-        "final": 171000,
+        "final": 136800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 810000,
@@ -2415,15 +1772,15 @@
       },
       "MX": {
         "list": 3950,
-        "final": 1975,
+        "final": 1580,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 490,
-        "final": 245,
+        "final": 196,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 338,
@@ -2437,7 +1794,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "finanzas-personales",
@@ -2445,8 +1803,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 94000,
-        "final": 75200,
+        "list": 98700,
+        "final": 78960,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2458,9 +1816,9 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
@@ -2476,15 +1834,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -2498,7 +1856,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "forward-deployed-engineer",
@@ -2506,8 +1865,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 242900,
-        "final": 194320,
+        "list": 255000,
+        "final": 204000,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2519,9 +1878,9 @@
       },
       "CL": {
         "list": 704400,
-        "final": 352200,
+        "final": 281760,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1628800,
@@ -2537,15 +1896,15 @@
       },
       "MX": {
         "list": 8247,
-        "final": 4124,
+        "final": 3299,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1432,
-        "final": 716,
+        "final": 573,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 685,
@@ -2559,7 +1918,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "fundamentos-diseno-grafico",
@@ -2567,8 +1927,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 205800,
-        "final": 164640,
+        "list": 216100,
+        "final": 172880,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2580,9 +1940,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -2598,15 +1958,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2620,7 +1980,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "fundamentos-del-marketing-digital",
@@ -2628,8 +1989,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2641,9 +2002,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -2659,15 +2020,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 536,
@@ -2681,7 +2042,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "google-ads-v2",
@@ -2689,8 +2051,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 116655,
-        "final": 93324,
+        "list": 122500,
+        "final": 98000,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2702,9 +2064,9 @@
       },
       "CL": {
         "list": 426800,
-        "final": 213400,
+        "final": 170720,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1383800,
@@ -2720,15 +2082,15 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 307,
@@ -2742,7 +2104,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "growth-marketing",
@@ -2750,8 +2113,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2763,9 +2126,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -2781,15 +2144,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2803,7 +2166,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "introduccion-inteligencia-artificial",
@@ -2811,8 +2175,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 108600,
-        "final": 86880,
+        "list": 114000,
+        "final": 91200,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2824,9 +2188,9 @@
       },
       "CL": {
         "list": 469700,
-        "final": 234850,
+        "final": 187880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1383800,
@@ -2842,15 +2206,15 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 358,
@@ -2864,7 +2228,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "javascript",
@@ -2872,8 +2237,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 251790,
-        "final": 201432,
+        "list": 264400,
+        "final": 211520,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2885,9 +2250,9 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
@@ -2903,15 +2268,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 935,
-        "final": 468,
+        "final": 374,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -2925,7 +2290,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "liderazgo-gestion-equipos",
@@ -2933,8 +2299,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 109000,
-        "final": 87200,
+        "list": 114500,
+        "final": 91600,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -2946,9 +2312,9 @@
       },
       "CL": {
         "list": 469700,
-        "final": 234850,
+        "final": 187880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1383800,
@@ -2964,15 +2330,15 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 358,
@@ -2986,129 +2352,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "management-y-liderazgo",
-    "titulo": "Management y Liderazgo",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 369000,
-        "final": 239850,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 30140,
-        "final": 15070,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1476200,
-        "final": 590480,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 3967700,
-        "final": 1190310,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 1419,
-        "final": 710,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 17820,
-        "final": 7128,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 3300,
-        "final": 1320,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1108,
-        "final": 554,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1108,
-        "final": 554,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
-  },
-  {
-    "id": "carrera-online-marketing-digital",
-    "titulo": "Marketing Digital",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 623700,
-        "final": 405405,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 56430,
-        "final": 28215,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1786400,
-        "final": 714560,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 4346100,
-        "final": 1303830,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 2178,
-        "final": 1089,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 22110,
-        "final": 8844,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 3960,
-        "final": 1584,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1824,
-        "final": 912,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1824,
-        "final": 912,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "oratoria",
@@ -3116,8 +2361,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 72500,
-        "final": 58000,
+        "list": 76100,
+        "final": 60880,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3129,9 +2374,9 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
@@ -3147,15 +2392,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -3169,7 +2414,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "marketing-digital-ch-online",
@@ -3177,8 +2423,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3190,9 +2436,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -3208,15 +2454,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3230,7 +2476,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "photoshop-e-illustrator-online",
@@ -3238,8 +2485,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 205800,
-        "final": 164640,
+        "list": 216100,
+        "final": 172880,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3251,9 +2498,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -3269,15 +2516,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3291,7 +2538,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "power-bi",
@@ -3299,8 +2547,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 161700,
-        "final": 129360,
+        "list": 169800,
+        "final": 135840,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3312,9 +2560,9 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
@@ -3330,15 +2578,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -3352,68 +2600,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "product-design",
-    "titulo": "Product Design",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 742900,
-        "final": 482885,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 58080,
-        "final": 29040,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1941500,
-        "final": 776600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 4549600,
-        "final": 1364880,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 2244,
-        "final": 1122,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 22990,
-        "final": 9196,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 4125,
-        "final": 1650,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1888,
-        "final": 944,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1888,
-        "final": 944,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "product-manager-online",
@@ -3421,8 +2609,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 207900,
-        "final": 166320,
+        "list": 218300,
+        "final": 174640,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3434,9 +2622,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -3452,15 +2640,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1375,
-        "final": 688,
+        "final": 550,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3474,190 +2662,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
-  },
-  {
-    "id": "product-marketing",
-    "titulo": "Product Marketing",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 623700,
-        "final": 405405,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 56430,
-        "final": 28215,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1786400,
-        "final": 714560,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 4346100,
-        "final": 1303830,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 2178,
-        "final": 1089,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 22110,
-        "final": 8844,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 3740,
-        "final": 1496,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1824,
-        "final": 912,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1824,
-        "final": 912,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
-  },
-  {
-    "id": "product-web",
-    "titulo": "Product Web",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 687995,
-        "final": 447197,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 58080,
-        "final": 29040,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1941500,
-        "final": 776600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 4549600,
-        "final": 1364880,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 2178,
-        "final": 1089,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 22990,
-        "final": 9196,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 4125,
-        "final": 1650,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1888,
-        "final": 944,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1888,
-        "final": 944,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
-  },
-  {
-    "id": "producto-online",
-    "titulo": "Producto",
-    "tipo": "carrera",
-    "precios": {
-      "AR": {
-        "list": 415800,
-        "final": 270270,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "UY": {
-        "list": 37620,
-        "final": 18810,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1254000,
-        "final": 501600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 2897400,
-        "final": 869220,
-        "currency": "COP",
-        "discount_pct": 70
-      },
-      "ES": {
-        "list": 1474,
-        "final": 737,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 14740,
-        "final": 5896,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 2420,
-        "final": 968,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1216,
-        "final": 608,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1216,
-        "final": 608,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "programacion-backend-desarrollo-avanzado-de-backend",
@@ -3665,8 +2671,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 211365,
-        "final": 169092,
+        "list": 221900,
+        "final": 177520,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3678,9 +2684,9 @@
       },
       "CL": {
         "list": 541200,
-        "final": 270600,
+        "final": 216480,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1538900,
@@ -3696,15 +2702,15 @@
       },
       "MX": {
         "list": 7480,
-        "final": 3740,
+        "final": 2992,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 629,
@@ -3718,7 +2724,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "programacion-backend-diseno-y-arquitectura-backend",
@@ -3726,8 +2733,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 276045,
-        "final": 220836,
+        "list": 289800,
+        "final": 231840,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3739,9 +2746,9 @@
       },
       "CL": {
         "list": 503800,
-        "final": 251900,
+        "final": 201520,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1436600,
@@ -3757,15 +2764,15 @@
       },
       "MX": {
         "list": 7040,
-        "final": 3520,
+        "final": 2816,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 935,
-        "final": 468,
+        "final": 374,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 579,
@@ -3779,7 +2786,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "programacion-backend-testing-y-escalabilidad-backend",
@@ -3787,8 +2795,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 266805,
-        "final": 213444,
+        "list": 280100,
+        "final": 224080,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3800,9 +2808,9 @@
       },
       "CL": {
         "list": 558800,
-        "final": 279400,
+        "final": 223520,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1641200,
@@ -3818,15 +2826,15 @@
       },
       "MX": {
         "list": 8360,
-        "final": 4180,
+        "final": 3344,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 658,
@@ -3840,7 +2848,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "prototipado",
@@ -3848,8 +2857,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 273200,
-        "final": 218560,
+        "list": 286900,
+        "final": 229520,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3861,9 +2870,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -3879,15 +2888,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3901,7 +2910,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "python",
@@ -3909,8 +2919,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 336000,
-        "final": 268800,
+        "list": 352800,
+        "final": 282240,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3922,9 +2932,9 @@
       },
       "CL": {
         "list": 863500,
-        "final": 431750,
+        "final": 345400,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 2059200,
@@ -3940,15 +2950,15 @@
       },
       "MX": {
         "list": 10120,
-        "final": 5060,
+        "final": 4048,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1210,
-        "final": 605,
+        "final": 484,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 829,
@@ -3962,7 +2972,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "reactjs",
@@ -3970,8 +2981,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 227535,
-        "final": 182028,
+        "list": 238900,
+        "final": 191120,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -3983,9 +2994,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -4001,15 +3012,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 825,
-        "final": 413,
+        "final": 330,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -4023,7 +3034,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "seo-online",
@@ -4031,8 +3043,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 157800,
-        "final": 126240,
+        "list": 165700,
+        "final": 132560,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4044,9 +3056,9 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
@@ -4062,15 +3074,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -4084,7 +3096,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "sql",
@@ -4092,8 +3105,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 304920,
-        "final": 243936,
+        "list": 320200,
+        "final": 256160,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4105,9 +3118,9 @@
       },
       "CL": {
         "list": 772200,
-        "final": 386100,
+        "final": 308880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1787500,
@@ -4123,15 +3136,15 @@
       },
       "MX": {
         "list": 9130,
-        "final": 4565,
+        "final": 3652,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1265,
-        "final": 633,
+        "final": 506,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 736,
@@ -4145,7 +3158,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "scrum-metodologias-agiles",
@@ -4153,8 +3167,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 153615,
-        "final": 122892,
+        "list": 161300,
+        "final": 129040,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4166,9 +3180,9 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
@@ -4184,15 +3198,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -4206,7 +3220,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "tableau",
@@ -4214,8 +3229,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 175560,
-        "final": 140448,
+        "list": 184300,
+        "final": 147440,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4227,9 +3242,9 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
@@ -4245,15 +3260,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -4267,7 +3282,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "testing-qa-manual",
@@ -4275,8 +3291,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 239085,
-        "final": 191268,
+        "list": 251000,
+        "final": 200800,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4288,9 +3304,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -4306,15 +3322,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -4328,7 +3344,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "tecnicas-de-negociacion",
@@ -4336,8 +3353,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 94000,
-        "final": 75200,
+        "list": 98700,
+        "final": 78960,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4349,9 +3366,9 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
@@ -4367,15 +3384,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -4389,7 +3406,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "ux-research",
@@ -4397,8 +3415,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 205800,
-        "final": 164640,
+        "list": 216100,
+        "final": 172880,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4410,9 +3428,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -4428,15 +3446,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -4450,7 +3468,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "ux-writing",
@@ -4458,8 +3477,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 205800,
-        "final": 164640,
+        "list": 216100,
+        "final": 172880,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4471,9 +3490,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -4489,15 +3508,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -4511,7 +3530,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "productos-ai",
@@ -4519,8 +3539,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 197800,
-        "final": 158240,
+        "list": 207700,
+        "final": 166160,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4532,9 +3552,9 @@
       },
       "CL": {
         "list": 575300,
-        "final": 287650,
+        "final": 230120,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1329900,
@@ -4550,15 +3570,15 @@
       },
       "MX": {
         "list": 6710,
-        "final": 3355,
+        "final": 2684,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1210,
-        "final": 605,
+        "final": 484,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 565,
@@ -4572,7 +3592,8 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   },
   {
     "id": "wordpress",
@@ -4580,8 +3601,8 @@
     "tipo": "curso",
     "precios": {
       "AR": {
-        "list": 159390,
-        "final": 127512,
+        "list": 167400,
+        "final": 133920,
         "currency": "ARS",
         "discount_pct": 20
       },
@@ -4593,9 +3614,9 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
@@ -4611,15 +3632,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -4633,6 +3654,7 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    }
+    },
+    "promo": "CODERWEEN 💣"
   }
 ]

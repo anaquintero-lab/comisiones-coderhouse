@@ -12,9 +12,9 @@ configurado y sin consumir tokens de Claude.
 Qué hace, en orden:
   1. Lee los cursos que la calculadora ya tiene cargados hoy en
      index.html (window.__PRECIOS_DATA__).
-  2. Vuelve a scrapear el catálogo público de coderhouse.com (precio de
-     lista y precio final por país, para cada curso/carrera con página
-     pública).
+  2. Vuelve a scrapear el catálogo público de coderhouse.com: precio de
+     lista, precio final y nombre de la promoción vigente (ej. "CODERWEEN
+     💣"), por país, para cada CURSO individual con página pública.
   3. Para cada curso ya cargado, refresca sus precios con lo que
      encontró en el sitio. Si un curso dejó de tener página pública (o el
      scraping falla para ese curso puntual), conserva el último precio
@@ -25,6 +25,20 @@ Qué hace, en orden:
   5. Reescribe window.__PRECIOS_DATA__ en index.html con la lista
      actualizada, guarda una copia en precios_coderhouse.json, y actualiza
      el cartel de "última actualización" de la calculadora.
+
+IMPORTANTE — cursos vs. carreras: la calculadora de cambios muestra
+precios de CURSOS individuales (un estudiante cambia de un curso a otro),
+nunca de carreras completas. coderhouse.com también tiene una página
+pública por cada carrera (ej. "Carrera de Data Analytics"), y bastantes
+veces su título normalizado coincide con el de un curso individual que
+forma parte de ella (ej. "Data Analytics" a secas). Si ambas páginas
+conviven en la calculadora con el mismo título visible, el desplegable
+"Curso" las muestra como dos opciones idénticas sin forma de distinguirlas
+— y elegir una puede terminar mostrando el precio (mucho mayor) de la
+carrera completa en vez del curso suelto. Por eso este script SOLO trae y
+conserva páginas de tipo "curso": cualquier página de "carrera" se
+descarta explícitamente, tanto al sumar cursos nuevos como al limpiar los
+que ya hubiera quedado cargados de una corrida anterior.
 
 Uso:
   python3 scripts/scraper_precios_web.py
@@ -41,6 +55,7 @@ import re
 import sys
 import datetime
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from html import unescape
 from zoneinfo import ZoneInfo
 
 import requests
@@ -116,6 +131,23 @@ def _precios_extraer_titulo(html):
     return m.group(1).strip() if m else None
 
 
+def _precios_extraer_promo(html):
+    """Nombre/etiqueta de la campaña de descuento vigente en coderhouse.com
+    (ej. "CODERWEEN 💣", "Black Friday"), si hay alguna activa. Se muestra
+    en la franja de descuentos de cada página pública, en el bloque
+    data-framer-name="Badge WW". Devuelve None si no hay ninguna campaña
+    corriendo (la franja no está presente) o no se pudo leer."""
+    m = re.search(r'data-framer-name="Badge WW"[^>]*>', html)
+    if not m:
+        return None
+    seg = html[m.end():m.end() + 600]
+    pm = re.search(r"<p[^>]*>([^<]*)</p>", seg)
+    if not pm:
+        return None
+    texto = unescape(pm.group(1)).strip()
+    return texto or None
+
+
 def _precios_fetch_pagina(path, prefix):
     url = f"https://www.coderhouse.com/{prefix}/{path}" if prefix else f"https://www.coderhouse.com/{path}"
     try:
@@ -135,6 +167,7 @@ def _precios_fetch_pagina(path, prefix):
 def _precios_scrapear_curso(path):
     cache = {}
     titulo = None
+    promo = None
     precios_por_pais = {}
     for pais, prefix in PRECIOS_COUNTRY_PREFIX.items():
         if prefix not in cache:
@@ -144,6 +177,8 @@ def _precios_scrapear_curso(path):
             continue
         if titulo is None:
             titulo = _precios_extraer_titulo(html)
+        if promo is None:
+            promo = _precios_extraer_promo(html)
         tachado = _precios_extraer_par(html, "Tachado")
         total = _precios_extraer_par(html, "Total")
         if not tachado or not total:
@@ -157,28 +192,34 @@ def _precios_scrapear_curso(path):
         precios_por_pais[pais] = {
             "list": lista, "final": final, "currency": moneda, "discount_pct": descuento_pct,
         }
-    return titulo, precios_por_pais
+    return titulo, precios_por_pais, promo
 
 
 def scrape_catalogo_precios():
-    """Trae precio de lista + final por país para cada curso/carrera público
-    de coderhouse.com. Devuelve {path: {"titulo", "tipo", "precios"}}."""
-    paths = _precios_descubrir_urls_catalogo()
+    """Trae precio de lista + final + promo vigente por país para cada
+    CURSO individual público de coderhouse.com (las páginas de carrera se
+    descartan a propósito — ver nota al principio del archivo: evita que
+    la calculadora confunda el precio de una carrera con el del curso
+    suelto cuando comparten nombre). Devuelve
+    {path: {"titulo", "tipo", "precios", "promo"}}, con "tipo" siempre
+    "curso"."""
+    paths = [p for p in _precios_descubrir_urls_catalogo() if p.startswith("cursos/")]
     catalogo = {}
     with ThreadPoolExecutor(max_workers=6) as ex:
         futs = {ex.submit(_precios_scrapear_curso, p): p for p in paths}
         for fut in as_completed(futs):
             path = futs[fut]
             try:
-                titulo, precios = fut.result()
+                titulo, precios, promo = fut.result()
             except Exception as e:
                 print(f"  aviso: fallo scrapeando {path}: {e}", file=sys.stderr)
                 continue
             if not titulo or not precios:
                 continue
-            tipo = "carrera" if path.startswith("carreras/") else "curso"
             titulo_limpio = titulo.replace("Curso de ", "").replace("Carrera de ", "").strip()
-            catalogo[path] = {"titulo": titulo_limpio, "tipo": tipo, "precios": precios}
+            catalogo[path] = {
+                "titulo": titulo_limpio, "tipo": "curso", "precios": precios, "promo": promo,
+            }
     return catalogo
 
 
@@ -203,36 +244,43 @@ def leer_precios_actuales():
 
 def refrescar_precios(precios_actuales, catalogo):
     """Devuelve la lista de precios actualizada: cada curso ya cargado
-    mantiene su lugar y su id, pero con los precios frescos del catálogo
-    público cuando están disponibles (si no, conserva el precio anterior).
-    Los cursos nuevos del catálogo que todavía no estaban cargados se
-    agregan al final, igual que hace construir_precios_data()."""
-    # Indexa el catálogo por slug (último segmento del path), guardando
-    # también el "tipo" para poder distinguir cursos/carreras que
-    # compartan slug.
+    mantiene su lugar y su id, pero con los precios (y la promo vigente)
+    frescos del catálogo público cuando están disponibles (si no, conserva
+    el precio anterior). Los cursos nuevos del catálogo que todavía no
+    estaban cargados se agregan al final.
+
+    `catalogo` ya viene filtrado a solo tipo "curso" (ver
+    scrape_catalogo_precios): cualquier entrada de tipo "carrera" que haya
+    quedado cargada de una corrida anterior a este arreglo se descarta acá,
+    para no mezclar nunca el precio de una carrera con el de un curso
+    individual del mismo nombre."""
     por_slug = {}
     for path, info in catalogo.items():
         slug = path.split("/")[-1]
-        por_slug.setdefault(slug, {})[info["tipo"]] = info
+        por_slug[slug] = info  # catalogo ya es solo "curso": un slug, una entrada
 
     actualizados = []
     slugs_vistos = set()
     cambiados = 0
+    descartadas_carrera = 0
     for curso in precios_actuales:
+        if curso.get("tipo") == "carrera":
+            # Limpieza de una corrida anterior a este arreglo: la
+            # calculadora de cambios es solo de cursos individuales.
+            descartadas_carrera += 1
+            continue
         slug = curso.get("id")
         slugs_vistos.add(slug)
-        opciones = por_slug.get(slug)
-        info_fresca = None
-        if opciones:
-            info_fresca = opciones.get(curso.get("tipo")) or next(iter(opciones.values()))
+        info_fresca = por_slug.get(slug)
         if info_fresca:
             if info_fresca["precios"] != curso.get("precios"):
                 cambiados += 1
             actualizados.append({
                 "id": slug,
                 "titulo": info_fresca["titulo"],
-                "tipo": info_fresca["tipo"],
+                "tipo": "curso",
                 "precios": info_fresca["precios"],
+                "promo": info_fresca.get("promo"),
             })
         else:
             # No se encontró en el scraping de hoy (sitio caído para esa
@@ -241,17 +289,21 @@ def refrescar_precios(precios_actuales, catalogo):
             actualizados.append(curso)
 
     nuevos = 0
-    for path, info in catalogo.items():
-        slug = path.split("/")[-1]
+    for slug, info in por_slug.items():
         if slug in slugs_vistos:
             continue
         actualizados.append({
-            "id": slug, "titulo": info["titulo"], "tipo": info["tipo"], "precios": info["precios"],
+            "id": slug, "titulo": info["titulo"], "tipo": "curso",
+            "precios": info["precios"], "promo": info.get("promo"),
         })
         nuevos += 1
 
     actualizados.sort(key=lambda c: c["titulo"])
-    print(f"  {cambiados} cursos con precio distinto al anterior, {nuevos} cursos nuevos", file=sys.stderr)
+    print(
+        f"  {cambiados} cursos con precio distinto al anterior, {nuevos} cursos nuevos, "
+        f"{descartadas_carrera} carreras descartadas (la calculadora es solo de cursos individuales)",
+        file=sys.stderr,
+    )
     return actualizados
 
 
