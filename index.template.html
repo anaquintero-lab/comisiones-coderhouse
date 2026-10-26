@@ -90,8 +90,9 @@
   <div id="tab-panel-calculadora" class="tab-panel">
     <div class="calc-update-bar">
       <span class="calc-update-timestamp" id="precios-last-updated">Precios: ver fecha del último scrapeo automático en el historial del repo</span>
-      <a class="calc-update-btn" href="https://github.com/anaquintero-lab/comisiones-coderhouse/actions/workflows/scraper.yml" target="_blank" rel="noopener"
-         title="Abre GitHub Actions para correr el scraper de precios públicos ahora mismo (también corre solo todos los días)">🔄 Actualizar precios</a>
+      <button type="button" id="calc-update-btn" class="calc-update-btn"
+         data-fallback-href="https://github.com/anaquintero-lab/comisiones-coderhouse/actions"
+         title="Trae el precio actual de coderhouse.com para el curso seleccionado (además, un robot programado actualiza todos los precios todos los días)">🔄 Actualizar precios</button>
     </div>
     <section class="card calc-card">
       <div class="calc-grid">
@@ -125,6 +126,10 @@
             <span class="field-icon" aria-hidden="true">👤</span>
             <select id="calc-curso" class="filter-input"></select>
           </div>
+        </div>
+        <div class="control-group">
+          <label class="calc-reset-label" aria-hidden="true">&nbsp;</label>
+          <button type="button" id="calc-reset-btn" class="btn-reset calc-reset-btn">🧹 Limpiar filtros</button>
         </div>
       </div>
       <p class="calc-note" id="calc-note"></p>
@@ -342,6 +347,7 @@
     transition: filter .15s;
   }
   #dash-root .calc-update-btn:hover { filter: brightness(.94); }
+  #dash-root .calc-update-btn:disabled { opacity: .65; cursor: wait; filter: none; }
 
   #dash-root .page-head { margin-bottom: 1.25rem; }
   #dash-root .page-title {
@@ -421,6 +427,7 @@
     cursor: pointer;
   }
   #dash-root .btn-reset:hover { color: var(--ch-accent-ink); background: var(--ch-ink); border-color: var(--ch-ink); }
+  #dash-root .calc-reset-btn { width: 100%; }
 
   #dash-root .count-line {
     margin: .6rem 0 0 0;
@@ -1049,6 +1056,15 @@
   const copyFinalBtn = document.getElementById('calc-copy-final');
   const copyComisionBtn = document.getElementById('calc-copy-comision');
   const copyCursoBtn = document.getElementById('calc-copy-curso');
+  const calcUpdateBtn = document.getElementById('calc-update-btn');
+  const calcUpdateTimestampEl = document.getElementById('precios-last-updated');
+
+  // Pegá acá la URL de tu Cloudflare Worker (ver cloudflare/precios-worker.js)
+  // para que el botón "Actualizar precios" traiga el precio del curso
+  // seleccionado directo de coderhouse.com con un solo clic. Mientras esté
+  // vacía, el botón abre GitHub Actions como hasta ahora (la actualización
+  // automática diaria programada sigue funcionando en los dos casos).
+  const PRECIOS_WORKER_URL = '';
 
   if (!calcPaisEl || !PRECIOS) return; // seguridad si el markup no está (no debería pasar)
 
@@ -1099,13 +1115,16 @@
     const filtrados = texto
       ? cursos.filter((c) => c.titulo.toLowerCase().includes(texto))
       : cursos;
+    // Arranca siempre en blanco: el usuario elige el curso a propósito, no
+    // se le precarga uno (ej: 'Administración de Empresas') de entrada.
     selectEl.replaceChildren(
+      new Option('-- Seleccionar curso --', ''),
       ...filtrados.map((c) => new Option(c.titulo, c.id))
     );
     if (filtrados.some((c) => c.id === prevValue)) {
       selectEl.value = prevValue;
-    } else if (filtrados.length) {
-      selectEl.value = filtrados[0].id;
+    } else {
+      selectEl.value = '';
     }
   }
 
@@ -1134,6 +1153,54 @@
         : 'Sin descuento vigente.';
       valComisionEl.textContent = formatMoney(Math.round(precioActual.list * 0.25), precioActual.currency, paisCod);
       valDestinoEl.textContent = formatMoney(Math.round(precioActual.list * 0.5), precioActual.currency, paisCod);
+    }
+  }
+
+  async function actualizarPreciosEnVivo() {
+    if (!calcUpdateBtn) return;
+
+    if (!PRECIOS_WORKER_URL) {
+      // Todavía no se configuró el Worker: igual que antes, abre GitHub
+      // Actions para correr el scraper manualmente (página general: no
+      // depende de que exista un archivo .yml con un nombre puntual).
+      window.open(calcUpdateBtn.dataset.fallbackHref, '_blank', 'noopener');
+      return;
+    }
+
+    const cursoActual = cursoPorId(calcCursoEl.value);
+    if (!cursoActual) {
+      if (calcUpdateTimestampEl) {
+        calcUpdateTimestampEl.textContent = 'Elegí primero un curso en el desplegable para poder actualizar su precio en vivo.';
+      }
+      return;
+    }
+
+    const textoOriginal = calcUpdateBtn.textContent;
+    calcUpdateBtn.disabled = true;
+    calcUpdateBtn.textContent = '⏳ Actualizando…';
+
+    try {
+      const resp = await fetch(`${PRECIOS_WORKER_URL}?curso=${encodeURIComponent(cursoActual.id)}`);
+      const datos = await resp.json();
+      if (!resp.ok) throw new Error((datos && datos.error) || `error ${resp.status}`);
+
+      cursoActual.precios = { ...cursoActual.precios, ...datos.precios };
+      if (datos.promo) cursoActual.promo = datos.promo;
+      recalcular();
+
+      const hora = new Date().toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' });
+      if (calcUpdateTimestampEl) {
+        calcUpdateTimestampEl.textContent = `✅ Precio de "${cursoActual.titulo}" actualizado en vivo desde coderhouse.com a las ${hora}`;
+      }
+      calcUpdateBtn.textContent = '✅ Actualizado';
+    } catch (err) {
+      if (calcUpdateTimestampEl) {
+        calcUpdateTimestampEl.textContent = `⚠️ No se pudo traer el precio en vivo (${err.message}). Probá de nuevo en un momento.`;
+      }
+      calcUpdateBtn.textContent = '⚠️ Reintentar';
+    } finally {
+      calcUpdateBtn.disabled = false;
+      setTimeout(() => { calcUpdateBtn.textContent = textoOriginal; }, 2500);
     }
   }
 
@@ -1168,8 +1235,19 @@
     }
   }
 
+  const calcResetBtn = document.getElementById('calc-reset-btn');
+  function limpiarFiltrosCalculadora() {
+    calcBuscarEl.value = '';
+    calcPaisEl.value = 'AR';
+    poblarSelectCursos(calcCursoEl, PRECIOS, '');
+    calcCursoEl.value = ''; // fuerza el placeholder, aunque el curso previo siga en la lista completa
+    recalcular();
+  }
+
   calcPaisEl.addEventListener('change', recalcular);
   calcCursoEl.addEventListener('change', recalcular);
+  if (calcUpdateBtn) calcUpdateBtn.addEventListener('click', actualizarPreciosEnVivo);
+  if (calcResetBtn) calcResetBtn.addEventListener('click', limpiarFiltrosCalculadora);
   calcBuscarEl.addEventListener('input', () => {
     poblarSelectCursos(calcCursoEl, PRECIOS, calcBuscarEl.value);
     recalcular();
