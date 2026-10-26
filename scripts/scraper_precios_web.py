@@ -90,12 +90,12 @@ PRECIOS_AMOUNT_RE = re.compile(
 
 # Palabras clave que, si aparecen en el nombre de un bloque/contenedor que
 # envuelve un precio "Tachado"/"Total", indican que ese precio NO es del
-# curso individual sino de una oferta de Carrera/combo/bundle (ej. la
-# tarjeta "Este curso forma parte de una carrera" que coderhouse.com
+# curso individual sino de una oferta de Carrera/combo/bundle/upgrade (ej.
+# la tarjeta "Este curso forma parte de una carrera" que coderhouse.com
 # muestra dentro de la página del curso, ofreciendo el upgrade a la
 # carrera completa). Un precio dentro de uno de estos bloques se descarta
 # de forma explícita, sin importar si además "gana" por mayoría.
-PRECIOS_CONTENEDOR_SOSPECHOSO_RE = re.compile(r"carrera|bundle|combo", re.IGNORECASE)
+PRECIOS_CONTENEDOR_SOSPECHOSO_RE = re.compile(r"carrera|bundle|combo|upgrade", re.IGNORECASE)
 
 PRECIOS_STOPWORDS = {
     "de", "la", "el", "los", "las", "y", "a", "en", "para", "con", "del",
@@ -120,9 +120,9 @@ def _precios_descubrir_urls_catalogo():
 
 def _precios_contenedor_es_sospechoso(html, pos):
     """True si el bloque de precio que empieza en `pos` está anidado dentro
-    de un contenedor cuyo nombre (data-framer-name) menciona carrera, bundle
-    o combo — es decir, una oferta de upgrade a Carrera y no el precio del
-    curso suelto. Se mira hacia atrás en el HTML (los contenedores padres
+    de un contenedor cuyo nombre (data-framer-name) menciona carrera,
+    bundle, combo o upgrade — es decir, una oferta de upgrade a Carrera y no
+    el precio del curso suelto. Se mira hacia atrás en el HTML (los contenedores padres
     quedan antes en el documento) y se revisan los últimos nombres de bloque
     vistos antes del precio; mirar solo los últimos (en vez de todo el HTML
     anterior) evita falsos positivos por menciones de "carrera" lejanas, como
@@ -147,7 +147,7 @@ def _precios_extraer_par(html, label):
     curso forma parte de una carrera" con su propio precio, si alguna vez
     coderhouse.com la arma con las mismas etiquetas), se descarta de
     entrada cualquier ocurrencia anidada en un contenedor de
-    carrera/bundle/combo, y de las que quedan se toman TODAS y se queda con
+    carrera/bundle/combo/upgrade, y de las que quedan se toman TODAS y se queda con
     el valor que se repite más veces (la moda), nunca con el primero a
     ciegas: así, un único valor "intruso" que no coincida con el resto
     también queda descartado automáticamente."""
@@ -156,7 +156,7 @@ def _precios_extraer_par(html, label):
         if _precios_contenedor_es_sospechoso(html, m.start()):
             print(
                 f"  aviso: ocurrencia de \"{label}\" descartada por estar dentro de un bloque "
-                f"de Carrera/combo/bundle (no es el precio del curso suelto)",
+                f"de Carrera/combo/bundle/upgrade (no es el precio del curso suelto)",
                 file=sys.stderr,
             )
             continue
