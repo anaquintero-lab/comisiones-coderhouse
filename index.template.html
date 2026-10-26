@@ -92,7 +92,7 @@
       <span class="calc-update-timestamp" id="precios-last-updated">Precios: ver fecha del último scrapeo automático en el historial del repo</span>
       <button type="button" id="calc-update-btn" class="calc-update-btn"
          data-fallback-href="https://github.com/anaquintero-lab/comisiones-coderhouse/actions"
-         title="Trae el precio actual de coderhouse.com para el curso seleccionado (además, un robot programado actualiza todos los precios todos los días)">🔄 Actualizar precios</button>
+         title="Esto NO trae el precio al instante: abre GitHub Actions para forzar una actualización manual. Los precios también se actualizan solos todos los días.">🔄 Forzar actualización (GitHub Actions)</button>
     </div>
     <section class="card calc-card">
       <div class="calc-grid">
@@ -1065,6 +1065,19 @@
   // vacía, el botón abre GitHub Actions como hasta ahora (la actualización
   // automática diaria programada sigue funcionando en los dos casos).
   const PRECIOS_WORKER_URL = '';
+
+  // El texto y el tooltip del botón reflejan honestamente qué hace el
+  // clic en cada modo, para que nunca den a entender una actualización
+  // instantánea que todavía no está disponible.
+  if (calcUpdateBtn) {
+    if (PRECIOS_WORKER_URL) {
+      calcUpdateBtn.textContent = '🔄 Actualizar precios';
+      calcUpdateBtn.title = 'Trae el precio actual de coderhouse.com para el curso seleccionado, al instante.';
+    } else {
+      calcUpdateBtn.textContent = '🔄 Forzar actualización (GitHub Actions)';
+      calcUpdateBtn.title = 'Esto NO trae el precio al instante: abre GitHub Actions en una pestaña nueva para forzar ahora mismo una actualización manual (tardará uno o dos minutos y pedirá iniciar sesión en GitHub con permisos en el repositorio). De todos modos, los precios también se actualizan solos todos los días sin que nadie tenga que tocar este botón.';
+    }
+  }
 
   if (!calcPaisEl || !PRECIOS) return; // seguridad si el markup no está (no debería pasar)
 

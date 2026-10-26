@@ -54,6 +54,7 @@ import os
 import re
 import sys
 import datetime
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from html import unescape
 from zoneinfo import ZoneInfo
@@ -109,26 +110,79 @@ def _precios_descubrir_urls_catalogo():
 
 
 def _precios_extraer_par(html, label):
-    m = re.search(rf'data-framer-name="{label}[^"]*"', html)
-    if not m:
+    """Precio (monto, moneda) para un bloque data-framer-name="<label> ..."
+    (ej. "Tachado"/"Total").
+
+    Framer repite el mismo bloque de precio varias veces en la misma
+    página (una copia por variante responsive: mobile, tablet, desktop),
+    así que una página de curso normal trae 3 a 5 ocurrencias de
+    "Tachado"/"Total" con el MISMO valor. Por las dudas de que una de esas
+    ocurrencias corresponda a otra cosa (ej. una tarjeta de upsell "Este
+    curso forma parte de una carrera" con su propio precio, si alguna vez
+    coderhouse.com la arma con las mismas etiquetas), se toman TODAS las
+    ocurrencias y se queda con el valor que se repite más veces (la moda),
+    nunca con el primero a ciegas: así, un único valor "intruso" que no
+    coincida con el resto queda descartado automáticamente."""
+    valores = []
+    for m in re.finditer(rf'data-framer-name="{label}[^"]*"', html):
+        seg = html[m.end():m.end() + 400]
+        am = PRECIOS_AMOUNT_RE.search(seg)
+        if not am:
+            continue
+        if am.group(1):
+            monto_str, moneda = am.group(1), am.group(2)
+        else:
+            monto_str, moneda = am.group(3), am.group(4)
+        try:
+            valores.append((int(monto_str.replace(".", "").replace(",", "")), moneda))
+        except ValueError:
+            continue
+    if not valores:
         return None
-    seg = html[m.end():m.end() + 400]
-    am = PRECIOS_AMOUNT_RE.search(seg)
-    if not am:
+    # Moda: el par (monto, moneda) que más veces se repite. Con un empate,
+    # Counter.most_common conserva el orden de aparición, así que se queda
+    # con el primero visto — de nuevo, nunca un valor que aparezca solo.
+    conteo = Counter(valores)
+    valor_mas_comun, veces = conteo.most_common(1)[0]
+    if veces == 1 and len(valores) > 1:
+        # Ninguno se repite (todas las ocurrencias traen valores distintos
+        # entre sí): la página no es confiable para este campo, mejor no
+        # adivinar y descartar en vez de arriesgar el valor equivocado.
+        print(
+            f"  aviso: valores de \"{label}\" inconsistentes entre sí en la misma página "
+            f"({valores}); se descarta este campo para evitar un precio incorrecto",
+            file=sys.stderr,
+        )
         return None
-    if am.group(1):
-        monto_str, moneda = am.group(1), am.group(2)
-    else:
-        monto_str, moneda = am.group(3), am.group(4)
-    try:
-        return int(monto_str.replace(".", "").replace(",", "")), moneda
-    except ValueError:
-        return None
+    return valor_mas_comun
 
 
 def _precios_extraer_titulo(html):
     m = re.search(r"<title[^>]*>([^<|]+)", html, re.IGNORECASE)
     return m.group(1).strip() if m else None
+
+
+def _precios_es_pagina_de_curso(titulo, path):
+    """Chequeo estricto de que la página NO es de una carrera, por más que
+    la URL ya haya pasado el filtro de "cursos/" al leer el sitemap: el
+    <title> de toda página de carrera en coderhouse.com empieza con
+    "Carrera de …" (ej. "Carrera de Data Analytics | Coderhouse"). El
+    título de un curso individual no sigue un patrón único — la mayoría
+    empieza con "Curso de …" pero no todos (ej. "Programación Backend
+    III: Testing y Escalabilidad") — así que acá solo se descarta
+    explícitamente lo que sí es inconfundiblemente una carrera, en vez de
+    exigir un prefijo fijo que terminaría rechazando cursos válidos."""
+    if not titulo:
+        return False
+    titulo_norm = titulo.strip().lower()
+    if titulo_norm.startswith("carrera de") or titulo_norm.startswith("carrera "):
+        print(
+            f"  aviso: {path} descartado — el título de la página es de una CARRERA "
+            f"(\"{titulo.strip()}\"), no de un curso individual",
+            file=sys.stderr,
+        )
+        return False
+    return True
 
 
 def _precios_extraer_promo(html):
@@ -177,6 +231,11 @@ def _precios_scrapear_curso(path):
             continue
         if titulo is None:
             titulo = _precios_extraer_titulo(html)
+            if titulo is not None and not _precios_es_pagina_de_curso(titulo, path):
+                # No es una página de curso individual (o no se pudo
+                # confirmarlo): se descarta por completo, no solo el país
+                # actual, para no terminar con un precio de otra cosa.
+                return None, {}, None
         if promo is None:
             promo = _precios_extraer_promo(html)
         tachado = _precios_extraer_par(html, "Tachado")
