@@ -1167,8 +1167,26 @@
   calcCursoEl.addEventListener('change', recalcular);
   if (calcResetBtn) calcResetBtn.addEventListener('click', limpiarFiltrosCalculadora);
   calcBuscarEl.addEventListener('input', () => {
-    poblarSelectCursos(calcCursoEl, PRECIOS, calcBuscarEl.value);
+    const texto = calcBuscarEl.value;
+    poblarSelectCursos(calcCursoEl, PRECIOS, texto);
+
+    // Búsqueda dinámica: si lo que se escribió deja un solo curso posible
+    // en el desplegable, se selecciona solo y la tabla/métricas se
+    // actualizan al toque, sin que haga falta además abrir el desplegable
+    // y elegirlo a mano. Con varias coincidencias (ej. "curso" o "Python")
+    // se deja el desplegable filtrado para que el usuario elija cuál.
+    const opcionesReales = Array.from(calcCursoEl.options).filter((o) => o.value !== '');
+    if (opcionesReales.length === 1) {
+      calcCursoEl.value = opcionesReales[0].value;
+    }
+
     recalcular();
+
+    if (texto.trim() && opcionesReales.length === 0) {
+      descuentoInfoEl.textContent = `No se encontró ningún curso que coincida con "${texto.trim()}".`;
+    } else if (texto.trim() && opcionesReales.length > 1 && !calcCursoEl.value) {
+      descuentoInfoEl.textContent = `${opcionesReales.length} cursos coinciden con "${texto.trim()}" — elegí uno en el desplegable.`;
+    }
   });
 
   [

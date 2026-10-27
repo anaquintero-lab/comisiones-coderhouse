@@ -59,7 +59,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ai-automation",
@@ -121,7 +121,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ai-automation-avanzado",
@@ -183,7 +183,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ai-engineering",
@@ -245,7 +245,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "administracion-de-empresas",
@@ -307,7 +307,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "business-analytics",
@@ -338,6 +338,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -363,7 +369,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "canva",
@@ -425,7 +431,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ciber-seguridad",
@@ -487,7 +493,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "cloudcomputing-aws",
@@ -549,7 +555,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "community-manager",
@@ -611,7 +617,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "contabilidad",
@@ -673,7 +679,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "contenido-para-redesociales",
@@ -735,7 +741,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "copywriting",
@@ -797,7 +803,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "creacion-de-contenido-con-ai",
@@ -859,7 +865,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "customer-experience",
@@ -921,7 +927,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "data-analytics",
@@ -983,7 +989,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "data-engineering",
@@ -1045,7 +1051,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "data-science-fundamentos-para-la-ciencia-de-datos",
@@ -1107,7 +1113,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "data-science-machine-learning-para-la-ciencia-de-datos",
@@ -1169,7 +1175,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "data-science-nlp-deep-learning-aplicado-a-ciencia-de-datos",
@@ -1231,7 +1237,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "desarrollo-web-online",
@@ -1293,7 +1299,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "desarrollo-aplicaciones",
@@ -1355,7 +1361,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "devops-cloud",
@@ -1417,7 +1423,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ux-ui-online",
@@ -1479,7 +1485,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ux-ui-avanzado-online",
@@ -1541,7 +1547,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ecommerce-online",
@@ -1603,7 +1609,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "fotografia-rrss",
@@ -1665,7 +1671,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "excel",
@@ -1727,7 +1733,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "excel-avanzado",
@@ -1789,7 +1795,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "finanzas-personales",
@@ -1851,7 +1857,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "forward-deployed-engineer",
@@ -1913,7 +1919,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "fundamentos-diseno-grafico",
@@ -1975,7 +1981,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "fundamentos-del-marketing-digital",
@@ -2037,7 +2043,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "google-ads-v2",
@@ -2099,7 +2105,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "growth-marketing",
@@ -2161,7 +2167,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "introduccion-inteligencia-artificial",
@@ -2223,7 +2229,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "javascript",
@@ -2285,7 +2291,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "liderazgo-gestion-equipos",
@@ -2347,7 +2353,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "oratoria",
@@ -2409,7 +2415,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "marketing-digital-ch-online",
@@ -2471,7 +2477,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "photoshop-e-illustrator-online",
@@ -2533,7 +2539,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "power-bi",
@@ -2564,6 +2570,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 616,
+        "final": 308,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 5720,
         "final": 2288,
@@ -2589,7 +2601,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "product-manager-online",
@@ -2651,7 +2663,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "programacion-backend-desarrollo-avanzado-de-backend",
@@ -2713,7 +2725,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "programacion-backend-diseno-y-arquitectura-backend",
@@ -2775,7 +2787,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "programacion-backend-testing-y-escalabilidad-backend",
@@ -2837,7 +2849,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "prototipado",
@@ -2899,7 +2911,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "python",
@@ -2961,7 +2973,69 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
+  },
+  {
+    "id": "qa-automation",
+    "titulo": "QA Automation",
+    "tipo": "curso",
+    "precios": {
+      "AR": {
+        "list": 251000,
+        "final": 200800,
+        "currency": "ARS",
+        "discount_pct": 20
+      },
+      "UY": {
+        "list": 18810,
+        "final": 9405,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "CL": {
+        "list": 627000,
+        "final": 250800,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "CO": {
+        "list": 1448700,
+        "final": 579480,
+        "currency": "COP",
+        "discount_pct": 60
+      },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 1045,
+        "final": 418,
+        "currency": "PEN",
+        "discount_pct": 60
+      },
+      "US": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      }
+    },
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "reactjs",
@@ -3023,7 +3097,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "seo-online",
@@ -3085,7 +3159,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "sql",
@@ -3104,11 +3178,23 @@
         "currency": "UYU",
         "discount_pct": 50
       },
+      "CL": {
+        "list": 772200,
+        "final": 308880,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
       "CO": {
         "list": 1787500,
         "final": 715000,
         "currency": "COP",
         "discount_pct": 60
+      },
+      "ES": {
+        "list": 935,
+        "final": 468,
+        "currency": "EUR",
+        "discount_pct": 50
       },
       "MX": {
         "list": 9130,
@@ -3135,7 +3221,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "scrum-metodologias-agiles",
@@ -3183,9 +3269,21 @@
         "final": 308,
         "currency": "PEN",
         "discount_pct": 60
+      },
+      "US": {
+        "list": 493,
+        "final": 247,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 493,
+        "final": 247,
+        "currency": "USD",
+        "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "tableau",
@@ -3204,11 +3302,23 @@
         "currency": "UYU",
         "discount_pct": 50
       },
+      "CL": {
+        "list": 495000,
+        "final": 198000,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
       "CO": {
         "list": 1174800,
         "final": 469920,
         "currency": "COP",
         "discount_pct": 60
+      },
+      "ES": {
+        "list": 616,
+        "final": 308,
+        "currency": "EUR",
+        "discount_pct": 50
       },
       "MX": {
         "list": 5720,
@@ -3235,7 +3345,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "testing-qa-manual",
@@ -3297,7 +3407,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "tecnicas-de-negociacion",
@@ -3359,7 +3469,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ux-research",
@@ -3421,7 +3531,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "ux-writing",
@@ -3483,7 +3593,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "productos-ai",
@@ -3545,7 +3655,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   },
   {
     "id": "wordpress",
@@ -3576,6 +3686,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 517,
+        "final": 259,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 5720,
         "final": 2288,
@@ -3601,6 +3717,6 @@
         "discount_pct": 50
       }
     },
-    "promo": "CODERWEEN 💣"
+    "promo": "CODERWEEN 🎃"
   }
 ]
