@@ -338,12 +338,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -2570,12 +2564,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 5720,
         "final": 2288,
@@ -3116,23 +3104,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 772200,
-        "final": 308880,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1787500,
         "final": 715000,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 935,
-        "final": 468,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 9130,
@@ -3207,18 +3183,6 @@
         "final": 308,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 💣"
@@ -3240,23 +3204,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1174800,
         "final": 469920,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 5720,
@@ -3623,12 +3575,6 @@
         "final": 469920,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 517,
-        "final": 259,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 5720,
