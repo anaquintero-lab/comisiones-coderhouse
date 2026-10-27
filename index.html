@@ -89,7 +89,7 @@
 
   <div id="tab-panel-calculadora" class="tab-panel">
     <div class="calc-update-bar">
-      <span class="calc-update-timestamp" id="precios-last-updated">Precios actualizados el 27/10/2026 18:21 (hora Argentina)</span>
+      <span class="calc-update-timestamp" id="precios-last-updated">Precios actualizados el 27/10/2026 18:14 (hora Argentina)</span>
     </div>
     <section class="card calc-card">
       <div class="calc-grid">
@@ -1076,6 +1076,38 @@
     return PRECIOS.find((c) => c.id === id) || null;
   }
 
+  // Busca en el catálogo completo por nombre, totalmente independiente del
+  // desplegable (nunca lo lee ni lo modifica). Devuelve el curso exacto a
+  // mostrar y, si no hay uno solo claro, cuántas coincidencias parciales
+  // hubo (para poder avisar sin "adivinar" cuál quiso decir el usuario).
+  // - Coincidencia exacta de título (sin importar mayúsculas/acentos de
+  //   más o de menos): gana siempre, aunque además matchee por substring
+  //   con otro curso (ej. "AI Automation" vs "AI Automation Avanzado").
+  // - Si no hay exacta pero sí una única coincidencia parcial: se usa esa.
+  // - Si hay 0 o varias parciales sin ganador exacto: no se muestra nada
+  //   todavía (se le pide al usuario completar el nombre), para no
+  //   adivinar y terminar mostrando el curso equivocado.
+  function buscarCursoPorTexto(texto) {
+    const t = texto.trim().toLowerCase();
+    if (!t) return { curso: null, coincidencias: 0 };
+    const exacto = PRECIOS.find((c) => c.titulo.toLowerCase() === t);
+    if (exacto) return { curso: exacto, coincidencias: 1 };
+    const parciales = PRECIOS.filter((c) => c.titulo.toLowerCase().includes(t));
+    if (parciales.length === 1) return { curso: parciales[0], coincidencias: 1 };
+    return { curso: null, coincidencias: parciales.length };
+  }
+
+  // Curso que corresponde mostrar/copiar en este momento: mientras el
+  // campo de búsqueda tenga texto, ÉL manda (buscando libremente en todo
+  // el catálogo, sin tocar el desplegable); si está vacío, manda el
+  // desplegable. Así ninguno de los dos controles fuerza ni secuestra el
+  // estado del otro — son dos formas independientes de elegir curso.
+  function cursoVisible() {
+    const texto = calcBuscarEl.value;
+    if (texto.trim()) return buscarCursoPorTexto(texto).curso;
+    return cursoPorId(calcCursoEl.value);
+  }
+
   function poblarSelectCursos(selectEl, cursos, filtroTexto) {
     const prevValue = selectEl.value;
     const texto = (filtroTexto || '').toLowerCase();
@@ -1097,11 +1129,19 @@
 
   function recalcular() {
     const paisCod = calcPaisEl.value;
-    const cursoActual = cursoPorId(calcCursoEl.value);
+    const texto = calcBuscarEl.value;
+    const cursoActual = cursoVisible();
 
     if (!cursoActual) {
       [valListaEl, valFinalEl, valComisionEl, valDestinoEl].forEach((el) => { el.textContent = '—'; });
-      descuentoInfoEl.textContent = 'Elegí un curso para ver sus precios.';
+      if (texto.trim()) {
+        const { coincidencias } = buscarCursoPorTexto(texto);
+        descuentoInfoEl.textContent = coincidencias === 0
+          ? `No se encontró ningún curso que coincida con "${texto.trim()}".`
+          : `${coincidencias} cursos coinciden con "${texto.trim()}" — completá el nombre para que coincida con uno solo (ej. "Avanzado").`;
+      } else {
+        descuentoInfoEl.textContent = 'Elegí un curso para ver sus precios.';
+      }
       return;
     }
 
@@ -1125,7 +1165,7 @@
 
   function valorParaCopiar(tipo) {
     const paisCod = calcPaisEl.value;
-    const cursoActual = cursoPorId(calcCursoEl.value);
+    const cursoActual = cursoVisible();
     if (!cursoActual) return null;
     const precioActual = cursoActual.precios[paisCod];
     if (!precioActual) return null;
@@ -1166,28 +1206,13 @@
   calcPaisEl.addEventListener('change', recalcular);
   calcCursoEl.addEventListener('change', recalcular);
   if (calcResetBtn) calcResetBtn.addEventListener('click', limpiarFiltrosCalculadora);
-  calcBuscarEl.addEventListener('input', () => {
-    const texto = calcBuscarEl.value;
-    poblarSelectCursos(calcCursoEl, PRECIOS, texto);
-
-    // Búsqueda dinámica: si lo que se escribió deja un solo curso posible
-    // en el desplegable, se selecciona solo y la tabla/métricas se
-    // actualizan al toque, sin que haga falta además abrir el desplegable
-    // y elegirlo a mano. Con varias coincidencias (ej. "curso" o "Python")
-    // se deja el desplegable filtrado para que el usuario elija cuál.
-    const opcionesReales = Array.from(calcCursoEl.options).filter((o) => o.value !== '');
-    if (opcionesReales.length === 1) {
-      calcCursoEl.value = opcionesReales[0].value;
-    }
-
-    recalcular();
-
-    if (texto.trim() && opcionesReales.length === 0) {
-      descuentoInfoEl.textContent = `No se encontró ningún curso que coincida con "${texto.trim()}".`;
-    } else if (texto.trim() && opcionesReales.length > 1 && !calcCursoEl.value) {
-      descuentoInfoEl.textContent = `${opcionesReales.length} cursos coinciden con "${texto.trim()}" — elegí uno en el desplegable.`;
-    }
-  });
+  // El campo de búsqueda es independiente del desplegable: busca libremente
+  // en TODO el catálogo (recalcular/cursoVisible ya saben priorizar el
+  // texto de búsqueda cuando no está vacío) y nunca toca el value ni las
+  // opciones de calcCursoEl, así que uno no "secuestra" al otro — se puede
+  // seguir tipeando sin que nada fuerce una selección a mitad de camino
+  // (ej. "AI Automation" -> "AI Automation Avanzado").
+  calcBuscarEl.addEventListener('input', recalcular);
 
   [
     [copyListaBtn, 'lista'],
