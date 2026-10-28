@@ -1,22 +1,16 @@
-name: Actualizar precios públicos (web)
-
-# Scrapea los precios públicos de coderhouse.com y actualiza la
-# Calculadora de cambios en index.html. A diferencia del workflow
-# "Actualizar comisiones Coderhouse", este NO necesita ningún secreto: solo
-# lee páginas públicas, así que corre solo, todos los días, sin configurar
-# nada ni consumir tokens de ninguna API.
+name: Actualizar comisiones Coderhouse
 
 on:
   schedule:
-    # Todos los días a las 09:00 hora Argentina (UTC-3) = 12:00 UTC
-    - cron: "0 12 * * *"
+    # Lunes, miércoles y viernes a las 13:00 hora Argentina (UTC-3) = 16:00 UTC
+    - cron: "0 16 * * 1,3,5"
   workflow_dispatch: {}  # permite correrlo manualmente desde la pestaña Actions
 
 permissions:
   contents: write
 
 jobs:
-  actualizar-precios:
+  actualizar:
     runs-on: ubuntu-latest
     steps:
       - name: Clonar el repo
@@ -30,37 +24,27 @@ jobs:
       - name: Instalar dependencias
         run: pip install requests
 
-      - name: Scrapear precios públicos y actualizar index.html
-        run: python3 scripts/scraper_precios_web.py
+      - name: Generar index.html actualizado
+        env:
+          CODERHOUSE_API_URL: https://api-prod.coderhouse.com/api
+          CLAUDE_STUDENT_API_KEY: ${{ secrets.CLAUDE_STUDENT_API_KEY }}
+          CLAUDE_FINANCE_API_KEY: ${{ secrets.CLAUDE_FINANCE_API_KEY }}
+        run: python3 scripts/actualizar_comisiones.py
 
       - name: Commitear y pushear si cambió algo
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Diagnóstico: si algún día vuelve a faltar un archivo en el
-          # commit, estas líneas lo muestran en el log de esta misma corrida
-          # (pestaña Actions → esta corrida → este paso) en vez de tener que
-          # adivinar por qué.
           echo "— git status antes de git add —"
           git status --porcelain
-          if [ -f .gitignore ]; then
-            echo "— .gitignore del repo —"
-            cat .gitignore
-          fi
 
-          # -f (force) es la parte importante: precios_coderhouse.json e
-          # index.html son archivos de datos que el repo SIEMPRE tiene que
-          # trackear, así que se agregan de forma forzada aunque algún
-          # .gitignore (del repo, o uno global de la cuenta/runner) los
-          # esté excluyendo por error — "git add" sin -f ignora en
-          # silencio (solo un aviso en el log) cualquier archivo
-          # alcanzado por una regla de .gitignore, y por eso podía pasar
-          # que index.html se comitee pero precios_coderhouse.json no.
-          git add -f index.html precios_coderhouse.json
+          # -f (force) por si algún día un .gitignore excluyera por error
+          # a index.html, igual que ya se hizo en el workflow de precios.
+          git add -f index.html
 
           echo "— archivos en stage para el commit —"
           git diff --cached --stat
 
-          git diff --cached --quiet || git commit -m "Actualizar precios públicos (automático)"
+          git diff --cached --quiet || git commit -m "Actualizar comisiones (automático)"
           git push
