@@ -332,12 +332,6 @@
         "currency": "CLP",
         "discount_pct": 60
       },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
       "ES": {
         "list": 770,
         "final": 385,
@@ -450,12 +444,6 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1448700,
         "final": 579480,
@@ -512,23 +500,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 687500,
-        "final": 275000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1652200,
         "final": 660880,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 847,
-        "final": 424,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 8250,
@@ -1317,12 +1293,6 @@
         "final": 11275,
         "currency": "UYU",
         "discount_pct": 50
-      },
-      "CL": {
-        "list": 772200,
-        "final": 308880,
-        "currency": "CLP",
-        "discount_pct": 60
       },
       "CO": {
         "list": 1787500,
@@ -3178,12 +3148,6 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 772200,
-        "final": 308880,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1787500,
         "final": 715000,
@@ -3308,12 +3272,6 @@
         "currency": "CLP",
         "discount_pct": 60
       },
-      "CO": {
-        "list": 1174800,
-        "final": 469920,
-        "currency": "COP",
-        "discount_pct": 60
-      },
       "ES": {
         "list": 616,
         "final": 308,
@@ -3364,23 +3322,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1448700,
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -3667,12 +3613,6 @@
         "final": 133920,
         "currency": "ARS",
         "discount_pct": 20
-      },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
       },
       "CL": {
         "list": 495000,
