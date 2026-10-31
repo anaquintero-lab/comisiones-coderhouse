@@ -10,26 +10,7 @@
 </head>
 <body>
 
-<!--
-  AVISO: esto es solo para el prototipo interno, mientras se gestiona el
-  acceso definitivo con login de Google (@coderhouse.com) descripto en
-  INSTRUCCIONES-PARA-IT.md. Una clave fija escrita en el HTML NO es
-  seguridad real: cualquiera que abra el código fuente de la página la ve.
-  Sirve únicamente para que la herramienta no quede a la vista de cualquiera
-  que entre al link mientras se prueba con el equipo. No usar esta versión
-  con datos reales de estudiantes ni dejarla así como versión final.
--->
-<div id="lock-screen" class="lock-screen">
-  <form id="lock-form" class="lock-box">
-    <h1 class="lock-title">Coderhouse Tools</h1>
-    <p class="lock-sub">Ingresá la clave de acceso.</p>
-    <input type="password" id="lock-input" class="lock-input" placeholder="Clave" autocomplete="off" autofocus>
-    <button type="submit" class="lock-btn">Entrar</button>
-    <p class="lock-error" id="lock-error" hidden>Clave incorrecta.</p>
-  </form>
-</div>
-
-<div id="dash-root" hidden>
+<div id="dash-root">
 <div class="page">
   <header class="page-head">
     <h1 class="page-title">Coderhouse Tools</h1>
@@ -677,33 +658,8 @@
 </style>
 
 <style>
-  /* --- Pantalla de clave (solo prototipo) --- */
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
-  .lock-screen {
-    position: fixed; inset: 0; z-index: 9999;
-    display: flex; align-items: center; justify-content: center;
-    background: #F8F2E8;
-    font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
-  }
-  .lock-box {
-    background: #fff; border: 1px solid #ece3d4; border-radius: 16px;
-    padding: 2.4rem 2rem; max-width: 20rem; width: 90%; text-align: center;
-  }
-  .lock-title { font-size: 1.15rem; margin: 0 0 .3rem; color: #171717; }
-  .lock-sub { color: #6b6258; font-size: .85rem; margin: 0 0 1.2rem; }
-  .lock-input {
-    width: 100%; font-family: inherit; font-size: .95rem;
-    padding: .65rem .8rem; border: 1.5px solid #ece3d4; border-radius: 10px;
-    margin-bottom: .8rem;
-  }
-  .lock-btn {
-    width: 100%; font-family: inherit; font-weight: 700; font-size: .9rem;
-    color: #fff; background: #FF632B; border: none; border-radius: 999px;
-    padding: .65rem 1rem; cursor: pointer;
-  }
-  .lock-btn:hover { filter: brightness(0.94); }
-  .lock-error { color: #d64545; font-size: .8rem; margin: .8rem 0 0; }
 </style>
 
 <script>
@@ -1437,15 +1393,12 @@
 </script>
 
 <script>
-  window.__ESTUDIANTES_DATA__ = [];
-  window.__ESTUDIANTES_CAMBIOS__ = [];
-</script>
-<script>
 (function () {
-  // --- Solapa Estudiantes: listado completo (datos reales del Back
-  // Office, actualizados automáticamente por scripts/actualizar_estudiantes.py) ---
-  const DATA = Array.isArray(window.__ESTUDIANTES_DATA__) ? window.__ESTUDIANTES_DATA__ : [];
-  const CAMBIOS = Array.isArray(window.__ESTUDIANTES_CAMBIOS__) ? window.__ESTUDIANTES_CAMBIOS__ : [];
+  // --- Solapa Estudiantes: listado completo. Trae los datos en tiempo de
+  // carga desde estudiantes_coderhouse.json (ruta relativa, mismo sitio),
+  // el archivo que escribe scripts/actualizar_estudiantes.py en cada
+  // corrida del workflow — esta página ya NO depende de que el script
+  // le inyecte datos directamente dentro del HTML.
   const EST_ESTADO_LABELS = { ACTIVE: 'Activa', COMPLETED: 'Finalizada', CANCELLED: 'Cancelada' };
 
   const estBuscarEl = document.getElementById('est-todos-buscar');
@@ -1456,79 +1409,91 @@
   const estInfoEl = document.getElementById('est-todos-info');
   const estCambiosBodyEl = document.getElementById('est-cambios-body');
   const estCambiosCard = document.getElementById('est-cambios-card');
+  if (!estBodyEl) return;
 
-  if (estBodyEl) {
-    const cursosDisponibles = Array.from(new Set(DATA.map((f) => f.curso).filter(Boolean))).sort();
-    estCursoEl.append(...cursosDisponibles.map((c) => new Option(c, c)));
-    const estadosDisponibles = Array.from(new Set(DATA.map((f) => f.estado).filter(Boolean))).sort();
-    estEstadoEl.append(...estadosDisponibles.map((e) => new Option(EST_ESTADO_LABELS[e] || e, e)));
+  let DATA = [];
 
-    function estRender() {
-      const texto = (estBuscarEl.value || '').trim().toLowerCase();
-      const curso = estCursoEl.value;
-      const comision = (estComisionEl.value || '').trim();
-      const estado = estEstadoEl.value;
+  function estRender() {
+    const texto = (estBuscarEl.value || '').trim().toLowerCase();
+    const curso = estCursoEl.value;
+    const comision = (estComisionEl.value || '').trim();
+    const estado = estEstadoEl.value;
 
-      const filtradas = DATA.filter((f) => {
-        if (curso && f.curso !== curso) return false;
-        if (estado && f.estado !== estado) return false;
-        if (comision && String(f.comision) !== comision) return false;
-        if (texto) {
-          const hay = `${f.nombre || ''} ${f.email || ''} ${f.curso || ''}`.toLowerCase();
-          if (!hay.includes(texto)) return false;
+    const filtradas = DATA.filter((f) => {
+      if (curso && f.curso !== curso) return false;
+      if (estado && f.estado !== estado) return false;
+      if (comision && String(f.comision) !== comision) return false;
+      if (texto) {
+        const hay = `${f.nombre || ''} ${f.email || ''} ${f.curso || ''}`.toLowerCase();
+        if (!hay.includes(texto)) return false;
+      }
+      return true;
+    });
+
+    estBodyEl.replaceChildren();
+    for (const f of filtradas) {
+      const tr = document.createElement('tr');
+      const estadoLabel = EST_ESTADO_LABELS[f.estado] || f.estado || '—';
+      const badgeCls = f.estado === 'CANCELLED' ? 'badge badge-bad'
+        : f.estado === 'ACTIVE' ? 'badge badge-ok'
+        : 'badge badge-neutral';
+      tr.innerHTML = `
+        <td>${f.nombre || ''}</td>
+        <td>${f.email || ''}</td>
+        <td>${f.curso || ''}</td>
+        <td>${f.comision ?? ''}</td>
+        <td>${f.fecha_inicio || ''}</td>
+        <td>${f.fecha_fin || ''}</td>
+        <td>${f.dia || ''}</td>
+        <td><span class="${badgeCls}">${estadoLabel}</span></td>
+      `;
+      estBodyEl.appendChild(tr);
+    }
+    estInfoEl.textContent = `${filtradas.length} de ${DATA.length} inscripciones.`;
+  }
+
+  [estBuscarEl, estCursoEl, estComisionEl, estEstadoEl].forEach((el) => el && el.addEventListener('input', estRender));
+
+  estInfoEl.textContent = 'Cargando…';
+  fetch('estudiantes_coderhouse.json', { cache: 'no-store' })
+    .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then((data) => {
+      DATA = Array.isArray(data.estudiantes) ? data.estudiantes : [];
+
+      const cursosDisponibles = Array.from(new Set(DATA.map((f) => f.curso).filter(Boolean))).sort();
+      estCursoEl.append(...cursosDisponibles.map((c) => new Option(c, c)));
+      const estadosDisponibles = Array.from(new Set(DATA.map((f) => f.estado).filter(Boolean))).sort();
+      estEstadoEl.append(...estadosDisponibles.map((e) => new Option(EST_ESTADO_LABELS[e] || e, e)));
+
+      estRender();
+
+      const cambios = Array.isArray(data.cambios_recientes) ? data.cambios_recientes : [];
+      if (estCambiosCard) {
+        if (!cambios.length) {
+          estCambiosCard.hidden = true;
+        } else {
+          const EST_TIPO_LABELS = { estado: 'Cambio de estado', comision: 'Cambio de comisión' };
+          estCambiosBodyEl.replaceChildren();
+          for (const c of cambios) {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td>${c.detectado_el || ''}</td>
+              <td>${c.nombre || ''}</td>
+              <td>${c.curso || ''}</td>
+              <td>${c.comision ?? ''}</td>
+              <td>${EST_TIPO_LABELS[c.tipo] || c.tipo || ''}</td>
+              <td>${c.de ?? ''}</td>
+              <td>${c.a ?? ''}</td>
+            `;
+            estCambiosBodyEl.appendChild(tr);
+          }
+          estCambiosCard.hidden = false;
         }
-        return true;
-      });
-
-      estBodyEl.replaceChildren();
-      for (const f of filtradas) {
-        const tr = document.createElement('tr');
-        const estadoLabel = EST_ESTADO_LABELS[f.estado] || f.estado || '—';
-        const badgeCls = f.estado === 'CANCELLED' ? 'badge badge-bad'
-          : f.estado === 'ACTIVE' ? 'badge badge-ok'
-          : 'badge badge-neutral';
-        tr.innerHTML = `
-          <td>${f.nombre || ''}</td>
-          <td>${f.email || ''}</td>
-          <td>${f.curso || ''}</td>
-          <td>${f.comision ?? ''}</td>
-          <td>${f.fecha_inicio || ''}</td>
-          <td>${f.fecha_fin || ''}</td>
-          <td>${f.dia || ''}</td>
-          <td><span class="${badgeCls}">${estadoLabel}</span></td>
-        `;
-        estBodyEl.appendChild(tr);
       }
-      estInfoEl.textContent = DATA.length
-        ? `${filtradas.length} de ${DATA.length} inscripciones.`
-        : 'Todavía no hay datos — se cargan en la próxima actualización automática.';
-    }
-
-    [estBuscarEl, estCursoEl, estComisionEl, estEstadoEl].forEach((el) => el && el.addEventListener('input', estRender));
-    estRender();
-  }
-
-  if (estCambiosCard) {
-    if (!CAMBIOS.length) {
-      estCambiosCard.hidden = true;
-    } else {
-      const EST_TIPO_LABELS = { estado: 'Cambio de estado', comision: 'Cambio de comisión' };
-      estCambiosBodyEl.replaceChildren();
-      for (const c of CAMBIOS) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td>${c.detectado_el || ''}</td>
-          <td>${c.nombre || ''}</td>
-          <td>${c.curso || ''}</td>
-          <td>${c.comision ?? ''}</td>
-          <td>${EST_TIPO_LABELS[c.tipo] || c.tipo || ''}</td>
-          <td>${c.de ?? ''}</td>
-          <td>${c.a ?? ''}</td>
-        `;
-        estCambiosBodyEl.appendChild(tr);
-      }
-    }
-  }
+    })
+    .catch((err) => {
+      estInfoEl.textContent = 'Todavía no hay datos (' + err.message + ') — se cargan en cuanto corra el workflow "Actualizar listado de estudiantes Coderhouse" por primera vez.';
+    });
 })();
 </script>
 
@@ -1721,31 +1686,6 @@
       estadoEl.textContent = 'No se encontró ningún estudiante con ese correo (en esta demo, probá con ana.perez@coderhouse.com, juan.gomez@coderhouse.com o maria.lopez@coderhouse.com).';
     } finally {
       btn.disabled = false;
-    }
-  });
-})();
-</script>
-
-<script>
-(function () {
-  // --- Pantalla de clave (solo prototipo, ver aviso en el HTML) ---
-  const CLAVE_DEMO = 'Coder2026!';
-  const lockScreen = document.getElementById('lock-screen');
-  const lockForm = document.getElementById('lock-form');
-  const lockInput = document.getElementById('lock-input');
-  const lockError = document.getElementById('lock-error');
-  const dashRoot = document.getElementById('dash-root');
-  if (!lockForm) return;
-
-  lockForm.addEventListener('submit', (ev) => {
-    ev.preventDefault();
-    if (lockInput.value === CLAVE_DEMO) {
-      lockScreen.hidden = true;
-      dashRoot.hidden = false;
-    } else {
-      lockError.hidden = false;
-      lockInput.value = '';
-      lockInput.focus();
     }
   });
 })();
