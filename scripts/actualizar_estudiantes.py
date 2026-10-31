@@ -185,12 +185,24 @@ def _extraer_campo_estudiante(enrollment):
     return student_id, first, last, email, enrollment_id, status
 
 
+def _detalle_error_http(e):
+    """Arma un mensaje de error legible, incluyendo el código de estado y el
+    cuerpo de la respuesta si están disponibles (clave para distinguir un
+    problema de autenticación/API key de uno de parámetros)."""
+    resp = getattr(e, "response", None)
+    if resp is not None:
+        cuerpo = (resp.text or "")[:300]
+        return f"HTTP {resp.status_code}: {cuerpo}"
+    return str(e)
+
+
 def get_enrollments_for_cohort(cohort_id):
     """Trae TODAS las inscripciones de una comisión, con o sin filtro de
     `status`. Primero intenta sin filtro (si el Back Office ya devuelve
-    todo junto); si eso viene vacío, reintenta pidiendo cada estado de
-    ENROLLMENT_STATUSES por separado y uniendo resultados (deduplicado por
-    id) — por si el endpoint requiere el filtro explícito."""
+    todo junto); si eso viene vacío O FALLA (por ejemplo porque el
+    endpoint exige el filtro `status` y sin él responde 400), reintenta
+    pidiendo cada estado de ENROLLMENT_STATUSES por separado y uniendo
+    resultados (deduplicado por id)."""
     def _paginar(params_extra):
         items = []
         page = 1
@@ -211,18 +223,32 @@ def get_enrollments_for_cohort(cohort_id):
             page += 1
         return items
 
+    error_sin_filtro = None
     try:
         items = _paginar({})
-        if not items:
+    except Exception as e:
+        # Antes, una excepción acá (ej. 400 porque el endpoint exige
+        # `status`) cortaba toda la función y NUNCA se intentaba el
+        # fallback con filtro por estado — esto dejaba la comisión
+        # entera sin inscriptos sin que se note como error real.
+        error_sin_filtro = _detalle_error_http(e)
+        items = []
+
+    if not items:
+        try:
             vistos = {}
             for estado in ENROLLMENT_STATUSES:
                 for it in _paginar({"status": estado}):
                     key = it.get("id") or it.get("enrollmentId") or id(it)
                     vistos[key] = it
             items = list(vistos.values())
-        return cohort_id, items, None
-    except Exception as e:
-        return cohort_id, [], str(e)
+        except Exception as e:
+            detalle = _detalle_error_http(e)
+            if error_sin_filtro:
+                detalle = f"sin filtro -> {error_sin_filtro} | con filtro -> {detalle}"
+            return cohort_id, [], detalle
+
+    return cohort_id, items, None
 
 
 def get_all_enrollments(cohort_ids):
@@ -400,6 +426,24 @@ def main():
     enrollments_map = get_all_enrollments(cohort_ids)
     total_inscriptos = sum(len(v) for v in enrollments_map.values())
     print(f"  {total_inscriptos} inscripciones encontradas en total", file=sys.stderr)
+
+    # Diagnóstico: si todo vino vacío, no hay forma de saber por qué solo
+    # mirando el conteo. Mostramos las claves (no los valores, para no
+    # volcar datos de estudiantes al log) del primer item crudo que haya
+    # devuelto la API, para confirmar si el formato coincide con lo que
+    # espera _extraer_campo_estudiante.
+    if total_inscriptos == 0 and cohorts:
+        print(
+            "  AVISO: 0 inscripciones en TODAS las comisiones — si esto no es "
+            "normal, revisá los 'aviso: N comisiones fallaron' de arriba (ahí "
+            "va el código HTTP y el cuerpo de la respuesta de la API).",
+            file=sys.stderr,
+        )
+    else:
+        for items in enrollments_map.values():
+            if items:
+                print(f"  ejemplo de claves de un item crudo de /enrollments: {sorted(items[0].keys())}", file=sys.stderr)
+                break
 
     filas = build_rows(cohorts, product_map, enrollments_map)
 
