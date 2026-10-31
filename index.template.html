@@ -9,7 +9,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-<div id="dash-root">
+
+<!--
+  AVISO: esto es solo para el prototipo interno, mientras se gestiona el
+  acceso definitivo con login de Google (@coderhouse.com) descripto en
+  INSTRUCCIONES-PARA-IT.md. Una clave fija escrita en el HTML NO es
+  seguridad real: cualquiera que abra el código fuente de la página la ve.
+  Sirve únicamente para que la herramienta no quede a la vista de cualquiera
+  que entre al link mientras se prueba con el equipo. No usar esta versión
+  con datos reales de estudiantes ni dejarla así como versión final.
+-->
+<div id="lock-screen" class="lock-screen">
+  <form id="lock-form" class="lock-box">
+    <h1 class="lock-title">Coderhouse Tools</h1>
+    <p class="lock-sub">Ingresá la clave de acceso.</p>
+    <input type="password" id="lock-input" class="lock-input" placeholder="Clave" autocomplete="off" autofocus>
+    <button type="submit" class="lock-btn">Entrar</button>
+    <p class="lock-error" id="lock-error" hidden>Clave incorrecta.</p>
+  </form>
+</div>
+
+<div id="dash-root" hidden>
 <div class="page">
   <header class="page-head">
     <h1 class="page-title">Coderhouse Tools</h1>
@@ -18,6 +38,7 @@
 
   <nav class="tabs-nav" role="tablist">
     <button type="button" class="tab-btn is-active" data-tab="comisiones" role="tab" aria-selected="true">Comisiones</button>
+    <button type="button" class="tab-btn" data-tab="estudiantes" role="tab" aria-selected="false">Estudiantes</button>
     <button type="button" class="tab-btn" data-tab="calculadora" role="tab" aria-selected="false">Calculadora de cambios</button>
   </nav>
 
@@ -85,6 +106,114 @@
     </div>
   </section>
 
+  </div>
+
+  <div id="tab-panel-estudiantes" class="tab-panel">
+    <section class="card est-card">
+      <form id="est-form" class="est-search-row">
+        <div class="field-icon-wrap field-icon-left est-search-wrap">
+          <span class="field-icon" aria-hidden="true">🔎</span>
+          <input type="email" id="est-email" class="filter-input" placeholder="correo@del-estudiante.com" autocomplete="off" required>
+        </div>
+        <button type="submit" id="est-buscar-btn" class="btn-reset est-buscar-btn">Buscar estudiante</button>
+      </form>
+      <p class="est-note">Buscá por el correo electrónico exacto con el que el estudiante está inscripto en Coderhouse. (Prototipo con datos de prueba: probá con ana.perez@coderhouse.com, juan.gomez@coderhouse.com o maria.lopez@coderhouse.com)</p>
+    </section>
+
+    <div id="est-estado" class="est-estado"></div>
+
+    <div id="est-resultado" class="est-resultado" hidden>
+      <section class="card est-card">
+        <h2 id="est-nombre" class="est-nombre">—</h2>
+        <p id="est-correo" class="est-correo"></p>
+      </section>
+
+      <section class="card">
+        <h3 class="est-subtitulo">Cursos</h3>
+        <div class="table-scroll">
+          <table class="comisiones-table est-cursos-table">
+            <thead>
+              <tr>
+                <th>Curso</th>
+                <th>Comisión</th>
+                <th>Día / fecha</th>
+                <th>Certificado</th>
+              </tr>
+            </thead>
+            <tbody id="est-cursos-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="est-subtitulo">Inasistencias</h3>
+        <div class="table-scroll">
+          <table class="comisiones-table est-ausencias-table">
+            <thead>
+              <tr>
+                <th>Curso</th>
+                <th>Fechas de inasistencia</th>
+              </tr>
+            </thead>
+            <tbody id="est-ausencias-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3 class="est-subtitulo">Compras</h3>
+        <div class="table-scroll">
+          <table class="comisiones-table est-compras-table">
+            <thead>
+              <tr>
+                <th>Curso</th>
+                <th>Valor</th>
+                <th>Fecha</th>
+              </tr>
+            </thead>
+            <tbody id="est-compras-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <section class="card">
+      <h3 class="est-subtitulo">Listado completo de estudiantes (Back Office)</h3>
+      <div class="filters">
+        <div class="field-icon-wrap field-icon-left filters-search-wrap">
+          <span class="field-icon" aria-hidden="true">🔎</span>
+          <input type="text" id="est-todos-buscar" class="filter-input" placeholder="Buscar por nombre, email o curso..." autocomplete="off">
+        </div>
+        <select id="est-todos-curso" class="filter-input"><option value="">Todos los cursos</option></select>
+        <input type="text" id="est-todos-comision" class="filter-input" placeholder="N° de comisión">
+        <select id="est-todos-estado" class="filter-input"><option value="">Todos los estados</option></select>
+      </div>
+      <div class="table-scroll">
+        <table class="comisiones-table" id="est-todos-table">
+          <thead>
+            <tr>
+              <th>Nombre</th><th>Email</th><th>Curso</th><th>Comisión</th>
+              <th>Inicio</th><th>Fin</th><th>Día</th><th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="est-todos-body"></tbody>
+        </table>
+      </div>
+      <p id="est-todos-info" class="calc-descuento-info"></p>
+    </section>
+
+    <section class="card" id="est-cambios-card">
+      <h3 class="est-subtitulo">Cambios recientes detectados</h3>
+      <p class="est-note">Se arma comparando cada actualización automática con la anterior — no es un historial oficial del Back Office.</p>
+      <div class="table-scroll">
+        <table class="comisiones-table">
+          <thead>
+            <tr><th>Detectado</th><th>Nombre</th><th>Curso</th><th>Comisión</th><th>Tipo</th><th>De</th><th>A</th></tr>
+          </thead>
+          <tbody id="est-cambios-body"></tbody>
+        </table>
+      </div>
+    </section>
   </div>
 
   <div id="tab-panel-calculadora" class="tab-panel">
@@ -503,6 +632,78 @@
   #dash-root .copy-btn:hover { filter: brightness(0.92); }
   #dash-root .copy-btn svg { width: 13px; height: 13px; flex: none; }
   #dash-root .copy-btn.is-copied { background: var(--ch-ok); border-color: var(--ch-ok); color: #fff; }
+
+  /* --- Solapa Estudiantes --- */
+  #dash-root .est-search-row {
+    display: flex;
+    gap: .7rem;
+    align-items: stretch;
+    flex-wrap: wrap;
+  }
+  #dash-root .est-search-wrap { flex: 1 1 18rem; }
+  #dash-root .est-buscar-btn {
+    background: var(--ch-accent);
+    color: var(--ch-accent-ink);
+    border-color: var(--ch-accent);
+    white-space: nowrap;
+  }
+  #dash-root .est-buscar-btn:hover { filter: brightness(0.94); }
+  #dash-root .est-note {
+    margin: .6rem 0 0;
+    font-size: .8rem;
+    color: var(--ch-ink-muted);
+  }
+  #dash-root .est-estado {
+    text-align: center;
+    color: var(--ch-ink-muted);
+    padding: .4rem 0 1rem;
+    font-size: .9rem;
+  }
+  #dash-root .est-estado.is-error { color: var(--ch-bad); font-weight: 600; }
+  #dash-root .est-nombre { margin: 0 0 .2rem; font-size: 1.2rem; }
+  #dash-root .est-correo { margin: 0; color: var(--ch-ink-muted); font-size: .85rem; }
+  #dash-root .est-subtitulo {
+    margin: 0 0 .7rem;
+    font-size: .95rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--ch-ink-muted);
+  }
+  #dash-root .table-scroll { overflow-x: auto; }
+
+  /* --- Inasistencias (solapa Estudiantes) --- */
+  #dash-root .est-ausencias-fechas { color: var(--ch-bad); font-weight: 600; }
+  #dash-root .est-ausencias-ninguna { color: var(--ch-ink-muted); }
+</style>
+
+<style>
+  /* --- Pantalla de clave (solo prototipo) --- */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  .lock-screen {
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+    background: #F8F2E8;
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
+  }
+  .lock-box {
+    background: #fff; border: 1px solid #ece3d4; border-radius: 16px;
+    padding: 2.4rem 2rem; max-width: 20rem; width: 90%; text-align: center;
+  }
+  .lock-title { font-size: 1.15rem; margin: 0 0 .3rem; color: #171717; }
+  .lock-sub { color: #6b6258; font-size: .85rem; margin: 0 0 1.2rem; }
+  .lock-input {
+    width: 100%; font-family: inherit; font-size: .95rem;
+    padding: .65rem .8rem; border: 1.5px solid #ece3d4; border-radius: 10px;
+    margin-bottom: .8rem;
+  }
+  .lock-btn {
+    width: 100%; font-family: inherit; font-weight: 700; font-size: .9rem;
+    color: #fff; background: #FF632B; border: none; border-radius: 999px;
+    padding: .65rem 1rem; cursor: pointer;
+  }
+  .lock-btn:hover { filter: brightness(0.94); }
+  .lock-error { color: #d64545; font-size: .8rem; margin: .8rem 0 0; }
 </style>
 
 <script>
@@ -1000,6 +1201,7 @@
   const tabButtons = document.querySelectorAll('.tab-btn');
   const panels = {
     comisiones: document.getElementById('tab-panel-comisiones'),
+    estudiantes: document.getElementById('tab-panel-estudiantes'),
     calculadora: document.getElementById('tab-panel-calculadora'),
   };
   tabButtons.forEach((btn) => {
@@ -1231,6 +1433,321 @@
   } else {
     calcNoteEl.textContent = 'Todavía no hay precios cargados.';
   }
+})();
+</script>
+
+<script>
+  window.__ESTUDIANTES_DATA__ = [];
+  window.__ESTUDIANTES_CAMBIOS__ = [];
+</script>
+<script>
+(function () {
+  // --- Solapa Estudiantes: listado completo (datos reales del Back
+  // Office, actualizados automáticamente por scripts/actualizar_estudiantes.py) ---
+  const DATA = Array.isArray(window.__ESTUDIANTES_DATA__) ? window.__ESTUDIANTES_DATA__ : [];
+  const CAMBIOS = Array.isArray(window.__ESTUDIANTES_CAMBIOS__) ? window.__ESTUDIANTES_CAMBIOS__ : [];
+  const EST_ESTADO_LABELS = { ACTIVE: 'Activa', COMPLETED: 'Finalizada', CANCELLED: 'Cancelada' };
+
+  const estBuscarEl = document.getElementById('est-todos-buscar');
+  const estCursoEl = document.getElementById('est-todos-curso');
+  const estComisionEl = document.getElementById('est-todos-comision');
+  const estEstadoEl = document.getElementById('est-todos-estado');
+  const estBodyEl = document.getElementById('est-todos-body');
+  const estInfoEl = document.getElementById('est-todos-info');
+  const estCambiosBodyEl = document.getElementById('est-cambios-body');
+  const estCambiosCard = document.getElementById('est-cambios-card');
+
+  if (estBodyEl) {
+    const cursosDisponibles = Array.from(new Set(DATA.map((f) => f.curso).filter(Boolean))).sort();
+    estCursoEl.append(...cursosDisponibles.map((c) => new Option(c, c)));
+    const estadosDisponibles = Array.from(new Set(DATA.map((f) => f.estado).filter(Boolean))).sort();
+    estEstadoEl.append(...estadosDisponibles.map((e) => new Option(EST_ESTADO_LABELS[e] || e, e)));
+
+    function estRender() {
+      const texto = (estBuscarEl.value || '').trim().toLowerCase();
+      const curso = estCursoEl.value;
+      const comision = (estComisionEl.value || '').trim();
+      const estado = estEstadoEl.value;
+
+      const filtradas = DATA.filter((f) => {
+        if (curso && f.curso !== curso) return false;
+        if (estado && f.estado !== estado) return false;
+        if (comision && String(f.comision) !== comision) return false;
+        if (texto) {
+          const hay = `${f.nombre || ''} ${f.email || ''} ${f.curso || ''}`.toLowerCase();
+          if (!hay.includes(texto)) return false;
+        }
+        return true;
+      });
+
+      estBodyEl.replaceChildren();
+      for (const f of filtradas) {
+        const tr = document.createElement('tr');
+        const estadoLabel = EST_ESTADO_LABELS[f.estado] || f.estado || '—';
+        const badgeCls = f.estado === 'CANCELLED' ? 'badge badge-bad'
+          : f.estado === 'ACTIVE' ? 'badge badge-ok'
+          : 'badge badge-neutral';
+        tr.innerHTML = `
+          <td>${f.nombre || ''}</td>
+          <td>${f.email || ''}</td>
+          <td>${f.curso || ''}</td>
+          <td>${f.comision ?? ''}</td>
+          <td>${f.fecha_inicio || ''}</td>
+          <td>${f.fecha_fin || ''}</td>
+          <td>${f.dia || ''}</td>
+          <td><span class="${badgeCls}">${estadoLabel}</span></td>
+        `;
+        estBodyEl.appendChild(tr);
+      }
+      estInfoEl.textContent = DATA.length
+        ? `${filtradas.length} de ${DATA.length} inscripciones.`
+        : 'Todavía no hay datos — se cargan en la próxima actualización automática.';
+    }
+
+    [estBuscarEl, estCursoEl, estComisionEl, estEstadoEl].forEach((el) => el && el.addEventListener('input', estRender));
+    estRender();
+  }
+
+  if (estCambiosCard) {
+    if (!CAMBIOS.length) {
+      estCambiosCard.hidden = true;
+    } else {
+      const EST_TIPO_LABELS = { estado: 'Cambio de estado', comision: 'Cambio de comisión' };
+      estCambiosBodyEl.replaceChildren();
+      for (const c of CAMBIOS) {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${c.detectado_el || ''}</td>
+          <td>${c.nombre || ''}</td>
+          <td>${c.curso || ''}</td>
+          <td>${c.comision ?? ''}</td>
+          <td>${EST_TIPO_LABELS[c.tipo] || c.tipo || ''}</td>
+          <td>${c.de ?? ''}</td>
+          <td>${c.a ?? ''}</td>
+        `;
+        estCambiosBodyEl.appendChild(tr);
+      }
+    }
+  }
+})();
+</script>
+
+<script>
+(function () {
+  // --- Solapa Estudiantes (PROTOTIPO con datos simulados) ---
+  //
+  // ¡OJO! Esta versión NO consulta al Backoffice real. Busca sobre un
+  // listado de estudiantes de prueba (MOCK_ESTUDIANTES, más abajo) para
+  // poder mostrar el diseño completo (cursos, inasistencias, compras) sin
+  // depender todavía del acceso privado con login de Google. Cuando se
+  // despliegue la versión real (ver INSTRUCCIONES-PARA-IT.md), hay que
+  // reemplazar la función buscarEstudiante() de más abajo por un fetch a
+  // /api/estudiante?email=... — el resto del archivo (el render de las
+  // tablas) queda exactamente igual.
+  //
+  // Para probar, buscar por alguno de estos correos de ejemplo:
+  //   ana.perez@coderhouse.com
+  //   juan.gomez@coderhouse.com
+  //   maria.lopez@coderhouse.com
+  const MOCK_ESTUDIANTES = {
+    'ana.perez@coderhouse.com': {
+      nombreCompleto: 'Ana Pérez',
+      email: 'ana.perez@coderhouse.com',
+      cursos: [
+        { curso: 'Python', comision: '103380', diaFecha: 'Lunes y Miércoles — 01/03/2026 a 15/05/2026', certificacion: 'CERTIFICADO' },
+        { curso: 'JavaScript', comision: '104200', diaFecha: 'Martes y Jueves — en curso', certificacion: 'EN_CURSO' },
+        { curso: 'Data Analytics', comision: '98110', diaFecha: 'Lunes — 05/09/2025 a 14/11/2025', certificacion: 'NO_CERTIFICADO' },
+      ],
+      inasistencias: [
+        { curso: 'Python', fechas: ['10/03/2026'] },
+        { curso: 'JavaScript', fechas: [] },
+        { curso: 'Data Analytics', fechas: ['22/09/2025', '06/10/2025', '27/10/2025'] },
+      ],
+      compras: [
+        { curso: 'Python', valor: 150000, moneda: 'ARS', fecha: '20/02/2026' },
+        { curso: 'JavaScript', valor: 165000, moneda: 'ARS', fecha: '15/07/2026' },
+        { curso: 'Data Analytics', valor: 140000, moneda: 'ARS', fecha: '28/08/2025' },
+      ],
+    },
+    'juan.gomez@coderhouse.com': {
+      nombreCompleto: 'Juan Gómez',
+      email: 'juan.gomez@coderhouse.com',
+      cursos: [
+        { curso: 'Diseño UX/UI', comision: '96235', diaFecha: 'Lunes y Miércoles — 01/02/2026 a 15/04/2026', certificacion: 'CERTIFICADO' },
+      ],
+      inasistencias: [
+        { curso: 'Diseño UX/UI', fechas: [] },
+      ],
+      compras: [
+        { curso: 'Diseño UX/UI', valor: 180000, moneda: 'ARS', fecha: '25/01/2026' },
+      ],
+    },
+    'maria.lopez@coderhouse.com': {
+      nombreCompleto: 'María López',
+      email: 'maria.lopez@coderhouse.com',
+      cursos: [
+        { curso: 'AI Automation', comision: '105010', diaFecha: 'Martes — en curso', certificacion: 'EN_CURSO' },
+        { curso: 'QA Automation', comision: '105330', diaFecha: 'Viernes — 10/10/2026 a 19/12/2026', certificacion: 'DESCONOCIDO' },
+      ],
+      inasistencias: [
+        { curso: 'AI Automation', fechas: ['14/10/2026'] },
+        { curso: 'QA Automation', fechas: [] },
+      ],
+      compras: [
+        { curso: 'AI Automation', valor: 200800, moneda: 'ARS', fecha: '01/10/2026' },
+        { curso: 'QA Automation', valor: 200800, moneda: 'ARS', fecha: '15/10/2026' },
+      ],
+    },
+  };
+
+  function buscarEstudiante(email) {
+    // Simula la espera de red de una consulta real, para que la pantalla
+    // de "Buscando…" también se pueda ver en la demo.
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        const data = MOCK_ESTUDIANTES[email.toLowerCase()];
+        if (data) resolve(data); else reject(new Error('NOT_FOUND'));
+      }, 450);
+    });
+  }
+
+  const form = document.getElementById('est-form');
+  const emailEl = document.getElementById('est-email');
+  const btn = document.getElementById('est-buscar-btn');
+  const estadoEl = document.getElementById('est-estado');
+  const resultadoEl = document.getElementById('est-resultado');
+  const nombreEl = document.getElementById('est-nombre');
+  const correoEl = document.getElementById('est-correo');
+  const cursosBodyEl = document.getElementById('est-cursos-body');
+  const ausenciasBodyEl = document.getElementById('est-ausencias-body');
+  const comprasBodyEl = document.getElementById('est-compras-body');
+  if (!form) return; // seguridad si el markup no está
+
+  function escapeHtml(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+  }
+
+  function badgeCertificado(estado) {
+    // estado esperado del servidor: 'CERTIFICADO' | 'NO_CERTIFICADO' | 'EN_CURSO' | 'DESCONOCIDO'
+    const map = {
+      CERTIFICADO: ['badge-ok', 'Certificado'],
+      NO_CERTIFICADO: ['badge-bad', 'No certificado'],
+      EN_CURSO: ['badge-warn', 'En curso'],
+      DESCONOCIDO: ['badge-neutral', 'Sin datos'],
+    };
+    const [cls, label] = map[estado] || map.DESCONOCIDO;
+    return `<span class="badge ${cls}">${label}</span>`;
+  }
+
+  function formatMoneda(valor, moneda) {
+    if (valor == null) return '—';
+    try {
+      return new Intl.NumberFormat('es-AR', { style: 'currency', currency: moneda || 'ARS', maximumFractionDigits: 0 }).format(valor);
+    } catch (e) {
+      return `${valor} ${moneda || ''}`;
+    }
+  }
+
+  function renderResultado(data) {
+    nombreEl.textContent = data.nombreCompleto || '—';
+    correoEl.textContent = data.email || '';
+
+    cursosBodyEl.innerHTML = '';
+    (data.cursos || []).forEach((c) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${escapeHtml(c.curso)}</td>
+        <td>${escapeHtml(c.comision)}</td>
+        <td>${escapeHtml(c.diaFecha)}</td>
+        <td>${badgeCertificado(c.certificacion)}</td>
+      `;
+      cursosBodyEl.appendChild(tr);
+    });
+    if (!(data.cursos || []).length) {
+      cursosBodyEl.innerHTML = '<tr><td colspan="4" class="status-msg">No se encontraron cursos para este estudiante.</td></tr>';
+    }
+
+    ausenciasBodyEl.innerHTML = '';
+    (data.inasistencias || []).forEach((a) => {
+      const tr = document.createElement('tr');
+      const fechas = a.fechas && a.fechas.length
+        ? `<span class="est-ausencias-fechas">${a.fechas.map(escapeHtml).join(', ')}</span>`
+        : '<span class="est-ausencias-ninguna">Sin inasistencias</span>';
+      tr.innerHTML = `
+        <td>${escapeHtml(a.curso)}</td>
+        <td>${fechas}</td>
+      `;
+      ausenciasBodyEl.appendChild(tr);
+    });
+    if (!(data.inasistencias || []).length) {
+      ausenciasBodyEl.innerHTML = '<tr><td colspan="2" class="status-msg">No hay datos de inasistencias para este estudiante.</td></tr>';
+    }
+
+    comprasBodyEl.innerHTML = '';
+    (data.compras || []).forEach((p) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${escapeHtml(p.curso)}</td>
+        <td>${formatMoneda(p.valor, p.moneda)}</td>
+        <td>${escapeHtml(p.fecha)}</td>
+      `;
+      comprasBodyEl.appendChild(tr);
+    });
+    if (!(data.compras || []).length) {
+      comprasBodyEl.innerHTML = '<tr><td colspan="3" class="status-msg">No se encontraron compras para este estudiante.</td></tr>';
+    }
+
+    resultadoEl.hidden = false;
+  }
+
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const email = emailEl.value.trim();
+    if (!email) return;
+
+    btn.disabled = true;
+    resultadoEl.hidden = true;
+    estadoEl.className = 'est-estado';
+    estadoEl.textContent = 'Buscando…';
+
+    try {
+      const data = await buscarEstudiante(email);
+      estadoEl.textContent = '';
+      renderResultado(data);
+    } catch (e) {
+      estadoEl.className = 'est-estado is-error';
+      estadoEl.textContent = 'No se encontró ningún estudiante con ese correo (en esta demo, probá con ana.perez@coderhouse.com, juan.gomez@coderhouse.com o maria.lopez@coderhouse.com).';
+    } finally {
+      btn.disabled = false;
+    }
+  });
+})();
+</script>
+
+<script>
+(function () {
+  // --- Pantalla de clave (solo prototipo, ver aviso en el HTML) ---
+  const CLAVE_DEMO = 'Coder2026!';
+  const lockScreen = document.getElementById('lock-screen');
+  const lockForm = document.getElementById('lock-form');
+  const lockInput = document.getElementById('lock-input');
+  const lockError = document.getElementById('lock-error');
+  const dashRoot = document.getElementById('dash-root');
+  if (!lockForm) return;
+
+  lockForm.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+    if (lockInput.value === CLAVE_DEMO) {
+      lockScreen.hidden = true;
+      dashRoot.hidden = false;
+    } else {
+      lockError.hidden = false;
+      lockInput.value = '';
+      lockInput.focus();
+    }
+  });
 })();
 </script>
 

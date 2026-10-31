@@ -1,0 +1,476 @@
+#!/usr/bin/env python3
+"""
+Trae el listado completo de estudiantes del Back Office de Coderhouse
+(nombre, curso, comisión, fechas, día de cursada y estado de cada
+inscripción) y lo escribe en `estudiantes_coderhouse.json` + lo inyecta en
+`index.html` (sin tocar el resto del archivo: NO se regenera desde
+index.template.html, a diferencia de actualizar_comisiones.py — este
+script solo reemplaza su propio bloque de datos, igual que ya hace
+scraper_precios_web.py con los precios).
+
+Lee las credenciales desde variables de entorno (nunca las escribe en los
+archivos generados):
+  - CODERHOUSE_API_URL          (ej: https://api-prod.coderhouse.com/api)
+  - CLAUDE_STUDENT_API_KEY       (scope: student-enrollment, student-profile)
+  - CLAUDE_FINANCE_API_KEY       (scope: finance-product)
+
+Uso:
+  python3 scripts/actualizar_estudiantes.py
+"""
+import os
+import sys
+import json
+import datetime
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from zoneinfo import ZoneInfo
+
+import requests
+
+API_URL = os.environ["CODERHOUSE_API_URL"].rstrip("/")
+STUDENT_KEY = os.environ["CLAUDE_STUDENT_API_KEY"]
+FINANCE_KEY = os.environ["CLAUDE_FINANCE_API_KEY"]
+
+TZ = ZoneInfo("America/Argentina/Buenos_Aires")
+DAY_NAMES = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"]
+
+# La API rechaza limit > 100 (400 Bad Request: "limit must not be greater than 100")
+PAGE_SIZE = 100
+
+# Si la API acepta este enum para `status` en /enrollments cambia con el
+# tiempo, basta con tocar esta lista — el resto del script no asume nada
+# más sobre los valores.
+ENROLLMENT_STATUSES = ["ACTIVE", "COMPLETED", "CANCELLED"]
+
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+INDEX_PATH = os.path.join(REPO_ROOT, "index.html")
+JSON_PATH = os.path.join(REPO_ROOT, "estudiantes_coderhouse.json")
+
+MAX_CAMBIOS_GUARDADOS = 300
+
+
+def student_headers():
+    return {"x-api-key": STUDENT_KEY}
+
+
+def finance_headers():
+    return {"x-api-key": FINANCE_KEY}
+
+
+# ---------------------------------------------------------------------------
+# Comisiones + productos (mismo enfoque que actualizar_comisiones.py)
+# ---------------------------------------------------------------------------
+
+def get_all_cohorts():
+    cohorts = []
+    page = 1
+    while True:
+        resp = requests.get(
+            f"{API_URL}/student/enrollment/m2m/admin/cohorts",
+            headers=student_headers(),
+            params={"page": page, "limit": PAGE_SIZE},
+            timeout=60,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        items = data.get("data", [])
+        cohorts.extend(items)
+        pagination = data.get("pagination") or {}
+        if not pagination.get("hasNextPage"):
+            break
+        page += 1
+    return cohorts
+
+
+def _product_title(product):
+    locs = product.get("localizations") or []
+    for loc in locs:
+        if loc.get("language") == "es" and loc.get("isDefault"):
+            return loc.get("title")
+    for loc in locs:
+        if loc.get("language") == "es":
+            return loc.get("title")
+    if locs:
+        return locs[0].get("title")
+    return product.get("title") or product.get("name")
+
+
+def search_products(product_ids):
+    product_map = {}
+    chunk_size = 50
+    ids = list(product_ids)
+    for i in range(0, len(ids), chunk_size):
+        chunk = ids[i : i + chunk_size]
+        resp = requests.post(
+            f"{API_URL}/finance/product/m2m/products/search",
+            headers=finance_headers(),
+            json={"productIds": chunk},
+            timeout=60,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        items = data if isinstance(data, list) else data.get("data", [])
+        for p in items:
+            pid = p.get("id") or p.get("productId")
+            title = _product_title(p)
+            if pid is not None and title:
+                product_map[pid] = title
+    return product_map
+
+
+def to_arg_dt(iso_str):
+    if not iso_str:
+        return None
+    dt = datetime.datetime.fromisoformat(iso_str.replace("Z", "+00:00"))
+    return dt.astimezone(TZ)
+
+
+# ---------------------------------------------------------------------------
+# Inscripciones por comisión
+#
+# El endpoint devuelto por el Back Office es
+# GET /student/enrollment/m2m/admin/cohorts/{id}/enrollments?status=&page=&limit=
+# No hay documentación pública de la forma exacta de cada item, así que acá
+# se extraen los campos probando varios nombres posibles (ver
+# `_extraer_campo_estudiante`) en vez de asumir uno solo — si el Back
+# Office cambia el nombre de un campo, esto degrada con un aviso en el log
+# en lugar de romper la corrida entera.
+# ---------------------------------------------------------------------------
+
+def _get(d, *paths, default=None):
+    """Busca el primer valor no vacío entre varias rutas posibles dentro de
+    un dict anidado. Cada "path" es una tupla de claves, ej. ("student",
+    "firstName")."""
+    for path in paths:
+        cur = d
+        ok = True
+        for key in path:
+            if not isinstance(cur, dict) or key not in cur:
+                ok = False
+                break
+            cur = cur[key]
+        if ok and cur not in (None, ""):
+            return cur
+    return default
+
+
+def _extraer_campo_estudiante(enrollment):
+    student_id = _get(
+        enrollment,
+        ("studentId",), ("student_id",),
+        ("student", "id"), ("studentProfileId",),
+    )
+    first = _get(
+        enrollment,
+        ("firstName",), ("studentFirstName",),
+        ("student", "firstName"), ("user", "firstName"), ("student", "user", "firstName"),
+    )
+    last = _get(
+        enrollment,
+        ("lastName",), ("studentLastName",),
+        ("student", "lastName"), ("user", "lastName"), ("student", "user", "lastName"),
+    )
+    email = _get(
+        enrollment,
+        ("email",), ("studentEmail",),
+        ("student", "email"), ("user", "email"), ("student", "user", "email"),
+    )
+    enrollment_id = _get(enrollment, ("id",), ("enrollmentId",))
+    status = _get(enrollment, ("status",), default="")
+    return student_id, first, last, email, enrollment_id, status
+
+
+def get_enrollments_for_cohort(cohort_id):
+    """Trae TODAS las inscripciones de una comisión, con o sin filtro de
+    `status`. Primero intenta sin filtro (si el Back Office ya devuelve
+    todo junto); si eso viene vacío, reintenta pidiendo cada estado de
+    ENROLLMENT_STATUSES por separado y uniendo resultados (deduplicado por
+    id) — por si el endpoint requiere el filtro explícito."""
+    def _paginar(params_extra):
+        items = []
+        page = 1
+        while True:
+            resp = requests.get(
+                f"{API_URL}/student/enrollment/m2m/admin/cohorts/{cohort_id}/enrollments",
+                headers=student_headers(),
+                params={"page": page, "limit": PAGE_SIZE, **params_extra},
+                timeout=60,
+            )
+            resp.raise_for_status()
+            data = resp.json()
+            batch = data.get("data", data if isinstance(data, list) else [])
+            items.extend(batch or [])
+            pagination = data.get("pagination") if isinstance(data, dict) else None
+            if not pagination or not pagination.get("hasNextPage"):
+                break
+            page += 1
+        return items
+
+    try:
+        items = _paginar({})
+        if not items:
+            vistos = {}
+            for estado in ENROLLMENT_STATUSES:
+                for it in _paginar({"status": estado}):
+                    key = it.get("id") or it.get("enrollmentId") or id(it)
+                    vistos[key] = it
+            items = list(vistos.values())
+        return cohort_id, items, None
+    except Exception as e:
+        return cohort_id, [], str(e)
+
+
+def get_all_enrollments(cohort_ids):
+    result = {}
+    errores = []
+    with ThreadPoolExecutor(max_workers=16) as ex:
+        futures = [ex.submit(get_enrollments_for_cohort, cid) for cid in cohort_ids]
+        for fut in as_completed(futures):
+            cid, items, err = fut.result()
+            result[cid] = items
+            if err:
+                errores.append((cid, err))
+    if errores:
+        print(f"  aviso: {len(errores)} comisiones fallaron al traer inscriptos (se las deja sin filas):", file=sys.stderr)
+        for cid, err in errores[:10]:
+            print(f"    {cid}: {err}", file=sys.stderr)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Resolución de nombre/email por studentId cuando el enrollment no los trae
+# embebidos (GET /student/profile/m2m/admin/profiles/{studentId})
+# ---------------------------------------------------------------------------
+
+def _resolver_perfil(student_id):
+    try:
+        resp = requests.get(
+            f"{API_URL}/student/profile/m2m/admin/profiles/{student_id}",
+            headers=student_headers(),
+            timeout=30,
+        )
+        if resp.status_code == 404:
+            return student_id, None, None, None
+        resp.raise_for_status()
+        data = resp.json()
+        perfil = data.get("data", data) if isinstance(data, dict) else {}
+        first = _get(perfil, ("firstName",), ("user", "firstName"))
+        last = _get(perfil, ("lastName",), ("user", "lastName"))
+        email = _get(perfil, ("email",), ("user", "email"))
+        return student_id, first, last, email
+    except Exception:
+        return student_id, None, None, None
+
+
+def resolver_perfiles_faltantes(student_ids):
+    result = {}
+    ids = [sid for sid in student_ids if sid]
+    with ThreadPoolExecutor(max_workers=16) as ex:
+        futures = [ex.submit(_resolver_perfil, sid) for sid in ids]
+        for fut in as_completed(futures):
+            sid, first, last, email = fut.result()
+            result[sid] = (first, last, email)
+    return result
+
+
+# ---------------------------------------------------------------------------
+# Armado de filas
+# ---------------------------------------------------------------------------
+
+def build_rows(cohorts, product_map, enrollments_map):
+    filas_crudas = []  # (fila, student_id_sin_nombre?)
+    student_ids_sin_nombre = set()
+
+    for c in cohorts:
+        cohort_id = c.get("id")
+        product_id = c.get("productId")
+        curso = product_map.get(product_id) or c.get("name", "—")
+
+        start_dt = to_arg_dt(c.get("startDate"))
+        end_dt = to_arg_dt(c.get("endDate"))
+        week_days = c.get("weekDays") or []
+        dias = ", ".join(DAY_NAMES[d] for d in week_days if 0 <= d <= 6)
+
+        for e in enrollments_map.get(cohort_id, []):
+            student_id, first, last, email, enrollment_id, estado = _extraer_campo_estudiante(e)
+            nombre = " ".join(p for p in [first, last] if p).strip()
+            if not nombre and student_id:
+                student_ids_sin_nombre.add(student_id)
+
+            filas_crudas.append({
+                "student_id": student_id,
+                "enrollment_id": enrollment_id,
+                "nombre": nombre,
+                "email": email or "",
+                "curso": curso,
+                "comision": c.get("commissionNumber", cohort_id),
+                "dia": dias,
+                "fecha_inicio": start_dt.strftime("%d/%m/%Y") if start_dt else "",
+                "fecha_fin": end_dt.strftime("%d/%m/%Y") if end_dt else "",
+                "estado": estado or "",
+                "estado_comision": c.get("status", ""),
+            })
+
+    if student_ids_sin_nombre:
+        print(f"  resolviendo nombre/email de {len(student_ids_sin_nombre)} estudiantes sin datos embebidos en el enrollment...", file=sys.stderr)
+        perfiles = resolver_perfiles_faltantes(student_ids_sin_nombre)
+        for fila in filas_crudas:
+            if not fila["nombre"] and fila["student_id"] in perfiles:
+                first, last, email = perfiles[fila["student_id"]]
+                fila["nombre"] = " ".join(p for p in [first, last] if p).strip() or "(nombre no disponible)"
+                fila["email"] = fila["email"] or (email or "")
+
+    for fila in filas_crudas:
+        if not fila["nombre"]:
+            fila["nombre"] = "(nombre no disponible)"
+
+    filas_crudas.sort(key=lambda f: (f["nombre"], f["curso"]))
+    return filas_crudas
+
+
+# ---------------------------------------------------------------------------
+# Detección de cambios entre esta corrida y la anterior (sin depender de
+# ningún endpoint de historial/auditoría, que no existe documentado): se
+# compara la fila actual contra `estudiantes_coderhouse.json` tal como
+# quedó la corrida pasada, ya commiteado en el repo.
+# ---------------------------------------------------------------------------
+
+def detectar_cambios(filas_nuevas, filas_previas):
+    hoy = datetime.datetime.now(TZ).strftime("%d/%m/%Y %H:%M")
+    prev_por_enrollment = {f["enrollment_id"]: f for f in filas_previas if f.get("enrollment_id")}
+    prev_por_alumno_curso = {(f["student_id"], f["curso"]): f for f in filas_previas if f.get("student_id")}
+
+    cambios = []
+    for fila in filas_nuevas:
+        prev = prev_por_enrollment.get(fila.get("enrollment_id")) if fila.get("enrollment_id") else None
+        if prev is None and fila.get("student_id"):
+            prev = prev_por_alumno_curso.get((fila["student_id"], fila["curso"]))
+
+        if prev is None:
+            continue  # inscripción nueva, no es un "cambio" sobre algo anterior
+
+        if prev.get("estado") != fila.get("estado"):
+            cambios.append({
+                "detectado_el": hoy,
+                "tipo": "estado",
+                "nombre": fila["nombre"],
+                "curso": fila["curso"],
+                "comision": fila["comision"],
+                "de": prev.get("estado") or "—",
+                "a": fila.get("estado") or "—",
+            })
+        if prev.get("comision") != fila.get("comision"):
+            cambios.append({
+                "detectado_el": hoy,
+                "tipo": "comision",
+                "nombre": fila["nombre"],
+                "curso": fila["curso"],
+                "comision": fila["comision"],
+                "de": prev.get("comision"),
+                "a": fila.get("comision"),
+            })
+    return cambios
+
+
+def cargar_json_previo():
+    try:
+        with open(JSON_PATH, encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("estudiantes", []), data.get("cambios_recientes", [])
+    except (FileNotFoundError, json.JSONDecodeError):
+        return [], []
+
+
+# ---------------------------------------------------------------------------
+# Escritura: JSON propio (fuente de verdad + histórico de cambios) + bloque
+# dentro de index.html, SIN regenerar el archivo entero desde la plantilla
+# (igual que scraper_precios_web.py) para no pisar lo que haya escrito la
+# corrida de comisiones o de precios.
+# ---------------------------------------------------------------------------
+
+def inyectar_en_index(filas, cambios):
+    with open(INDEX_PATH, encoding="utf-8") as f:
+        html = f.read()
+
+    filas_publicas = [{k: v for k, v in f.items() if k not in ("student_id", "enrollment_id")} for f in filas]
+    data_json = json.dumps(filas_publicas, ensure_ascii=False)
+    cambios_json = json.dumps(cambios[:MAX_CAMBIOS_GUARDADOS], ensure_ascii=False)
+
+    import re
+    html, n1 = re.subn(
+        r"window\.__ESTUDIANTES_DATA__\s*=\s*\[.*?\];",
+        f"window.__ESTUDIANTES_DATA__ = {data_json};",
+        html, count=1, flags=re.DOTALL,
+    )
+    html, n2 = re.subn(
+        r"window\.__ESTUDIANTES_CAMBIOS__\s*=\s*\[.*?\];",
+        f"window.__ESTUDIANTES_CAMBIOS__ = {cambios_json};",
+        html, count=1, flags=re.DOTALL,
+    )
+    if n1 == 0 or n2 == 0:
+        print(
+            "  aviso: no se encontraron los placeholders window.__ESTUDIANTES_DATA__ / "
+            "window.__ESTUDIANTES_CAMBIOS__ en index.html — asegurate de que index.template.html "
+            "los tenga y de regenerar index.html al menos una vez desde la plantilla.",
+            file=sys.stderr,
+        )
+        return False
+
+    with open(INDEX_PATH, "w", encoding="utf-8") as fh:
+        fh.write(html)
+    return True
+
+
+def main():
+    print("Trayendo comisiones...", file=sys.stderr)
+    cohorts = get_all_cohorts()
+    print(f"  {len(cohorts)} comisiones encontradas", file=sys.stderr)
+
+    product_ids = {c.get("productId") for c in cohorts if c.get("productId") is not None}
+    print(f"Buscando {len(product_ids)} productos...", file=sys.stderr)
+    product_map = search_products(product_ids)
+
+    cohort_ids = [c.get("id") for c in cohorts]
+    print("Trayendo inscriptos de cada comisión...", file=sys.stderr)
+    enrollments_map = get_all_enrollments(cohort_ids)
+    total_inscriptos = sum(len(v) for v in enrollments_map.values())
+    print(f"  {total_inscriptos} inscripciones encontradas en total", file=sys.stderr)
+
+    filas = build_rows(cohorts, product_map, enrollments_map)
+
+    conteo_estados = Counter(f["estado"] or "(sin estado)" for f in filas)
+    print("Inscripciones por estado en esta corrida:", file=sys.stderr)
+    for estado, cantidad in sorted(conteo_estados.items()):
+        print(f"  {estado}: {cantidad}", file=sys.stderr)
+
+    filas_previas, cambios_previos = cargar_json_previo()
+    cambios_nuevos = detectar_cambios(filas, filas_previas)
+    if cambios_nuevos:
+        print(f"  {len(cambios_nuevos)} cambios detectados respecto de la corrida anterior:", file=sys.stderr)
+        for cmb in cambios_nuevos[:20]:
+            print(f"    {cmb['nombre']} — {cmb['curso']} — {cmb['tipo']}: {cmb['de']} -> {cmb['a']}", file=sys.stderr)
+    else:
+        print("  sin cambios respecto de la corrida anterior", file=sys.stderr)
+
+    cambios_totales = (cambios_nuevos + cambios_previos)[:MAX_CAMBIOS_GUARDADOS]
+
+    hoy_iso = datetime.datetime.now(TZ).isoformat()
+    # OJO: acá se guardan las filas COMPLETAS (incluyendo student_id/
+    # enrollment_id) porque esta misma función las vuelve a leer la
+    # próxima corrida (cargar_json_previo) para poder detectar cambios —
+    # son las que se excluyen recién al inyectar en index.html, no acá.
+    with open(JSON_PATH, "w", encoding="utf-8") as f:
+        json.dump(
+            {"generado_el": hoy_iso, "estudiantes": filas, "cambios_recientes": cambios_totales},
+            f, ensure_ascii=False, indent=2,
+        )
+
+    ok = inyectar_en_index(filas, cambios_totales)
+    if ok:
+        print(f"Listo: {INDEX_PATH} y {JSON_PATH} actualizados ({len(filas)} inscripciones, {len(cambios_totales)} cambios en el historial).", file=sys.stderr)
+    else:
+        print(f"Listo: {JSON_PATH} actualizado, pero index.html NO se pudo actualizar (ver aviso arriba).", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()
