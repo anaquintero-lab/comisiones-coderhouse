@@ -1,0 +1,55 @@
+name: Actualizar listado de estudiantes Coderhouse
+
+# Corre TODOS los días a las 14:00 hora Argentina — a propósito una hora
+# después del horario de "Actualizar comisiones Coderhouse" (13:00 ART,
+# lunes/miércoles/viernes). Ese workflow regenera index.html ENTERO desde
+# index.template.html, así que si este script corriera antes se perdería
+# su actualización esos tres días. Corriendo después, este workflow
+# siempre "repone" el listado de estudiantes sobre la versión más
+# reciente del archivo. Los días que no hay corrida de comisiones, este
+# workflow igual mantiene el listado al día por su cuenta.
+on:
+  schedule:
+    - cron: "0 17 * * *"
+  workflow_dispatch: {}  # permite correrlo manualmente desde la pestaña Actions
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar el repo
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install requests
+
+      - name: Generar listado de estudiantes actualizado
+        env:
+          CODERHOUSE_API_URL: https://api-prod.coderhouse.com/api
+          CLAUDE_STUDENT_API_KEY: ${{ secrets.CLAUDE_STUDENT_API_KEY }}
+          CLAUDE_FINANCE_API_KEY: ${{ secrets.CLAUDE_FINANCE_API_KEY }}
+        run: python3 scripts/actualizar_estudiantes.py
+
+      - name: Commitear y pushear si cambió algo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          echo "— git status antes de git add —"
+          git status --porcelain
+
+          git add -f index.html estudiantes_coderhouse.json
+
+          echo "— archivos en stage para el commit —"
+          git diff --cached --stat
+
+          git diff --cached --quiet || git commit -m "Actualizar listado de estudiantes (automático)"
+          git push
