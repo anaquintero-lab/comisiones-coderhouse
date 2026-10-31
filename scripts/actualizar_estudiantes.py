@@ -321,10 +321,31 @@ def get_enrollments_for_cohort(cohort_id):
             _imprimir_diagnostico_si_corresponde(url, params, resp)
             resp.raise_for_status()
             data = resp.json()
-            batch = data.get("data", data if isinstance(data, list) else [])
+            # La respuesta real de este endpoint viene como
+            # {"cohortId": "...", "enrollments": [...]} — NO como
+            # {"data": [...]} (que sí es el formato del listado de
+            # comisiones). Antes el script solo buscaba "data", por eso
+            # siempre leía una lista vacía aunque la API respondiera 200
+            # con inscripciones de verdad adentro.
+            if isinstance(data, list):
+                batch = data
+            elif isinstance(data, dict):
+                batch = data.get("enrollments", data.get("data", []))
+            else:
+                batch = []
             items.extend(batch or [])
-            pagination = data.get("pagination") if isinstance(data, dict) else None
-            if not pagination or not pagination.get("hasNextPage"):
+            # Este endpoint parece no traer "pagination" como el listado de
+            # comisiones (devuelve directo {"cohortId", "enrollments"}), pero
+            # por las dudas se revisan también otros nombres comunes
+            # ("meta", o hasNextPage/hasMore sueltos en el nivel de arriba)
+            # antes de asumir que no hay más páginas.
+            pagination = None
+            if isinstance(data, dict):
+                pagination = data.get("pagination") or data.get("meta")
+                if pagination is None and ("hasNextPage" in data or "hasMore" in data):
+                    pagination = data
+            hay_mas = bool(pagination) and (pagination.get("hasNextPage") or pagination.get("hasMore"))
+            if not hay_mas:
                 break
             page += 1
         return items
