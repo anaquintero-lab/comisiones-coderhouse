@@ -1,13 +1,9 @@
 name: Actualizar listado de estudiantes Coderhouse
 
-# Corre TODOS los días a las 14:00 hora Argentina — a propósito una hora
-# después del horario de "Actualizar comisiones Coderhouse" (13:00 ART,
-# lunes/miércoles/viernes). Ese workflow regenera index.html ENTERO desde
-# index.template.html, así que si este script corriera antes se perdería
-# su actualización esos tres días. Corriendo después, este workflow
-# siempre "repone" el listado de estudiantes sobre la versión más
-# reciente del archivo. Los días que no hay corrida de comisiones, este
-# workflow igual mantiene el listado al día por su cuenta.
+# Corre todos los días a las 14:00 hora Argentina. Este workflow solo
+# escribe estudiantes_coderhouse.json y estudiantes_historial.json — nunca
+# toca index.html — así que no importa en qué orden corra respecto de
+# "Actualizar comisiones Coderhouse" ni de "Actualizar precios públicos".
 on:
   schedule:
     - cron: "0 17 * * *"
@@ -46,7 +42,7 @@ jobs:
           echo "— git status antes de git add —"
           git status --porcelain
 
-          git add -f index.html estudiantes_coderhouse.json
+          git add -f estudiantes_coderhouse.json estudiantes_historial.json
 
           echo "— archivos en stage para el commit —"
           git diff --cached --stat
