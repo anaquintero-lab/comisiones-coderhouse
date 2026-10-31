@@ -2,11 +2,10 @@
 """
 Trae el listado completo de estudiantes del Back Office de Coderhouse
 (nombre, curso, comisión, fechas, día de cursada y estado de cada
-inscripción) y lo escribe en `estudiantes_coderhouse.json` + lo inyecta en
-`index.html` (sin tocar el resto del archivo: NO se regenera desde
-index.template.html, a diferencia de actualizar_comisiones.py — este
-script solo reemplaza su propio bloque de datos, igual que ya hace
-scraper_precios_web.py con los precios).
+inscripción) y lo escribe en `estudiantes_coderhouse.json`. La pestaña
+"Estudiantes" de index.html lee ese archivo con un fetch() en el momento
+en que se abre la página — este script NO toca index.html para nada, así
+que no hay riesgo de que otra corrida (comisiones o precios) lo pise.
 
 Lee las credenciales desde variables de entorno (nunca las escribe en los
 archivos generados):
@@ -43,8 +42,14 @@ PAGE_SIZE = 100
 ENROLLMENT_STATUSES = ["ACTIVE", "COMPLETED", "CANCELLED"]
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-INDEX_PATH = os.path.join(REPO_ROOT, "index.html")
+# Archivo PÚBLICO: lo lee directamente el navegador (fetch) desde la pestaña
+# "Estudiantes" — nunca lleva student_id/enrollment_id (son UUIDs internos
+# del Back Office, sin uso para quien mira la página).
 JSON_PATH = os.path.join(REPO_ROOT, "estudiantes_coderhouse.json")
+# Archivo interno: guarda las mismas filas pero CON los IDs internos, solo
+# para que la próxima corrida pueda detectar cambios comparando contra esta
+# (nadie necesita abrirlo ni el sitio lo consulta).
+HISTORIAL_PATH = os.path.join(REPO_ROOT, "estudiantes_historial.json")
 
 MAX_CAMBIOS_GUARDADOS = 300
 
@@ -374,51 +379,11 @@ def detectar_cambios(filas_nuevas, filas_previas):
 
 def cargar_json_previo():
     try:
-        with open(JSON_PATH, encoding="utf-8") as f:
+        with open(HISTORIAL_PATH, encoding="utf-8") as f:
             data = json.load(f)
         return data.get("estudiantes", []), data.get("cambios_recientes", [])
     except (FileNotFoundError, json.JSONDecodeError):
         return [], []
-
-
-# ---------------------------------------------------------------------------
-# Escritura: JSON propio (fuente de verdad + histórico de cambios) + bloque
-# dentro de index.html, SIN regenerar el archivo entero desde la plantilla
-# (igual que scraper_precios_web.py) para no pisar lo que haya escrito la
-# corrida de comisiones o de precios.
-# ---------------------------------------------------------------------------
-
-def inyectar_en_index(filas, cambios):
-    with open(INDEX_PATH, encoding="utf-8") as f:
-        html = f.read()
-
-    filas_publicas = [{k: v for k, v in f.items() if k not in ("student_id", "enrollment_id")} for f in filas]
-    data_json = json.dumps(filas_publicas, ensure_ascii=False)
-    cambios_json = json.dumps(cambios[:MAX_CAMBIOS_GUARDADOS], ensure_ascii=False)
-
-    import re
-    html, n1 = re.subn(
-        r"window\.__ESTUDIANTES_DATA__\s*=\s*\[.*?\];",
-        f"window.__ESTUDIANTES_DATA__ = {data_json};",
-        html, count=1, flags=re.DOTALL,
-    )
-    html, n2 = re.subn(
-        r"window\.__ESTUDIANTES_CAMBIOS__\s*=\s*\[.*?\];",
-        f"window.__ESTUDIANTES_CAMBIOS__ = {cambios_json};",
-        html, count=1, flags=re.DOTALL,
-    )
-    if n1 == 0 or n2 == 0:
-        print(
-            "  aviso: no se encontraron los placeholders window.__ESTUDIANTES_DATA__ / "
-            "window.__ESTUDIANTES_CAMBIOS__ en index.html — asegurate de que index.template.html "
-            "los tenga y de regenerar index.html al menos una vez desde la plantilla.",
-            file=sys.stderr,
-        )
-        return False
-
-    with open(INDEX_PATH, "w", encoding="utf-8") as fh:
-        fh.write(html)
-    return True
 
 
 def main():
@@ -455,21 +420,25 @@ def main():
     cambios_totales = (cambios_nuevos + cambios_previos)[:MAX_CAMBIOS_GUARDADOS]
 
     hoy_iso = datetime.datetime.now(TZ).isoformat()
-    # OJO: acá se guardan las filas COMPLETAS (incluyendo student_id/
-    # enrollment_id) porque esta misma función las vuelve a leer la
-    # próxima corrida (cargar_json_previo) para poder detectar cambios —
-    # son las que se excluyen recién al inyectar en index.html, no acá.
-    with open(JSON_PATH, "w", encoding="utf-8") as f:
+
+    # Historial interno: filas COMPLETAS (con student_id/enrollment_id) para
+    # que la próxima corrida pueda seguir detectando cambios.
+    with open(HISTORIAL_PATH, "w", encoding="utf-8") as f:
         json.dump(
             {"generado_el": hoy_iso, "estudiantes": filas, "cambios_recientes": cambios_totales},
             f, ensure_ascii=False, indent=2,
         )
 
-    ok = inyectar_en_index(filas, cambios_totales)
-    if ok:
-        print(f"Listo: {INDEX_PATH} y {JSON_PATH} actualizados ({len(filas)} inscripciones, {len(cambios_totales)} cambios en el historial).", file=sys.stderr)
-    else:
-        print(f"Listo: {JSON_PATH} actualizado, pero index.html NO se pudo actualizar (ver aviso arriba).", file=sys.stderr)
+    # Archivo público: las mismas filas pero sin los IDs internos — es el
+    # que la pestaña "Estudiantes" trae con fetch().
+    filas_publicas = [{k: v for k, v in f.items() if k not in ("student_id", "enrollment_id")} for f in filas]
+    with open(JSON_PATH, "w", encoding="utf-8") as f:
+        json.dump(
+            {"generado_el": hoy_iso, "estudiantes": filas_publicas, "cambios_recientes": cambios_totales},
+            f, ensure_ascii=False, indent=2,
+        )
+
+    print(f"Listo: {JSON_PATH} y {HISTORIAL_PATH} actualizados ({len(filas)} inscripciones, {len(cambios_totales)} cambios en el historial).", file=sys.stderr)
 
 
 if __name__ == "__main__":
