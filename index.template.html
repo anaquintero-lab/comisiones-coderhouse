@@ -1455,7 +1455,7 @@
   [estBuscarEl, estCursoEl, estComisionEl, estEstadoEl].forEach((el) => el && el.addEventListener('input', estRender));
 
   estInfoEl.textContent = 'Cargando…';
-  fetch('estudiantes_coderhouse.json', { cache: 'no-store' })
+  fetch('./estudiantes_coderhouse.json', { cache: 'no-store' })
     .then((r) => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
     .then((data) => {
       DATA = Array.isArray(data.estudiantes) ? data.estudiantes : [];
