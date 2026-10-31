@@ -32,6 +32,11 @@ jobs:
           CODERHOUSE_API_URL: https://api-prod.coderhouse.com/api
           CLAUDE_STUDENT_API_KEY: ${{ secrets.CLAUDE_STUDENT_API_KEY }}
           CLAUDE_FINANCE_API_KEY: ${{ secrets.CLAUDE_FINANCE_API_KEY }}
+          # Solo comisiones creadas o activas en los últimos 24 meses: es el
+          # universo de estudiantes con movimientos recientes (compras,
+          # bajas, certificaciones) y reduce drásticamente los pedidos a la
+          # API, evitando el 429 por saturarla con ~3200 comisiones.
+          ESTUDIANTES_SOLO_ULTIMOS_MESES: "24"
         run: python3 scripts/actualizar_estudiantes.py
 
       - name: Commitear y pushear si cambió algo
