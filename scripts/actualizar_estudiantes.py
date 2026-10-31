@@ -492,16 +492,32 @@ def cargar_json_previo():
         return [], []
 
 
+COHORT_STATUS_SIEMPRE_VIGENTE = {"IN_PROGRESS", "NOT_STARTED"}
+
+
 def _filtrar_por_antiguedad(cohorts, meses):
-    """Opcional (ESTUDIANTES_SOLO_ULTIMOS_MESES): descarta comisiones cuya
-    fecha de fin sea más vieja que `meses` meses, para no pedirle inscriptos
-    a comisiones cerradas hace mucho tiempo. Una comisión sin fecha de fin
-    se conserva siempre (se la trata como vigente)."""
+    """Opcional (ESTUDIANTES_SOLO_ULTIMOS_MESES): se queda solo con las
+    comisiones CREADAS o ACTIVAS en los últimos `meses` meses — que es,
+    en la práctica, el universo de estudiantes con movimientos recientes
+    (compras, bajas, certificaciones), ya que esos movimientos solo pueden
+    pasar en una comisión vigente o reciente. Se conserva una comisión si
+    pasa CUALQUIERA de estas condiciones:
+      - Empezó dentro de la ventana (se creó/arrancó recientemente).
+      - Terminó dentro de la ventana (todavía estaba activa hace poco).
+      - No tiene fecha de fin, o su estado es IN_PROGRESS/NOT_STARTED
+        (está en curso o programada ahora mismo, sin importar cuándo
+        arrancó).
+    Una comisión vieja y ya cerrada (p. ej. terminada hace 3 años) es la
+    única que se descarta."""
     limite = datetime.datetime.now(TZ) - datetime.timedelta(days=30 * meses)
     conservadas = []
     for c in cohorts:
+        if c.get("status") in COHORT_STATUS_SIEMPRE_VIGENTE:
+            conservadas.append(c)
+            continue
+        start_dt = to_arg_dt(c.get("startDate"))
         end_dt = to_arg_dt(c.get("endDate"))
-        if end_dt is None or end_dt >= limite:
+        if end_dt is None or end_dt >= limite or (start_dt is not None and start_dt >= limite):
             conservadas.append(c)
     return conservadas
 
