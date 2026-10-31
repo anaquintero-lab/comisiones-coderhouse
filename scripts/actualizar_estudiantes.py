@@ -19,6 +19,9 @@ Uso:
 import os
 import sys
 import json
+import time
+import random
+import threading
 import datetime
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -40,6 +43,79 @@ PAGE_SIZE = 100
 # tiempo, basta con tocar esta lista — el resto del script no asume nada
 # más sobre los valores.
 ENROLLMENT_STATUSES = ["ACTIVE", "COMPLETED", "CANCELLED"]
+
+# ---------------------------------------------------------------------------
+# Límite de velocidad + reintentos.
+#
+# Con ~3000 comisiones, el script antes disparaba hasta 16 pedidos en
+# paralelo sin ninguna pausa, y la API de Coderhouse terminaba devolviendo
+# 429 (Too Many Requests) para la mayoría — esas comisiones quedaban sin
+# inscriptos. Dos cambios para evitarlo:
+#   1. Menos hilos en paralelo (antes 16, ahora 6).
+#   2. Un "throttle" global: entre un pedido HTTP y el siguiente (sin
+#      importar qué hilo lo haga) se espera como mínimo
+#      MIN_INTERVALO_ENTRE_PETICIONES segundos.
+#   3. Si igual llega un 429 (o un 5xx transitorio), se reintenta con
+#      backoff exponencial (respetando el header Retry-After si la API lo
+#      manda) en lugar de darlo por perdido al toque.
+# ---------------------------------------------------------------------------
+MAX_WORKERS_ENROLLMENTS = 6
+MAX_WORKERS_PERFILES = 6
+MIN_INTERVALO_ENTRE_PETICIONES = 0.12  # techo duro: ~8 pedidos/seg en total
+MAX_REINTENTOS_429 = 6
+ESPERA_BASE_SEGUNDOS = 1.5
+
+# Opcional: si se define esta variable de entorno con un número de meses,
+# se descartan las comisiones cuya fecha de fin sea más vieja que eso antes
+# de pedir sus inscriptos — reduce drásticamente la cantidad de pedidos.
+# Por defecto NO está activado: se trae el historial completo, como se
+# pidió originalmente.
+SOLO_ULTIMOS_MESES = os.environ.get("ESTUDIANTES_SOLO_ULTIMOS_MESES")
+
+_rate_lock = threading.Lock()
+_ultima_peticion = [0.0]
+
+
+def _throttle():
+    """Asegura que entre un pedido HTTP y el siguiente (de cualquier hilo)
+    pase como mínimo MIN_INTERVALO_ENTRE_PETICIONES segundos."""
+    with _rate_lock:
+        ahora = time.monotonic()
+        espera = _ultima_peticion[0] + MIN_INTERVALO_ENTRE_PETICIONES - ahora
+        if espera > 0:
+            time.sleep(espera)
+        _ultima_peticion[0] = time.monotonic()
+
+
+def _peticion_con_reintentos(fn, *args, **kwargs):
+    """Envoltorio de requests.get/requests.post: aplica el throttle antes de
+    cada intento y, si la respuesta es 429 o un 5xx transitorio, reintenta
+    con backoff exponencial (+ jitter, para que varios hilos no reintenten
+    todos en el mismo instante) en vez de devolver el error de una."""
+    intento = 0
+    while True:
+        _throttle()
+        resp = fn(*args, **kwargs)
+        if resp.status_code not in (429, 500, 502, 503, 504):
+            return resp
+        intento += 1
+        if intento > MAX_REINTENTOS_429:
+            return resp  # se agota: que raise_for_status() lo reporte como error final
+        retry_after = resp.headers.get("Retry-After") if resp.headers else None
+        if retry_after:
+            try:
+                espera = float(retry_after)
+            except ValueError:
+                espera = ESPERA_BASE_SEGUNDOS * (2 ** (intento - 1))
+        else:
+            espera = ESPERA_BASE_SEGUNDOS * (2 ** (intento - 1))
+        espera += random.uniform(0, espera * 0.3)
+        print(
+            f"  aviso: HTTP {resp.status_code} de la API, reintentando en {espera:.1f}s "
+            f"(intento {intento}/{MAX_REINTENTOS_429})...",
+            file=sys.stderr,
+        )
+        time.sleep(espera)
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Archivo PÚBLICO: lo lee directamente el navegador (fetch) desde la pestaña
@@ -70,7 +146,8 @@ def get_all_cohorts():
     cohorts = []
     page = 1
     while True:
-        resp = requests.get(
+        resp = _peticion_con_reintentos(
+            requests.get,
             f"{API_URL}/student/enrollment/m2m/admin/cohorts",
             headers=student_headers(),
             params={"page": page, "limit": PAGE_SIZE},
@@ -106,7 +183,8 @@ def search_products(product_ids):
     ids = list(product_ids)
     for i in range(0, len(ids), chunk_size):
         chunk = ids[i : i + chunk_size]
-        resp = requests.post(
+        resp = _peticion_con_reintentos(
+            requests.post,
             f"{API_URL}/finance/product/m2m/products/search",
             headers=finance_headers(),
             json={"productIds": chunk},
@@ -207,7 +285,8 @@ def get_enrollments_for_cohort(cohort_id):
         items = []
         page = 1
         while True:
-            resp = requests.get(
+            resp = _peticion_con_reintentos(
+                requests.get,
                 f"{API_URL}/student/enrollment/m2m/admin/cohorts/{cohort_id}/enrollments",
                 headers=student_headers(),
                 params={"page": page, "limit": PAGE_SIZE, **params_extra},
@@ -254,7 +333,7 @@ def get_enrollments_for_cohort(cohort_id):
 def get_all_enrollments(cohort_ids):
     result = {}
     errores = []
-    with ThreadPoolExecutor(max_workers=16) as ex:
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS_ENROLLMENTS) as ex:
         futures = [ex.submit(get_enrollments_for_cohort, cid) for cid in cohort_ids]
         for fut in as_completed(futures):
             cid, items, err = fut.result()
@@ -275,7 +354,8 @@ def get_all_enrollments(cohort_ids):
 
 def _resolver_perfil(student_id):
     try:
-        resp = requests.get(
+        resp = _peticion_con_reintentos(
+            requests.get,
             f"{API_URL}/student/profile/m2m/admin/profiles/{student_id}",
             headers=student_headers(),
             timeout=30,
@@ -296,7 +376,7 @@ def _resolver_perfil(student_id):
 def resolver_perfiles_faltantes(student_ids):
     result = {}
     ids = [sid for sid in student_ids if sid]
-    with ThreadPoolExecutor(max_workers=16) as ex:
+    with ThreadPoolExecutor(max_workers=MAX_WORKERS_PERFILES) as ex:
         futures = [ex.submit(_resolver_perfil, sid) for sid in ids]
         for fut in as_completed(futures):
             sid, first, last, email = fut.result()
@@ -412,10 +492,41 @@ def cargar_json_previo():
         return [], []
 
 
+def _filtrar_por_antiguedad(cohorts, meses):
+    """Opcional (ESTUDIANTES_SOLO_ULTIMOS_MESES): descarta comisiones cuya
+    fecha de fin sea más vieja que `meses` meses, para no pedirle inscriptos
+    a comisiones cerradas hace mucho tiempo. Una comisión sin fecha de fin
+    se conserva siempre (se la trata como vigente)."""
+    limite = datetime.datetime.now(TZ) - datetime.timedelta(days=30 * meses)
+    conservadas = []
+    for c in cohorts:
+        end_dt = to_arg_dt(c.get("endDate"))
+        if end_dt is None or end_dt >= limite:
+            conservadas.append(c)
+    return conservadas
+
+
 def main():
     print("Trayendo comisiones...", file=sys.stderr)
     cohorts = get_all_cohorts()
     print(f"  {len(cohorts)} comisiones encontradas", file=sys.stderr)
+
+    if SOLO_ULTIMOS_MESES:
+        try:
+            meses = float(SOLO_ULTIMOS_MESES)
+            antes = len(cohorts)
+            cohorts = _filtrar_por_antiguedad(cohorts, meses)
+            print(
+                f"  ESTUDIANTES_SOLO_ULTIMOS_MESES={SOLO_ULTIMOS_MESES}: "
+                f"se descartaron {antes - len(cohorts)} comisiones más viejas que eso "
+                f"({len(cohorts)} quedan)",
+                file=sys.stderr,
+            )
+        except ValueError:
+            print(
+                f"  aviso: ESTUDIANTES_SOLO_ULTIMOS_MESES={SOLO_ULTIMOS_MESES!r} no es un número, se ignora (se trae todo el historial)",
+                file=sys.stderr,
+            )
 
     product_ids = {c.get("productId") for c in cohorts if c.get("productId") is not None}
     print(f"Buscando {len(product_ids)} productos...", file=sys.stderr)
