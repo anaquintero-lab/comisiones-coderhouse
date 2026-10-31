@@ -75,6 +75,30 @@ SOLO_ULTIMOS_MESES = os.environ.get("ESTUDIANTES_SOLO_ULTIMOS_MESES")
 _rate_lock = threading.Lock()
 _ultima_peticion = [0.0]
 
+# Diagnóstico de una sola vez: la primera vez que se pide /enrollments
+# (cualquiera sea la comisión o el hilo), se imprime la respuesta cruda
+# completa de la API al log. Esto es clave cuando el script no tira NINGÚN
+# error pero igual trae 0 inscriptos en todas las comisiones — ahí el
+# problema es que el formato real de la respuesta no es el que el script
+# espera (o la cuenta no tiene permiso para ver el contenido), y sin ver el
+# JSON tal cual lo manda el Back Office es imposible saberlo a ciegas.
+_diagnostico_lock = threading.Lock()
+_diagnostico_impreso = [False]
+
+
+def _imprimir_diagnostico_si_corresponde(url, params, resp):
+    with _diagnostico_lock:
+        if _diagnostico_impreso[0]:
+            return
+        _diagnostico_impreso[0] = True
+    print("  --- DIAGNÓSTICO (una sola vez): primer pedido a /enrollments ---", file=sys.stderr)
+    print(f"  URL: {url}", file=sys.stderr)
+    print(f"  Parámetros: {params}", file=sys.stderr)
+    print(f"  Código HTTP: {resp.status_code}", file=sys.stderr)
+    print(f"  Cuerpo crudo de la respuesta (hasta 2000 caracteres):", file=sys.stderr)
+    print(f"  {(resp.text or '')[:2000]}", file=sys.stderr)
+    print("  --- fin del diagnóstico ---", file=sys.stderr)
+
 
 def _throttle():
     """Asegura que entre un pedido HTTP y el siguiente (de cualquier hilo)
@@ -285,13 +309,16 @@ def get_enrollments_for_cohort(cohort_id):
         items = []
         page = 1
         while True:
+            params = {"page": page, "limit": PAGE_SIZE, **params_extra}
+            url = f"{API_URL}/student/enrollment/m2m/admin/cohorts/{cohort_id}/enrollments"
             resp = _peticion_con_reintentos(
                 requests.get,
-                f"{API_URL}/student/enrollment/m2m/admin/cohorts/{cohort_id}/enrollments",
+                url,
                 headers=student_headers(),
-                params={"page": page, "limit": PAGE_SIZE, **params_extra},
+                params=params,
                 timeout=60,
             )
+            _imprimir_diagnostico_si_corresponde(url, params, resp)
             resp.raise_for_status()
             data = resp.json()
             batch = data.get("data", data if isinstance(data, list) else [])
