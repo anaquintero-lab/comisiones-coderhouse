@@ -28,12 +28,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 699,
-        "final": 349,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7315,
         "final": 2926,
@@ -89,12 +83,6 @@
         "final": 625680,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 759,
-        "final": 380,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7920,
@@ -152,12 +140,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 638,
-        "final": 319,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 6710,
         "final": 2684,
@@ -169,18 +151,6 @@
         "final": 484,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 565,
-        "final": 283,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 565,
-        "final": 283,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -214,12 +184,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 741,
-        "final": 371,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7761,
         "final": 3104,
@@ -231,18 +195,6 @@
         "final": 548,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 649,
-        "final": 325,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 649,
-        "final": 325,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -275,12 +227,6 @@
         "final": 344520,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 341,
-        "final": 171,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 4070,
@@ -326,34 +272,10 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1448700,
         "final": 579480,
         "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -400,12 +322,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 440,
-        "final": 220,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 5610,
         "final": 2244,
@@ -450,23 +366,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1448700,
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -479,18 +383,6 @@
         "final": 418,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -506,29 +398,11 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 687500,
-        "final": 275000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1652200,
         "final": 660880,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 847,
-        "final": 424,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 8250,
@@ -585,12 +459,6 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 704,
-        "final": 352,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -692,12 +560,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 495000,
         "final": 198000,
@@ -710,12 +572,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 5720,
         "final": 2288,
@@ -727,18 +583,6 @@
         "final": 308,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -771,12 +615,6 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 638,
-        "final": 319,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -834,12 +672,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 759,
-        "final": 380,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7920,
         "final": 3168,
@@ -895,12 +727,6 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -958,12 +784,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 8250,
         "final": 3300,
@@ -1020,12 +840,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 741,
-        "final": 371,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7761,
         "final": 3104,
@@ -1037,18 +851,6 @@
         "final": 548,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 649,
-        "final": 325,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 649,
-        "final": 325,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -1093,24 +895,6 @@
         "final": 5456,
         "currency": "MXN",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 1980,
-        "final": 792,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1101,
-        "final": 551,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1101,
-        "final": 551,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -1144,12 +928,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 1694,
-        "final": 847,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 14520,
         "final": 5808,
@@ -1161,18 +939,6 @@
         "final": 946,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 1316,
-        "final": 658,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1316,
-        "final": 658,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -1206,12 +972,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 5720,
         "final": 2288,
@@ -1223,18 +983,6 @@
         "final": 308,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -1250,12 +998,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -1267,12 +1009,6 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 704,
-        "final": 352,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -1312,53 +1048,17 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 22550,
-        "final": 11275,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 772200,
-        "final": 308880,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1787500,
         "final": 715000,
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 935,
-        "final": 468,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 9130,
         "final": 3652,
         "currency": "MXN",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 1265,
-        "final": 506,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -1392,12 +1092,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 808,
-        "final": 404,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 8467,
         "final": 3387,
@@ -1409,18 +1103,6 @@
         "final": 598,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 708,
-        "final": 354,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 708,
-        "final": 354,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -1454,22 +1136,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 847,
-        "final": 424,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 8250,
         "final": 3300,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1430,
-        "final": 572,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -1498,12 +1168,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 687500,
         "final": 275000,
@@ -1515,12 +1179,6 @@
         "final": 660880,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 847,
-        "final": 424,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 8250,
@@ -1622,12 +1280,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -1640,12 +1292,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 638,
-        "final": 319,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -1657,18 +1303,6 @@
         "final": 418,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -1701,12 +1335,6 @@
         "final": 469920,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 561,
-        "final": 281,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 5720,
@@ -1764,12 +1392,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 390,
-        "final": 195,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 3950,
         "final": 1580,
@@ -1826,22 +1448,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 319,
-        "final": 160,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 4070,
         "final": 1628,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 715,
-        "final": 286,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -1932,12 +1542,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -1950,12 +1554,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -1967,18 +1565,6 @@
         "final": 418,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -1994,12 +1580,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -2012,35 +1592,11 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
         "currency": "MXN",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 536,
-        "final": 268,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 536,
-        "final": 268,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -2074,12 +1630,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 374,
-        "final": 187,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 5610,
         "final": 2244,
@@ -2091,18 +1641,6 @@
         "final": 462,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 307,
-        "final": 154,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 307,
-        "final": 154,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -2118,12 +1656,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -2135,12 +1667,6 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -2198,12 +1724,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 693,
-        "final": 347,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 5610,
         "final": 2244,
@@ -2215,18 +1735,6 @@
         "final": 462,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 358,
-        "final": 179,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 358,
-        "final": 179,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -2242,12 +1750,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 687500,
         "final": 275000,
@@ -2259,12 +1761,6 @@
         "final": 660880,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 825,
-        "final": 413,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 8250,
@@ -2384,12 +1880,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 319,
-        "final": 160,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 4070,
         "final": 1628,
@@ -2446,12 +1936,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 704,
-        "final": 352,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -2490,12 +1974,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -2508,22 +1986,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 704,
-        "final": 352,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -2558,12 +2024,6 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1174800,
         "final": 469920,
@@ -2576,29 +2036,11 @@
         "currency": "EUR",
         "discount_pct": 50
       },
-      "MX": {
-        "list": 5720,
-        "final": 2288,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 770,
         "final": 308,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -2614,12 +2056,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -2631,12 +2067,6 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 704,
-        "final": 352,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -2694,22 +2124,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 792,
-        "final": 396,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7480,
         "final": 2992,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1155,
-        "final": 462,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -2738,12 +2156,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 17600,
-        "final": 8800,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 503800,
         "final": 201520,
@@ -2755,12 +2167,6 @@
         "final": 574640,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7040,
@@ -2800,12 +2206,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 21560,
-        "final": 10780,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 558800,
         "final": 223520,
@@ -2828,12 +2228,6 @@
         "list": 8360,
         "final": 3344,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -2862,12 +2256,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -2880,22 +2268,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -2942,22 +2318,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 891,
-        "final": 446,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 10120,
         "final": 4048,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1210,
-        "final": 484,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -2986,12 +2350,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -3004,22 +2362,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -3078,12 +2424,6 @@
         "currency": "MXN",
         "discount_pct": 60
       },
-      "PE": {
-        "list": 825,
-        "final": 330,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
       "US": {
         "list": 608,
         "final": 304,
@@ -3110,34 +2450,10 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1174800,
         "final": 469920,
         "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 5720,
-        "final": 2288,
-        "currency": "MXN",
         "discount_pct": 60
       },
       "PE": {
@@ -3145,18 +2461,6 @@
         "final": 308,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -3178,23 +2482,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 772200,
-        "final": 308880,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1787500,
         "final": 715000,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 935,
-        "final": 468,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 9130,
@@ -3207,18 +2499,6 @@
         "final": 506,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -3251,12 +2531,6 @@
         "final": 469920,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 5720,
@@ -3302,28 +2576,10 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1174800,
         "final": 469920,
         "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 5720,
-        "final": 2288,
-        "currency": "MXN",
         "discount_pct": 60
       },
       "PE": {
@@ -3331,18 +2587,6 @@
         "final": 308,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -3364,23 +2608,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1448700,
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
@@ -3438,22 +2670,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 319,
-        "final": 160,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 4070,
         "final": 1628,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 715,
-        "final": 286,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -3482,12 +2702,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -3500,22 +2714,10 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 2948,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -3544,12 +2746,6 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -3579,18 +2775,6 @@
         "final": 528,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -3624,12 +2808,6 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 638,
-        "final": 319,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 6710,
         "final": 2684,
@@ -3641,18 +2819,6 @@
         "final": 484,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 565,
-        "final": 283,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 565,
-        "final": 283,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CODERWEEN 🎃"
@@ -3668,34 +2834,10 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1174800,
         "final": 469920,
         "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 517,
-        "final": 259,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 5720,
-        "final": 2288,
-        "currency": "MXN",
         "discount_pct": 60
       },
       "PE": {
