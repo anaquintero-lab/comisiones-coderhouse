@@ -7,282 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-</head>
-<body>
-
-<div id="dash-root">
-<div class="page">
-  <header class="page-head">
-    <h1 class="page-title">Coderhouse Tools</h1>
-    <p class="page-sub" id="takeaway">—</p>
-  </header>
-
-  <nav class="tabs-nav" role="tablist">
-    <button type="button" class="tab-btn is-active" data-tab="comisiones" role="tab" aria-selected="true">Comisiones</button>
-    <button type="button" class="tab-btn" data-tab="estudiantes" role="tab" aria-selected="false">Estudiantes</button>
-    <button type="button" class="tab-btn" data-tab="calculadora" role="tab" aria-selected="false">Calculadora de cambios</button>
-  </nav>
-
-  <div id="tab-panel-comisiones" class="tab-panel is-active">
-
-  <section class="card filters-card">
-    <div class="filters">
-      <div class="field-icon-wrap field-icon-left filters-search-wrap">
-        <span class="field-icon" aria-hidden="true">🔎</span>
-        <input type="text" class="filter-input f-search" placeholder="Buscar curso o comisión…" aria-label="Buscar curso o comisión">
-      </div>
-      <select class="filter-input f-curso" aria-label="Curso"></select>
-      <select class="filter-input f-mes" aria-label="Mes"></select>
-      <select class="filter-input f-dia" aria-label="Día"></select>
-      <div class="field-icon-wrap field-icon-right">
-      <select class="filter-input f-pais" aria-label="País / Zona horaria">
-        <option value="AR" selected>🇦🇷 Argentina (UTC-3)</option>
-        <option value="UY">🇺🇾 Uruguay (UTC-3)</option>
-        <option value="CL">🇨🇱 Chile (UTC-3 / UTC-4)</option>
-        <option value="CO">🇨🇴 Colombia (UTC-5)</option>
-        <option value="ES">🇪🇸 España (UTC+1 / UTC+2)</option>
-        <option value="US">🇺🇸 Estados Unidos (EST / UTC-5)</option>
-        <option value="MX">🇲🇽 México (CST / UTC-6)</option>
-        <option value="PE">🇵🇪 Perú (UTC-5)</option>
-        <option value="VE">🇻🇪 Venezuela (UTC-4)</option>
-      </select>
-      <span class="field-icon" aria-hidden="true">🌐</span>
-      </div>
-      <select class="filter-input f-hora" aria-label="Hora"></select>
-      <select class="filter-input f-estado" aria-label="Estado"></select>
-      <select class="filter-input f-sort-field" aria-label="Ordenar por">
-        <option value="fecha_inicio">Ordenar por: Fecha de inicio</option>
-        <option value="comision">Ordenar por: Número de comisión</option>
-      </select>
-      <select class="filter-input f-sort-dir" aria-label="Dirección de orden">
-        <option value="asc">Ascendente</option>
-        <option value="desc">Descendente</option>
-      </select>
-      <button class="filter-input f-copy-consecutive" type="button">Copiar consecutivas</button>
-      <button class="btn-reset f-reset" type="button">Limpiar filtros</button>
-    </div>
-    <p class="count-line" id="count"></p>
-  </section>
-
-  <section class="card table-card">
-    <div class="table-wrap">
-      <table class="comisiones-table">
-        <thead>
-          <tr>
-            <th>Curso</th>
-            <th>Comisión</th>
-            <th>Día</th>
-            <th id="th-horario">Horario (AR)</th>
-            <th>Inicio</th>
-            <th>Fin</th>
-            <th>Estado</th>
-            <th>Insc.</th>
-            <th>Cupo</th>
-            <th>Profesores</th>
-            <th class="col-actions">Copiar</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
-  </section>
-
-  </div>
-
-  <div id="tab-panel-estudiantes" class="tab-panel">
-    <section class="card est-card">
-      <form id="est-form" class="est-search-row">
-        <div class="field-icon-wrap field-icon-left est-search-wrap">
-          <span class="field-icon" aria-hidden="true">🔎</span>
-          <input type="email" id="est-email" class="filter-input" placeholder="correo@del-estudiante.com" autocomplete="off" required>
-        </div>
-        <button type="submit" id="est-buscar-btn" class="btn-reset est-buscar-btn">Buscar estudiante</button>
-      </form>
-      <p class="est-note">Buscá por el correo electrónico exacto con el que el estudiante está inscripto en Coderhouse. (Prototipo con datos de prueba: probá con ana.perez@coderhouse.com, juan.gomez@coderhouse.com o maria.lopez@coderhouse.com)</p>
-    </section>
-
-    <div id="est-estado" class="est-estado"></div>
-
-    <div id="est-resultado" class="est-resultado" hidden>
-      <section class="card est-card">
-        <h2 id="est-nombre" class="est-nombre">—</h2>
-        <p id="est-correo" class="est-correo"></p>
-      </section>
-
-      <section class="card">
-        <h3 class="est-subtitulo">Cursos</h3>
-        <div class="table-scroll">
-          <table class="comisiones-table est-cursos-table">
-            <thead>
-              <tr>
-                <th>Curso</th>
-                <th>Comisión</th>
-                <th>Día / fecha</th>
-                <th>Certificado</th>
-              </tr>
-            </thead>
-            <tbody id="est-cursos-body"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="card">
-        <h3 class="est-subtitulo">Inasistencias</h3>
-        <div class="table-scroll">
-          <table class="comisiones-table est-ausencias-table">
-            <thead>
-              <tr>
-                <th>Curso</th>
-                <th>Fechas de inasistencia</th>
-              </tr>
-            </thead>
-            <tbody id="est-ausencias-body"></tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="card">
-        <h3 class="est-subtitulo">Compras</h3>
-        <div class="table-scroll">
-          <table class="comisiones-table est-compras-table">
-            <thead>
-              <tr>
-                <th>Curso</th>
-                <th>Valor</th>
-                <th>Fecha</th>
-              </tr>
-            </thead>
-            <tbody id="est-compras-body"></tbody>
-          </table>
-        </div>
-      </section>
-    </div>
-
-    <section class="card">
-      <h3 class="est-subtitulo">Listado completo de estudiantes (Back Office)</h3>
-      <div class="filters">
-        <div class="field-icon-wrap field-icon-left filters-search-wrap">
-          <span class="field-icon" aria-hidden="true">🔎</span>
-          <input type="text" id="est-todos-buscar" class="filter-input" placeholder="Buscar por nombre, email o curso..." autocomplete="off">
-        </div>
-        <select id="est-todos-curso" class="filter-input"><option value="">Todos los cursos</option></select>
-        <input type="text" id="est-todos-comision" class="filter-input" placeholder="N° de comisión">
-        <select id="est-todos-estado" class="filter-input"><option value="">Todos los estados</option></select>
-      </div>
-      <div class="table-scroll">
-        <table class="comisiones-table" id="est-todos-table">
-          <thead>
-            <tr>
-              <th>Nombre</th><th>Email</th><th>Curso</th><th>Comisión</th>
-              <th>Inicio</th><th>Fin</th><th>Día</th><th>Estado</th>
-            </tr>
-          </thead>
-          <tbody id="est-todos-body"></tbody>
-        </table>
-      </div>
-      <p id="est-todos-info" class="calc-descuento-info"></p>
-    </section>
-
-    <section class="card" id="est-cambios-card">
-      <h3 class="est-subtitulo">Cambios recientes detectados</h3>
-      <p class="est-note">Se arma comparando cada actualización automática con la anterior — no es un historial oficial del Back Office.</p>
-      <div class="table-scroll">
-        <table class="comisiones-table">
-          <thead>
-            <tr><th>Detectado</th><th>Nombre</th><th>Curso</th><th>Comisión</th><th>Tipo</th><th>De</th><th>A</th></tr>
-          </thead>
-          <tbody id="est-cambios-body"></tbody>
-        </table>
-      </div>
-    </section>
-  </div>
-
-  <div id="tab-panel-calculadora" class="tab-panel">
-    <div class="calc-update-bar">
-      <span class="calc-update-timestamp" id="precios-last-updated">Precios actualizados el 02/11/2026 09:43 (hora Argentina)</span>
-    </div>
-    <section class="card calc-card">
-      <div class="calc-grid">
-        <div class="control-group">
-          <label for="calc-pais">País / Moneda</label>
-          <div class="field-icon-wrap field-icon-right">
-            <select id="calc-pais" class="filter-input">
-              <option value="AR" selected>🇦🇷 Argentina (ARS)</option>
-              <option value="UY">🇺🇾 Uruguay (UYU)</option>
-              <option value="CL">🇨🇱 Chile (CLP)</option>
-              <option value="CO">🇨🇴 Colombia (COP)</option>
-              <option value="ES">🇪🇸 España (EUR)</option>
-              <option value="US">🇺🇸 Estados Unidos (USD)</option>
-              <option value="MX">🇲🇽 México (MXN)</option>
-              <option value="PE">🇵🇪 Perú (PEN)</option>
-              <option value="VE">🇻🇪 Venezuela (USD)</option>
-            </select>
-            <span class="field-icon" aria-hidden="true">🌐</span>
-          </div>
-        </div>
-        <div class="control-group">
-          <label for="calc-buscar">Buscar curso</label>
-          <div class="field-icon-wrap field-icon-left">
-            <span class="field-icon" aria-hidden="true">🔎</span>
-            <input type="text" id="calc-buscar" class="filter-input" placeholder="Ej: Python, UX/UI…">
-          </div>
-        </div>
-        <div class="control-group calc-group-wide">
-          <label for="calc-curso">Curso</label>
-          <div class="field-icon-wrap field-icon-left">
-            <span class="field-icon" aria-hidden="true">👤</span>
-            <select id="calc-curso" class="filter-input"></select>
-          </div>
-        </div>
-        <div class="control-group">
-          <label class="calc-reset-label" aria-hidden="true">&nbsp;</label>
-          <button type="button" id="calc-reset-btn" class="btn-reset calc-reset-btn">🧹 Limpiar filtros</button>
-        </div>
-      </div>
-      <p class="calc-note" id="calc-note"></p>
-    </section>
-
-    <div class="calc-metrics">
-      <div class="calc-metric-card">
-        <div class="calc-metric-title">Precio de lista <span>(sin descuento)</span></div>
-        <div class="calc-metric-value-row">
-          <div class="calc-metric-value" id="calc-val-lista">—</div>
-          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-lista" aria-label="Copiar precio de lista"></button>
-        </div>
-        <div class="calc-metric-sub">Valor base oficial del curso actual</div>
-      </div>
-      <div class="calc-metric-card calc-highlight">
-        <div class="calc-metric-title">Precio final <span>(con descuento vigente)</span></div>
-        <div class="calc-metric-value-row">
-          <div class="calc-metric-value calc-text-accent" id="calc-val-final">—</div>
-          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-final" aria-label="Copiar precio final"></button>
-        </div>
-        <div class="calc-metric-sub" id="calc-descuento-info">—</div>
-      </div>
-      <div class="calc-metric-card calc-accent-rosa-soft">
-        <div class="calc-metric-title">Cambio de comisión <span>(25%)</span></div>
-        <div class="calc-metric-value-row">
-          <div class="calc-metric-value" id="calc-val-comision">—</div>
-          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-comision" aria-label="Copiar cambio de comisión"></button>
-        </div>
-        <div class="calc-metric-sub">25% sobre el precio de lista del curso actual</div>
-      </div>
-      <div class="calc-metric-card calc-accent-rosa">
-        <div class="calc-metric-title">Cambio de curso <span>(50%)</span></div>
-        <div class="calc-metric-value-row">
-          <div class="calc-metric-value calc-text-rosa" id="calc-val-destino">—</div>
-          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-curso" aria-label="Copiar cambio de curso"></button>
-        </div>
-        <div class="calc-metric-sub">50% sobre el precio de lista del curso actual</div>
-      </div>
-    </div>
-
-    <p class="calc-source-note">Precios públicos tomados de coderhouse.com (web), por país. Se actualizan solos todos los días (sin intervención manual). Si un curso no tiene precio público disponible, no aparece en el listado.</p>
-  </div>
-
-</div>
-</div>
-
 <style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -307,10 +31,6 @@
     max-width: 1400px;
     margin: 0 auto;
     padding: 1.5rem 1rem;
-  }
-
-  #dash-root, #dash-root *, #dash-root *::before, #dash-root *::after {
-    box-sizing: border-box;
   }
 
   #dash-root .page {
@@ -351,121 +71,6 @@
   #dash-root .tab-panel { display: none; }
   #dash-root .tab-panel.is-active { display: block; }
 
-  #dash-root .calc-card { }
-  #dash-root .calc-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-  }
-  #dash-root .calc-group-wide { grid-column: span 1; }
-  #dash-root .control-group { display: flex; flex-direction: column; gap: .35rem; }
-  #dash-root .control-group label {
-    font-size: .72rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    color: var(--ch-ink-muted);
-  }
-  #dash-root .calc-card { box-shadow: 0 3px 14px rgba(23, 23, 23, .05); }
-  #dash-root .calc-card .filter-input { border-radius: 10px; width: 100%; }
-  #dash-root .calc-note { margin: .8rem 0 0 0; font-size: .82rem; color: var(--ch-ink-muted); }
-
-  #dash-root .field-icon-wrap { position: relative; }
-  #dash-root .field-icon-wrap .filter-input { width: 100%; }
-  #dash-root .field-icon-wrap.field-icon-left .filter-input { padding-left: 2.15rem; }
-  #dash-root .field-icon-wrap.field-icon-right .filter-input { padding-right: 2.15rem; }
-  #dash-root .field-icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: .92rem;
-    opacity: .55;
-    pointer-events: none;
-  }
-  #dash-root .field-icon-wrap.field-icon-left .field-icon { left: .85rem; }
-  #dash-root .field-icon-wrap.field-icon-right .field-icon { right: .95rem; }
-
-  #dash-root .calc-metrics {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1rem;
-    margin: 1rem 0;
-  }
-  #dash-root .calc-metric-card {
-    background: var(--ch-card);
-    border: 1px solid var(--ch-border);
-    border-radius: 14px;
-    padding: 1.1rem;
-    box-shadow: 0 2px 10px rgba(23, 23, 23, .04);
-  }
-  #dash-root .calc-metric-card.calc-highlight {
-    border: 1.5px solid var(--ch-accent);
-    background: linear-gradient(145deg, #fffaf6, #ffe9db);
-    box-shadow: 0 6px 20px rgba(255, 99, 43, .2);
-  }
-  #dash-root .calc-metric-card.calc-accent-rosa { border: 1.5px solid var(--ch-rosa); }
-  #dash-root .calc-metric-card.calc-accent-rosa-soft { border: 1.5px solid #ffa3cb; }
-  #dash-root .calc-metric-title {
-    font-size: .74rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: .03em;
-    color: var(--ch-ink-muted);
-    margin-bottom: .5rem;
-  }
-  #dash-root .calc-metric-title span { font-weight: 500; text-transform: none; letter-spacing: 0; }
-  #dash-root .calc-metric-value { font-size: 1.7rem; font-weight: 800; color: var(--ch-ink); margin-bottom: .25rem; font-variant-numeric: tabular-nums; }
-  #dash-root .calc-text-accent { color: var(--ch-accent); }
-  #dash-root .calc-text-rosa { color: var(--ch-rosa); }
-  #dash-root .calc-metric-sub { font-size: .78rem; color: var(--ch-ink-muted); }
-  #dash-root .calc-metric-value-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .25rem; }
-  #dash-root .calc-metric-value-row .calc-metric-value { margin-bottom: 0; }
-  #dash-root .calc-copy-btn { font-size: .68rem; padding: .25rem .55rem; flex: none; }
-  #dash-root .calc-copy-btn svg { width: 11px; height: 11px; }
-
-  #dash-root .calc-source-note { font-size: .76rem; color: var(--ch-ink-muted); margin: 0; }
-  #dash-root .calc-update-bar {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: .5rem .9rem;
-    margin-bottom: .9rem;
-  }
-  #dash-root .calc-update-timestamp {
-    font-size: .76rem;
-    color: var(--ch-ink-muted);
-  }
-
-  #dash-root .page-head { margin-bottom: 1.25rem; }
-  #dash-root .page-title {
-    font-family: Arial, sans-serif;
-    font-weight: 800;
-    letter-spacing: -.01em;
-    font-size: 2.1rem;
-    margin: 0 0 .4rem 0;
-    color: var(--ch-ink);
-  }
-  #dash-root .page-title::after {
-    content: '';
-    display: block;
-    width: 2.75rem;
-    height: 5px;
-    border-radius: 3px;
-    background: var(--ch-accent);
-    margin-top: .5rem;
-  }
-  #dash-root .page-sub {
-    margin: 0;
-    color: var(--ch-ink-muted);
-    font-size: .95rem;
-    background: #efe6d6;
-    border: 1px solid var(--ch-border);
-    border-radius: 12px;
-    padding: .7rem 1rem;
-    display: inline-block;
-  }
-
   #dash-root .card {
     background: var(--ch-card);
     border: 1px solid var(--ch-border);
@@ -491,38 +96,6 @@
     padding: .5rem .9rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   }
-  #dash-root .filter-input:focus { outline: 2px solid var(--ch-accent); outline-offset: 1px; }
-
-  #dash-root .f-copy-consecutive {
-    cursor: pointer;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  #dash-root .f-copy-consecutive.is-copied { color: var(--ch-ok); border-color: var(--ch-ok); }
-
-  #dash-root .f-search { border-radius: 999px; }
-  #dash-root .filters-search-wrap { flex: 1 1 14rem; min-width: 12rem; }
-
-  #dash-root .btn-reset {
-    font-family: inherit;
-    font-weight: 600;
-    font-size: .82rem;
-    color: var(--ch-ink);
-    background: transparent;
-    border: 1px solid var(--ch-ink);
-    border-radius: 999px;
-    padding: .5rem .9rem;
-    cursor: pointer;
-  }
-  #dash-root .btn-reset:hover { color: var(--ch-accent-ink); background: var(--ch-ink); border-color: var(--ch-ink); }
-  #dash-root .calc-reset-btn { width: 100%; }
-
-  #dash-root .count-line {
-    margin: .6rem 0 0 0;
-    font-size: .82rem;
-    color: var(--ch-ink-muted);
-    font-variant-numeric: tabular-nums;
-  }
 
   #dash-root .table-wrap {
     max-height: 70vh;
@@ -534,7 +107,6 @@
     width: 100%;
     border-collapse: collapse;
     font-size: .88rem;
-    font-variant-numeric: tabular-nums;
   }
 
   #dash-root .comisiones-table thead th {
@@ -545,123 +117,87 @@
     font-weight: 700;
     font-size: .74rem;
     text-transform: uppercase;
-    letter-spacing: .03em;
     color: var(--ch-ink-muted);
     padding: .6rem .45rem;
     border-bottom: 2px solid var(--ch-ink);
-    white-space: nowrap;
   }
 
   #dash-root .comisiones-table tbody td {
     padding: .55rem .45rem;
     border-bottom: 1px solid var(--ch-border);
-    color: var(--ch-ink);
-    white-space: nowrap;
   }
 
-  #dash-root .comisiones-table tbody td:first-child {
-    white-space: normal;
-    min-width: 16rem;
-    font-weight: 600;
-  }
-
-  #dash-root .comisiones-table tbody tr:hover td {
-    background: #fdf8f0;
-  }
-
-  #dash-root .status-msg {
-    text-align: center;
-    color: var(--ch-ink-muted);
-    padding: 1.5rem !important;
-    white-space: normal !important;
-  }
-
-  #dash-root .comisiones-table tbody td.cell-profesores {
-    white-space: normal;
-    min-width: 12rem;
-    color: var(--ch-ink-muted);
-  }
-
-  #dash-root .badge {
-    display: inline-block;
-    padding: .2rem .55rem;
-    border-radius: 999px;
-    font-size: .76rem;
-    font-weight: 700;
-    white-space: nowrap;
-  }
-  #dash-root .badge-ok { background: #e6f6ec; color: var(--ch-ok); }
-  #dash-root .badge-warn { background: #fdf0d8; color: var(--ch-warn); }
-  #dash-root .badge-bad { background: #fbe7e7; color: var(--ch-bad); }
-  #dash-root .badge-neutral { background: #eeeae3; color: var(--ch-ink-muted); }
-
-  #dash-root .copy-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: .3rem;
-    font-family: inherit;
-    font-weight: 600;
-    font-size: .78rem;
-    color: var(--ch-accent-ink);
-    background: var(--ch-accent);
-    border: 1px solid var(--ch-accent);
-    border-radius: 999px;
-    padding: .35rem .7rem;
-    cursor: pointer;
-    line-height: 1;
-    white-space: nowrap;
-  }
-  #dash-root .copy-btn:hover { filter: brightness(0.92); }
-  #dash-root .copy-btn svg { width: 13px; height: 13px; flex: none; }
-  #dash-root .copy-btn.is-copied { background: var(--ch-ok); border-color: var(--ch-ok); color: #fff; }
-
-  /* --- Solapa Estudiantes --- */
-  #dash-root .est-search-row {
-    display: flex;
-    gap: .7rem;
-    align-items: stretch;
-    flex-wrap: wrap;
-  }
-  #dash-root .est-search-wrap { flex: 1 1 18rem; }
-  #dash-root .est-buscar-btn {
-    background: var(--ch-accent);
-    color: var(--ch-accent-ink);
-    border-color: var(--ch-accent);
-    white-space: nowrap;
-  }
-  #dash-root .est-buscar-btn:hover { filter: brightness(0.94); }
-  #dash-root .est-note {
-    margin: .6rem 0 0;
-    font-size: .8rem;
-    color: var(--ch-ink-muted);
-  }
-  #dash-root .est-estado {
-    text-align: center;
-    color: var(--ch-ink-muted);
-    padding: .4rem 0 1rem;
-    font-size: .9rem;
-  }
-  #dash-root .est-estado.is-error { color: var(--ch-bad); font-weight: 600; }
-  #dash-root .est-nombre { margin: 0 0 .2rem; font-size: 1.2rem; }
-  #dash-root .est-correo { margin: 0; color: var(--ch-ink-muted); font-size: .85rem; }
-  #dash-root .est-subtitulo {
-    margin: 0 0 .7rem;
-    font-size: .95rem;
-    text-transform: uppercase;
-    letter-spacing: .03em;
-    color: var(--ch-ink-muted);
-  }
-  #dash-root .table-scroll { overflow-x: auto; }
-
-  /* --- Inasistencias (solapa Estudiantes) --- */
-  #dash-root .est-ausencias-fechas { color: var(--ch-bad); font-weight: 600; }
-  #dash-root .est-ausencias-ninguna { color: var(--ch-ink-muted); }
-
-  /* OCULTAR PESTAÑA ESTUDIANTES Y SU CONTENIDO */
+  /* Ocultar Estudiantes por CSS */
   .tab-btn[data-tab="estudiantes"], #tab-panel-estudiantes { display: none !important; }
 </style>
+</head>
+<body>
 
-<script src="comisiones.js"></script>
-<script src="app.js"></script>
+<div id="dash-root">
+<div class="page">
+  <header class="page-head">
+    <h1 class="page-title">Coderhouse Tools</h1>
+    <p class="page-sub" id="takeaway">—</p>
+  </header>
+
+  <nav class="tabs-nav" role="tablist">
+    <button type="button" class="tab-btn is-active" data-tab="comisiones" role="tab">Comisiones</button>
+    <button type="button" class="tab-btn" data-tab="estudiantes" role="tab">Estudiantes</button>
+    <button type="button" class="tab-btn" data-tab="calculadora" role="tab">Calculadora de cambios</button>
+  </nav>
+
+  <div id="tab-panel-comisiones" class="tab-panel is-active">
+    <section class="card filters-card">
+      <div class="filters">
+        <input type="text" class="filter-input f-search" placeholder="Buscar curso o comisión…">
+      </div>
+    </section>
+
+    <section class="card table-card">
+      <div class="table-wrap">
+        <table class="comisiones-table">
+          <thead>
+            <tr>
+              <th>Curso</th>
+              <th>Comisión</th>
+              <th>Día</th>
+              <th>Horario</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+  <div id="tab-panel-estudiantes" class="tab-panel">
+    <!-- Oculto por CSS -->
+  </div>
+
+  <div id="tab-panel-calculadora" class="tab-panel">
+    <section class="card">
+      <h2>Calculadora de cambios</h2>
+      <p>Seleccioná las opciones para calcular el cambio de comisión o curso.</p>
+    </section>
+  </div>
+
+</div>
+</div>
+
+<script>
+  // Manejo directo de navegación entre pestañas
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.getAttribute('data-tab');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('is-active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('is-active'));
+      
+      btn.classList.add('is-active');
+      const panel = document.getElementById('tab-panel-' + target);
+      if (panel) panel.classList.add('is-active');
+    });
+  });
+</script>
 </body>
 </html>
