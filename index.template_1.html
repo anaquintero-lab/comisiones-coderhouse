@@ -1,0 +1,1304 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comisiones Coderhouse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="dash-root">
+<div class="page">
+  <header class="page-head">
+    <h1 class="sr-only">Coderhouse Tools</h1>
+    <div class="brand-row">
+      <img class="brand-logo" src="data:image/png;base64,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" width="233" height="28" alt="Coderhouse">
+      <span class="brand-badge">Tools</span>
+    </div>
+    <div class="status-banner">
+      <span class="status-dot" aria-hidden="true"></span>
+      <span class="status-banner-live">Datos actualizados en vivo</span>
+      <span class="status-banner-sep" aria-hidden="true">·</span>
+      <span class="status-banner-detail" id="takeaway">—</span>
+    </div>
+  </header>
+
+  <nav class="tabs-nav" role="tablist">
+    <button type="button" class="tab-btn is-active" data-tab="comisiones" role="tab" aria-selected="true">Comisiones</button>
+    <button type="button" class="tab-btn" data-tab="calculadora" role="tab" aria-selected="false">Calculadora de cambios</button>
+  </nav>
+
+  <div id="tab-panel-comisiones" class="tab-panel is-active">
+
+  <section class="card filters-card">
+    <div class="filters">
+      <div class="field-icon-wrap field-icon-left filters-search-wrap">
+        <span class="field-icon" aria-hidden="true">🔎</span>
+        <input type="text" class="filter-input f-search" placeholder="Buscar curso o comisión…" aria-label="Buscar curso o comisión">
+      </div>
+      <select class="filter-input f-curso" aria-label="Curso"></select>
+      <select class="filter-input f-mes" aria-label="Mes"></select>
+      <select class="filter-input f-dia" aria-label="Día"></select>
+      <div class="field-icon-wrap field-icon-right">
+      <select class="filter-input f-pais" aria-label="País / Zona horaria">
+        <option value="AR" selected>🇦🇷 Argentina (UTC-3)</option>
+        <option value="UY">🇺🇾 Uruguay (UTC-3)</option>
+        <option value="CL">🇨🇱 Chile (UTC-3 / UTC-4)</option>
+        <option value="CO">🇨🇴 Colombia (UTC-5)</option>
+        <option value="ES">🇪🇸 España (UTC+1 / UTC+2)</option>
+        <option value="US">🇺🇸 Estados Unidos (EST / UTC-5)</option>
+        <option value="MX">🇲🇽 México (CST / UTC-6)</option>
+        <option value="PE">🇵🇪 Perú (UTC-5)</option>
+        <option value="VE">🇻🇪 Venezuela (UTC-4)</option>
+      </select>
+      <span class="field-icon" aria-hidden="true">🌐</span>
+      </div>
+      <select class="filter-input f-hora" aria-label="Hora"></select>
+      <select class="filter-input f-estado" aria-label="Estado"></select>
+      <select class="filter-input f-sort-field" aria-label="Ordenar por">
+        <option value="fecha_inicio">Ordenar por: Fecha de inicio</option>
+        <option value="comision">Ordenar por: Número de comisión</option>
+      </select>
+      <select class="filter-input f-sort-dir" aria-label="Dirección de orden">
+        <option value="asc">Ascendente</option>
+        <option value="desc">Descendente</option>
+      </select>
+      <button class="filter-input f-copy-consecutive" type="button">Copiar consecutivas</button>
+      <button class="btn-reset f-reset" type="button">Limpiar filtros</button>
+    </div>
+    <p class="count-line" id="count"></p>
+  </section>
+
+  <section class="card table-card">
+    <div class="table-wrap">
+      <table class="comisiones-table">
+        <thead>
+          <tr>
+            <th>Curso</th>
+            <th>Comisión</th>
+            <th>Día</th>
+            <th id="th-horario">Horario (AR)</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Insc.</th>
+            <th>Cupo</th>
+            <th>Profesores</th>
+            <th class="col-actions">Copiar</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  </div>
+
+  <div id="tab-panel-calculadora" class="tab-panel">
+    <div class="calc-update-bar">
+      <span class="calc-update-timestamp" id="precios-last-updated">Precios: se actualizan solos todos los días mediante GitHub Actions. Ver fecha del último scrapeo automático en el historial del repo.</span>
+    </div>
+    <section class="card calc-card">
+      <div class="calc-grid">
+        <div class="control-group">
+          <label for="calc-pais">País / Moneda</label>
+          <div class="field-icon-wrap field-icon-right">
+            <select id="calc-pais" class="filter-input">
+              <option value="AR" selected>🇦🇷 Argentina (ARS)</option>
+              <option value="UY">🇺🇾 Uruguay (UYU)</option>
+              <option value="CL">🇨🇱 Chile (CLP)</option>
+              <option value="CO">🇨🇴 Colombia (COP)</option>
+              <option value="ES">🇪🇸 España (EUR)</option>
+              <option value="US">🇺🇸 Estados Unidos (USD)</option>
+              <option value="MX">🇲🇽 México (MXN)</option>
+              <option value="PE">🇵🇪 Perú (PEN)</option>
+              <option value="VE">🇻🇪 Venezuela (USD)</option>
+            </select>
+            <span class="field-icon" aria-hidden="true">🌐</span>
+          </div>
+        </div>
+        <div class="control-group">
+          <label for="calc-buscar">Buscar curso</label>
+          <div class="field-icon-wrap field-icon-left">
+            <span class="field-icon" aria-hidden="true">🔎</span>
+            <input type="text" id="calc-buscar" class="filter-input" placeholder="Ej: Python, UX/UI…">
+          </div>
+        </div>
+        <div class="control-group calc-group-wide">
+          <label for="calc-curso">Curso</label>
+          <div class="field-icon-wrap field-icon-left">
+            <span class="field-icon" aria-hidden="true">👤</span>
+            <select id="calc-curso" class="filter-input"></select>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="calc-reset-label" aria-hidden="true">&nbsp;</label>
+          <button type="button" id="calc-reset-btn" class="btn-reset calc-reset-btn">🧹 Limpiar filtros</button>
+        </div>
+      </div>
+      <p class="calc-note" id="calc-note"></p>
+    </section>
+
+    <div class="calc-metrics">
+      <div class="calc-metric-card">
+        <div class="calc-metric-title">Precio de lista <span>(sin descuento)</span></div>
+        <div class="calc-metric-value-row">
+          <div class="calc-metric-value" id="calc-val-lista">—</div>
+          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-lista" aria-label="Copiar precio de lista"></button>
+        </div>
+        <div class="calc-metric-sub">Valor base oficial del curso actual</div>
+      </div>
+      <div class="calc-metric-card calc-highlight">
+        <div class="calc-metric-title">Precio final <span>(con descuento vigente)</span></div>
+        <div class="calc-metric-value-row">
+          <div class="calc-metric-value calc-text-accent" id="calc-val-final">—</div>
+          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-final" aria-label="Copiar precio final"></button>
+        </div>
+        <div class="calc-metric-sub" id="calc-descuento-info">—</div>
+      </div>
+      <div class="calc-metric-card calc-accent-rosa-soft">
+        <div class="calc-metric-title">Cambio de comisión <span>(25%)</span></div>
+        <div class="calc-metric-value-row">
+          <div class="calc-metric-value" id="calc-val-comision">—</div>
+          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-comision" aria-label="Copiar cambio de comisión"></button>
+        </div>
+        <div class="calc-metric-sub">25% sobre el precio de lista del curso actual</div>
+      </div>
+      <div class="calc-metric-card calc-accent-rosa">
+        <div class="calc-metric-title">Cambio de curso <span>(50%)</span></div>
+        <div class="calc-metric-value-row">
+          <div class="calc-metric-value calc-text-rosa" id="calc-val-destino">—</div>
+          <button type="button" class="copy-btn calc-copy-btn" id="calc-copy-curso" aria-label="Copiar cambio de curso"></button>
+        </div>
+        <div class="calc-metric-sub">50% sobre el precio de lista del curso actual</div>
+      </div>
+    </div>
+
+    <p class="calc-source-note">Precios públicos tomados de coderhouse.com (web), por país. Se actualizan solos todos los días (sin intervención manual). Si un curso no tiene precio público disponible, no aparece en el listado.</p>
+  </div>
+
+</div>
+</div>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: #F8F2E8;
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
+  }
+
+  #dash-root {
+    --ch-bg: #F8F2E8;
+    --ch-card: #ffffff;
+    --ch-ink: #171717;
+    --ch-ink-muted: #6b6258;
+    --ch-accent: #FF632B;
+    --ch-accent-ink: #ffffff;
+    --ch-rosa: #FE64A3;
+    --ch-amarillo: #FE872D;
+    --ch-border: #ece3d4;
+    --ch-ok: #1a9c5a;
+    --ch-warn: #c98a00;
+    --ch-bad: #d64545;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 1rem;
+  }
+
+  #dash-root, #dash-root *, #dash-root *::before, #dash-root *::after {
+    box-sizing: border-box;
+  }
+
+  #dash-root .page {
+    font-family: 'Plus Jakarta Sans', 'Segoe UI', Arial, sans-serif;
+    color: var(--ch-ink);
+    background: var(--ch-bg);
+    border-radius: 16px;
+    padding: 1.25rem;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  #dash-root .tabs-nav {
+    display: flex;
+    gap: .6rem;
+    margin-bottom: 1.1rem;
+  }
+  #dash-root .tab-btn {
+    font-family: inherit;
+    font-size: .88rem;
+    font-weight: 700;
+    color: var(--ch-ink-muted);
+    background: var(--ch-card);
+    border: 1.5px solid var(--ch-border);
+    border-radius: 999px;
+    padding: .6rem 1.15rem;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    transition: background .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+  }
+  #dash-root .tab-btn:hover { color: var(--ch-ink); border-color: var(--ch-ink-muted); }
+  #dash-root .tab-btn.is-active {
+    color: #fff;
+    background: linear-gradient(90deg, var(--ch-accent) 0%, var(--ch-amarillo) 50%, var(--ch-rosa) 100%);
+    border-color: transparent;
+    box-shadow: 0 4px 14px rgba(255, 99, 43, .35);
+  }
+  #dash-root .tab-panel { display: none; }
+  #dash-root .tab-panel.is-active { display: block; }
+
+  #dash-root .calc-card { }
+  #dash-root .calc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+  #dash-root .calc-group-wide { grid-column: span 1; }
+  #dash-root .control-group { display: flex; flex-direction: column; gap: .35rem; }
+  #dash-root .control-group label {
+    font-size: .72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--ch-ink-muted);
+  }
+  #dash-root .calc-card { box-shadow: 0 3px 14px rgba(23, 23, 23, .05); }
+  #dash-root .calc-card .filter-input { border-radius: 10px; width: 100%; }
+  #dash-root .calc-note { margin: .8rem 0 0 0; font-size: .82rem; color: var(--ch-ink-muted); }
+
+  #dash-root .field-icon-wrap { position: relative; }
+  #dash-root .field-icon-wrap .filter-input { width: 100%; }
+  #dash-root .field-icon-wrap.field-icon-left .filter-input { padding-left: 2.15rem; }
+  #dash-root .field-icon-wrap.field-icon-right .filter-input { padding-right: 2.15rem; }
+  #dash-root .field-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: .92rem;
+    opacity: .55;
+    pointer-events: none;
+  }
+  #dash-root .field-icon-wrap.field-icon-left .field-icon { left: .85rem; }
+  #dash-root .field-icon-wrap.field-icon-right .field-icon { right: .95rem; }
+
+  #dash-root .calc-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  #dash-root .calc-metric-card {
+    background: var(--ch-card);
+    border: 1px solid var(--ch-border);
+    border-radius: 14px;
+    padding: 1.1rem;
+    box-shadow: 0 2px 10px rgba(23, 23, 23, .04);
+  }
+  #dash-root .calc-metric-card.calc-highlight {
+    border: 1.5px solid var(--ch-accent);
+    background: linear-gradient(145deg, #fffaf6, #ffe9db);
+    box-shadow: 0 6px 20px rgba(255, 99, 43, .2);
+  }
+  #dash-root .calc-metric-card.calc-accent-rosa { border: 1.5px solid var(--ch-rosa); }
+  #dash-root .calc-metric-card.calc-accent-rosa-soft { border: 1.5px solid #ffa3cb; }
+  #dash-root .calc-metric-title {
+    font-size: .74rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--ch-ink-muted);
+    margin-bottom: .5rem;
+  }
+  #dash-root .calc-metric-title span { font-weight: 500; text-transform: none; letter-spacing: 0; }
+  #dash-root .calc-metric-value { font-size: 1.7rem; font-weight: 800; color: var(--ch-ink); margin-bottom: .25rem; font-variant-numeric: tabular-nums; }
+  #dash-root .calc-text-accent { color: var(--ch-accent); }
+  #dash-root .calc-text-rosa { color: var(--ch-rosa); }
+  #dash-root .calc-metric-sub { font-size: .78rem; color: var(--ch-ink-muted); }
+  #dash-root .calc-metric-value-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .25rem; }
+  #dash-root .calc-metric-value-row .calc-metric-value { margin-bottom: 0; }
+  #dash-root .calc-copy-btn { font-size: .68rem; padding: .25rem .55rem; flex: none; }
+  #dash-root .calc-copy-btn svg { width: 11px; height: 11px; }
+
+  #dash-root .calc-source-note { font-size: .76rem; color: var(--ch-ink-muted); margin: 0; }
+  #dash-root .calc-update-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: .5rem .9rem;
+    margin-bottom: .9rem;
+  }
+  #dash-root .calc-update-timestamp {
+    font-size: .76rem;
+    color: var(--ch-ink-muted);
+  }
+
+  #dash-root .page-head { margin-bottom: 1.25rem; }
+  #dash-root .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  #dash-root .brand-row {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    margin-bottom: .9rem;
+  }
+  #dash-root .brand-logo { display: block; height: 28px; width: auto; }
+  #dash-root .brand-badge {
+    display: inline-flex;
+    align-items: center;
+    font-weight: 800;
+    font-size: .68rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: #fff;
+    background: linear-gradient(90deg, var(--ch-accent) 0%, var(--ch-amarillo) 50%, var(--ch-rosa) 100%);
+    border-radius: 999px;
+    padding: .3rem .65rem;
+    box-shadow: 0 3px 10px rgba(255, 99, 43, .3);
+  }
+  #dash-root .status-banner {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: .45rem .6rem;
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, .9);
+    border-radius: 999px;
+    padding: .55rem 1.05rem;
+    box-shadow: 0 8px 24px rgba(23, 23, 23, .07), inset 0 1px 0 rgba(255, 255, 255, .6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  #dash-root .status-dot {
+    width: 9px;
+    height: 9px;
+    flex: none;
+    border-radius: 999px;
+    background: var(--ch-ok);
+    box-shadow: 0 0 0 0 rgba(26, 156, 90, .55);
+    animation: ch-dot-pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes ch-dot-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(26, 156, 90, .55); opacity: 1; }
+    70% { box-shadow: 0 0 0 7px rgba(26, 156, 90, 0); opacity: .75; }
+    100% { box-shadow: 0 0 0 0 rgba(26, 156, 90, 0); opacity: 1; }
+  }
+  #dash-root .status-banner-live {
+    font-weight: 700;
+    font-size: .84rem;
+    color: var(--ch-ink);
+    white-space: nowrap;
+  }
+  #dash-root .status-banner-sep { color: var(--ch-border); font-weight: 700; }
+  #dash-root .status-banner-detail {
+    font-size: .8rem;
+    color: var(--ch-ink-muted);
+  }
+
+  #dash-root .card {
+    background: var(--ch-card);
+    border: 1px solid var(--ch-border);
+    border-radius: 14px;
+    padding: 1.1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 10px rgba(23, 23, 23, .05);
+  }
+
+  #dash-root .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .6rem;
+    align-items: center;
+  }
+
+  #dash-root .filter-input {
+    font-family: inherit;
+    font-size: .9rem;
+    color: var(--ch-ink);
+    background: var(--ch-bg);
+    border: 1px solid var(--ch-border);
+    border-radius: 999px;
+    padding: .5rem .9rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  #dash-root .filter-input:focus { outline: 2px solid var(--ch-accent); outline-offset: 1px; }
+
+  #dash-root .f-copy-consecutive {
+    cursor: pointer;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  #dash-root .f-copy-consecutive.is-copied { color: var(--ch-ok); border-color: var(--ch-ok); }
+
+  #dash-root .f-search { border-radius: 999px; }
+  #dash-root .filters-search-wrap { flex: 1 1 14rem; min-width: 12rem; }
+
+  #dash-root .btn-reset {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: .82rem;
+    color: var(--ch-ink);
+    background: transparent;
+    border: 1px solid var(--ch-ink);
+    border-radius: 999px;
+    padding: .5rem .9rem;
+    cursor: pointer;
+  }
+  #dash-root .btn-reset:hover { color: var(--ch-accent-ink); background: var(--ch-ink); border-color: var(--ch-ink); }
+  #dash-root .calc-reset-btn { width: 100%; }
+
+  #dash-root .count-line {
+    margin: .6rem 0 0 0;
+    font-size: .82rem;
+    color: var(--ch-ink-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  #dash-root .table-wrap {
+    max-height: 70vh;
+    overflow: auto;
+    border-radius: 10px;
+  }
+
+  #dash-root .comisiones-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .88rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #dash-root .comisiones-table thead th {
+    position: sticky;
+    top: 0;
+    background: var(--ch-card);
+    text-align: left;
+    font-weight: 700;
+    font-size: .74rem;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    color: var(--ch-ink-muted);
+    padding: .6rem .45rem;
+    border-bottom: 2px solid var(--ch-ink);
+    white-space: nowrap;
+  }
+
+  #dash-root .comisiones-table tbody td {
+    padding: .55rem .45rem;
+    border-bottom: 1px solid var(--ch-border);
+    color: var(--ch-ink);
+    white-space: nowrap;
+  }
+
+  #dash-root .comisiones-table tbody td:first-child {
+    white-space: normal;
+    min-width: 16rem;
+    font-weight: 600;
+  }
+
+  #dash-root .comisiones-table tbody tr:hover td {
+    background: #FE872D08;
+  }
+  #dash-root .comisiones-table tbody tr:hover td:first-child {
+    box-shadow: inset 3px 0 0 0 #FF632B;
+  }
+
+  #dash-root .status-msg {
+    text-align: center;
+    color: var(--ch-ink-muted);
+    padding: 1.5rem !important;
+    white-space: normal !important;
+  }
+
+  #dash-root .comisiones-table tbody td.cell-profesores {
+    white-space: normal;
+    min-width: 12rem;
+    color: var(--ch-ink-muted);
+  }
+
+  #dash-root .badge {
+    display: inline-block;
+    padding: .2rem .55rem;
+    border-radius: 999px;
+    font-size: .76rem;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  #dash-root .badge-ok { background: #e6f6ec; color: var(--ch-ok); }
+  #dash-root .badge-warn { background: #fdf0d8; color: var(--ch-warn); }
+  #dash-root .badge-bad { background: #fbe7e7; color: var(--ch-bad); }
+  #dash-root .badge-neutral { background: #eeeae3; color: var(--ch-ink-muted); }
+
+  #dash-root .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    font-family: inherit;
+    font-weight: 600;
+    font-size: .78rem;
+    color: var(--ch-accent);
+    background: #ffffff;
+    border: 1.5px solid var(--ch-accent);
+    border-radius: 999px;
+    padding: .35rem .7rem;
+    cursor: pointer;
+    line-height: 1;
+    white-space: nowrap;
+    transition: background .15s ease, color .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  #dash-root .copy-btn:hover {
+    background: linear-gradient(90deg, var(--ch-accent) 0%, var(--ch-amarillo) 50%, var(--ch-rosa) 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(255, 99, 43, .3);
+  }
+  #dash-root .copy-btn svg { width: 13px; height: 13px; flex: none; }
+  #dash-root .copy-btn.is-copied { background: var(--ch-ok); border-color: var(--ch-ok); color: #fff; }
+
+</style>
+
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+</style>
+
+<script>
+  window.__COMISIONES_DATA__ = [];
+</script>
+<script>
+(function () {
+  const DATA = Array.isArray(window.__COMISIONES_DATA__) ? window.__COMISIONES_DATA__ : [];
+  const COLS = ['curso', 'comision', 'dia', 'horario', 'fecha_inicio', 'fecha_fin', 'estado', 'inscriptos', 'cupo_max', 'profesores'];
+  const TOTAL_COLS = COLS.length + 1; // + columna de acciones (no es un dato del dataset)
+  const ESTADO_LABELS = { NOT_STARTED: 'No iniciada', IN_PROGRESS: 'En curso', CANCELLED: 'Cancelada', COMPLETED: 'Finalizada' };
+  const DIA_ORDER = ['Lunes', 'Miércoles', 'Martes', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+  const MESES_ES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+  // Cursos corporativos / a medida para empresas (B2B), a excluir del
+  // desplegable de "Curso" (no de la tabla ni del resto del dataset).
+  const CURSOS_B2B_EXCLUIDOS = new Set([
+    'B2B Coresa Group | Introducción a Inteligencia Artificial',
+    'B2B | Fenicio Ecommerce - IA aplicada al Marketing y Diseño',
+    'B2B | IA aplicada al trabajo diario',
+    'B2B | Multimedia con IA: imágenes y videos',
+    'B2B: Google Workspace & IA',
+    'Excel Avanzado (B2B)',
+    'Liderazgo y gestión de equipos (B2B)',
+    'Excel B2B 105895',
+    'Adidas 1 | Microsoft 365 Copilot',
+    'Adidas 2 | Power Platform Inicial',
+    'Fabric Sushi | Claude de cero a héroe',
+    'Grupo Robayna | Claude de cero a héroe',
+    'Naranja X: Creación de Contenido con IA',
+    'Onomy: Dirige la IA para tu Negocio',
+    'Mentoría digital estratégica para supervisores de Claro',
+  ]);
+
+  function esCursoB2B(nombre) {
+    return CURSOS_B2B_EXCLUIDOS.has(nombre) || /b2b/i.test(nombre || '');
+  }
+
+  function mesSortKey(mesStr) {
+    const parts = (mesStr || '').trim().split(' ');
+    const anio = parts[parts.length - 1];
+    const nombre = parts.slice(0, -1).join(' ');
+    const idx = MESES_ES.indexOf(nombre);
+    return `${anio}-${String(idx + 1).padStart(2, '0')}`;
+  }
+  const COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.2"/><path d="M3.5 10.5h-1A1 1 0 0 1 1.5 9.5v-7A1 1 0 0 1 2.5 1.5h7a1 1 0 0 1 1 1v1"/></svg>';
+  const CHECK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 7-7"/></svg>';
+
+  const tbody = document.getElementById('tbody');
+  const takeaway = document.getElementById('takeaway');
+  const countEl = document.getElementById('count');
+  const searchEl = document.querySelector('.f-search');
+  const cursoEl = document.querySelector('.f-curso');
+  const mesEl = document.querySelector('.f-mes');
+  const diaEl = document.querySelector('.f-dia');
+  const paisEl = document.querySelector('.f-pais');
+  const horaEl = document.querySelector('.f-hora');
+  const thHorario = document.getElementById('th-horario');
+  const estadoEl = document.querySelector('.f-estado');
+  const sortFieldEl = document.querySelector('.f-sort-field');
+  const sortDirEl = document.querySelector('.f-sort-dir');
+  const resetBtn = document.querySelector('.f-reset');
+  const copyConsecutiveBtn = document.querySelector('.f-copy-consecutive');
+
+  function showMessage(text) {
+    tbody.replaceChildren();
+    const tr = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = TOTAL_COLS;
+    td.className = 'status-msg';
+    td.textContent = text;
+    tr.appendChild(td);
+    tbody.appendChild(tr);
+    countEl.textContent = '';
+  }
+
+  function buildRows(rows) {
+    tbody.replaceChildren();
+    const paisCod = paisEl.value;
+    const frag = document.createDocumentFragment();
+    rows.forEach((r) => {
+      const horarioZona = getHorarioEnZona(r, paisCod);
+      const tr = document.createElement('tr');
+      tr.dataset.key = String(r.comision);
+      tr.dataset.curso = (r.curso || '').toLowerCase();
+      tr.dataset.cursoRaw = r.curso || '';
+      tr.dataset.comision = String(r.comision || '').toLowerCase();
+      tr.dataset.mes = r.mes || '';
+      tr.dataset.dia = r.dia || '';
+      tr.dataset.hora = horarioZona.inicio;
+      tr.dataset.estado = r.estado || '';
+      tr.dataset.fechaInicio = r.fecha_inicio || '';
+
+      COLS.forEach((c) => {
+        const td = document.createElement('td');
+        let v = c === 'horario' ? horarioZona.texto : r[c];
+        if (c === 'estado') {
+          v = ESTADO_LABELS[v] || v;
+          const cls = r.estado === 'IN_PROGRESS' ? 'badge badge-ok'
+            : r.estado === 'CANCELLED' ? 'badge badge-bad'
+            : r.estado === 'COMPLETED' ? 'badge badge-neutral'
+            : 'badge badge-warn';
+          td.innerHTML = '';
+          const span = document.createElement('span');
+          span.className = cls;
+          span.textContent = (v === null || v === undefined || v === '') ? '—' : String(v);
+          td.appendChild(span);
+        } else {
+          td.textContent = (v === null || v === undefined || v === '') ? '—' : String(v);
+        }
+        if (c === 'profesores') td.classList.add('cell-profesores');
+        tr.appendChild(td);
+      });
+
+      const actionTd = document.createElement('td');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.innerHTML = COPY_ICON + '<span>Copiar</span>';
+      btn.setAttribute('aria-label', `Copiar comisión ${r.comision}`);
+      btn.addEventListener('click', () => copyCommission(btn, r, horarioZona.texto));
+      actionTd.appendChild(btn);
+      tr.appendChild(actionTd);
+
+      frag.appendChild(tr);
+    });
+    tbody.appendChild(frag);
+  }
+
+  function copyCommission(btn, r, horarioTexto) {
+    const text = [
+      `Comisión: ${r.comision}`,
+      `Día: ${r.dia || '—'}`,
+      `Horario: ${horarioTexto || r.horario || '—'}`,
+      `Inicio: ${r.fecha_inicio || '—'}`,
+      `Fin: ${r.fecha_fin || '—'}`
+    ].join('\n');
+    const done = () => {
+      btn.classList.add('is-copied');
+      btn.innerHTML = CHECK_ICON + '<span>¡Copiado!</span>';
+      setTimeout(() => {
+        btn.classList.remove('is-copied');
+        btn.innerHTML = COPY_ICON + '<span>Copiar</span>';
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  function fallbackCopy(text, done) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
+    } catch (e) {
+      /* sin feedback si tampoco funciona el fallback */
+    }
+  }
+
+  function parseFechaDMY(str) {
+    if (!str) return 0;
+    const parts = str.split('/');
+    if (parts.length !== 3) return 0;
+    const d = Number(parts[0]);
+    const m = Number(parts[1]);
+    const y = Number(parts[2]);
+    return new Date(y, m - 1, d).getTime();
+  }
+
+  // Normaliza la hora de inicio a "HH:MM", sin importar si el dato viene
+  // como "13:20", "13:20 hs" o como un rango "13:20 a 15:20": siempre toma
+  // el primer HH:MM que encuentra. Así el desplegable de Hora y el filtro
+  // comparan siempre contra el mismo formato y no quedan huérfanos entre sí.
+  function horaInicioClave(valor) {
+    if (!valor) return '';
+    const m = String(valor).match(/(\d{1,2}):(\d{2})/);
+    if (!m) return '';
+    return `${m[1].padStart(2, '0')}:${m[2]}`;
+  }
+
+  // Zona horaria IANA de cada país del desplegable, para recalcular los
+  // horarios (en base al dato real de Argentina) respetando el horario de
+  // verano donde corresponda (Chile, España, Estados Unidos), en vez de
+  // aplicar una diferencia fija que se desactualizaría dos veces al año.
+  const PAISES_TZ = {
+    AR: 'America/Argentina/Buenos_Aires',
+    UY: 'America/Montevideo',
+    CL: 'America/Santiago',
+    CO: 'America/Bogota',
+    ES: 'Europe/Madrid',
+    US: 'America/New_York',
+    MX: 'America/Mexico_City',
+    PE: 'America/Lima',
+    VE: 'America/Caracas',
+  };
+
+  // Extrae todas las horas "HH:MM" que aparezcan en un texto (por ejemplo,
+  // las dos de un rango "13:20 a 15:20").
+  function horasEnTexto(valor) {
+    if (!valor) return [];
+    const matches = [...String(valor).matchAll(/(\d{1,2}):(\d{2})/g)];
+    return matches.map((m) => `${m[1].padStart(2, '0')}:${m[2]}`);
+  }
+
+  // Convierte una fecha/hora LOCAL de Argentina (siempre UTC-3, sin horario
+  // de verano) al instante UTC real.
+  function argLocalAUtc(fechaDMY, horaHHMM) {
+    if (!fechaDMY || !horaHHMM) return null;
+    const parts = fechaDMY.split('/');
+    if (parts.length !== 3) return null;
+    const [hh, mm] = horaHHMM.split(':').map(Number);
+    const d = Number(parts[0]);
+    const m = Number(parts[1]);
+    const y = Number(parts[2]);
+    if (!y || !m || !d || Number.isNaN(hh) || Number.isNaN(mm)) return null;
+    return new Date(Date.UTC(y, m - 1, d, hh + 3, mm, 0));
+  }
+
+  // Dado un dato de hora en Argentina y la fecha de esa clase, devuelve la
+  // hora equivalente en la zona horaria del país elegido.
+  function formatHoraEnZona(fechaDMY, horaHHMM, tz) {
+    const instante = argLocalAUtc(fechaDMY, horaHHMM);
+    if (!instante) return horaHHMM;
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: tz,
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false,
+    });
+    return fmt.format(instante);
+  }
+
+  // Arma el texto de la columna "Horario" y la hora de inicio normalizada
+  // (para el desplegable de Hora) en la zona horaria elegida. Si el país
+  // elegido es Argentina (o no se reconoce), devuelve los datos tal cual
+  // vienen del Back Office, sin recalcular nada.
+  function getHorarioEnZona(r, paisCod) {
+    const horas = horasEnTexto(r.horario || r.hora_inicio);
+    if (!horas.length) return { texto: r.horario || '', inicio: '' };
+    const tz = PAISES_TZ[paisCod];
+    if (!paisCod || paisCod === 'AR' || !tz) {
+      return { texto: r.horario || horas.join(' a '), inicio: horas[0] };
+    }
+    const convertidas = horas.map((h) => formatHoraEnZona(r.fecha_inicio, h, tz));
+    const texto = convertidas.length > 1 ? `${convertidas[0]} a ${convertidas[1]}` : convertidas[0];
+    return { texto, inicio: convertidas[0] };
+  }
+
+  function sortRows(rows, field, dir) {
+    const sorted = rows.slice();
+    sorted.sort((a, b) => {
+      let va, vb;
+      if (field === 'comision') {
+        va = Number(a.comision) || 0;
+        vb = Number(b.comision) || 0;
+      } else {
+        va = parseFechaDMY(a.fecha_inicio);
+        vb = parseFechaDMY(b.fecha_inicio);
+      }
+      return dir === 'desc' ? vb - va : va - vb;
+    });
+    return sorted;
+  }
+
+  // Vista por defecto: solo comisiones "En curso" o "No iniciada" con fecha
+  // de inicio desde hoy (hora Argentina) en adelante. No se borran del
+  // dataset ni de la tabla: siguen pudiendo encontrarse buscando por
+  // número de comisión o nombre de curso, o eligiendo un Estado/Curso
+  // puntual en los desplegables (eso "levanta" el filtro por defecto).
+  function hoyArgentinaTimestamp() {
+    const fmt = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const parts = fmt.formatToParts(new Date());
+    const y = Number(parts.find((p) => p.type === 'year').value);
+    const m = Number(parts.find((p) => p.type === 'month').value);
+    const d = Number(parts.find((p) => p.type === 'day').value);
+    return new Date(y, m - 1, d).getTime();
+  }
+
+  function esVigenteOFutura(estado, fechaInicioStr) {
+    const esVigente = estado === 'IN_PROGRESS' || estado === 'NOT_STARTED';
+    return esVigente && parseFechaDMY(fechaInicioStr) >= hoyArgentinaTimestamp();
+  }
+
+  // Combina la restricción de fecha con el resto de los filtros. Las "No
+  // iniciada" NUNCA deben mostrarse con fecha de inicio pasada: ni en la
+  // vista por defecto ni aunque el usuario las busque a propósito con el
+  // desplegable de Estado (a diferencia de Cancelada/Finalizada, donde
+  // elegir el Estado sí "levanta" la restricción para poder encontrarlas
+  // aunque sean viejas).
+  function pasaFiltroFecha(estado, fechaInicioStr, hayOverride) {
+    if (estado === 'NOT_STARTED') {
+      return parseFechaDMY(fechaInicioStr) >= hoyArgentinaTimestamp();
+    }
+    if (hayOverride) return true;
+    return esVigenteOFutura(estado, fechaInicioStr);
+  }
+
+  function populateFilters(rows) {
+    const cursos2 = [...new Set(rows.map((r) => r.curso).filter(Boolean))]
+      .filter((c) => !esCursoB2B(c))
+      .sort((a, b) => a.localeCompare(b, 'es'));
+    cursoEl.replaceChildren(new Option('Todos los cursos', ''), ...cursos2.map((c) => new Option(c, c)));
+
+    const meses = [...new Set(rows.map((r) => r.mes).filter(Boolean))]
+      .sort((a, b) => mesSortKey(a).localeCompare(mesSortKey(b)));
+    mesEl.replaceChildren(new Option('Todos los meses', ''), ...meses.map((m) => new Option(m, m)));
+
+    const diasSet = new Set();
+    rows.forEach((r) => (r.dia || '').split(',').map((s) => s.trim()).filter(Boolean).forEach((d) => diasSet.add(d)));
+    const dias = DIA_ORDER.filter((d) => diasSet.has(d));
+    diaEl.replaceChildren(new Option('Todos los días', ''), ...dias.map((d) => new Option(d, d)));
+
+    poblarHoras(rows);
+
+    const estados = [...new Set(rows.map((r) => r.estado).filter(Boolean))];
+    estadoEl.replaceChildren(new Option('Todos los estados', ''), ...estados.map((e) => new Option(ESTADO_LABELS[e] || e, e)));
+  }
+
+  // El desplegable de Hora depende del país elegido (cada país ve sus
+  // propios horarios convertidos), así que se arma aparte y se vuelve a
+  // construir cada vez que cambia el país, sin tocar los demás filtros.
+  function poblarHoras(rows) {
+    const paisCod = paisEl.value;
+    const horas = [...new Set(rows.map((r) => getHorarioEnZona(r, paisCod).inicio).filter(Boolean))].sort();
+    horaEl.replaceChildren(new Option('Todas las horas', ''), ...horas.map((h) => new Option(h, h)));
+  }
+
+  function applyFilters() {
+    const q = searchEl.value.trim().toLowerCase();
+    const curso2 = cursoEl.value;
+    const mes = mesEl.value;
+    const dia = diaEl.value;
+    const hora = horaEl.value;
+    const estado = estadoEl.value;
+
+    const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
+
+    const trs = tbody.querySelectorAll('tr[data-key]');
+    let visible = 0;
+    trs.forEach((tr) => {
+      const match =
+        (!q || tr.dataset.curso.includes(q) || tr.dataset.comision.includes(q)) &&
+        (!curso2 || tr.dataset.cursoRaw === curso2) &&
+        (!mes || tr.dataset.mes === mes) &&
+        (!dia || tr.dataset.dia.split(',').map((s) => s.trim()).includes(dia)) &&
+        (!hora || tr.dataset.hora === hora) &&
+        (!estado || tr.dataset.estado === estado) &&
+        pasaFiltroFecha(tr.dataset.estado, tr.dataset.fechaInicio, hayOverride);
+      tr.style.display = match ? '' : 'none';
+      if (match) visible += 1;
+    });
+    countEl.textContent = trs.length ? `Mostrando ${visible} de ${trs.length} comisiones` : '';
+  }
+
+  function matchesFilters(r) {
+    const q = searchEl.value.trim().toLowerCase();
+    const curso2 = cursoEl.value;
+    const mes = mesEl.value;
+    const dia = diaEl.value;
+    const hora = horaEl.value;
+    const estado = estadoEl.value;
+    const curso = String(r.curso || '').toLowerCase();
+    const comision = String(r.comision || '').toLowerCase();
+    const diasRow = (r.dia || '').split(',').map((s) => s.trim());
+    const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
+    return (
+      (!q || curso.includes(q) || comision.includes(q)) &&
+      (!curso2 || r.curso === curso2) &&
+      (!mes || r.mes === mes) &&
+      (!dia || diasRow.includes(dia)) &&
+      (!hora || getHorarioEnZona(r, paisEl.value).inicio === hora) &&
+      (!estado || r.estado === estado) &&
+      pasaFiltroFecha(r.estado, r.fecha_inicio, hayOverride)
+    );
+  }
+
+  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl].forEach((el) => {
+    el.addEventListener('input', applyFilters);
+    el.addEventListener('change', applyFilters);
+  });
+
+  // Cambiar de país no filtra filas: recalcula los horarios mostrados y el
+  // desplegable de Hora en la nueva zona, y reconstruye la tabla. La hora
+  // elegida se reinicia porque el valor anterior correspondía a otra zona.
+  paisEl.addEventListener('change', () => {
+    horaEl.value = '';
+    thHorario.textContent = `Horario (${paisEl.value})`;
+    poblarHoras(latestRows);
+    renderRows();
+  });
+
+  let latestRows = DATA;
+  let renderedRows = [];
+
+  function renderRows() {
+    if (!latestRows.length) {
+      renderedRows = [];
+      showMessage('No hay comisiones para mostrar.');
+      countEl.textContent = '';
+      return;
+    }
+    const sorted = sortRows(latestRows, sortFieldEl.value, sortDirEl.value);
+    renderedRows = sorted;
+    buildRows(sorted);
+    applyFilters();
+  }
+
+  function copyConsecutive() {
+    const visibles = renderedRows.filter(matchesFilters);
+    if (!visibles.length) return;
+    const tres = visibles.slice(0, 3);
+    const text = tres.map((r) => [
+      `Comisión: ${r.comision}`,
+      `Día: ${r.dia || '—'}`,
+      `Horario: ${getHorarioEnZona(r, paisEl.value).texto || r.horario || '—'}`,
+      `Inicio: ${r.fecha_inicio || '—'}`,
+      `Fin: ${r.fecha_fin || '—'}`
+    ].join('\n')).join('\n\n');
+    const original = copyConsecutiveBtn.textContent;
+    const done = () => {
+      copyConsecutiveBtn.classList.add('is-copied');
+      copyConsecutiveBtn.textContent = 'Copiado';
+      setTimeout(() => {
+        copyConsecutiveBtn.classList.remove('is-copied');
+        copyConsecutiveBtn.textContent = original;
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+    } else {
+      fallbackCopy(text, done);
+    }
+  }
+
+  copyConsecutiveBtn.addEventListener('click', copyConsecutive);
+
+  [sortFieldEl, sortDirEl].forEach((el) => {
+    el.addEventListener('change', renderRows);
+  });
+
+  resetBtn.addEventListener('click', () => {
+    searchEl.value = '';
+    cursoEl.value = '';
+    mesEl.value = '';
+    diaEl.value = '';
+    estadoEl.value = '';
+    const cambioPais = paisEl.value !== 'AR';
+    paisEl.value = 'AR';
+    if (cambioPais) {
+      // El país cambió: el desplegable de Hora y la columna Horario están
+      // calculados para la zona anterior, así que hay que rearmarlos para
+      // Argentina antes de volver a filtrar.
+      horaEl.value = '';
+      thHorario.textContent = 'Horario (AR)';
+      poblarHoras(latestRows);
+      renderRows();
+    } else {
+      horaEl.value = '';
+      applyFilters();
+    }
+  });
+
+  if (latestRows.length) {
+    populateFilters(latestRows);
+  }
+  renderRows();
+
+  const cursos = new Set(latestRows.map((r) => r.curso)).size;
+  takeaway.textContent = latestRows.length
+    ? `${latestRows.length} comisiones, en ${cursos} cursos distintos. Instantánea estática — no se actualiza sola.`
+    : 'No hay comisiones para mostrar.';
+})();
+</script>
+
+<script>
+  window.__PRECIOS_DATA__ = [];
+</script>
+<script>
+(function () {
+  // --- Tabs ---
+  const tabButtons = document.querySelectorAll('.tab-btn');
+  const panels = {
+    comisiones: document.getElementById('tab-panel-comisiones'),
+    calculadora: document.getElementById('tab-panel-calculadora'),
+  };
+  tabButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      tabButtons.forEach((b) => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-selected', 'true');
+      Object.values(panels).forEach((p) => p.classList.remove('is-active'));
+      const target = panels[btn.dataset.tab];
+      if (target) target.classList.add('is-active');
+    });
+  });
+
+  // --- Calculadora de precios ---
+  const PRECIOS = Array.isArray(window.__PRECIOS_DATA__) ? window.__PRECIOS_DATA__ : [];
+  const LOCALE_POR_PAIS = {
+    AR: 'es-AR', UY: 'es-UY', CL: 'es-CL', CO: 'es-CO', ES: 'es-ES',
+    US: 'en-US', MX: 'es-MX', PE: 'es-PE', VE: 'es-VE',
+  };
+
+  const calcPaisEl = document.getElementById('calc-pais');
+  const calcBuscarEl = document.getElementById('calc-buscar');
+  const calcCursoEl = document.getElementById('calc-curso');
+  const calcNoteEl = document.getElementById('calc-note');
+  const valListaEl = document.getElementById('calc-val-lista');
+  const valFinalEl = document.getElementById('calc-val-final');
+  const descuentoInfoEl = document.getElementById('calc-descuento-info');
+  const valComisionEl = document.getElementById('calc-val-comision');
+  const valDestinoEl = document.getElementById('calc-val-destino');
+  const copyListaBtn = document.getElementById('calc-copy-lista');
+  const copyFinalBtn = document.getElementById('calc-copy-final');
+  const copyComisionBtn = document.getElementById('calc-copy-comision');
+  const copyCursoBtn = document.getElementById('calc-copy-curso');
+  if (!calcPaisEl || !PRECIOS) return; // seguridad si el markup no está (no debería pasar)
+
+  // Iconos propios para los botones de copiar de esta pestaña (misma pieza
+  // visual que usa la tabla de comisiones, duplicada acá porque este script
+  // corre en su propio alcance/IIFE, separado del de la tabla).
+  const CALC_COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.2"/><path d="M3.5 10.5h-1A1 1 0 0 1 1.5 9.5v-7A1 1 0 0 1 2.5 1.5h7a1 1 0 0 1 1 1v1"/></svg>';
+  const CALC_CHECK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 7-7"/></svg>';
+
+  function calcFallbackCopy(text, done) {
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      done();
+    } catch (e) {
+      /* sin feedback si tampoco funciona el fallback */
+    }
+  }
+
+  function formatMoney(amount, currency, paisCod) {
+    if (amount == null || Number.isNaN(amount)) return 'No disponible';
+    const locale = LOCALE_POR_PAIS[paisCod] || 'es-AR';
+    try {
+      return new Intl.NumberFormat(locale, { style: 'currency', currency, maximumFractionDigits: 0 }).format(amount);
+    } catch (e) {
+      return `${amount} ${currency}`;
+    }
+  }
+
+  function formatMoneyConCodigo(amount, currency, paisCod) {
+    if (amount == null || Number.isNaN(amount)) return null;
+    return `${formatMoney(amount, currency, paisCod)} ${currency}`;
+  }
+
+  function cursoPorId(id) {
+    return PRECIOS.find((c) => c.id === id) || null;
+  }
+
+  // Busca en el catálogo completo por nombre, totalmente independiente del
+  // desplegable (nunca lo lee ni lo modifica). Devuelve el curso exacto a
+  // mostrar y, si no hay uno solo claro, cuántas coincidencias parciales
+  // hubo (para poder avisar sin "adivinar" cuál quiso decir el usuario).
+  // - Coincidencia exacta de título (sin importar mayúsculas/acentos de
+  //   más o de menos): gana siempre, aunque además matchee por substring
+  //   con otro curso (ej. "AI Automation" vs "AI Automation Avanzado").
+  // - Si no hay exacta pero sí una única coincidencia parcial: se usa esa.
+  // - Si hay 0 o varias parciales sin ganador exacto: no se muestra nada
+  //   todavía (se le pide al usuario completar el nombre), para no
+  //   adivinar y terminar mostrando el curso equivocado.
+  function buscarCursoPorTexto(texto) {
+    const t = texto.trim().toLowerCase();
+    if (!t) return { curso: null, coincidencias: 0 };
+    const exacto = PRECIOS.find((c) => c.titulo.toLowerCase() === t);
+    if (exacto) return { curso: exacto, coincidencias: 1 };
+    const parciales = PRECIOS.filter((c) => c.titulo.toLowerCase().includes(t));
+    if (parciales.length === 1) return { curso: parciales[0], coincidencias: 1 };
+    return { curso: null, coincidencias: parciales.length };
+  }
+
+  // Curso que corresponde mostrar/copiar en este momento: mientras el
+  // campo de búsqueda tenga texto, ÉL manda (buscando libremente en todo
+  // el catálogo, sin tocar el desplegable); si está vacío, manda el
+  // desplegable. Así ninguno de los dos controles fuerza ni secuestra el
+  // estado del otro — son dos formas independientes de elegir curso.
+  function cursoVisible() {
+    const texto = calcBuscarEl.value;
+    if (texto.trim()) return buscarCursoPorTexto(texto).curso;
+    return cursoPorId(calcCursoEl.value);
+  }
+
+  function poblarSelectCursos(selectEl, cursos, filtroTexto) {
+    const prevValue = selectEl.value;
+    const texto = (filtroTexto || '').toLowerCase();
+    const filtrados = texto
+      ? cursos.filter((c) => c.titulo.toLowerCase().includes(texto))
+      : cursos;
+    // Arranca siempre en blanco: el usuario elige el curso a propósito, no
+    // se le precarga uno (ej: 'Administración de Empresas') de entrada.
+    selectEl.replaceChildren(
+      new Option('-- Seleccionar curso --', ''),
+      ...filtrados.map((c) => new Option(c.titulo, c.id))
+    );
+    if (filtrados.some((c) => c.id === prevValue)) {
+      selectEl.value = prevValue;
+    } else {
+      selectEl.value = '';
+    }
+  }
+
+  function recalcular() {
+    const paisCod = calcPaisEl.value;
+    const texto = calcBuscarEl.value;
+    const cursoActual = cursoVisible();
+
+    if (!cursoActual) {
+      [valListaEl, valFinalEl, valComisionEl, valDestinoEl].forEach((el) => { el.textContent = '—'; });
+      if (texto.trim()) {
+        const { coincidencias } = buscarCursoPorTexto(texto);
+        descuentoInfoEl.textContent = coincidencias === 0
+          ? `No se encontró ningún curso que coincida con "${texto.trim()}".`
+          : `${coincidencias} cursos coinciden con "${texto.trim()}" — completá el nombre para que coincida con uno solo (ej. "Avanzado").`;
+      } else {
+        descuentoInfoEl.textContent = 'Elegí un curso para ver sus precios.';
+      }
+      return;
+    }
+
+    const precioActual = cursoActual.precios[paisCod];
+    if (!precioActual) {
+      valListaEl.textContent = 'No disponible';
+      valFinalEl.textContent = 'No disponible';
+      valComisionEl.textContent = 'No disponible';
+      valDestinoEl.textContent = 'No disponible';
+      descuentoInfoEl.textContent = 'Este curso no tiene precio público cargado para el país seleccionado.';
+    } else {
+      valListaEl.textContent = formatMoney(precioActual.list, precioActual.currency, paisCod);
+      valFinalEl.textContent = formatMoney(precioActual.final, precioActual.currency, paisCod);
+      descuentoInfoEl.textContent = precioActual.discount_pct
+        ? `${precioActual.discount_pct}% OFF vigente en coderhouse.com`
+        : 'Sin descuento vigente.';
+      valComisionEl.textContent = formatMoney(Math.round(precioActual.list * 0.25), precioActual.currency, paisCod);
+      valDestinoEl.textContent = formatMoney(Math.round(precioActual.list * 0.5), precioActual.currency, paisCod);
+    }
+  }
+
+  function valorParaCopiar(tipo) {
+    const paisCod = calcPaisEl.value;
+    const cursoActual = cursoVisible();
+    if (!cursoActual) return null;
+    const precioActual = cursoActual.precios[paisCod];
+    if (!precioActual) return null;
+    if (tipo === 'lista') return formatMoneyConCodigo(precioActual.list, precioActual.currency, paisCod);
+    if (tipo === 'final') return formatMoneyConCodigo(precioActual.final, precioActual.currency, paisCod);
+    if (tipo === 'comision') return formatMoneyConCodigo(Math.round(precioActual.list * 0.25), precioActual.currency, paisCod);
+    if (tipo === 'curso') return formatMoneyConCodigo(Math.round(precioActual.list * 0.5), precioActual.currency, paisCod);
+    return null;
+  }
+
+  function copiarCampo(tipo, btn) {
+    const texto = valorParaCopiar(tipo);
+    if (!texto) return;
+    const done = () => {
+      btn.classList.add('is-copied');
+      btn.innerHTML = CALC_CHECK_ICON + '<span>¡Copiado!</span>';
+      setTimeout(() => {
+        btn.classList.remove('is-copied');
+        btn.innerHTML = CALC_COPY_ICON + '<span>Copiar</span>';
+      }, 1500);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(texto).then(done).catch(() => calcFallbackCopy(texto, done));
+    } else {
+      calcFallbackCopy(texto, done);
+    }
+  }
+
+  const calcResetBtn = document.getElementById('calc-reset-btn');
+  function limpiarFiltrosCalculadora() {
+    calcBuscarEl.value = '';
+    calcPaisEl.value = 'AR';
+    poblarSelectCursos(calcCursoEl, PRECIOS, '');
+    calcCursoEl.value = ''; // fuerza el placeholder, aunque el curso previo siga en la lista completa
+    recalcular();
+  }
+
+  calcPaisEl.addEventListener('change', recalcular);
+  calcCursoEl.addEventListener('change', recalcular);
+  if (calcResetBtn) calcResetBtn.addEventListener('click', limpiarFiltrosCalculadora);
+  // El campo de búsqueda es independiente del desplegable: busca libremente
+  // en TODO el catálogo (recalcular/cursoVisible ya saben priorizar el
+  // texto de búsqueda cuando no está vacío) y nunca toca el value ni las
+  // opciones de calcCursoEl, así que uno no "secuestra" al otro — se puede
+  // seguir tipeando sin que nada fuerce una selección a mitad de camino
+  // (ej. "AI Automation" -> "AI Automation Avanzado").
+  calcBuscarEl.addEventListener('input', recalcular);
+
+  [
+    [copyListaBtn, 'lista'],
+    [copyFinalBtn, 'final'],
+    [copyComisionBtn, 'comision'],
+    [copyCursoBtn, 'curso'],
+  ].forEach(([btn, tipo]) => {
+    btn.innerHTML = CALC_COPY_ICON + '<span>Copiar</span>';
+    btn.addEventListener('click', () => copiarCampo(tipo, btn));
+  });
+
+  if (PRECIOS.length) {
+    poblarSelectCursos(calcCursoEl, PRECIOS, '');
+    calcNoteEl.textContent = `${PRECIOS.length} cursos con precio público disponible.`;
+    recalcular();
+  } else {
+    calcNoteEl.textContent = 'Todavía no hay precios cargados.';
+  }
+})();
+</script>
+
+</body>
+</html>
