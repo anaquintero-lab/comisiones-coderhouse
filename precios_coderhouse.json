@@ -15,54 +15,28 @@
         "final": 9350,
         "currency": "UYU",
         "discount_pct": 50
-      }
-    },
-    "promo": "CYBER CODER ⚡"
-  },
-  {
-    "id": "ai-automation",
-    "titulo": "AI Automation",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 245000,
-        "final": 159250,
-        "currency": "ARS",
-        "discount_pct": 35
       },
-      "UY": {
-        "list": 20240,
-        "final": 10120,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1564200,
-        "final": 625680,
-        "currency": "COP",
+      "CL": {
+        "list": 625900,
+        "final": 250360,
+        "currency": "CLP",
         "discount_pct": 60
       },
-      "ES": {
-        "list": 759,
-        "final": 380,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7920,
-        "final": 3168,
-        "currency": "MXN",
+      "PE": {
+        "list": 1293,
+        "final": 517,
+        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
-        "list": 658,
-        "final": 329,
+        "list": 611,
+        "final": 306,
         "currency": "USD",
         "discount_pct": 50
       },
       "VE": {
-        "list": 658,
-        "final": 329,
+        "list": 611,
+        "final": 306,
         "currency": "USD",
         "discount_pct": 50
       }
@@ -80,16 +54,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 17160,
-        "final": 8580,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1329900,
-        "final": 531960,
-        "currency": "COP",
+      "CL": {
+        "list": 575300,
+        "final": 230120,
+        "currency": "CLP",
         "discount_pct": 60
       },
       "PE": {
@@ -97,6 +65,18 @@
         "final": 484,
         "currency": "PEN",
         "discount_pct": 60
+      },
+      "US": {
+        "list": 565,
+        "final": 283,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 565,
+        "final": 283,
+        "currency": "USD",
+        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -112,11 +92,17 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 19840,
-        "final": 9920,
-        "currency": "UYU",
-        "discount_pct": 50
+      "CL": {
+        "list": 664000,
+        "final": 265600,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "CO": {
+        "list": 1535000,
+        "final": 614000,
+        "currency": "COP",
+        "discount_pct": 60
       },
       "PE": {
         "list": 1371,
@@ -137,12 +123,6 @@
         "final": 64155,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "CO": {
-        "list": 861300,
-        "final": 344520,
-        "currency": "COP",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -171,6 +151,12 @@
         "final": 67080,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "MX": {
+        "list": 5610,
+        "final": 2244,
+        "currency": "MXN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -185,6 +171,12 @@
         "final": 157690,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -204,32 +196,6 @@
     "promo": "CYBER CODER ⚡"
   },
   {
-    "id": "community-manager",
-    "titulo": "Community Manager",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 218300,
-        "final": 141895,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "CL": {
-        "list": 532400,
-        "final": 212960,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      }
-    },
-    "promo": "CYBER CODER ⚡"
-  },
-  {
     "id": "contabilidad",
     "titulo": "Contabilidad",
     "tipo": "curso",
@@ -239,12 +205,6 @@
         "final": 64155,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "CO": {
-        "list": 861300,
-        "final": 344520,
-        "currency": "COP",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -259,6 +219,18 @@
         "final": 114270,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "US": {
+        "list": 493,
+        "final": 247,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 493,
+        "final": 247,
+        "currency": "USD",
+        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -300,10 +272,28 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 20240,
-        "final": 10120,
-        "currency": "UYU",
+      "CL": {
+        "list": 676500,
+        "final": 270600,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 1375,
+        "final": 550,
+        "currency": "PEN",
+        "discount_pct": 60
+      },
+      "US": {
+        "list": 658,
+        "final": 329,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 658,
+        "final": 329,
+        "currency": "USD",
         "discount_pct": 50
       }
     },
@@ -319,25 +309,11 @@
         "final": 141895,
         "currency": "ARS",
         "discount_pct": 35
-      }
-    },
-    "promo": "CYBER CODER ⚡"
-  },
-  {
-    "id": "data-analytics",
-    "titulo": "Data Analytics",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 291100,
-        "final": 189215,
-        "currency": "ARS",
-        "discount_pct": 35
       },
-      "PE": {
-        "list": 935,
-        "final": 374,
-        "currency": "PEN",
+      "CO": {
+        "list": 1448700,
+        "final": 579480,
+        "currency": "COP",
         "discount_pct": 60
       }
     },
@@ -354,10 +330,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "PE": {
-        "list": 1371,
-        "final": 548,
-        "currency": "PEN",
+      "CL": {
+        "list": 664000,
+        "final": 265600,
+        "currency": "CLP",
         "discount_pct": 60
       }
     },
@@ -373,6 +349,12 @@
         "final": 234910,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "MX": {
+        "list": 13640,
+        "final": 5456,
+        "currency": "MXN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -387,18 +369,6 @@
         "final": 280735,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 38120,
-        "final": 19060,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 1694,
-        "final": 847,
-        "currency": "EUR",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -413,12 +383,6 @@
         "final": 124540,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "CO": {
-        "list": 1174800,
-        "final": 469920,
-        "currency": "COP",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -434,43 +398,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    },
-    "promo": "CYBER CODER ⚡"
-  },
-  {
-    "id": "desarrollo-aplicaciones",
-    "titulo": "Desarrollo de Aplicaciones",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 293500,
-        "final": 190775,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "US": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
+      "PE": {
+        "list": 1320,
+        "final": 528,
+        "currency": "PEN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -486,49 +418,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "MX": {
-        "list": 8467,
-        "final": 3387,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 1496,
         "final": 598,
         "currency": "PEN",
         "discount_pct": 60
-      }
-    },
-    "promo": "CYBER CODER ⚡"
-  },
-  {
-    "id": "ux-ui-online",
-    "titulo": "Diseño UX/UI",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 274900,
-        "final": 178685,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "CO": {
-        "list": 1652200,
-        "final": 660880,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -543,6 +437,12 @@
         "final": 170170,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "MX": {
+        "list": 8250,
+        "final": 3300,
+        "currency": "MXN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -557,12 +457,6 @@
         "final": 141895,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
@@ -618,23 +512,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "CL": {
-        "list": 342000,
-        "final": 136800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 810000,
-        "final": 324000,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 490,
-        "final": 196,
-        "currency": "PEN",
-        "discount_pct": 60
+      "UY": {
+        "list": 10000,
+        "final": 5000,
+        "currency": "UYU",
+        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -650,10 +532,16 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "CO": {
-        "list": 861300,
-        "final": 344520,
-        "currency": "COP",
+      "CL": {
+        "list": 335500,
+        "final": 134200,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "MX": {
+        "list": 4070,
+        "final": 1628,
+        "currency": "MXN",
         "discount_pct": 60
       }
     },
@@ -670,10 +558,34 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 21080,
-        "final": 10540,
-        "currency": "UYU",
+      "CL": {
+        "list": 704400,
+        "final": 281760,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "ES": {
+        "list": 790,
+        "final": 395,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
+      "PE": {
+        "list": 1432,
+        "final": 573,
+        "currency": "PEN",
+        "discount_pct": 60
+      },
+      "US": {
+        "list": 685,
+        "final": 343,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 685,
+        "final": 343,
+        "currency": "USD",
         "discount_pct": 50
       }
     },
@@ -690,16 +602,16 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
+      "CO": {
+        "list": 1448700,
+        "final": 579480,
+        "currency": "COP",
+        "discount_pct": 60
       },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
         "discount_pct": 60
       }
     },
@@ -716,11 +628,17 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
+      "US": {
+        "list": 536,
+        "final": 268,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 536,
+        "final": 268,
+        "currency": "USD",
+        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -749,18 +667,6 @@
         "final": 141895,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -776,10 +682,28 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 11660,
-        "final": 5830,
-        "currency": "UYU",
+      "CL": {
+        "list": 469700,
+        "final": 187880,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 1155,
+        "final": 462,
+        "currency": "PEN",
+        "discount_pct": 60
+      },
+      "US": {
+        "list": 358,
+        "final": 179,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 358,
+        "final": 179,
+        "currency": "USD",
         "discount_pct": 50
       }
     },
@@ -796,10 +720,16 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "MX": {
-        "list": 8250,
-        "final": 3300,
-        "currency": "MXN",
+      "CL": {
+        "list": 687500,
+        "final": 275000,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 935,
+        "final": 374,
+        "currency": "PEN",
         "discount_pct": 60
       }
     },
@@ -816,16 +746,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "CO": {
-        "list": 1383800,
-        "final": 553520,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1155,
-        "final": 462,
-        "currency": "PEN",
+      "CL": {
+        "list": 469700,
+        "final": 187880,
+        "currency": "CLP",
         "discount_pct": 60
       }
     },
@@ -848,18 +772,6 @@
         "currency": "CLP",
         "discount_pct": 60
       },
-      "CO": {
-        "list": 861300,
-        "final": 344520,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 4070,
-        "final": 1628,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 715,
         "final": 286,
@@ -880,10 +792,48 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
+      "CL": {
+        "list": 627000,
+        "final": 250800,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "CO": {
+        "list": 1448700,
+        "final": 579480,
+        "currency": "COP",
+        "discount_pct": 60
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
+        "discount_pct": 60
+      }
+    },
+    "promo": "CYBER CODER ⚡"
+  },
+  {
+    "id": "photoshop-e-illustrator-online",
+    "titulo": "Photoshop e Illustrator",
+    "tipo": "curso",
+    "precios": {
+      "AR": {
+        "list": 216100,
+        "final": 140465,
+        "currency": "ARS",
+        "discount_pct": 35
+      },
+      "CL": {
+        "list": 627000,
+        "final": 250800,
+        "currency": "CLP",
+        "discount_pct": 60
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
         "discount_pct": 60
       },
       "US": {
@@ -902,26 +852,6 @@
     "promo": "CYBER CODER ⚡"
   },
   {
-    "id": "photoshop-e-illustrator-online",
-    "titulo": "Photoshop e Illustrator",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 216100,
-        "final": 140465,
-        "currency": "ARS",
-        "discount_pct": 35
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      }
-    },
-    "promo": "CYBER CODER ⚡"
-  },
-  {
     "id": "power-bi",
     "titulo": "Power BI",
     "tipo": "curso",
@@ -931,6 +861,12 @@
         "final": 110370,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "UY": {
+        "list": 14630,
+        "final": 7315,
+        "currency": "UYU",
+        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -946,10 +882,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "PE": {
-        "list": 1375,
-        "final": 550,
-        "currency": "PEN",
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
         "discount_pct": 60
       }
     },
@@ -965,6 +901,12 @@
         "final": 144235,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "PE": {
+        "list": 1155,
+        "final": 462,
+        "currency": "PEN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -980,16 +922,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "CL": {
-        "list": 503800,
-        "final": 201520,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1436600,
-        "final": 574640,
-        "currency": "COP",
+      "PE": {
+        "list": 935,
+        "final": 374,
+        "currency": "PEN",
         "discount_pct": 60
       }
     },
@@ -1020,10 +956,16 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
+      "UY": {
+        "list": 18810,
+        "final": 9405,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
         "discount_pct": 60
       }
     },
@@ -1053,6 +995,12 @@
         "final": 163150,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "PE": {
+        "list": 1045,
+        "final": 418,
+        "currency": "PEN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1067,6 +1015,12 @@
         "final": 155285,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "PE": {
+        "list": 825,
+        "final": 330,
+        "currency": "PEN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1082,17 +1036,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
+      "CL": {
+        "list": 495000,
+        "final": 198000,
+        "currency": "CLP",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1107,12 +1055,6 @@
         "final": 208130,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "CO": {
-        "list": 1787500,
-        "final": 715000,
-        "currency": "COP",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1133,12 +1075,6 @@
         "final": 7315,
         "currency": "UYU",
         "discount_pct": 50
-      },
-      "CO": {
-        "list": 1174800,
-        "final": 469920,
-        "currency": "COP",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1168,10 +1104,22 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
+      "UY": {
+        "list": 18810,
+        "final": 9405,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "US": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
         "discount_pct": 50
       }
     },
@@ -1187,12 +1135,6 @@
         "final": 64155,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "CO": {
-        "list": 861300,
-        "final": 344520,
-        "currency": "COP",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1214,11 +1156,17 @@
         "currency": "MXN",
         "discount_pct": 60
       },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
-        "discount_pct": 60
+      "US": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1233,6 +1181,12 @@
         "final": 140465,
         "currency": "ARS",
         "discount_pct": 35
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
+        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1248,10 +1202,22 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 17160,
-        "final": 8580,
-        "currency": "UYU",
+      "PE": {
+        "list": 1210,
+        "final": 484,
+        "currency": "PEN",
+        "discount_pct": 60
+      },
+      "US": {
+        "list": 565,
+        "final": 283,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 565,
+        "final": 283,
+        "currency": "USD",
         "discount_pct": 50
       }
     },
