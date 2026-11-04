@@ -54,6 +54,7 @@ import os
 import re
 import sys
 import datetime
+import unicodedata
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from html import unescape
@@ -102,6 +103,54 @@ PRECIOS_STOPWORDS = {
     "al", "un", "una", "online", "curso", "cursos", "carrera", "diplomatura",
     "diplomaturas", "v1", "v2", "v3", "en", "b2b", "coderhouse", "ch",
 }
+
+# ---------------------------------------------------------------------------
+# Lista negra explícita de carreras (defensa adicional, pedida a propósito
+# después de que el filtro por URL/título solo no alcanzó: coderhouse.com
+# puede redirigir /cursos/<slug> a la página de la carrera completa, o un
+# curso del Back Office puede compartir nombre exacto con una carrera sin
+# tener página pública propia). Cualquier página o entrada que matchee acá,
+# por slug o por título normalizado, se descarta SIEMPRE, sin excepción,
+# sin importar qué tipo le haya puesto el scraping.
+# ---------------------------------------------------------------------------
+PRECIOS_CARRERAS_LISTA_NEGRA_TITULOS = {
+    "ai automation",
+    "data analytics",
+    "community manager",
+    "desarrollo frontend react",
+    "desarrollo ux/ui",
+    "desarrollo de aplicaciones",
+    "diseno ux/ui",
+    "marketing digital",
+}
+PRECIOS_CARRERAS_LISTA_NEGRA_SLUGS = {
+    "ai-automation", "carrera-ai-automation",
+    "data-analytics", "data-analytics-live", "carrera-data-analytics-live",
+    "community-manager", "marketing-en-redes", "carrera-marketing-en-redes",
+    "desarrollo-frontend-react", "desarrollo-frontend", "carrera-online-desarrollo-frontend",
+    "desarrollo-ux-ui", "carrera-online-desarrollo-ux-ui",
+    "desarrollo-de-aplicaciones",
+    "diseno-ux-ui", "diseno-digital", "carrera-online-diseno-digital",
+    "marketing-digital", "carrera-online-marketing-digital",
+}
+
+
+def _precios_normalizar_simple(texto):
+    """Minúscula, sin tildes, sin espacios de más — solo para comparar
+    contra la lista negra (no toca el texto que se guarda ni se muestra)."""
+    texto = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"\s+", " ", texto).strip().lower()
+
+
+def _precios_es_carrera_en_lista_negra(titulo, slug):
+    """True si el título o el slug están en la lista negra de carreras —
+    se usa como última barrera, independiente de cualquier otro chequeo,
+    para que una carrera nunca pueda terminar en la Calculadora aunque el
+    resto de la lógica (URL, título "Carrera de …", campo tipo) falle."""
+    if (slug or "").strip().lower() in PRECIOS_CARRERAS_LISTA_NEGRA_SLUGS:
+        return True
+    return _precios_normalizar_simple(titulo) in PRECIOS_CARRERAS_LISTA_NEGRA_TITULOS
+
 
 
 def _precios_descubrir_urls_catalogo():
@@ -217,6 +266,13 @@ def _precios_es_pagina_de_curso(titulo, path):
             file=sys.stderr,
         )
         return False
+    if _precios_es_carrera_en_lista_negra(titulo, path):
+        print(
+            f"  aviso: {path} descartado por lista negra de carreras "
+            f"(\"{titulo.strip()}\") aunque el título no empiece con \"Carrera de\"",
+            file=sys.stderr,
+        )
+        return False
     return True
 
 
@@ -311,6 +367,13 @@ def scrape_catalogo_precios():
             if not titulo or not precios:
                 continue
             titulo_limpio = titulo.replace("Curso de ", "").replace("Carrera de ", "").strip()
+            if _precios_es_carrera_en_lista_negra(titulo_limpio, path):
+                print(
+                    f"  aviso: {path} descartado por lista negra de carreras "
+                    f"(\"{titulo_limpio}\")",
+                    file=sys.stderr,
+                )
+                continue
             catalogo[path] = {
                 "titulo": titulo_limpio, "tipo": "curso", "precios": precios, "promo": promo,
             }
@@ -358,9 +421,14 @@ def refrescar_precios(precios_actuales, catalogo):
     cambiados = 0
     descartadas_carrera = 0
     for curso in precios_actuales:
-        if curso.get("tipo") == "carrera":
-            # Limpieza de una corrida anterior a este arreglo: la
-            # calculadora de cambios es solo de cursos individuales.
+        es_carrera_vieja = curso.get("tipo") == "carrera"
+        es_lista_negra = _precios_es_carrera_en_lista_negra(curso.get("titulo"), curso.get("id"))
+        if es_carrera_vieja or es_lista_negra:
+            # Limpieza de una corrida anterior a este arreglo, o de una
+            # carrera que se coló con tipo "curso" (ej. coderhouse.com
+            # redirigiendo /cursos/<slug> a la carrera completa): la
+            # calculadora de cambios es solo de cursos individuales, nunca
+            # de carreras, así que esto se descarta sin excepción.
             descartadas_carrera += 1
             continue
         slug = curso.get("id")

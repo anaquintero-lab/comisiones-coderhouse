@@ -15,6 +15,7 @@ import os
 import sys
 import json
 import datetime
+import unicodedata
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from zoneinfo import ZoneInfo
@@ -349,6 +350,55 @@ PRECIOS_STOPWORDS = {
     "diplomaturas", "v1", "v2", "v3", "en", "b2b", "coderhouse", "ch",
 }
 
+# ---------------------------------------------------------------------------
+# Lista negra explícita de carreras (defensa adicional, pedida a propósito
+# después de que el filtro por URL/título solo no alcanzó: coderhouse.com
+# puede redirigir /cursos/<slug> a la página de la carrera completa, o un
+# curso del Back Office puede compartir nombre exacto con una carrera sin
+# tener página pública propia). Cualquier página o entrada que matchee acá,
+# por slug o por título normalizado, se descarta SIEMPRE, sin excepción,
+# sin importar qué tipo le haya puesto el scraping.
+# ---------------------------------------------------------------------------
+PRECIOS_CARRERAS_LISTA_NEGRA_TITULOS = {
+    "ai automation",
+    "data analytics",
+    "community manager",
+    "desarrollo frontend react",
+    "desarrollo ux/ui",
+    "desarrollo de aplicaciones",
+    "diseno ux/ui",
+    "marketing digital",
+}
+PRECIOS_CARRERAS_LISTA_NEGRA_SLUGS = {
+    "ai-automation", "carrera-ai-automation",
+    "data-analytics", "data-analytics-live", "carrera-data-analytics-live",
+    "community-manager", "marketing-en-redes", "carrera-marketing-en-redes",
+    "desarrollo-frontend-react", "desarrollo-frontend", "carrera-online-desarrollo-frontend",
+    "desarrollo-ux-ui", "carrera-online-desarrollo-ux-ui",
+    "desarrollo-de-aplicaciones",
+    "diseno-ux-ui", "diseno-digital", "carrera-online-diseno-digital",
+    "marketing-digital", "carrera-online-marketing-digital",
+}
+
+
+def _precios_normalizar_simple(texto):
+    """Minúscula, sin tildes, sin espacios de más — solo para comparar
+    contra la lista negra (no toca el texto que se guarda ni se muestra)."""
+    import re
+    texto = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode("ascii")
+    return re.sub(r"\s+", " ", texto).strip().lower()
+
+
+def _precios_es_carrera_en_lista_negra(titulo, slug):
+    """True si el título o el slug están en la lista negra de carreras —
+    se usa como última barrera, independiente de cualquier otro chequeo,
+    para que una carrera nunca pueda terminar en la Calculadora aunque el
+    resto de la lógica (URL, título "Carrera de …", campo tipo) falle."""
+    if (slug or "").strip().lower() in PRECIOS_CARRERAS_LISTA_NEGRA_SLUGS:
+        return True
+    return _precios_normalizar_simple(titulo) in PRECIOS_CARRERAS_LISTA_NEGRA_TITULOS
+
+
 
 def _precios_normalizar(texto):
     import re
@@ -450,10 +500,47 @@ def _precios_scrapear_curso(path):
     return titulo, precios_por_pais
 
 
+def _precios_es_pagina_de_curso(titulo, path):
+    """Igual que en scripts/scraper_precios_web.py: descarta explícitamente
+    cualquier página cuyo <title> sea inconfundiblemente de una carrera
+    ("Carrera de …"), más la lista negra de nombres de carrera conocidos
+    como última barrera."""
+    if not titulo:
+        return False
+    titulo_norm = titulo.strip().lower()
+    if titulo_norm.startswith("carrera de") or titulo_norm.startswith("carrera "):
+        print(
+            f"  aviso: {path} descartado — el título de la página es de una CARRERA "
+            f"(\"{titulo.strip()}\"), no de un curso individual",
+            file=sys.stderr,
+        )
+        return False
+    if _precios_es_carrera_en_lista_negra(titulo, path):
+        print(
+            f"  aviso: {path} descartado por lista negra de carreras "
+            f"(\"{titulo.strip()}\") aunque el título no empiece con \"Carrera de\"",
+            file=sys.stderr,
+        )
+        return False
+    return True
+
+
 def scrape_catalogo_precios():
-    """Trae precio de lista + final por país para cada curso/carrera público
-    de coderhouse.com. Devuelve {path: {"titulo", "tipo", "precios"}}."""
-    paths = _precios_descubrir_urls_catalogo()
+    """Trae precio de lista + final por país para cada CURSO individual
+    público de coderhouse.com. Devuelve {path: {"titulo", "tipo", "precios"}},
+    con "tipo" siempre "curso".
+
+    IMPORTANTE: antes esta función también scrapeaba las páginas de
+    /carreras/ y les ponía tipo="carrera", pero nada más adelante en el
+    archivo (ni acá ni en construir_precios_data) filtraba ese tipo antes
+    de mostrarlo en la Calculadora — por eso una carrera con el mismo
+    nombre que uno de sus cursos (ej. "AI Automation", "Diseño UX/UI")
+    terminaba mostrando el precio de la carrera completa, y volvía a
+    aparecer en cada corrida de "Actualizar comisiones" sin importar cuántas
+    veces se limpiara el archivo a mano. Ahora, igual que en
+    scripts/scraper_precios_web.py, esta función solo trae páginas de
+    "cursos/": las de "carreras/" ni se scrapean."""
+    paths = [p for p in _precios_descubrir_urls_catalogo() if p.startswith("cursos/")]
     catalogo = {}
     with ThreadPoolExecutor(max_workers=6) as ex:
         futs = {ex.submit(_precios_scrapear_curso, p): p for p in paths}
@@ -466,9 +553,10 @@ def scrape_catalogo_precios():
                 continue
             if not titulo or not precios:
                 continue
-            tipo = "carrera" if path.startswith("carreras/") else "curso"
+            if not _precios_es_pagina_de_curso(titulo, path):
+                continue
             titulo_limpio = titulo.replace("Curso de ", "").replace("Carrera de ", "").strip()
-            catalogo[path] = {"titulo": titulo_limpio, "tipo": tipo, "precios": precios}
+            catalogo[path] = {"titulo": titulo_limpio, "tipo": "curso", "precios": precios}
     return catalogo
 
 
@@ -477,7 +565,11 @@ def construir_precios_data(rows, catalogo):
     público scrapeado y arma la lista final para la calculadora. Un curso
     que no matchea con score >= 0.8 queda afuera (mejor no mostrar precio
     que mostrar uno incorrecto)."""
-    nombres_curso = sorted({r["curso"] for r in rows if _precios_es_curso_publico(r["curso"])})
+    nombres_curso = sorted({
+        r["curso"] for r in rows
+        if _precios_es_curso_publico(r["curso"])
+        and not _precios_es_carrera_en_lista_negra(r["curso"], None)
+    })
 
     catalogo_tokens = {}
     for path, info in catalogo.items():
@@ -503,6 +595,11 @@ def construir_precios_data(rows, catalogo):
     precios_data = []
     for path in sorted(paths_usados, key=lambda p: catalogo[p]["titulo"]):
         info = catalogo[path]
+        if info["tipo"] == "carrera" or _precios_es_carrera_en_lista_negra(info["titulo"], path):
+            # Última barrera: nunca debería llegar hasta acá una carrera
+            # (scrape_catalogo_precios ya las descarta), pero si alguna vez
+            # vuelve a colarse una, se corta acá antes de mostrarla.
+            continue
         precios_data.append({
             "id": path.split("/")[-1],
             "titulo": info["titulo"],
