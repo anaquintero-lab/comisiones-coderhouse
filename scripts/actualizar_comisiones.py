@@ -15,7 +15,6 @@ import os
 import sys
 import json
 import datetime
-import unicodedata
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from zoneinfo import ZoneInfo
@@ -350,55 +349,6 @@ PRECIOS_STOPWORDS = {
     "diplomaturas", "v1", "v2", "v3", "en", "b2b", "coderhouse", "ch",
 }
 
-# ---------------------------------------------------------------------------
-# Lista negra explícita de carreras (defensa adicional, pedida a propósito
-# después de que el filtro por URL/título solo no alcanzó: coderhouse.com
-# puede redirigir /cursos/<slug> a la página de la carrera completa, o un
-# curso del Back Office puede compartir nombre exacto con una carrera sin
-# tener página pública propia). Cualquier página o entrada que matchee acá,
-# por slug o por título normalizado, se descarta SIEMPRE, sin excepción,
-# sin importar qué tipo le haya puesto el scraping.
-# ---------------------------------------------------------------------------
-PRECIOS_CARRERAS_LISTA_NEGRA_TITULOS = {
-    "ai automation",
-    "data analytics",
-    "community manager",
-    "desarrollo frontend react",
-    "desarrollo ux/ui",
-    "desarrollo de aplicaciones",
-    "diseno ux/ui",
-    "marketing digital",
-}
-PRECIOS_CARRERAS_LISTA_NEGRA_SLUGS = {
-    "ai-automation", "carrera-ai-automation",
-    "data-analytics", "data-analytics-live", "carrera-data-analytics-live",
-    "community-manager", "marketing-en-redes", "carrera-marketing-en-redes",
-    "desarrollo-frontend-react", "desarrollo-frontend", "carrera-online-desarrollo-frontend",
-    "desarrollo-ux-ui", "carrera-online-desarrollo-ux-ui",
-    "desarrollo-de-aplicaciones",
-    "diseno-ux-ui", "diseno-digital", "carrera-online-diseno-digital",
-    "marketing-digital", "carrera-online-marketing-digital",
-}
-
-
-def _precios_normalizar_simple(texto):
-    """Minúscula, sin tildes, sin espacios de más — solo para comparar
-    contra la lista negra (no toca el texto que se guarda ni se muestra)."""
-    import re
-    texto = unicodedata.normalize("NFKD", texto or "").encode("ascii", "ignore").decode("ascii")
-    return re.sub(r"\s+", " ", texto).strip().lower()
-
-
-def _precios_es_carrera_en_lista_negra(titulo, slug):
-    """True si el título o el slug están en la lista negra de carreras —
-    se usa como última barrera, independiente de cualquier otro chequeo,
-    para que una carrera nunca pueda terminar en la Calculadora aunque el
-    resto de la lógica (URL, título "Carrera de …", campo tipo) falle."""
-    if (slug or "").strip().lower() in PRECIOS_CARRERAS_LISTA_NEGRA_SLUGS:
-        return True
-    return _precios_normalizar_simple(titulo) in PRECIOS_CARRERAS_LISTA_NEGRA_TITULOS
-
-
 
 def _precios_normalizar(texto):
     import re
@@ -503,8 +453,11 @@ def _precios_scrapear_curso(path):
 def _precios_es_pagina_de_curso(titulo, path):
     """Igual que en scripts/scraper_precios_web.py: descarta explícitamente
     cualquier página cuyo <title> sea inconfundiblemente de una carrera
-    ("Carrera de …"), más la lista negra de nombres de carrera conocidos
-    como última barrera."""
+    ("Carrera de …"), por más que la URL ya haya pasado el filtro de
+    "cursos/" al leer el sitemap. Esto es intencionalmente solo por
+    tipo/ruta de producto — NUNCA por el nombre del curso: un curso suelto
+    puede (y debe) llamarse igual que una carrera (ej. "AI Automation",
+    "Diseño UX/UI") y mostrar su propio precio individual sin problema."""
     if not titulo:
         return False
     titulo_norm = titulo.strip().lower()
@@ -512,13 +465,6 @@ def _precios_es_pagina_de_curso(titulo, path):
         print(
             f"  aviso: {path} descartado — el título de la página es de una CARRERA "
             f"(\"{titulo.strip()}\"), no de un curso individual",
-            file=sys.stderr,
-        )
-        return False
-    if _precios_es_carrera_en_lista_negra(titulo, path):
-        print(
-            f"  aviso: {path} descartado por lista negra de carreras "
-            f"(\"{titulo.strip()}\") aunque el título no empiece con \"Carrera de\"",
             file=sys.stderr,
         )
         return False
@@ -565,11 +511,7 @@ def construir_precios_data(rows, catalogo):
     público scrapeado y arma la lista final para la calculadora. Un curso
     que no matchea con score >= 0.8 queda afuera (mejor no mostrar precio
     que mostrar uno incorrecto)."""
-    nombres_curso = sorted({
-        r["curso"] for r in rows
-        if _precios_es_curso_publico(r["curso"])
-        and not _precios_es_carrera_en_lista_negra(r["curso"], None)
-    })
+    nombres_curso = sorted({r["curso"] for r in rows if _precios_es_curso_publico(r["curso"])})
 
     catalogo_tokens = {}
     for path, info in catalogo.items():
@@ -581,24 +523,33 @@ def construir_precios_data(rows, catalogo):
         ctoks = _precios_normalizar(nombre)
         if not ctoks:
             continue
-        mejor_path, mejor_score = None, 0
+        mejor_path, mejor_score, mejor_cercania = None, 0, 0
         for path, tokens in catalogo_tokens.items():
             overlap = ctoks & tokens
             if not overlap:
                 continue
             score = len(overlap) / len(ctoks)
-            if score > mejor_score:
-                mejor_score, mejor_path = score, path
+            # Desempate determinístico entre cursos de la misma familia con
+            # el mismo score (ej. "AI Automation" vs "AI Automation
+            # Avanzado" para el nombre de Back Office "AI Automation"):
+            # cercania castiga al catálogo que trae tokens de más (como
+            # "avanzado"), así el curso base nunca termina matcheado al
+            # avanzado (ni viceversa) por una carrera de hilos que llega
+            # primero.
+            cercania = len(overlap) / len(tokens | ctoks)
+            if score > mejor_score or (score == mejor_score and cercania > mejor_cercania):
+                mejor_score, mejor_cercania, mejor_path = score, cercania, path
         if mejor_path and mejor_score >= 0.8:
             paths_usados.add(mejor_path)
 
     precios_data = []
     for path in sorted(paths_usados, key=lambda p: catalogo[p]["titulo"]):
         info = catalogo[path]
-        if info["tipo"] == "carrera" or _precios_es_carrera_en_lista_negra(info["titulo"], path):
+        if info["tipo"] == "carrera":
             # Última barrera: nunca debería llegar hasta acá una carrera
-            # (scrape_catalogo_precios ya las descarta), pero si alguna vez
-            # vuelve a colarse una, se corta acá antes de mostrarla.
+            # (scrape_catalogo_precios ya las descarta por URL/tipo, no por
+            # nombre), pero si alguna vez vuelve a colarse una, se corta
+            # acá antes de mostrarla.
             continue
         precios_data.append({
             "id": path.split("/")[-1],
