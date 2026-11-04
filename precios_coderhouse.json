@@ -15,42 +15,6 @@
         "final": 9350,
         "currency": "UYU",
         "discount_pct": 50
-      },
-      "CL": {
-        "list": 625900,
-        "final": 250360,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1447050,
-        "final": 578820,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 7315,
-        "final": 2926,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1293,
-        "final": 517,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 611,
-        "final": 306,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 611,
-        "final": 306,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -72,12 +36,6 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 676500,
-        "final": 270600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1564200,
         "final": 625680,
@@ -94,12 +52,6 @@
         "list": 7920,
         "final": 3168,
         "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1375,
-        "final": 550,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -134,22 +86,10 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 575300,
-        "final": 230120,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1329900,
         "final": 531960,
         "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 6710,
-        "final": 2684,
-        "currency": "MXN",
         "discount_pct": 60
       },
       "PE": {
@@ -157,18 +97,6 @@
         "final": 484,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 565,
-        "final": 283,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 565,
-        "final": 283,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -190,41 +118,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 664000,
-        "final": 265600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1535000,
-        "final": 614000,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 7761,
-        "final": 3104,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 1371,
         "final": 548,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 649,
-        "final": 325,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 649,
-        "final": 325,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -240,35 +138,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 6160,
-        "final": 3080,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 335500,
-        "final": 134200,
-        "currency": "CLP",
+      "CO": {
+        "list": 861300,
+        "final": 344520,
+        "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 715,
-        "final": 286,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 250,
-        "final": 125,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 250,
-        "final": 125,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -283,18 +157,6 @@
         "final": 148980,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -309,42 +171,6 @@
         "final": 67080,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 11660,
-        "final": 5830,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 469700,
-        "final": 187880,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1383800,
-        "final": 553520,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1155,
-        "final": 462,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 358,
-        "final": 179,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 358,
-        "final": 179,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -359,48 +185,6 @@
         "final": 157690,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -415,30 +199,6 @@
         "final": 180505,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 1155,
-        "final": 462,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -454,12 +214,6 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 532400,
         "final": 212960,
@@ -471,30 +225,6 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "ES": {
-        "list": 704,
-        "final": 352,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -510,22 +240,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 6160,
-        "final": 3080,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 335500,
-        "final": 134200,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 715,
-        "final": 286,
-        "currency": "PEN",
+      "CO": {
+        "list": 861300,
+        "final": 344520,
+        "currency": "COP",
         "discount_pct": 60
       }
     },
@@ -541,42 +259,6 @@
         "final": 114270,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1174800,
-        "final": 469920,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 770,
-        "final": 308,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -591,42 +273,6 @@
         "final": 141895,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 638,
-        "final": 319,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -659,42 +305,6 @@
         "final": 10120,
         "currency": "UYU",
         "discount_pct": 50
-      },
-      "CL": {
-        "list": 676500,
-        "final": 270600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1564200,
-        "final": 625680,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 7920,
-        "final": 3168,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1375,
-        "final": 550,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 658,
-        "final": 329,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 658,
-        "final": 329,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -709,36 +319,6 @@
         "final": 141895,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -754,53 +334,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 687500,
-        "final": 275000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1652200,
-        "final": 660880,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 8250,
-        "final": 3300,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 935,
         "final": 374,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -816,41 +354,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 19840,
-        "final": 9920,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 664000,
-        "final": 265600,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1535000,
-        "final": 614000,
-        "currency": "COP",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 1371,
         "final": 548,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 649,
-        "final": 325,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 649,
-        "final": 325,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -865,42 +373,6 @@
         "final": 234910,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 31900,
-        "final": 15950,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 1117600,
-        "final": 447040,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 3121800,
-        "final": 1248720,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1980,
-        "final": 792,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1101,
-        "final": 551,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1101,
-        "final": 551,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -922,34 +394,10 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 1180300,
-        "final": 472120,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 3166900,
-        "final": 1266760,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 2365,
-        "final": 946,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 1316,
-        "final": 658,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 1316,
-        "final": 658,
-        "currency": "USD",
+      "ES": {
+        "list": 1694,
+        "final": 847,
+        "currency": "EUR",
         "discount_pct": 50
       }
     },
@@ -966,41 +414,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1174800,
         "final": 469920,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 770,
-        "final": 308,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1015,36 +433,6 @@
         "final": 148980,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
-        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -1072,36 +460,6 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 22550,
-        "final": 11275,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 772200,
-        "final": 308880,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 935,
-        "final": 468,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 9130,
-        "final": 3652,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1265,
-        "final": 506,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
       "US": {
         "list": 736,
         "final": 368,
@@ -1128,22 +486,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 21640,
-        "final": 10820,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 724400,
-        "final": 289760,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1675000,
-        "final": 670000,
-        "currency": "COP",
+      "MX": {
+        "list": 8467,
+        "final": 3387,
+        "currency": "MXN",
         "discount_pct": 60
       },
       "PE": {
@@ -1151,18 +497,6 @@
         "final": 598,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 708,
-        "final": 354,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 708,
-        "final": 354,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1178,28 +512,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 687500,
-        "final": 275000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1652200,
         "final": 660880,
         "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1430,
-        "final": 572,
-        "currency": "PEN",
         "discount_pct": 60
       },
       "US": {
@@ -1227,30 +543,6 @@
         "final": 170170,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 687500,
-        "final": 275000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1652200,
-        "final": 660880,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1430,
-        "final": 572,
-        "currency": "PEN",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1266,12 +558,6 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 250800,
@@ -1283,30 +569,6 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1321,30 +583,6 @@
         "final": 141895,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1360,41 +598,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1174800,
         "final": 469920,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 715,
-        "final": 286,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1410,12 +618,6 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 10000,
-        "final": 5000,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 342000,
         "final": 136800,
@@ -1428,29 +630,11 @@
         "currency": "COP",
         "discount_pct": 60
       },
-      "MX": {
-        "list": 3950,
-        "final": 1580,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 490,
         "final": 196,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 338,
-        "final": 169,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 338,
-        "final": 169,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1466,35 +650,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 6160,
-        "final": 3080,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 335500,
-        "final": 134200,
-        "currency": "CLP",
+      "CO": {
+        "list": 861300,
+        "final": 344520,
+        "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 715,
-        "final": 286,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 250,
-        "final": 125,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 250,
-        "final": 125,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1514,48 +674,6 @@
         "list": 21080,
         "final": 10540,
         "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 704400,
-        "final": 281760,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1628800,
-        "final": 651520,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 790,
-        "final": 395,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 8247,
-        "final": 3299,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1432,
-        "final": 573,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 685,
-        "final": 343,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 685,
-        "final": 343,
-        "currency": "USD",
         "discount_pct": 50
       }
     },
@@ -1583,36 +701,6 @@
         "final": 250800,
         "currency": "CLP",
         "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1628,53 +716,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 1045,
         "final": 418,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 536,
-        "final": 268,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 536,
-        "final": 268,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1689,48 +735,6 @@
         "final": 79625,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 11660,
-        "final": 5830,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 426800,
-        "final": 170720,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1383800,
-        "final": 553520,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 374,
-        "final": 187,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 1155,
-        "final": 462,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 307,
-        "final": 154,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 307,
-        "final": 154,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1752,41 +756,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 1320,
         "final": 528,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1807,42 +781,6 @@
         "final": 5830,
         "currency": "UYU",
         "discount_pct": 50
-      },
-      "CL": {
-        "list": 469700,
-        "final": 187880,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1383800,
-        "final": 553520,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 5610,
-        "final": 2244,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1155,
-        "final": 462,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 358,
-        "final": 179,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 358,
-        "final": 179,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1858,47 +796,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 20460,
-        "final": 10230,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 687500,
-        "final": 275000,
-        "currency": "CLP",
+      "MX": {
+        "list": 8250,
+        "final": 3300,
+        "currency": "MXN",
         "discount_pct": 60
-      },
-      "CO": {
-        "list": 1652200,
-        "final": 660880,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 825,
-        "final": 413,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 935,
-        "final": 374,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 672,
-        "final": 336,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1914,16 +816,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 11660,
-        "final": 5830,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 469700,
-        "final": 187880,
-        "currency": "CLP",
+      "CO": {
+        "list": 1383800,
+        "final": 553520,
+        "currency": "COP",
         "discount_pct": 60
       },
       "PE": {
@@ -1931,18 +827,6 @@
         "final": 462,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 358,
-        "final": 179,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 358,
-        "final": 179,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -1957,12 +841,6 @@
         "final": 49465,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 6160,
-        "final": 3080,
-        "currency": "UYU",
-        "discount_pct": 50
       },
       "CL": {
         "list": 335500,
@@ -1987,18 +865,6 @@
         "final": 286,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 250,
-        "final": 125,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 250,
-        "final": 125,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2013,36 +879,6 @@
         "final": 141895,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 704,
-        "final": 352,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
@@ -2076,41 +912,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1448700,
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2125,48 +931,6 @@
         "final": 110370,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1174800,
-        "final": 469920,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 5720,
-        "final": 2288,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 770,
-        "final": 308,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2182,41 +946,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
       "PE": {
         "list": 1375,
         "final": 550,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2231,42 +965,6 @@
         "final": 144235,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 19580,
-        "final": 9790,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 541200,
-        "final": 216480,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1538900,
-        "final": 615560,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1155,
-        "final": 462,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 629,
-        "final": 315,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 629,
-        "final": 315,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2282,12 +980,6 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 17600,
-        "final": 8800,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 503800,
         "final": 201520,
@@ -2298,12 +990,6 @@
         "list": 1436600,
         "final": 574640,
         "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 935,
-        "final": 374,
-        "currency": "PEN",
         "discount_pct": 60
       }
     },
@@ -2319,36 +1005,6 @@
         "final": 182065,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 21560,
-        "final": 10780,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 558800,
-        "final": 223520,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1641200,
-        "final": 656480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 8360,
-        "final": 3344,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2364,41 +1020,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1448700,
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2413,42 +1039,6 @@
         "final": 229320,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 25740,
-        "final": 12870,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 863500,
-        "final": 345400,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 2059200,
-        "final": 823680,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1210,
-        "final": 484,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 829,
-        "final": 415,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 829,
-        "final": 415,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2463,42 +1053,6 @@
         "final": 163150,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2513,30 +1067,6 @@
         "final": 155285,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 825,
-        "final": 330,
-        "currency": "PEN",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2558,34 +1088,10 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1174800,
-        "final": 469920,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 770,
+      "ES": {
+        "list": 616,
         "final": 308,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
+        "currency": "EUR",
         "discount_pct": 50
       }
     },
@@ -2602,35 +1108,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "CL": {
-        "list": 772200,
-        "final": 308880,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 1787500,
         "final": 715000,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 1265,
-        "final": 506,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2652,29 +1134,11 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
+      "CO": {
+        "list": 1174800,
+        "final": 469920,
+        "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 770,
-        "final": 308,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2689,24 +1153,6 @@
         "final": 119795,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 495000,
-        "final": 198000,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 770,
-        "final": 308,
-        "currency": "PEN",
-        "discount_pct": 60
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2722,28 +1168,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
         "discount_pct": 50
       }
     },
@@ -2760,41 +1188,11 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 6160,
-        "final": 3080,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 335500,
-        "final": 134200,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
       "CO": {
         "list": 861300,
         "final": 344520,
         "currency": "COP",
         "discount_pct": 60
-      },
-      "PE": {
-        "list": 715,
-        "final": 286,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 250,
-        "final": 125,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 250,
-        "final": 125,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2810,22 +1208,10 @@
         "currency": "ARS",
         "discount_pct": 35
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
         "discount_pct": 60
       },
       "PE": {
@@ -2833,18 +1219,6 @@
         "final": 528,
         "currency": "PEN",
         "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2859,42 +1233,6 @@
         "final": 140465,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1320,
-        "final": 528,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2915,42 +1253,6 @@
         "final": 8580,
         "currency": "UYU",
         "discount_pct": 50
-      },
-      "CL": {
-        "list": 575300,
-        "final": 230120,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1329900,
-        "final": 531960,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "MX": {
-        "list": 6710,
-        "final": 2684,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1210,
-        "final": 484,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 565,
-        "final": 283,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 565,
-        "final": 283,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
@@ -2965,12 +1267,6 @@
         "final": 108810,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
       }
     },
     "promo": "CYBER CODER ⚡"
