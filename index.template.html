@@ -84,10 +84,10 @@
             <th id="th-horario">Horario (AR)</th>
             <th>Inicio</th>
             <th>Fin</th>
+            <th>Profesores</th>
             <th>Estado</th>
             <th>Insc.</th>
             <th>Cupo</th>
-            <th>Profesores</th>
             <th class="col-actions">Copiar</th>
           </tr>
         </thead>
@@ -610,7 +610,7 @@
 <script>
 (function () {
   const DATA = Array.isArray(window.__COMISIONES_DATA__) ? window.__COMISIONES_DATA__ : [];
-  const COLS = ['curso', 'comision', 'dia', 'horario', 'fecha_inicio', 'fecha_fin', 'estado', 'inscriptos', 'cupo_max', 'profesores'];
+  const COLS = ['curso', 'comision', 'dia', 'horario', 'fecha_inicio', 'fecha_fin', 'profesores', 'estado', 'inscriptos', 'cupo_max'];
   const TOTAL_COLS = COLS.length + 1; // + columna de acciones (no es un dato del dataset)
   const ESTADO_LABELS = { NOT_STARTED: 'No iniciada', IN_PROGRESS: 'En curso', CANCELLED: 'Cancelada', COMPLETED: 'Finalizada' };
   const DIA_ORDER = ['Lunes', 'Miércoles', 'Martes', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
