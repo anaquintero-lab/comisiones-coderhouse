@@ -93,6 +93,11 @@
         <tbody id="tbody"></tbody>
       </table>
     </div>
+    <div class="pagination-bar" id="pagination-bar">
+      <button type="button" class="pagination-btn" id="pg-prev" aria-label="Página anterior">&larr; Anterior</button>
+      <span class="pagination-label" id="pg-label"></span>
+      <button type="button" class="pagination-btn" id="pg-next" aria-label="Página siguiente">Siguiente &rarr;</button>
+    </div>
   </section>
 
   </div>
@@ -470,6 +475,33 @@
     border-radius: 10px;
   }
 
+  #dash-root .pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: .9rem;
+  }
+  #dash-root .pagination-btn {
+    font-family: inherit;
+    font-weight: 600;
+    font-size: .82rem;
+    color: var(--ch-ink);
+    background: transparent;
+    border: 1px solid var(--ch-border);
+    border-radius: 999px;
+    padding: .45rem 1rem;
+    cursor: pointer;
+  }
+  #dash-root .pagination-btn:hover:not(:disabled) { color: var(--ch-accent-ink); background: var(--ch-ink); border-color: var(--ch-ink); }
+  #dash-root .pagination-btn:disabled { opacity: .4; cursor: default; }
+  #dash-root .pagination-label {
+    font-size: .82rem;
+    color: var(--ch-ink-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
   #dash-root .comisiones-table {
     width: 100%;
     border-collapse: collapse;
@@ -583,6 +615,13 @@
   const DIA_ORDER = ['Lunes', 'Miércoles', 'Martes', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
   const MESES_ES = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
+  // Cuántas filas se muestran de una sola vez en el DOM. Con 3000+
+  // comisiones, renderizar todas las filas a la vez crea decenas de miles
+  // de nodos del DOM y vuelve pesada cada interacción (filtrar, ordenar,
+  // cambiar de país) -- paginar mantiene el consumo de memoria y el tiempo
+  // de render acotados sin importar cuántas comisiones haya.
+  const PAGE_SIZE = 150;
+
   // Cursos corporativos / a medida para empresas (B2B), a excluir del
   // desplegable de "Curso" (no de la tabla ni del resto del dataset).
   const CURSOS_B2B_EXCLUIDOS = new Set([
@@ -632,6 +671,17 @@
   const sortDirEl = document.querySelector('.f-sort-dir');
   const resetBtn = document.querySelector('.f-reset');
   const copyConsecutiveBtn = document.querySelector('.f-copy-consecutive');
+  const pgPrevBtn = document.getElementById('pg-prev');
+  const pgNextBtn = document.getElementById('pg-next');
+  const pgLabelEl = document.getElementById('pg-label');
+  const paginationBar = document.getElementById('pagination-bar');
+
+  // Índice comisión -> fila, para que el listener delegado de "Copiar"
+  // (ver más abajo) pueda recuperar los datos de la fila sin tener que
+  // guardar una referencia/():closure por botón. Se arma una sola vez: el
+  // dataset no cambia durante la vida de la página.
+  const rowsByComision = new Map();
+  DATA.forEach((r) => rowsByComision.set(String(r.comision), r));
 
   function showMessage(text) {
     tbody.replaceChildren();
@@ -642,25 +692,15 @@
     td.textContent = text;
     tr.appendChild(td);
     tbody.appendChild(tr);
-    countEl.textContent = '';
   }
 
-  function buildRows(rows) {
+  function buildRows(rows, paisCod) {
     tbody.replaceChildren();
-    const paisCod = paisEl.value;
     const frag = document.createDocumentFragment();
     rows.forEach((r) => {
       const horarioZona = getHorarioEnZona(r, paisCod);
       const tr = document.createElement('tr');
       tr.dataset.key = String(r.comision);
-      tr.dataset.curso = (r.curso || '').toLowerCase();
-      tr.dataset.cursoRaw = r.curso || '';
-      tr.dataset.comision = String(r.comision || '').toLowerCase();
-      tr.dataset.mes = r.mes || '';
-      tr.dataset.dia = r.dia || '';
-      tr.dataset.hora = horarioZona.inicio;
-      tr.dataset.estado = r.estado || '';
-      tr.dataset.fechaInicio = r.fecha_inicio || '';
 
       COLS.forEach((c) => {
         const td = document.createElement('td');
@@ -671,7 +711,6 @@
             : r.estado === 'CANCELLED' ? 'badge badge-bad'
             : r.estado === 'COMPLETED' ? 'badge badge-neutral'
             : 'badge badge-warn';
-          td.innerHTML = '';
           const span = document.createElement('span');
           span.className = cls;
           span.textContent = (v === null || v === undefined || v === '') ? '—' : String(v);
@@ -689,7 +728,9 @@
       btn.className = 'copy-btn';
       btn.innerHTML = COPY_ICON + '<span>Copiar</span>';
       btn.setAttribute('aria-label', `Copiar comisión ${r.comision}`);
-      btn.addEventListener('click', () => copyCommission(btn, r, horarioZona.texto));
+      // Sin listener acá: un único listener delegado en el tbody (más
+      // abajo) se encarga de todos los botones de "Copiar" de la tabla,
+      // sin importar cuántas filas se rendericen a lo largo de la sesión.
       actionTd.appendChild(btn);
       tr.appendChild(actionTd);
 
@@ -697,6 +738,23 @@
     });
     tbody.appendChild(frag);
   }
+
+  // Un solo listener para todos los botones "Copiar" de la tabla, en vez de
+  // uno por fila: antes, cada render (al cambiar de país, filtro u orden)
+  // creaba miles de closures + listeners nuevos sobre filas que además se
+  // descartaban enseguida, lo que generaba presión constante sobre el
+  // recolector de basura. Delegar el evento al contenedor fijo (tbody, que
+  // nunca se destruye) elimina ese churn por completo.
+  tbody.addEventListener('click', (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn || !tbody.contains(btn)) return;
+    const tr = btn.closest('tr[data-key]');
+    if (!tr) return;
+    const r = rowsByComision.get(tr.dataset.key);
+    if (!r) return;
+    const horarioZona = getHorarioEnZona(r, paisEl.value);
+    copyCommission(btn, r, horarioZona.texto);
+  });
 
   function copyCommission(btn, r, horarioTexto) {
     const text = [
@@ -747,17 +805,6 @@
     return new Date(y, m - 1, d).getTime();
   }
 
-  // Normaliza la hora de inicio a "HH:MM", sin importar si el dato viene
-  // como "13:20", "13:20 hs" o como un rango "13:20 a 15:20": siempre toma
-  // el primer HH:MM que encuentra. Así el desplegable de Hora y el filtro
-  // comparan siempre contra el mismo formato y no quedan huérfanos entre sí.
-  function horaInicioClave(valor) {
-    if (!valor) return '';
-    const m = String(valor).match(/(\d{1,2}):(\d{2})/);
-    if (!m) return '';
-    return `${m[1].padStart(2, '0')}:${m[2]}`;
-  }
-
   // Zona horaria IANA de cada país del desplegable, para recalcular los
   // horarios (en base al dato real de Argentina) respetando el horario de
   // verano donde corresponda (Chile, España, Estados Unidos), en vez de
@@ -773,6 +820,30 @@
     PE: 'America/Lima',
     VE: 'America/Caracas',
   };
+
+  // new Intl.DateTimeFormat(...) es una construcción relativamente cara
+  // (compila reglas de zona horaria/calendario). El código anterior creaba
+  // una instancia nueva por cada fila, en cada render -- con ~3200 filas y
+  // varias pasadas por render (tabla + desplegable de Hora + filtro), eso
+  // eran decenas de miles de formateadores por interacción, lo que volvía
+  // cada cambio de país/filtro perceptiblemente lento (~1s) y generaba
+  // mucha basura de golpe. Cachear un formateador por zona horaria (son
+  // apenas 9 en total) reduce esas construcciones a, como mucho, 9 por
+  // toda la sesión.
+  const tzFormatterCache = new Map();
+  function getTzFormatter(tz) {
+    let fmt = tzFormatterCache.get(tz);
+    if (!fmt) {
+      fmt = new Intl.DateTimeFormat('en-GB', {
+        timeZone: tz,
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      });
+      tzFormatterCache.set(tz, fmt);
+    }
+    return fmt;
+  }
 
   // Extrae todas las horas "HH:MM" que aparezcan en un texto (por ejemplo,
   // las dos de un rango "13:20 a 15:20").
@@ -801,13 +872,7 @@
   function formatHoraEnZona(fechaDMY, horaHHMM, tz) {
     const instante = argLocalAUtc(fechaDMY, horaHHMM);
     if (!instante) return horaHHMM;
-    const fmt = new Intl.DateTimeFormat('en-GB', {
-      timeZone: tz,
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    });
-    return fmt.format(instante);
+    return getTzFormatter(tz).format(instante);
   }
 
   // Arma el texto de la columna "Horario" y la hora de inicio normalizada
@@ -860,10 +925,11 @@
     const d = Number(parts.find((p) => p.type === 'day').value);
     return new Date(y, m - 1, d).getTime();
   }
+  const HOY_ARG_TS = hoyArgentinaTimestamp();
 
   function esVigenteOFutura(estado, fechaInicioStr) {
     const esVigente = estado === 'IN_PROGRESS' || estado === 'NOT_STARTED';
-    return esVigente && parseFechaDMY(fechaInicioStr) >= hoyArgentinaTimestamp();
+    return esVigente && parseFechaDMY(fechaInicioStr) >= HOY_ARG_TS;
   }
 
   // Combina la restricción de fecha con el resto de los filtros. Las "No
@@ -874,7 +940,7 @@
   // aunque sean viejas).
   function pasaFiltroFecha(estado, fechaInicioStr, hayOverride) {
     if (estado === 'NOT_STARTED') {
-      return parseFechaDMY(fechaInicioStr) >= hoyArgentinaTimestamp();
+      return parseFechaDMY(fechaInicioStr) >= HOY_ARG_TS;
     }
     if (hayOverride) return true;
     return esVigenteOFutura(estado, fechaInicioStr);
@@ -910,94 +976,88 @@
     horaEl.replaceChildren(new Option('Todas las horas', ''), ...horas.map((h) => new Option(h, h)));
   }
 
-  function applyFilters() {
-    const q = searchEl.value.trim().toLowerCase();
-    const curso2 = cursoEl.value;
-    const mes = mesEl.value;
-    const dia = diaEl.value;
-    const hora = horaEl.value;
-    const estado = estadoEl.value;
-
-    const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
-
-    const trs = tbody.querySelectorAll('tr[data-key]');
-    let visible = 0;
-    trs.forEach((tr) => {
-      const match =
-        (!q || tr.dataset.curso.includes(q) || tr.dataset.comision.includes(q)) &&
-        (!curso2 || tr.dataset.cursoRaw === curso2) &&
-        (!mes || tr.dataset.mes === mes) &&
-        (!dia || tr.dataset.dia.split(',').map((s) => s.trim()).includes(dia)) &&
-        (!hora || tr.dataset.hora === hora) &&
-        (!estado || tr.dataset.estado === estado) &&
-        pasaFiltroFecha(tr.dataset.estado, tr.dataset.fechaInicio, hayOverride);
-      tr.style.display = match ? '' : 'none';
-      if (match) visible += 1;
-    });
-    countEl.textContent = trs.length ? `Mostrando ${visible} de ${trs.length} comisiones` : '';
-  }
-
-  function matchesFilters(r) {
-    const q = searchEl.value.trim().toLowerCase();
-    const curso2 = cursoEl.value;
-    const mes = mesEl.value;
-    const dia = diaEl.value;
-    const hora = horaEl.value;
-    const estado = estadoEl.value;
-    const curso = String(r.curso || '').toLowerCase();
-    const comision = String(r.comision || '').toLowerCase();
-    const diasRow = (r.dia || '').split(',').map((s) => s.trim());
-    const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
-    return (
-      (!q || curso.includes(q) || comision.includes(q)) &&
-      (!curso2 || r.curso === curso2) &&
-      (!mes || r.mes === mes) &&
-      (!dia || diasRow.includes(dia)) &&
-      (!hora || getHorarioEnZona(r, paisEl.value).inicio === hora) &&
-      (!estado || r.estado === estado) &&
-      pasaFiltroFecha(r.estado, r.fecha_inicio, hayOverride)
-    );
-  }
-
-  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl].forEach((el) => {
-    el.addEventListener('input', applyFilters);
-    el.addEventListener('change', applyFilters);
-  });
-
-  // Cambiar de país no filtra filas: recalcula los horarios mostrados y el
-  // desplegable de Hora en la nueva zona, y reconstruye la tabla. La hora
-  // elegida se reinicia porque el valor anterior correspondía a otra zona.
-  paisEl.addEventListener('change', () => {
-    horaEl.value = '';
-    thHorario.textContent = `Horario (${paisEl.value})`;
-    poblarHoras(latestRows);
-    renderRows();
-  });
-
   let latestRows = DATA;
-  let renderedRows = [];
+  let filteredSortedRows = [];
+  let currentPage = 1;
 
-  function renderRows() {
-    if (!latestRows.length) {
-      renderedRows = [];
-      showMessage('No hay comisiones para mostrar.');
+  // Recalcula el subconjunto filtrado + ordenado SOBRE TODO EL DATASET
+  // (no sobre lo que está dibujado en pantalla): la paginación no debe
+  // perder comisiones que coinciden pero no están en la página visible.
+  function recomputeFilteredRows() {
+    const q = searchEl.value.trim().toLowerCase();
+    const curso2 = cursoEl.value;
+    const mes = mesEl.value;
+    const dia = diaEl.value;
+    const hora = horaEl.value;
+    const estado = estadoEl.value;
+    const paisCod = paisEl.value;
+    const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
+
+    const filtradas = latestRows.filter((r) => {
+      const curso = String(r.curso || '').toLowerCase();
+      const comisionStr = String(r.comision || '').toLowerCase();
+      const diasRow = (r.dia || '').split(',').map((s) => s.trim());
+      return (
+        (!q || curso.includes(q) || comisionStr.includes(q)) &&
+        (!curso2 || r.curso === curso2) &&
+        (!mes || r.mes === mes) &&
+        (!dia || diasRow.includes(dia)) &&
+        (!hora || getHorarioEnZona(r, paisCod).inicio === hora) &&
+        (!estado || r.estado === estado) &&
+        pasaFiltroFecha(r.estado, r.fecha_inicio, hayOverride)
+      );
+    });
+    filteredSortedRows = sortRows(filtradas, sortFieldEl.value, sortDirEl.value);
+  }
+
+  function renderPage() {
+    const paisCod = paisEl.value;
+    const total = filteredSortedRows.length;
+
+    if (!total) {
+      showMessage(latestRows.length ? 'No hay comisiones que coincidan con los filtros.' : 'No hay comisiones para mostrar.');
       countEl.textContent = '';
+      updatePagination(0, 1, 1);
       return;
     }
-    const sorted = sortRows(latestRows, sortFieldEl.value, sortDirEl.value);
-    renderedRows = sorted;
-    buildRows(sorted);
-    applyFilters();
+
+    const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+    if (currentPage > totalPages) currentPage = totalPages;
+    if (currentPage < 1) currentPage = 1;
+
+    const start = (currentPage - 1) * PAGE_SIZE;
+    const pageRows = filteredSortedRows.slice(start, start + PAGE_SIZE);
+    buildRows(pageRows, paisCod);
+    countEl.textContent = `Mostrando ${start + 1}–${start + pageRows.length} de ${total} comisiones`;
+    updatePagination(total, currentPage, totalPages);
+  }
+
+  function updatePagination(total, page, totalPages) {
+    if (!paginationBar) return;
+    paginationBar.style.display = total > 0 ? '' : 'none';
+    pgLabelEl.textContent = `Página ${page} de ${totalPages}`;
+    pgPrevBtn.disabled = page <= 1;
+    pgNextBtn.disabled = page >= totalPages;
+  }
+
+  // Punto de entrada único para cualquier cambio de filtro/orden: recalcula
+  // el subconjunto filtrado sobre todo el dataset, vuelve a la primera
+  // página (el resultado cambió, la página 7 anterior puede no existir
+  // más) y renderiza solo esa página.
+  function applyFiltersAndRender() {
+    recomputeFilteredRows();
+    currentPage = 1;
+    renderPage();
   }
 
   function copyConsecutive() {
-    const visibles = renderedRows.filter(matchesFilters);
-    if (!visibles.length) return;
-    const tres = visibles.slice(0, 3);
+    if (!filteredSortedRows.length) return;
+    const tres = filteredSortedRows.slice(0, 3);
+    const paisCod = paisEl.value;
     const text = tres.map((r) => [
       `Comisión: ${r.comision}`,
       `Día: ${r.dia || '—'}`,
-      `Horario: ${getHorarioEnZona(r, paisEl.value).texto || r.horario || '—'}`,
+      `Horario: ${getHorarioEnZona(r, paisCod).texto || r.horario || '—'}`,
       `Inicio: ${r.fecha_inicio || '—'}`,
       `Fin: ${r.fecha_fin || '—'}`
     ].join('\n')).join('\n\n');
@@ -1019,8 +1079,36 @@
 
   copyConsecutiveBtn.addEventListener('click', copyConsecutive);
 
-  [sortFieldEl, sortDirEl].forEach((el) => {
-    el.addEventListener('change', renderRows);
+  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl, sortFieldEl, sortDirEl].forEach((el) => {
+    el.addEventListener('input', applyFiltersAndRender);
+    el.addEventListener('change', applyFiltersAndRender);
+  });
+
+  // Cambiar de país no filtra filas: recalcula los horarios mostrados y el
+  // desplegable de Hora en la nueva zona, y vuelve a filtrar/ordenar (el
+  // filtro de Hora depende de la zona). La hora elegida se reinicia porque
+  // el valor anterior correspondía a otra zona.
+  paisEl.addEventListener('change', () => {
+    horaEl.value = '';
+    thHorario.textContent = `Horario (${paisEl.value})`;
+    poblarHoras(latestRows);
+    applyFiltersAndRender();
+  });
+
+  pgPrevBtn.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage -= 1;
+      renderPage();
+      tbody.closest('.table-wrap').scrollTo({ top: 0, behavior: 'auto' });
+    }
+  });
+  pgNextBtn.addEventListener('click', () => {
+    const totalPages = Math.max(1, Math.ceil(filteredSortedRows.length / PAGE_SIZE));
+    if (currentPage < totalPages) {
+      currentPage += 1;
+      renderPage();
+      tbody.closest('.table-wrap').scrollTo({ top: 0, behavior: 'auto' });
+    }
   });
 
   resetBtn.addEventListener('click', () => {
@@ -1031,24 +1119,21 @@
     estadoEl.value = '';
     const cambioPais = paisEl.value !== 'AR';
     paisEl.value = 'AR';
+    horaEl.value = '';
     if (cambioPais) {
       // El país cambió: el desplegable de Hora y la columna Horario están
       // calculados para la zona anterior, así que hay que rearmarlos para
       // Argentina antes de volver a filtrar.
-      horaEl.value = '';
       thHorario.textContent = 'Horario (AR)';
       poblarHoras(latestRows);
-      renderRows();
-    } else {
-      horaEl.value = '';
-      applyFilters();
     }
+    applyFiltersAndRender();
   });
 
   if (latestRows.length) {
     populateFilters(latestRows);
   }
-  renderRows();
+  applyFiltersAndRender();
 
   const cursos = new Set(latestRows.map((r) => r.curso)).size;
   takeaway.textContent = latestRows.length
