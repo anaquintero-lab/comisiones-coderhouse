@@ -338,6 +338,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -456,6 +462,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -511,6 +523,12 @@
         "final": 660880,
         "currency": "COP",
         "discount_pct": 60
+      },
+      "ES": {
+        "list": 847,
+        "final": 424,
+        "currency": "EUR",
+        "discount_pct": 50
       },
       "MX": {
         "list": 8250,
@@ -878,6 +896,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -1058,6 +1082,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 1419,
+        "final": 710,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 13640,
         "final": 5456,
@@ -1175,6 +1205,12 @@
         "final": 469920,
         "currency": "COP",
         "discount_pct": 60
+      },
+      "ES": {
+        "list": 616,
+        "final": 308,
+        "currency": "EUR",
+        "discount_pct": 50
       },
       "MX": {
         "list": 5720,
@@ -1418,6 +1454,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 847,
+        "final": 424,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 8250,
         "final": 3300,
@@ -1473,6 +1515,12 @@
         "final": 660880,
         "currency": "COP",
         "discount_pct": 60
+      },
+      "ES": {
+        "list": 847,
+        "final": 424,
+        "currency": "EUR",
+        "discount_pct": 50
       },
       "MX": {
         "list": 8250,
@@ -1902,6 +1950,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -2268,6 +2322,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 440,
+        "final": 220,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 5610,
         "final": 2244,
@@ -2323,6 +2383,12 @@
         "final": 344520,
         "currency": "COP",
         "discount_pct": 60
+      },
+      "ES": {
+        "list": 319,
+        "final": 160,
+        "currency": "EUR",
+        "discount_pct": 50
       },
       "MX": {
         "list": 4070,
@@ -2814,6 +2880,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -2869,6 +2941,12 @@
         "final": 823680,
         "currency": "COP",
         "discount_pct": 60
+      },
+      "ES": {
+        "list": 891,
+        "final": 446,
+        "currency": "EUR",
+        "discount_pct": 50
       },
       "MX": {
         "list": 10120,
@@ -3422,6 +3500,12 @@
         "currency": "COP",
         "discount_pct": 60
       },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 7370,
         "final": 2948,
@@ -3477,6 +3561,12 @@
         "final": 579480,
         "currency": "COP",
         "discount_pct": 60
+      },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
       },
       "MX": {
         "list": 7370,
