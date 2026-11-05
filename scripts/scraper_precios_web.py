@@ -53,6 +53,7 @@ import json
 import os
 import re
 import sys
+import time
 import datetime
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -237,20 +238,32 @@ def _precios_extraer_promo(html):
     return texto or None
 
 
-def _precios_fetch_pagina(path, prefix):
+def _precios_fetch_pagina(path, prefix, intentos=3):
+    """Trae una página pública de coderhouse.com. Reintenta ante fallas
+    transitorias de red (timeout, 5xx, conexión cortada) con una pequeña
+    espera creciente entre intentos: una sola página que falla por un
+    hipo momentáneo de la red NO debe terminar borrando el precio ya
+    conocido de ese país para el curso (ver refrescar_precios más abajo),
+    así que vale la pena insistir un par de veces antes de darla por
+    perdida en esta corrida."""
     url = f"https://www.coderhouse.com/{prefix}/{path}" if prefix else f"https://www.coderhouse.com/{path}"
-    try:
-        resp = requests.get(url, timeout=25, headers={"User-Agent": "Mozilla/5.0"})
-        resp.raise_for_status()
-        # coderhouse.com no declara charset en el header Content-Type, así
-        # que requests adivina mal la codificación por defecto; la página
-        # es UTF-8 (tiene <meta charset="utf-8">), forzarlo evita que los
-        # acentos salgan mal (ej. "Administración" -> "AdministraciÃ³n").
-        resp.encoding = "utf-8"
-        return resp.text
-    except Exception as e:
-        print(f"  aviso: no se pudo traer {url}: {e}", file=sys.stderr)
-        return ""
+    ultimo_error = None
+    for intento in range(1, intentos + 1):
+        try:
+            resp = requests.get(url, timeout=25, headers={"User-Agent": "Mozilla/5.0"})
+            resp.raise_for_status()
+            # coderhouse.com no declara charset en el header Content-Type, así
+            # que requests adivina mal la codificación por defecto; la página
+            # es UTF-8 (tiene <meta charset="utf-8">), forzarlo evita que los
+            # acentos salgan mal (ej. "Administración" -> "AdministraciÃ³n").
+            resp.encoding = "utf-8"
+            return resp.text
+        except Exception as e:
+            ultimo_error = e
+            if intento < intentos:
+                time.sleep(1.5 * intento)
+    print(f"  aviso: no se pudo traer {url} tras {intentos} intentos: {ultimo_error}", file=sys.stderr)
+    return ""
 
 
 def _precios_scrapear_curso(path):
@@ -314,6 +327,31 @@ def scrape_catalogo_precios():
             catalogo[path] = {
                 "titulo": titulo_limpio, "tipo": "curso", "precios": precios, "promo": promo,
             }
+
+    # Log de cobertura: un curso con menos países que el total esperado
+    # tuvo alguna página de locale que no se pudo traer HOY (ej. "Liderazgo
+    # y gestión de equipos" sin México porque la página /mx/cursos/...
+    # falló puntualmente esa corrida). Antes esto pasaba desapercibido y
+    # refrescar_precios() terminaba borrando el precio de ese país porque
+    # reemplazaba el diccionario de precios entero; ahora refrescar_precios
+    # mergea por país (ver más abajo), así que un hueco como este ya no
+    # borra nada, pero vale la pena que quede visible en el log de la
+    # Action para poder confirmarlo con el tiempo.
+    total_paises = len(PRECIOS_COUNTRY_PREFIX)
+    incompletos = sorted(
+        (info["titulo"], path, sorted(set(PRECIOS_COUNTRY_PREFIX) - set(info["precios"])))
+        for path, info in catalogo.items()
+        if len(info["precios"]) < total_paises
+    )
+    if incompletos:
+        print(
+            f"  aviso: {len(incompletos)} cursos quedaron con cobertura de país incompleta en este scrape "
+            f"(se conserva el precio anterior para los países faltantes, ver refrescar_precios):",
+            file=sys.stderr,
+        )
+        for titulo, path, faltantes in incompletos:
+            print(f"    - {titulo} ({path}): faltan {', '.join(faltantes)}", file=sys.stderr)
+
     return catalogo
 
 
@@ -343,6 +381,19 @@ def refrescar_precios(precios_actuales, catalogo):
     el precio anterior). Los cursos nuevos del catálogo que todavía no
     estaban cargados se agregan al final.
 
+    IMPORTANTE — merge POR PAÍS, nunca reemplazo del diccionario entero:
+    un curso puede aparecer en el catálogo de hoy con precios para solo
+    ALGUNOS países (ej. si la página /mx/cursos/<slug> tuvo un timeout
+    puntual esa corrida — ver _precios_fetch_pagina, que ya reintenta,
+    pero una falla puede persistir igual). Si acá se reemplazara
+    `curso["precios"]` entero por `info_fresca["precios"]`, ese hueco de
+    un solo país borraría el precio ya conocido para ESE país (el bug real
+    detrás de casos como "Liderazgo y gestión de equipos" mostrando "No
+    disponible" en México mientras los demás países andaban bien). En
+    cambio, acá se combinan los dos diccionarios país por país: el país
+    fresco de hoy pisa al de ayer cuando está disponible, y el de ayer se
+    conserva solo para los países puntuales que faltaron hoy.
+
     `catalogo` ya viene filtrado a solo tipo "curso" (ver
     scrape_catalogo_precios): cualquier entrada de tipo "carrera" que haya
     quedado cargada de una corrida anterior a este arreglo se descarta acá,
@@ -357,6 +408,7 @@ def refrescar_precios(precios_actuales, catalogo):
     slugs_vistos = set()
     cambiados = 0
     descartadas_carrera = 0
+    paises_conservados_de_ayer = 0
     for curso in precios_actuales:
         if curso.get("tipo") == "carrera":
             # Limpieza de una corrida anterior a este arreglo: la
@@ -367,13 +419,25 @@ def refrescar_precios(precios_actuales, catalogo):
         slugs_vistos.add(slug)
         info_fresca = por_slug.get(slug)
         if info_fresca:
-            if info_fresca["precios"] != curso.get("precios"):
+            precios_ayer = curso.get("precios") or {}
+            precios_hoy = info_fresca["precios"]
+            precios_merged = {**precios_ayer, **precios_hoy}
+            faltantes_hoy = set(precios_ayer) - set(precios_hoy)
+            if faltantes_hoy:
+                paises_conservados_de_ayer += len(faltantes_hoy)
+                print(
+                    f"  aviso: {info_fresca['titulo']} ({slug}) no trajo precio hoy para "
+                    f"{', '.join(sorted(faltantes_hoy))} — se conserva el valor del día anterior "
+                    f"para esos países en vez de mostrar \"No disponible\".",
+                    file=sys.stderr,
+                )
+            if precios_merged != precios_ayer:
                 cambiados += 1
             actualizados.append({
                 "id": slug,
                 "titulo": info_fresca["titulo"],
                 "tipo": "curso",
-                "precios": info_fresca["precios"],
+                "precios": precios_merged,
                 "promo": info_fresca.get("promo"),
             })
         else:
@@ -395,7 +459,9 @@ def refrescar_precios(precios_actuales, catalogo):
     actualizados.sort(key=lambda c: c["titulo"])
     print(
         f"  {cambiados} cursos con precio distinto al anterior, {nuevos} cursos nuevos, "
-        f"{descartadas_carrera} carreras descartadas (la calculadora es solo de cursos individuales)",
+        f"{descartadas_carrera} carreras descartadas (la calculadora es solo de cursos individuales), "
+        f"{paises_conservados_de_ayer} precios de país puntuales conservados del día anterior "
+        "por no haberse podido traer hoy",
         file=sys.stderr,
     )
     return actualizados

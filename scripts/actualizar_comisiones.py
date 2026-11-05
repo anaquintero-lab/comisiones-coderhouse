@@ -406,20 +406,31 @@ def _precios_extraer_titulo(html):
     return m.group(1).strip() if m else None
 
 
-def _precios_fetch_pagina(path, prefix):
+def _precios_fetch_pagina(path, prefix, intentos=3):
+    """Trae una página pública de coderhouse.com. Reintenta ante fallas
+    transitorias de red (timeout, 5xx, conexión cortada) con una pequeña
+    espera creciente entre intentos, igual que scraper_precios_web.py: una
+    página que falla por un hipo momentáneo de un solo país no debería
+    dejar a ese curso sin precio para ese país en la Calculadora."""
+    import time
     url = f"https://www.coderhouse.com/{prefix}/{path}" if prefix else f"https://www.coderhouse.com/{path}"
-    try:
-        resp = requests.get(url, timeout=25, headers={"User-Agent": "Mozilla/5.0"})
-        resp.raise_for_status()
-        # coderhouse.com no declara charset en el header Content-Type, así
-        # que requests adivina mal la codificación por defecto; la página
-        # es UTF-8 (tiene <meta charset="utf-8">), forzarlo evita que los
-        # acentos salgan mal (ej. "Administración" -> "AdministraciÃ³n").
-        resp.encoding = "utf-8"
-        return resp.text
-    except Exception as e:
-        print(f"  aviso: no se pudo traer {url}: {e}", file=sys.stderr)
-        return ""
+    ultimo_error = None
+    for intento in range(1, intentos + 1):
+        try:
+            resp = requests.get(url, timeout=25, headers={"User-Agent": "Mozilla/5.0"})
+            resp.raise_for_status()
+            # coderhouse.com no declara charset en el header Content-Type, así
+            # que requests adivina mal la codificación por defecto; la página
+            # es UTF-8 (tiene <meta charset="utf-8">), forzarlo evita que los
+            # acentos salgan mal (ej. "Administración" -> "AdministraciÃ³n").
+            resp.encoding = "utf-8"
+            return resp.text
+        except Exception as e:
+            ultimo_error = e
+            if intento < intentos:
+                time.sleep(1.5 * intento)
+    print(f"  aviso: no se pudo traer {url} tras {intentos} intentos: {ultimo_error}", file=sys.stderr)
+    return ""
 
 
 def _precios_scrapear_curso(path):
@@ -503,7 +514,89 @@ def scrape_catalogo_precios():
                 continue
             titulo_limpio = titulo.replace("Curso de ", "").replace("Carrera de ", "").strip()
             catalogo[path] = {"titulo": titulo_limpio, "tipo": "curso", "precios": precios}
+
+    # Log de cobertura: igual que en scripts/scraper_precios_web.py, un
+    # curso con menos países que el total esperado tuvo alguna página de
+    # locale que no se pudo traer en esta corrida puntual (ver
+    # fusionar_con_precios_publicados más abajo, que evita que este hueco
+    # borre un precio de país ya publicado).
+    total_paises = len(PRECIOS_COUNTRY_PREFIX)
+    incompletos = sorted(
+        (info["titulo"], path, sorted(set(PRECIOS_COUNTRY_PREFIX) - set(info["precios"])))
+        for path, info in catalogo.items()
+        if len(info["precios"]) < total_paises
+    )
+    if incompletos:
+        print(
+            f"  aviso: {len(incompletos)} cursos quedaron con cobertura de país incompleta en este scrape:",
+            file=sys.stderr,
+        )
+        for titulo, path, faltantes in incompletos:
+            print(f"    - {titulo} ({path}): faltan {', '.join(faltantes)}", file=sys.stderr)
+
     return catalogo
+
+
+def leer_precios_publicados():
+    """Lee el window.__PRECIOS_DATA__ que YA está publicado en
+    index.html (si el archivo existe y tiene datos), indexado por id. Esto
+    es lo que permite a fusionar_con_precios_publicados() rellenar, país
+    por país, cualquier hueco puntual del scrape de hoy en vez de dejar
+    ese país sin precio en la Calculadora. Nunca aborta la corrida: si el
+    archivo no existe todavía (primera vez) o no se puede parsear, devuelve
+    un diccionario vacío y la corrida sigue usando solo los datos frescos
+    de hoy, como hacía antes."""
+    if not os.path.exists(OUTPUT_PATH):
+        return {}
+    try:
+        with open(OUTPUT_PATH, encoding="utf-8") as f:
+            html = f.read()
+        import re
+        m = re.search(r"window\.__PRECIOS_DATA__\s*=\s*(\[.*?\]);", html, re.DOTALL)
+        if not m:
+            return {}
+        publicados = json.loads(m.group(1))
+        return {c["id"]: c for c in publicados if c.get("id")}
+    except Exception as e:
+        print(f"  aviso: no se pudo leer el index.html publicado para fusionar precios ({e}); se usa solo lo de hoy", file=sys.stderr)
+        return {}
+
+
+def fusionar_con_precios_publicados(precios_data):
+    """Combina, PAÍS POR PAÍS, el precios_data recién armado con lo que ya
+    está publicado en index.html: el país fresco de hoy pisa al publicado
+    cuando está disponible, y el publicado se conserva solo para los
+    países puntuales que faltaron en el scrape de hoy (en vez de
+    desaparecer y mostrar "No disponible" en la Calculadora). A diferencia
+    de scripts/scraper_precios_web.py (que refresca incrementalmente el
+    index.html ya publicado), este script arma precios_data desde cero en
+    cada corrida a partir del catálogo scrapeado hoy — por eso este merge
+    es necesario acá también: sin él, un hueco de un solo país en una sola
+    corrida de "Actualizar comisiones" bastaba para borrar ese precio."""
+    publicados = leer_precios_publicados()
+    if not publicados:
+        return precios_data
+    conservados = 0
+    fusionado = []
+    for curso in precios_data:
+        anterior = publicados.get(curso["id"])
+        if anterior and anterior.get("precios"):
+            precios_ayer = anterior["precios"]
+            precios_hoy = curso["precios"]
+            faltantes_hoy = set(precios_ayer) - set(precios_hoy)
+            if faltantes_hoy:
+                conservados += len(faltantes_hoy)
+                print(
+                    f"  aviso: {curso['titulo']} ({curso['id']}) no trajo precio hoy para "
+                    f"{', '.join(sorted(faltantes_hoy))} — se conserva el valor publicado anteriormente "
+                    "para esos países en vez de mostrar \"No disponible\".",
+                    file=sys.stderr,
+                )
+            curso = {**curso, "precios": {**precios_ayer, **precios_hoy}}
+        fusionado.append(curso)
+    if conservados:
+        print(f"  {conservados} precios de país puntuales conservados de lo ya publicado por no haberse podido traer hoy", file=sys.stderr)
+    return fusionado
 
 
 def construir_precios_data(rows, catalogo):
@@ -589,13 +682,29 @@ def main():
     try:
         catalogo_precios = scrape_catalogo_precios()
         precios_data = construir_precios_data(rows, catalogo_precios)
+        # Mergea país por país con lo que ya está publicado: evita que un
+        # hueco puntual del scrape de hoy (una sola página de un solo país
+        # que falló) borre un precio ya conocido para ese país en vez de
+        # mostrarlo (ver fusionar_con_precios_publicados).
+        precios_data = fusionar_con_precios_publicados(precios_data)
         print(f"  {len(precios_data)} cursos con precio público matcheado", file=sys.stderr)
     except Exception as e:
         # La calculadora de precios es una funcionalidad adicional: si el
-        # scraping de coderhouse.com falla (sitio caído, cambio de HTML,
-        # etc.) no debe tirar abajo la actualización de comisiones.
-        print(f"  aviso: no se pudieron traer precios ({e}); la calculadora quedará vacía esta corrida", file=sys.stderr)
-        precios_data = []
+        # scraping de coderhouse.com falla por completo (sitio caído,
+        # cambio de HTML, etc.) no debe tirar abajo la actualización de
+        # comisiones. Antes esto dejaba precios_data en una lista vacía,
+        # lo que BORRABA TODA la Calculadora en el index.html resultante
+        # (no solo un país de un curso, sino los precios de los ~59 cursos)
+        # apenas se publicara esta corrida. Ahora, en su lugar, se conserva
+        # lo que ya estaba publicado: una corrida con el scraping caído no
+        # debe dejar la Calculadora peor que como estaba.
+        publicados = leer_precios_publicados()
+        precios_data = sorted(publicados.values(), key=lambda c: c["titulo"]) if publicados else []
+        print(
+            f"  aviso: no se pudieron traer precios ({e}); se conservan los {len(precios_data)} "
+            "precios ya publicados en vez de vaciar la Calculadora esta corrida",
+            file=sys.stderr,
+        )
 
     html = render_html(rows, precios_data)
     with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
