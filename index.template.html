@@ -1224,27 +1224,56 @@
     return `${formatMoney(amount, currency, paisCod)} ${currency}`;
   }
 
+  // Normaliza un título de curso para compararlo sin que mayúsculas,
+  // acentos, espacios duplicados o puntuación de más/de menos lo
+  // distingan como si fuera otro curso (ej. "Diseño UX/UI" vs "diseño  ux
+  // ui" vs "DISEÑO UX-UI" deben matchear igual). Se usa tanto en la
+  // búsqueda libre como en el fallback de cursoPorId, para que un id de
+  // curso que cambie levemente (o un título con una tilde de más/de
+  // menos) no termine mostrando "No disponible" por un simple problema de
+  // comparación de texto en vez de un problema real de datos.
+  function normalizeString(str) {
+    return String(str || '')
+      .normalize('NFD').replace(/[̀-ͯ]/g, '') // saca acentos (á->a, ñ->n, etc.)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ') // puntuación/símbolos -> espacio (UX/UI == UX UI)
+      .trim()
+      .replace(/\s+/g, ' ');
+  }
+
   function cursoPorId(id) {
-    return PRECIOS.find((c) => c.id === id) || null;
+    const exacto = PRECIOS.find((c) => c.id === id);
+    if (exacto) return exacto;
+    // Fallback defensivo: si el id exacto no matcheó (por ejemplo, el
+    // value del <option> quedó con mayúsculas/espacios distintos a los
+    // del id real por algún motivo), se intenta de nuevo comparando el id
+    // normalizado antes de dar el curso por no encontrado.
+    if (!id) return null;
+    const idNorm = normalizeString(id);
+    return PRECIOS.find((c) => normalizeString(c.id) === idNorm) || null;
   }
 
   // Busca en el catálogo completo por nombre, totalmente independiente del
   // desplegable (nunca lo lee ni lo modifica). Devuelve el curso exacto a
   // mostrar y, si no hay uno solo claro, cuántas coincidencias parciales
   // hubo (para poder avisar sin "adivinar" cuál quiso decir el usuario).
-  // - Coincidencia exacta de título (sin importar mayúsculas/acentos de
-  //   más o de menos): gana siempre, aunque además matchee por substring
-  //   con otro curso (ej. "AI Automation" vs "AI Automation Avanzado").
+  // Usa normalizeString() en vez de un simple toLowerCase(), así que
+  // mayúsculas, acentos de más/de menos y puntuación (espacios, guiones,
+  // "/") no impiden encontrar el curso -- "LIDERAZGO  Y gestion DE Equipos"
+  // o "UX-UI" matchean igual que la versión con tildes y formato prolijo.
+  // - Coincidencia exacta de título normalizado: gana siempre, aunque
+  //   además matchee por substring con otro curso (ej. "AI Automation"
+  //   vs "AI Automation Avanzado").
   // - Si no hay exacta pero sí una única coincidencia parcial: se usa esa.
   // - Si hay 0 o varias parciales sin ganador exacto: no se muestra nada
   //   todavía (se le pide al usuario completar el nombre), para no
   //   adivinar y terminar mostrando el curso equivocado.
   function buscarCursoPorTexto(texto) {
-    const t = texto.trim().toLowerCase();
+    const t = normalizeString(texto);
     if (!t) return { curso: null, coincidencias: 0 };
-    const exacto = PRECIOS.find((c) => c.titulo.toLowerCase() === t);
+    const exacto = PRECIOS.find((c) => normalizeString(c.titulo) === t);
     if (exacto) return { curso: exacto, coincidencias: 1 };
-    const parciales = PRECIOS.filter((c) => c.titulo.toLowerCase().includes(t));
+    const parciales = PRECIOS.filter((c) => normalizeString(c.titulo).includes(t));
     if (parciales.length === 1) return { curso: parciales[0], coincidencias: 1 };
     return { curso: null, coincidencias: parciales.length };
   }
