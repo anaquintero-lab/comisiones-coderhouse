@@ -36,9 +36,9 @@
       },
       "MX": {
         "list": 7315,
-        "final": 3658,
+        "final": 2926,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1293,
@@ -98,9 +98,9 @@
       },
       "MX": {
         "list": 7920,
-        "final": 3960,
+        "final": 3168,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1375,
@@ -160,9 +160,9 @@
       },
       "MX": {
         "list": 6710,
-        "final": 3355,
+        "final": 2684,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1210,
@@ -222,9 +222,9 @@
       },
       "MX": {
         "list": 7761,
-        "final": 3881,
+        "final": 3104,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1371,
@@ -284,9 +284,9 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
@@ -512,45 +512,71 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 687500,
-        "final": 343750,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1652200,
-        "final": 826100,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 847,
-        "final": 424,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 8250,
-        "final": 4125,
-        "currency": "MXN",
-        "discount_pct": 50
-      },
       "PE": {
         "list": 1155,
         "final": 578,
         "currency": "PEN",
         "discount_pct": 50
+      }
+    },
+    "promo": "CODER SALE 🔥"
+  },
+  {
+    "id": "desarrollo-aplicaciones",
+    "titulo": "Coderhouse",
+    "tipo": "curso",
+    "precios": {
+      "AR": {
+        "list": 293500,
+        "final": 234800,
+        "currency": "ARS",
+        "discount_pct": 20
+      },
+      "UY": {
+        "list": 22550,
+        "final": 11275,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "CL": {
+        "list": 772200,
+        "final": 386100,
+        "currency": "CLP",
+        "discount_pct": 50
+      },
+      "CO": {
+        "list": 1787500,
+        "final": 893750,
+        "currency": "COP",
+        "discount_pct": 50
+      },
+      "ES": {
+        "list": 935,
+        "final": 468,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
+      "MX": {
+        "list": 9130,
+        "final": 4565,
+        "currency": "MXN",
+        "discount_pct": 50
+      },
+      "PE": {
+        "list": 1265,
+        "final": 633,
+        "currency": "PEN",
+        "discount_pct": 50
       },
       "US": {
-        "list": 672,
-        "final": 336,
+        "list": 736,
+        "final": 368,
         "currency": "USD",
         "discount_pct": 50
       },
       "VE": {
-        "list": 672,
-        "final": 336,
+        "list": 736,
+        "final": 368,
         "currency": "USD",
         "discount_pct": 50
       }
@@ -594,9 +620,9 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
@@ -842,9 +868,9 @@
       },
       "MX": {
         "list": 7920,
-        "final": 3960,
+        "final": 3168,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1375,
@@ -882,36 +908,6 @@
         "list": 18810,
         "final": 9405,
         "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 313500,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 724350,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 3685,
-        "currency": "MXN",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 1045,
-        "final": 523,
-        "currency": "PEN",
         "discount_pct": 50
       },
       "US": {
@@ -1302,68 +1298,6 @@
     "promo": "CODER SALE 🔥"
   },
   {
-    "id": "desarrollo-aplicaciones",
-    "titulo": "Desarrollo de Aplicaciones",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 293500,
-        "final": 234800,
-        "currency": "ARS",
-        "discount_pct": 20
-      },
-      "UY": {
-        "list": 22550,
-        "final": 11275,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 772200,
-        "final": 386100,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1787500,
-        "final": 893750,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 935,
-        "final": 468,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 9130,
-        "final": 4565,
-        "currency": "MXN",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 1265,
-        "final": 633,
-        "currency": "PEN",
-        "discount_pct": 50
-      },
-      "US": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 736,
-        "final": 368,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    },
-    "promo": "CODER SALE 🔥"
-  },
-  {
     "id": "devops-cloud",
     "titulo": "Devops &amp; Cloud",
     "tipo": "curso",
@@ -1400,9 +1334,9 @@
       },
       "MX": {
         "list": 8467,
-        "final": 4234,
+        "final": 3387,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1496,
@@ -1896,9 +1830,9 @@
       },
       "MX": {
         "list": 8247,
-        "final": 4124,
+        "final": 3299,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1432,
@@ -2144,9 +2078,9 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
@@ -2206,9 +2140,9 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
@@ -3240,36 +3174,6 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "CL": {
-        "list": 495000,
-        "final": 247500,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1174800,
-        "final": 587400,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 5720,
-        "final": 2860,
-        "currency": "MXN",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 770,
-        "final": 385,
-        "currency": "PEN",
-        "discount_pct": 50
-      },
       "US": {
         "list": 493,
         "final": 247,
@@ -3362,48 +3266,6 @@
         "list": 18810,
         "final": 9405,
         "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 313500,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 724350,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 3685,
-        "currency": "MXN",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 1045,
-        "final": 523,
-        "currency": "PEN",
-        "discount_pct": 50
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
         "discount_pct": 50
       }
     },
@@ -3632,9 +3494,9 @@
       },
       "MX": {
         "list": 6710,
-        "final": 3355,
+        "final": 2684,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1210,
