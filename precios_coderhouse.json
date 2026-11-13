@@ -3370,12 +3370,6 @@
         "currency": "CLP",
         "discount_pct": 50
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "US": {
         "list": 608,
         "final": 304,
@@ -3386,24 +3380,6 @@
         "list": 608,
         "final": 304,
         "currency": "USD",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 724350,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 523,
-        "currency": "PEN",
         "discount_pct": 50
       }
     },
