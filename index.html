@@ -878,8 +878,10 @@
     min-width: 3.6rem;
     text-align: right;
   }
-  #dash-root .saldo-fuente-nota { font-size: .76rem; color: var(--ch-ink-muted); margin: .7rem 0 0 0; }
-  #dash-root .saldo-fuente-nota.is-error { color: var(--ch-warn); }
+  /* Oculto a propósito (pedido del equipo): el estado en vivo/fallback de
+     Google Sheets no debe mostrarse en pantalla, aunque el fallback siga
+     funcionando igual en segundo plano (ver script de abajo). */
+  #dash-root .saldo-fuente-nota { display: none; }
 
   #dash-root .saldo-resultado-card {
     margin-top: 1rem;
@@ -1551,9 +1553,23 @@
     }
   }
 
-  function formatMoneyConCodigo(amount, currency, paisCod) {
+  // Símbolo a pegar al monto SOLO para el texto que se copia al
+  // portapapeles (ver pedido del equipo) — independiente del símbolo que
+  // Intl.NumberFormat elegiría por locale/moneda, porque ese no coincide
+  // con el formato exacto pedido (ej. USD en locale en-US separa miles
+  // con coma, no con punto; y UYU/USD deben copiarse con "$" pelado, no
+  // "$U"/"US$"). El punto separador de miles se arma siempre con
+  // toLocaleString('es-AR'), sin importar el país seleccionado.
+  const COPY_SIMBOLOS = { ARS: '$', USD: '$', EUR: '€', CLP: '$', COP: '$', MXN: '$', PEN: 'S/', UYU: '$' };
+  const COPY_SIMBOLO_SUFIJO = { EUR: true };
+  function formatMoneyConCodigo(amount, currency) {
     if (amount == null || Number.isNaN(amount)) return null;
-    return `${formatMoney(amount, currency, paisCod)} ${currency}`;
+    const num = Math.round(amount).toLocaleString('es-AR');
+    const simbolo = COPY_SIMBOLOS[currency] || '';
+    const conSimbolo = !simbolo
+      ? num
+      : (COPY_SIMBOLO_SUFIJO[currency] ? `${num} ${simbolo}` : `${simbolo}${num}`);
+    return `${conSimbolo} ${currency}`;
   }
 
   // Normaliza un título de curso para compararlo sin que mayúsculas,
@@ -2578,6 +2594,16 @@
     if (!simbolo) return numFormateado;
     return SALDO_SIMBOLO_SUFIJO[moneda] ? `${numFormateado} ${simbolo}` : `${simbolo}${numFormateado}`;
   }
+  // Símbolo SOLO para el texto que se copia al portapapeles con "Copiar
+  // resultado": igual al de arriba, pero UYU y USD van con "$" pelado (no
+  // "$U"/"US$") — pedido explícito del equipo, que aplica únicamente al
+  // copiado. El Dash en pantalla sigue mostrando "$U"/"US$" sin cambios.
+  const SALDO_SIMBOLOS_COPIA = Object.assign({}, SALDO_SIMBOLOS, { USD: '$', UYU: '$' });
+  function saldoConSimboloPegadoCopia(numFormateado, moneda) {
+    const simbolo = SALDO_SIMBOLOS_COPIA[moneda] || '';
+    if (!simbolo) return numFormateado;
+    return SALDO_SIMBOLO_SUFIJO[moneda] ? `${numFormateado} ${simbolo}` : `${simbolo}${numFormateado}`;
+  }
   // Valor crudo (sin formatear) del último cálculo — lo usa el botón
   // Copiar para no tener que "desarmar" el texto ya formateado del Dash.
   let saldoUltimoValorDash = 0;
@@ -2638,7 +2664,7 @@
       // Se arma desde el valor crudo (no desde el texto ya pintado en
       // pantalla) para no depender de cómo quedó formateado el DOM.
       const dashFormateado = saldoUltimoValorDash.toLocaleString('es-AR');
-      const dashConSimbolo = saldoConSimboloPegado(dashFormateado, moneda);
+      const dashConSimbolo = saldoConSimboloPegadoCopia(dashFormateado, moneda);
       const texto = `${dashConSimbolo} ${moneda}`;
       const done = () => {
         copyBtn.classList.add('is-copied');
@@ -2663,17 +2689,24 @@
     const raw = saldoGridExtraerCarreras(grid);
     if (!raw.length) throw new Error('la grilla en vivo no tiene carreras reconocibles');
     SALDO_CARRERAS = saldoEtiquetarCarreras(raw);
-    if (fuenteNotaEl) {
-      fuenteNotaEl.textContent = 'Datos en vivo desde Google Sheets (se actualizan solos).';
-      fuenteNotaEl.classList.remove('is-error');
-    }
+    // El cartel de estado de la fuente (en vivo / fallback) queda oculto a
+    // propósito — pedido del equipo: no mostrar ningún aviso en pantalla,
+    // aunque el fallback siga funcionando igual en segundo plano. Si hace
+    // falta reactivarlo para debug, basta con descomentar estas líneas.
+    // if (fuenteNotaEl) {
+    //   fuenteNotaEl.textContent = 'Datos en vivo desde Google Sheets (se actualizan solos).';
+    //   fuenteNotaEl.classList.remove('is-error');
+    // }
     saldoPoblarCarreras();
   }).catch(() => {
     SALDO_CARRERAS = saldoEtiquetarCarreras(SALDO_FALLBACK_RAW);
-    if (fuenteNotaEl) {
-      fuenteNotaEl.textContent = 'No se pudo conectar en vivo con Google Sheets — mostrando el último snapshot guardado.';
-      fuenteNotaEl.classList.add('is-error');
-    }
+    // Idem arriba: no se muestra el aviso de "no se pudo conectar en vivo"
+    // en pantalla, pero el fallback a SALDO_FALLBACK_RAW sigue corriendo
+    // normalmente.
+    // if (fuenteNotaEl) {
+    //   fuenteNotaEl.textContent = 'No se pudo conectar en vivo con Google Sheets — mostrando el último snapshot guardado.';
+    //   fuenteNotaEl.classList.add('is-error');
+    // }
     saldoPoblarCarreras();
   });
 })();
