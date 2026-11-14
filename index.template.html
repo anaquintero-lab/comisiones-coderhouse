@@ -1514,7 +1514,7 @@
 
   const cursos = new Set(latestRows.map((r) => r.curso)).size;
   takeaway.textContent = latestRows.length
-    ? `${latestRows.length} comisiones, en ${cursos} cursos distintos. Datos actualizados automáticamente el 02/11/2026 13:58 (hora Argentina).`
+    ? `${latestRows.length} comisiones, en ${cursos} cursos distintos. Instantánea estática — no se actualiza sola.`
     : 'No hay comisiones para mostrar.';
 })();
 </script>
