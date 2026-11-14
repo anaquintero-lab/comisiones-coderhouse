@@ -296,6 +296,7 @@
           <option value="UYU">UYU $U</option>
         </select>
         <button type="button" id="saldo-copy-btn" class="btn-reset saldo-copy-btn">📋 Copiar resultado</button>
+        <button type="button" id="saldo-limpiar-btn" class="btn-reset saldo-limpiar-btn">Limpiar</button>
       </div>
     </section>
   </div>
@@ -524,7 +525,13 @@
 
   #dash-root .est-student-card { padding: 1.1rem 1.25rem; }
   #dash-root .est-student-header { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: .4rem .9rem; margin-bottom: .9rem; }
-  #dash-root .est-student-header h3 { margin: 0; font-size: 1.05rem; }
+  /* Jerarquía tipográfica de la ficha (de mayor a menor): nombre del
+     estudiante > subtítulos de sección > título de curso/comisión >
+     fechas/etiquetas/badges. Antes el título de cada curso (bold, tamaño
+     por defecto del navegador ~16px) quedaba igual o más grande que el
+     nombre del estudiante (1.05rem = ~16.8px, prácticamente lo mismo), así
+     que se invertía la jerarquía visual. */
+  #dash-root .est-student-header h3 { margin: 0; font-size: 1.45rem; font-weight: 800; }
   #dash-root .est-student-header-right { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
   #dash-root .est-student-header .est-student-email { font-size: .85rem; color: var(--ch-ink-muted); display: inline-flex; align-items: center; gap: .4rem; }
   #dash-root .est-copy-btn { font-size: .68rem; padding: .2rem .5rem; }
@@ -543,15 +550,15 @@
   #dash-root .est-curso summary::-webkit-details-marker { display: none; }
   #dash-root .est-curso summary::after { content: '▾'; color: var(--ch-ink-muted); margin-left: auto; }
   #dash-root .est-curso[open] summary::after { content: '▴'; }
-  #dash-root .est-curso summary .est-curso-titulo { font-weight: 700; }
+  #dash-root .est-curso summary .est-curso-titulo { font-weight: 700; font-size: .92rem; }
   #dash-root .est-curso summary .est-curso-tags { display: flex; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso-body { padding: .75rem .9rem .9rem; border-top: 1px solid var(--ch-border); font-size: .88rem; }
-  #dash-root .est-curso-fechas { color: var(--ch-ink-muted); margin: 0 0 .6rem 0; }
+  #dash-root .est-curso-fechas { color: var(--ch-ink-muted); margin: 0 0 .6rem 0; font-size: .8rem; }
   #dash-root .est-preentregas { margin: 0; padding-left: 1.1rem; }
   #dash-root .est-preentregas li { margin-bottom: .3rem; }
   #dash-root .est-sin-preentregas { color: var(--ch-ink-muted); font-size: .85rem; margin: 0; }
   #dash-root .est-saldo-line { font-size: .88rem; margin: 0 0 .9rem 0; }
-  #dash-root .est-section-title { font-weight: 700; margin: .9rem 0 .5rem 0; }
+  #dash-root .est-section-title { font-weight: 700; font-size: 1rem; margin: .9rem 0 .5rem 0; }
   #dash-root .est-section-title:first-of-type { margin-top: 0; }
   #dash-root .calc-update-bar {
     display: flex;
@@ -812,6 +819,10 @@
   #dash-root .badge-warn { background: #fdf0d8; color: var(--ch-warn); }
   #dash-root .badge-bad { background: #fbe7e7; color: var(--ch-bad); }
   #dash-root .badge-neutral { background: #eeeae3; color: var(--ch-ink-muted); }
+  /* Naranja distinto del ámbar de badge-warn, para diferenciar "En
+     corrección" (amarillo/ámbar, badge-warn) de "Solicitud de reentrega"
+     (naranja/ámbar, badge-retry) — ver estBadgePreentrega(). */
+  #dash-root .badge-retry { background: #fde4cf; color: var(--ch-amarillo); }
 
   #dash-root .copy-btn {
     display: inline-flex;
@@ -928,6 +939,14 @@
   }
   #dash-root .saldo-copy-btn:hover { background: var(--ch-ink); border-color: var(--ch-ink); color: #fff; }
   #dash-root .saldo-copy-btn.is-copied { background: var(--ch-ok); border-color: var(--ch-ok); color: #fff; }
+  #dash-root .saldo-limpiar-btn {
+    flex: none;
+    background: transparent;
+    color: #fff;
+    border-color: rgba(255, 255, 255, .6);
+    font-weight: 700;
+  }
+  #dash-root .saldo-limpiar-btn:hover { background: rgba(255, 255, 255, .15); border-color: #fff; }
 
 </style>
 
@@ -1921,12 +1940,17 @@
   }
 
   function estBadgePreentrega(estado) {
-    // Exactamente 3 estados posibles (ver estudiantes-worker.js): Aprobada,
-    // Desaprobada, No enviada. Se deja un "Sin dato" de respaldo por si
-    // algún día llega algo inesperado, pero no debería pasar.
+    // 5 estados posibles (ver mapEstadoEntrega() en estudiantes-worker.js):
+    // Aprobada (verde), Desaprobada (rojo — solo cuando ya la corrigieron y
+    // no pasó), En corrección (amarillo/ámbar — enviada, esperando
+    // corrección), No enviada (gris), Solicitud de reentrega (naranja).
+    // Se deja un "Sin dato" de respaldo por si algún día llega algo
+    // inesperado, pero no debería pasar.
     if (estado === 'Aprobada') return '<span class="badge badge-ok">Aprobada</span>';
     if (estado === 'Desaprobada') return '<span class="badge badge-bad">Desaprobada</span>';
-    if (estado === 'No enviada') return '<span class="badge badge-warn">No enviada</span>';
+    if (estado === 'En corrección') return '<span class="badge badge-warn">En corrección</span>';
+    if (estado === 'Solicitud de reentrega') return '<span class="badge badge-retry">Solicitud de reentrega</span>';
+    if (estado === 'No enviada') return '<span class="badge badge-neutral">No enviada</span>';
     return '<span class="badge badge-neutral">Sin dato</span>';
   }
 
@@ -2391,6 +2415,7 @@
   const resDashEl = document.getElementById('saldo-res-dash');
   const monedaSel = document.getElementById('saldo-moneda');
   const copyBtn = document.getElementById('saldo-copy-btn');
+  const limpiarBtn = document.getElementById('saldo-limpiar-btn');
 
   if (!montoEl || !carreraSel) return; // pestaña no presente en este HTML
 
@@ -2643,6 +2668,17 @@
   // Cambiar de moneda no cambia el cálculo, solo el símbolo que se antepone
   // a los montos formateados — pero hay que volver a pintarlos.
   if (monedaSel) monedaSel.addEventListener('change', saldoRecalcular);
+
+  // Botón "Limpiar": vacía el monto, vuelve la carrera y los cursos
+  // tildados a su estado inicial, deja la moneda en ARS (default del
+  // desplegable) y recalcula todo en un solo clic.
+  function limpiarCalculadoraSaldo() {
+    montoEl.value = '';
+    carreraSel.value = '';
+    if (monedaSel) monedaSel.value = 'ARS';
+    saldoRenderCursos(); // ya vuelve a pintar "Elegí primero una carrera." y llama a saldoRecalcular()
+  }
+  if (limpiarBtn) limpiarBtn.addEventListener('click', limpiarCalculadoraSaldo);
 
   function saldoFallbackCopy(text, done) {
     try {
