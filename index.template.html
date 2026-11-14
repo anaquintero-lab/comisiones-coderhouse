@@ -565,8 +565,9 @@
   #dash-root .est-curso-fechas { color: var(--ch-ink-muted); margin: 0 0 .6rem 0; font-size: .8rem; }
   #dash-root .est-preentregas { margin: 0; padding-left: 1.1rem; }
   #dash-root .est-preentregas li { margin-bottom: .3rem; }
-  #dash-root .est-preentregas a { color: var(--ch-accent); text-decoration: none; }
-  #dash-root .est-preentregas a:hover { text-decoration: underline; }
+  #dash-root .est-entrega-link { color: var(--ch-accent); text-decoration: none; }
+  #dash-root .est-entrega-link:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  #dash-root .est-entrega-link-icon { display: inline-block; margin-left: .25em; font-size: .85em; opacity: .65; }
   #dash-root .est-sin-preentregas { color: var(--ch-ink-muted); font-size: .85rem; margin: 0; }
   #dash-root .est-saldo-line { font-size: .88rem; margin: 0 0 .9rem 0; }
   /* Margen superior claro (24px) antes de cada título de sección, ahora que
@@ -2015,6 +2016,18 @@
     return `${estBadgeEstadoComision(curso.estadoComision)}${certBadge}`;
   }
 
+  // Nombre de la Preentrega/Entrega Final, como enlace directo al Back
+  // Office cuando hay URL de esta inscripción (ver boEnrollmentUrl en
+  // buildCursoDetalle, Worker) — mismo enlace para todas las entregas de
+  // esta comisión, no se encontró ni se pidió una ruta más específica por
+  // unidad. Si no hay URL (falta userId o enrollmentId), queda como texto
+  // plano en vez de un enlace roto.
+  function estNombreEntrega(nombre, url) {
+    const texto = estEscapeHtml(nombre);
+    if (!url) return texto;
+    return `<a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">${texto}<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a>`;
+  }
+
   function estRenderCurso(curso) {
     // Si no se pudieron identificar entregas para este curso (puede pasar
     // si todavía no hay ninguna submission cargada para armar la estructura
@@ -2024,7 +2037,7 @@
     const preentregasHtml = (curso.preentregas && curso.preentregas.length)
       ? `<p style="margin:0 0 .4rem 0; font-weight:700;">Preentregas y Entrega Final</p>
          <ul class="est-preentregas">${curso.preentregas.map((p) => (
-           `<li>${estEscapeHtml(p.nombre)} — ${estBadgePreentrega(p.estado, p.nota)}</li>`
+           `<li>${estNombreEntrega(p.nombre, curso.boEnrollmentUrl)} — ${estBadgePreentrega(p.estado, p.nota)}</li>`
          )).join('')}</ul>`
       : '';
 
