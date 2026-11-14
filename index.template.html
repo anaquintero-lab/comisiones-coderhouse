@@ -1950,11 +1950,20 @@
     return d.toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric' });
   }
 
+  // Mismas clases/colores que la pestaña Comisiones (ver ESTADO_LABELS y el
+  // render de la columna "estado" de esa tabla más arriba en el archivo):
+  // badge-ok (verde) En curso, badge-warn (ámbar) No iniciada, badge-bad
+  // (rojo) Cancelada, badge-neutral (gris) Finalizada. Se chequea CANCEL y
+  // NOT_STARTED ANTES que el patrón genérico de "en curso": "NOT_STARTED"
+  // contiene la palabra "STARTED", así que si se revisara ese patrón
+  // primero, una comisión no iniciada quedaría mal pintada de verde como si
+  // ya hubiese arrancado.
   function estBadgeEstadoComision(estado) {
     const s = String(estado || '').toUpperCase();
-    if (/FINALIZ|FINISHED|COMPLETED|ENDED/.test(s)) return '<span class="badge badge-neutral">Finalizada</span>';
-    if (/PROGRESO|PROGRESS|STARTED|ACTIVE|IN_PROGRESS/.test(s)) return '<span class="badge badge-ok">En curso</span>';
     if (/CANCEL/.test(s)) return '<span class="badge badge-bad">Cancelada</span>';
+    if (/NOT_STARTED|NO_INICIAD/.test(s)) return '<span class="badge badge-warn">No iniciada</span>';
+    if (/FINALIZ|FINISHED|COMPLETED|ENDED/.test(s)) return '<span class="badge badge-neutral">Finalizada</span>';
+    if (/PROGRESO|PROGRESS|ACTIVE|IN_PROGRESS|^STARTED$/.test(s)) return '<span class="badge badge-ok">En curso</span>';
     return estado ? `<span class="badge badge-neutral">${estEscapeHtml(estado)}</span>` : '';
   }
 
