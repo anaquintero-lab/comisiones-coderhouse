@@ -150,10 +150,15 @@ def get_professors_for_cohort(cohort_id, max_intentos=5):
                 headers=student_headers(),
                 timeout=30,
             )
+            # 401/403 es un problema de credenciales (la API key no tiene
+            # permiso), NO algo transitorio — reintentar no lo va a arreglar,
+            # así que se corta en el acto con el código real en el mensaje
+            # en vez de gastar 5 intentos con backoff para nada.
+            if resp.status_code in (401, 403):
+                return cohort_id, [], f"HTTP {resp.status_code} (sin permiso — revisar la API key)"
             if resp.status_code == 429:
-                raise requests.exceptions.HTTPError(
-                    f"429 Too Many Requests (intento {intento + 1}/{max_intentos})"
-                )
+                ultimo_error = f"HTTP 429 Too Many Requests (intento {intento + 1}/{max_intentos})"
+                raise requests.exceptions.HTTPError(ultimo_error)
             resp.raise_for_status()
             data = resp.json()
             items = data if isinstance(data, list) else data.get("data", [])
@@ -163,7 +168,10 @@ def get_professors_for_cohort(cohort_id, max_intentos=5):
                     names.append(a["professorName"])
             return cohort_id, names, None
         except Exception as e:
-            ultimo_error = e
+            # Para cualquier error que no sea el 429 ya armado arriba (timeout,
+            # conexión caída, 5xx, JSON inesperado), se deja el texto real de
+            # la excepción — nunca se pasa de largo en silencio.
+            ultimo_error = str(e)
             if intento < max_intentos - 1:
                 # Backoff exponencial con jitter: un 429 significa que se
                 # está pidiendo más rápido de lo que tolera el Back Office,
@@ -173,7 +181,8 @@ def get_professors_for_cohort(cohort_id, max_intentos=5):
                 backoff *= 2
     # Se agotaron los reintentos: NUNCA se devuelve [] en silencio acá (eso
     # es indistinguible de "sin staff asignado" y fue exactamente la causa
-    # del bug) — se marca el error explícitamente para que quede loggeado.
+    # del bug) — se marca el error explícitamente (con el código HTTP real
+    # cuando lo hay) para que quede loggeado.
     return cohort_id, [], ultimo_error
 
 
@@ -193,18 +202,28 @@ def get_all_professors(cohort_ids):
             cid, names, err = fut.result()
             result[cid] = names
             if err is not None:
-                errores.append((cid, str(err)))
+                errores.append((cid, err))
     if errores:
         print(
             f"ADVERTENCIA: no se pudo confirmar el staff de {len(errores)} comisión(es) "
-            f"tras {5} reintentos cada una (probable rate limiting sostenido de la API). "
-            f"Esas filas van a quedar con \"profesores\": \"\" en esta corrida aunque SÍ "
-            f"tengan staff asignado — revisar manualmente o volver a correr el script. "
+            f"tras reintentar (ver código HTTP real de cada una abajo). Esas filas van a "
+            f"quedar con \"profesores\": \"\" en esta corrida aunque SÍ tengan staff "
+            f"asignado — revisar manualmente o volver a correr el script. "
             f"IDs de cohort afectados:",
             file=sys.stderr,
         )
         for cid, err in errores[:50]:
             print(f"  - {cid}: {err}", file=sys.stderr)
+        if len(errores) > 50:
+            print(f"  ... y {len(errores) - 50} más (no se listan todas para no saturar el log)", file=sys.stderr)
+
+    # Resumen explícito pedido por el equipo: cuántas comisiones terminaron
+    # con al menos un profesor cargado vs. el total. Esto se imprime
+    # SIEMPRE (haya o no errores) para poder confirmar de un vistazo, en
+    # cada corrida, que la carga de profesores realmente funcionó — en vez
+    # de asumirlo porque el script "no tiró ningún error visible".
+    con_profesores = sum(1 for names in result.values() if names)
+    print(f"Profesores cargados en {con_profesores} de {len(cohort_ids)} comisiones", file=sys.stderr)
     return result
 
 
