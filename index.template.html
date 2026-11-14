@@ -562,12 +562,24 @@
   #dash-root .est-curso summary .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso summary .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
   #dash-root .est-curso-body { padding: .75rem .9rem .9rem; border-top: 1px solid var(--ch-border); font-size: .88rem; }
+  /* Fila fija (sin acordeón): mismo look que el summary de .est-curso, pero
+     sin flechita y sin cursor de "clickeable" — para inscripciones que
+     realmente no tienen nada para desplegar adentro. */
+  #dash-root .est-curso-fijo-header {
+    cursor: default; padding: .7rem .9rem; display: flex; align-items: center;
+    justify-content: space-between; gap: .6rem; flex-wrap: wrap;
+  }
+  #dash-root .est-curso-fijo-header .est-curso-titulo { font-weight: 600; font-size: .906rem; }
+  #dash-root .est-curso-fijo-header .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
+  #dash-root .est-curso-fijo-header .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
+  #dash-root .est-curso-fijo-header .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
   #dash-root .est-curso-fechas { color: var(--ch-ink-muted); margin: 0 0 .6rem 0; font-size: .8rem; }
   #dash-root .est-preentregas { margin: 0; padding-left: 1.1rem; }
   #dash-root .est-preentregas li { margin-bottom: .3rem; }
   #dash-root .est-entrega-link { color: var(--ch-accent); text-decoration: none; }
   #dash-root .est-entrega-link:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
   #dash-root .est-entrega-link-icon { display: inline-block; margin-left: .25em; font-size: .85em; opacity: .65; }
+  #dash-root .est-cursada-bo-link { margin: .5rem 0 0 0; font-size: .85rem; }
   #dash-root .est-sin-preentregas { color: var(--ch-ink-muted); font-size: .85rem; margin: 0; }
   #dash-root .est-saldo-line { font-size: .88rem; margin: 0 0 .9rem 0; }
   /* Margen superior claro (24px) antes de cada título de sección, ahora que
@@ -2016,16 +2028,19 @@
     return `${estBadgeEstadoComision(curso.estadoComision)}${certBadge}`;
   }
 
-  // Nombre de la Preentrega/Entrega Final, como enlace directo al Back
-  // Office cuando hay URL de esta inscripción (ver boEnrollmentUrl en
-  // buildCursoDetalle, Worker) — mismo enlace para todas las entregas de
-  // esta comisión, no se encontró ni se pidió una ruta más específica por
-  // unidad. Si no hay URL (falta userId o enrollmentId), queda como texto
-  // plano en vez de un enlace roto.
-  function estNombreEntrega(nombre, url) {
-    const texto = estEscapeHtml(nombre);
-    if (!url) return texto;
-    return `<a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">${texto}<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a>`;
+  // Nombre de la Preentrega/Entrega Final: texto plano, sin enlace propio —
+  // el enlace a la cursada en el Back Office ahora es uno solo, al pie del
+  // bloque de entregas (ver estEnlaceCursadaBO más abajo).
+  function estNombreEntrega(nombre) {
+    return estEscapeHtml(nombre);
+  }
+
+  // Único enlace directo a la cursada en el Back Office, al pie del listado
+  // de Preentregas y Entrega Final (ver boEnrollmentUrl en buildCursoDetalle,
+  // Worker). Si no hay URL (falta userId o enrollmentId), no se muestra nada.
+  function estEnlaceCursadaBO(url) {
+    if (!url) return '';
+    return `<p class="est-cursada-bo-link"><a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">Abrir cursada en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a></p>`;
   }
 
   function estRenderCurso(curso) {
@@ -2037,16 +2052,29 @@
     const preentregasHtml = (curso.preentregas && curso.preentregas.length)
       ? `<p style="margin:0 0 .4rem 0; font-weight:700;">Preentregas y Entrega Final</p>
          <ul class="est-preentregas">${curso.preentregas.map((p) => (
-           `<li>${estNombreEntrega(p.nombre, curso.boEnrollmentUrl)} — ${estBadgePreentrega(p.estado, p.nota)}</li>`
-         )).join('')}</ul>`
+           `<li>${estNombreEntrega(p.nombre)} — ${estBadgePreentrega(p.estado, p.nota)}</li>`
+         )).join('')}</ul>
+         ${estEnlaceCursadaBO(curso.boEnrollmentUrl)}`
       : '';
+
+    const cabecera = `<span><span class="est-curso-titulo">${estEscapeHtml(curso.titulo)}</span>${curso.comision ? ` <span class="est-curso-comision">— Comisión ${estEscapeHtml(curso.comision)}</span>` : ''}</span>
+          <span class="est-curso-tags">${estTagsCurso(curso)}</span>`;
+
+    // Sin desplegable vacío (ver sinContenido en buildCursoDetalle, Worker):
+    // cuando esta inscripción realmente no tiene nada para mostrar adentro
+    // (fechas, horario ni preentregas), se renderiza como fila fija — sin
+    // <details>, sin flechita y sin cursor de acordeón — en vez de un
+    // acordeón que al abrirlo queda vacío.
+    if (curso.sinContenido) {
+      return `
+        <div class="est-curso est-curso-fijo">
+          <div class="est-curso-fijo-header">${cabecera}</div>
+        </div>`;
+    }
 
     return `
       <details class="est-curso">
-        <summary>
-          <span><span class="est-curso-titulo">${estEscapeHtml(curso.titulo)}</span>${curso.comision ? ` <span class="est-curso-comision">— Comisión ${estEscapeHtml(curso.comision)}</span>` : ''}</span>
-          <span class="est-curso-tags">${estTagsCurso(curso)}</span>
-        </summary>
+        <summary>${cabecera}</summary>
         <div class="est-curso-body">
           ${estLineaFechas(curso)}
           ${preentregasHtml}
@@ -2101,9 +2129,9 @@
     if (!studentId) return '';
     if (estBackOfficeConfigurado()) {
       const url = `${BACKOFFICE_WEB_URL.replace(/\/+$/, '')}/${encodeURIComponent(studentId)}`;
-      return `<a class="est-bo-link" href="${estEscapeHtml(url)}" target="_blank" rel="noopener">Abrir en Back Office ↗</a>`;
+      return `<a class="est-bo-link" href="${estEscapeHtml(url)}" target="_blank" rel="noopener">Abrir perfil en Back Office ↗</a>`;
     }
-    return `<span class="est-bo-link est-bo-link-disabled" title="Falta completar BACKOFFICE_WEB_URL en el HTML para habilitar este enlace">Abrir en Back Office ↗</span>`;
+    return `<span class="est-bo-link est-bo-link-disabled" title="Falta completar BACKOFFICE_WEB_URL en el HTML para habilitar este enlace">Abrir perfil en Back Office ↗</span>`;
   }
 
   // Badge de saldo a favor (antes era un <p> aparte con "Saldo a favor:" en
@@ -2126,12 +2154,22 @@
   }
 
   function estRenderWorkshop(ws) {
+    const cabecera = `<span class="est-curso-titulo">${estEscapeHtml(ws.titulo)}</span>
+          <span class="est-curso-tags">${estBadgeEstadoComision(ws.estadoComision)}${estBadgeCertificado(ws.certificado)}</span>`;
+
+    // Mismo criterio que en estRenderCurso: un workshop/webinar on-demand
+    // sin fechas ni horario (ver sinContenido en buildWorkshopDetalle,
+    // Worker) se muestra como fila fija, no como acordeón vacío.
+    if (ws.sinContenido) {
+      return `
+        <div class="est-curso est-curso-fijo">
+          <div class="est-curso-fijo-header">${cabecera}</div>
+        </div>`;
+    }
+
     return `
       <details class="est-curso">
-        <summary>
-          <span class="est-curso-titulo">${estEscapeHtml(ws.titulo)}</span>
-          <span class="est-curso-tags">${estBadgeEstadoComision(ws.estadoComision)}${estBadgeCertificado(ws.certificado)}</span>
-        </summary>
+        <summary>${cabecera}</summary>
         <div class="est-curso-body">
           ${estLineaFechas(ws)}
         </div>
