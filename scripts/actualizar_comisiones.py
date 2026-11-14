@@ -14,6 +14,8 @@ Uso:
 import os
 import sys
 import json
+import time
+import random
 import datetime
 from collections import Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -116,37 +118,93 @@ def search_products(product_ids):
     return product_map
 
 
-def get_professors_for_cohort(cohort_id):
+def get_professors_for_cohort(cohort_id, max_intentos=5):
     """GET /platform/staff/m2m/admin/assignments/cohort/{id} — devuelve una lista.
 
     Cada item trae `status`: ACTIVE | CANCELLED | COMPLETED. Solo los ACTIVE
     siguen asignados — CANCELLED es un profesor desasignado ("dado de baja").
+    Esto NO filtra por cohortRole (PROFESOR/TUTOR/INSTRUCTOR/SUPLENTE): se
+    trae TODO el staff titular con status ACTIVE, sea cual sea su rol.
+
+    IMPORTANTE (bug real encontrado y corregido — comisión 105710 y otras):
+    el endpoint de asignaciones de staff devuelve 429 "Too Many Requests"
+    con bastante frecuencia (~15-20% de los pedidos, medido en vivo) cuando
+    se lo golpea con mucha concurrencia — ver get_all_professors más abajo.
+    La versión anterior de esta función no distinguía "falló el pedido"
+    (rate limit, timeout, 5xx) de "no hay staff asignado": ambos casos
+    devolvían una lista vacía por igual, así que una comisión con staff
+    titular real (confirmado contra la API) podía aparecer SIN docentes en
+    el tablero solo porque el pedido tuvo la mala suerte de toparse con un
+    429 justo esa vez. Acá se reintenta varias veces con backoff creciente
+    antes de darse por vencido, y si TODOS los intentos fallan, se devuelve
+    un error explícito (ver tercer valor del tuple) en vez de [] — así
+    get_all_professors puede avisar en vez de mentir silenciosamente con
+    una lista vacía.
     """
-    try:
-        resp = requests.get(
-            f"{API_URL}/platform/staff/m2m/admin/assignments/cohort/{cohort_id}",
-            headers=student_headers(),
-            timeout=30,
-        )
-        resp.raise_for_status()
-        data = resp.json()
-        items = data if isinstance(data, list) else data.get("data", [])
-        names = []
-        for a in items or []:
-            if a.get("status") == "ACTIVE" and a.get("professorName"):
-                names.append(a["professorName"])
-        return cohort_id, names
-    except Exception:
-        return cohort_id, []
+    backoff = 0.5
+    ultimo_error = None
+    for intento in range(max_intentos):
+        try:
+            resp = requests.get(
+                f"{API_URL}/platform/staff/m2m/admin/assignments/cohort/{cohort_id}",
+                headers=student_headers(),
+                timeout=30,
+            )
+            if resp.status_code == 429:
+                raise requests.exceptions.HTTPError(
+                    f"429 Too Many Requests (intento {intento + 1}/{max_intentos})"
+                )
+            resp.raise_for_status()
+            data = resp.json()
+            items = data if isinstance(data, list) else data.get("data", [])
+            names = []
+            for a in items or []:
+                if a.get("status") == "ACTIVE" and a.get("professorName"):
+                    names.append(a["professorName"])
+            return cohort_id, names, None
+        except Exception as e:
+            ultimo_error = e
+            if intento < max_intentos - 1:
+                # Backoff exponencial con jitter: un 429 significa que se
+                # está pidiendo más rápido de lo que tolera el Back Office,
+                # así que cada reintento espera más (no solo "probar de
+                # nuevo ya mismo", que dispararía el mismo límite).
+                time.sleep(backoff + random.uniform(0, backoff))
+                backoff *= 2
+    # Se agotaron los reintentos: NUNCA se devuelve [] en silencio acá (eso
+    # es indistinguible de "sin staff asignado" y fue exactamente la causa
+    # del bug) — se marca el error explícitamente para que quede loggeado.
+    return cohort_id, [], ultimo_error
 
 
 def get_all_professors(cohort_ids):
     result = {}
-    with ThreadPoolExecutor(max_workers=32) as ex:
+    errores = []
+    # Concurrencia moderada (8, antes 32): con 32 pedidos en paralelo contra
+    # este endpoint, una fracción grande (~15-20%, medido en vivo) vuelve
+    # 429 Too Many Requests — eso es lo que causaba que comisiones con
+    # staff titular real (confirmado contra la API, ej. comisión 105710)
+    # aparecieran sin docentes en el tablero. Bajar la concurrencia +
+    # reintentar con backoff (ver get_professors_for_cohort) evita pisar el
+    # límite de la API en la gran mayoría de los casos.
+    with ThreadPoolExecutor(max_workers=8) as ex:
         futures = [ex.submit(get_professors_for_cohort, cid) for cid in cohort_ids]
         for fut in as_completed(futures):
-            cid, names = fut.result()
+            cid, names, err = fut.result()
             result[cid] = names
+            if err is not None:
+                errores.append((cid, str(err)))
+    if errores:
+        print(
+            f"ADVERTENCIA: no se pudo confirmar el staff de {len(errores)} comisión(es) "
+            f"tras {5} reintentos cada una (probable rate limiting sostenido de la API). "
+            f"Esas filas van a quedar con \"profesores\": \"\" en esta corrida aunque SÍ "
+            f"tengan staff asignado — revisar manualmente o volver a correr el script. "
+            f"IDs de cohort afectados:",
+            file=sys.stderr,
+        )
+        for cid, err in errores[:50]:
+            print(f"  - {cid}: {err}", file=sys.stderr)
     return result
 
 
