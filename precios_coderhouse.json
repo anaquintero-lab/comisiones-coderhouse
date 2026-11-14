@@ -512,12 +512,6 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "PE": {
-        "list": 1155,
-        "final": 578,
-        "currency": "PEN",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 687500,
         "final": 343750,
@@ -541,6 +535,12 @@
         "final": 3300,
         "currency": "MXN",
         "discount_pct": 60
+      },
+      "PE": {
+        "list": 1155,
+        "final": 578,
+        "currency": "PEN",
+        "discount_pct": 50
       },
       "US": {
         "list": 672,
@@ -884,18 +884,6 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 627000,
         "final": 313500,
@@ -924,6 +912,18 @@
         "list": 1045,
         "final": 523,
         "currency": "PEN",
+        "discount_pct": 50
+      },
+      "US": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
         "discount_pct": 50
       }
     },
@@ -3240,18 +3240,6 @@
         "currency": "UYU",
         "discount_pct": 50
       },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
       "CL": {
         "list": 495000,
         "final": 247500,
@@ -3280,6 +3268,18 @@
         "list": 770,
         "final": 385,
         "currency": "PEN",
+        "discount_pct": 50
+      },
+      "US": {
+        "list": 493,
+        "final": 247,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 493,
+        "final": 247,
+        "currency": "USD",
         "discount_pct": 50
       }
     },
@@ -3368,6 +3368,30 @@
         "list": 627000,
         "final": 313500,
         "currency": "CLP",
+        "discount_pct": 50
+      },
+      "CO": {
+        "list": 1448700,
+        "final": 724350,
+        "currency": "COP",
+        "discount_pct": 50
+      },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 1045,
+        "final": 523,
+        "currency": "PEN",
         "discount_pct": 50
       },
       "US": {
