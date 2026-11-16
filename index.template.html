@@ -2400,9 +2400,35 @@
     }
   }
 
+  // CORREGIDO (nov/2026, caso real victoriahlimpe@gmail.com): pegar un
+  // mail completo (o escribirlo del todo) entraba SIEMPRE por el camino
+  // silencioso del autocompletado (debounce + sin mensajes de error ni de
+  // "no encontrado", ver nota arriba de estAutocompleteBuscar). Si esa
+  // consulta tardaba mucho o fallaba, el desplegable quedaba en blanco sin
+  // ningún aviso — el único indicio era, en el peor caso, un
+  // "Error al buscar: Error consultando el Back Office." si encima se
+  // apretaba Enter o la lupa después. Ahora, apenas el valor pegado o
+  // tipeado es un mail completo y válido (mismo patrón que usa el Worker
+  // para decidir by-email), se cancela cualquier autocompletado en curso o
+  // programado y se dispara directo estBuscar() — que sí muestra "Buscando
+  // en el Back Office…" mientras consulta y un error real si lo hay, en
+  // vez de dejar todo en silencio.
+  const EST_EMAIL_COMPLETO = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   estBuscarEl.addEventListener('input', () => {
     const q = estBuscarEl.value.trim();
     if (estAutocompleteTimer) clearTimeout(estAutocompleteTimer);
+    if (EST_EMAIL_COMPLETO.test(q)) {
+      // Se cancela cualquier autocompletado programado o en vuelo (en vez
+      // de dejarlo correr en silencio) y se programa la búsqueda real con
+      // el mismo debounce corto de siempre — así, si se sigue tipeando
+      // después de completar el mail (o se pega de una), no se disparan
+      // pedidos de más por cada tecla: solo se busca una vez que se deja
+      // de escribir.
+      estHideAutocomplete();
+      estAutocompleteTimer = setTimeout(estBuscar, EST_AUTOCOMPLETE_DEBOUNCE_MS);
+      return;
+    }
     if (q.length < EST_AUTOCOMPLETE_MIN_CHARS) {
       estHideAutocomplete();
       return;
