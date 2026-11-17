@@ -574,12 +574,21 @@
   #dash-root .est-curso-fijo-header .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso-fijo-header .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
   #dash-root .est-curso-fechas { color: var(--ch-ink-muted); margin: 0 0 .6rem 0; font-size: .8rem; }
+  /* Título "Preentregas y Entrega Final": margen superior sutil (~9px) para
+     separarlo del bloque de arriba (fechas, horario y staff titular). */
+  #dash-root .est-preentregas-titulo { margin: .58rem 0 .4rem 0; font-weight: 700; }
   #dash-root .est-preentregas { margin: 0; padding-left: 1.1rem; }
   #dash-root .est-preentregas li { margin-bottom: .3rem; }
   #dash-root .est-entrega-link { color: var(--ch-accent); text-decoration: none; }
   #dash-root .est-entrega-link:hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
   #dash-root .est-entrega-link-icon { display: inline-block; margin-left: .25em; font-size: .85em; opacity: .65; }
-  #dash-root .est-cursada-bo-link { margin: .5rem 0 0 0; font-size: .85rem; }
+  /* Enlaces del pie de la tarjeta: el contenedor separa todo el bloque del
+     listado de entregas de arriba (~9px); entre los dos links (Habilitar
+     entregas / Abrir comisión) el espacio es chico, para que se vean como
+     una continuación prolija y no como dos bloques sueltos. */
+  #dash-root .est-cursada-bo-links { margin: .58rem 0 0 0; }
+  #dash-root .est-cursada-bo-links .est-cursada-bo-link { margin: 0 0 .25rem 0; font-size: .85rem; }
+  #dash-root .est-cursada-bo-links .est-cursada-bo-link:last-child { margin-bottom: 0; }
   #dash-root .est-sin-preentregas { color: var(--ch-ink-muted); font-size: .85rem; margin: 0; }
   #dash-root .est-saldo-line { font-size: .88rem; margin: 0 0 .9rem 0; }
   /* Margen superior claro (24px) antes de cada título de sección, ahora que
@@ -839,10 +848,15 @@
     font-size: .76rem;
     font-weight: 700;
     white-space: nowrap;
+    text-decoration: none;
   }
   #dash-root .badge-ok { background: #e6f6ec; color: var(--ch-ok); }
   #dash-root .badge-warn { background: #fdf0d8; color: var(--ch-warn); }
   #dash-root .badge-bad { background: #fbe7e7; color: var(--ch-bad); }
+  /* Badge "Certificado" clicable (abre el PDF): mismo look que el badge
+     estático, con un cursor y hover sutiles para marcar que es un link. */
+  #dash-root .est-badge-cert-link { cursor: pointer; }
+  #dash-root .est-badge-cert-link:hover { background: #d7f0e0; }
   #dash-root .badge-neutral { background: #eeeae3; color: var(--ch-ink-muted); }
   /* Naranja distinto del ámbar de badge-warn, para diferenciar "En
      corrección" (amarillo/ámbar, badge-warn) de "Solicitud de reentrega"
@@ -1532,14 +1546,35 @@
     estudiantes: document.getElementById('tab-panel-estudiantes'),
     saldo: document.getElementById('tab-panel-saldo'),
   };
+  // Cada pestaña ya tenía su propio botón "Limpiar"/"Limpiar filtros", que
+  // vacía sus inputs de búsqueda/filtros, los resultados mostrados, las
+  // tarjetas desplegadas y los mensajes de estado/error de esa pestaña
+  // puntual. Para que al volver más tarde a una pestaña siempre aparezca
+  // vacía (y no se confunda con una búsqueda anterior), se dispara ese
+  // mismo botón de la pestaña que se ABANDONA cada vez que se cambia de
+  // solapa — reutilizando la lógica de reseteo ya existente de cada una,
+  // sin duplicarla acá.
+  const resetButtons = {
+    comisiones: document.querySelector('.f-reset'),
+    calculadora: document.getElementById('calc-reset-btn'),
+    estudiantes: document.getElementById('est-limpiar-btn'),
+    saldo: document.getElementById('saldo-limpiar-btn'),
+  };
+  let estTabActiva = 'comisiones';
   tabButtons.forEach((btn) => {
     btn.addEventListener('click', () => {
+      const tabDestino = btn.dataset.tab;
+      if (tabDestino !== estTabActiva) {
+        const botonLimpiarPestañaAnterior = resetButtons[estTabActiva];
+        if (botonLimpiarPestañaAnterior) botonLimpiarPestañaAnterior.click();
+      }
       tabButtons.forEach((b) => { b.classList.remove('is-active'); b.setAttribute('aria-selected', 'false'); });
       btn.classList.add('is-active');
       btn.setAttribute('aria-selected', 'true');
       Object.values(panels).forEach((p) => p.classList.remove('is-active'));
-      const target = panels[btn.dataset.tab];
+      const target = panels[tabDestino];
       if (target) target.classList.add('is-active');
+      estTabActiva = tabDestino;
     });
   });
 
@@ -1967,16 +2002,23 @@
     return estado ? `<span class="badge badge-neutral">${estEscapeHtml(estado)}</span>` : '';
   }
 
-  function estBadgeCertificado(cert) {
-    return cert
-      ? '<span class="badge badge-ok">Certificado</span>'
-      : '<span class="badge badge-neutral">Sin certificar</span>';
+  // Si hay certificado y además se conoce la URL de descarga directa del
+  // PDF (certificadoUrl — ver buscarCertificadoDeProducto en el Worker), el
+  // propio badge "Certificado" se vuelve un link clicable que abre el PDF
+  // en una pestaña nueva. Sin URL disponible, sigue como badge estático.
+  function estBadgeCertificado(cert, url) {
+    if (!cert) return '<span class="badge badge-neutral">Sin certificar</span>';
+    if (url) {
+      return `<a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="badge badge-ok est-badge-cert-link">Certificado</a>`;
+    }
+    return '<span class="badge badge-ok">Certificado</span>';
   }
 
   // Badge de inscripción TRANSFERRED: se deja la etiqueta en inglés tal
   // como la devuelve el Back Office, acompañada de un segundo badge en
-  // español con el motivo real (ver motivoTransferencia en
-  // estudiantes-worker.js → buildCursoDetalle).
+  // español con el motivo real — "Transferido" salvo que la comisión
+  // original esté realmente cancelada, en cuyo caso dice "Cancelada" (ver
+  // motivoTransferencia en estudiantes-worker.js → buildCursoDetalle).
   function estBadgeTransferida(motivo) {
     const motivoBadge = motivo
       ? `<span class="badge badge-neutral">${estEscapeHtml(motivo)}</span>`
@@ -2033,35 +2075,54 @@
     if (String(curso.estadoInscripcion || '').toUpperCase() === 'TRANSFERRED') {
       return estBadgeTransferida(curso.motivoTransferencia);
     }
-    const certBadge = (curso.mostrarCertificado === false) ? '' : estBadgeCertificado(curso.certificado);
+    const certBadge = (curso.mostrarCertificado === false) ? '' : estBadgeCertificado(curso.certificado, curso.certificadoUrl);
     return `${estBadgeEstadoComision(curso.estadoComision)}${certBadge}`;
   }
 
   // Nombre de la Preentrega/Entrega Final: texto plano, sin enlace propio —
-  // el enlace a la cursada en el Back Office ahora es uno solo, al pie del
-  // bloque de entregas (ver estEnlaceCursadaBO más abajo).
+  // los enlaces a la cursada/comisión en el Back Office van aparte, al pie
+  // del bloque de entregas (ver estEnlacesCursadaBO más abajo).
   function estNombreEntrega(nombre) {
     return estEscapeHtml(nombre);
   }
 
-  // Único enlace directo a la cursada en el Back Office, al pie del listado
-  // de Preentregas y Entrega Final (ver boEnrollmentUrl en buildCursoDetalle,
-  // Worker). Si no hay URL (falta userId o enrollmentId), no se muestra nada.
-  function estEnlaceCursadaBO(url) {
-    if (!url) return '';
-    return `<p class="est-cursada-bo-link"><a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">Abrir cursada en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a></p>`;
+  // Nombres de personas en formato "A y B" / "A, B y C" — para la línea de
+  // Staff titular. Sin nombres, cadena vacía (no se muestra la línea).
+  function estFormatListaY(nombres) {
+    if (!nombres || !nombres.length) return '';
+    if (nombres.length === 1) return nombres[0];
+    if (nombres.length === 2) return `${nombres[0]} y ${nombres[1]}`;
+    return `${nombres.slice(0, -1).join(', ')} y ${nombres[nombres.length - 1]}`;
+  }
+
+  // Los dos enlaces del pie del bloque de entregas: primero a esta
+  // inscripción puntual (para habilitar entregas en el Back Office),
+  // después a la comisión en sí (ver boEnrollmentUrl/boComisionUrl en
+  // buildCursoDetalle, Worker). Cualquiera de los dos que falte (sin
+  // userId/enrollmentId o sin cohortId) simplemente no se muestra.
+  function estEnlacesCursadaBO(enrollmentUrl, comisionUrl) {
+    const links = [];
+    if (enrollmentUrl) {
+      links.push(`<p class="est-cursada-bo-link"><a href="${estEscapeHtml(enrollmentUrl)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">Habilitar entregas en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a></p>`);
+    }
+    if (comisionUrl) {
+      links.push(`<p class="est-cursada-bo-link"><a href="${estEscapeHtml(comisionUrl)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">Abrir comisión en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a></p>`);
+    }
+    if (!links.length) return '';
+    return `<div class="est-cursada-bo-links">${links.join('')}</div>`;
   }
 
   // CORREGIDO (nov/2026 — arquitectura en 2 pasos, lazy-loading por
   // comisión): las preentregas/Entrega Final (y, más abajo en
   // estRenderWorkshop, el horario) ya no vienen armadas en la respuesta de
   // /buscar — ver nota en buildCursoDetalle del Worker. Acá solo se deja un
-  // "slot" vacío con los datos (studentId + cohortId) que hacen falta para
-  // pedirlas recién cuando se abre el acordeón — ver estCargarEntregas más
-  // abajo, enganchado al evento "toggle" del <details>.
-  function estSlotEntregas(studentId, cohortId, boEnrollmentUrl) {
+  // "slot" vacío con los datos (studentId + cohortId + los dos enlaces de
+  // Back Office) que hacen falta para pedirlas recién cuando se abre el
+  // acordeón — ver estCargarEntregas más abajo, enganchado al evento
+  // "toggle" del <details>.
+  function estSlotEntregas(studentId, cohortId, boEnrollmentUrl, boComisionUrl) {
     if (!cohortId || !studentId) return '';
-    return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(cohortId)}" data-bo-url="${estEscapeHtml(boEnrollmentUrl || '')}" data-loaded="0">
+    return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(cohortId)}" data-bo-url="${estEscapeHtml(boEnrollmentUrl || '')}" data-bo-comision-url="${estEscapeHtml(boComisionUrl || '')}" data-loaded="0">
       <p class="est-sin-preentregas est-entregas-cargando">Cargando entregas…</p>
     </div>`;
   }
@@ -2087,7 +2148,7 @@
         <summary>${cabecera}</summary>
         <div class="est-curso-body">
           ${estLineaFechas(curso)}
-          ${estSlotEntregas(studentId, curso.cohortId, curso.boEnrollmentUrl)}
+          ${estSlotEntregas(studentId, curso.cohortId, curso.boEnrollmentUrl, curso.boComisionUrl)}
         </div>
       </details>`;
   }
@@ -2165,7 +2226,7 @@
 
   function estRenderWorkshop(ws, studentId) {
     const cabecera = `<span class="est-curso-titulo">${estEscapeHtml(ws.titulo)}</span>
-          <span class="est-curso-tags">${estBadgeEstadoComision(ws.estadoComision)}${estBadgeCertificado(ws.certificado)}</span>`;
+          <span class="est-curso-tags">${estBadgeEstadoComision(ws.estadoComision)}${estBadgeCertificado(ws.certificado, ws.certificadoUrl)}</span>`;
 
     // Mismo criterio que en estRenderCurso: un workshop/webinar on-demand
     // sin ningún cohortId (ver sinContenido en buildWorkshopDetalle, Worker)
@@ -2182,7 +2243,7 @@
         <summary>${cabecera}</summary>
         <div class="est-curso-body">
           ${estLineaFechas(ws)}
-          ${estSlotEntregas(studentId, ws.cohortId, ws.boEnrollmentUrl)}
+          ${estSlotEntregas(studentId, ws.cohortId, ws.boEnrollmentUrl, ws.boComisionUrl)}
         </div>
       </details>`;
   }
@@ -2200,17 +2261,27 @@
     if (resultado.horario) {
       partes.push(`<p class="est-curso-fechas">${estEscapeHtml(resultado.horario)}</p>`);
     }
+    // Profesor(es) titular(es) (cohortRole === PROFESOR, status ACTIVE en
+    // esta comisión, sin tutores ni suplentes — ver obtenerStaffTitularCohort
+    // en el Worker): misma línea discreta que el horario, sin botón de
+    // copiar. Etiqueta en singular o plural según la cantidad de nombres.
+    const staffTexto = estFormatListaY(resultado.staffTitular);
+    if (staffTexto) {
+      const etiquetaProfesor = (resultado.staffTitular && resultado.staffTitular.length > 1) ? 'Profesores' : 'Profesor';
+      partes.push(`<p class="est-curso-fechas">${etiquetaProfesor}: ${estEscapeHtml(staffTexto)}</p>`);
+    }
     if (resultado.preentregas && resultado.preentregas.length) {
-      partes.push(`<p style="margin:0 0 .4rem 0; font-weight:700;">Preentregas y Entrega Final</p>
+      partes.push(`<p class="est-preentregas-titulo">Preentregas y Entrega Final</p>
          <ul class="est-preentregas">${resultado.preentregas.map((p) => (
            `<li>${estNombreEntrega(p.nombre)} — ${estBadgePreentrega(p.estado, p.nota)}</li>`
          )).join('')}</ul>`);
     }
-    const boUrl = slotEl.dataset.boUrl;
-    if (boUrl) partes.push(estEnlaceCursadaBO(boUrl));
+    const boLinksHtml = estEnlacesCursadaBO(slotEl.dataset.boUrl, slotEl.dataset.boComisionUrl);
+    if (boLinksHtml) partes.push(boLinksHtml);
     // Puede pasar que la comisión tenga cohortId pero, en los hechos, no
-    // haya ni horario cargado ni ninguna preentrega estructurada — en vez
-    // de dejar el acordeón vacío tras cargar, se avisa explícitamente.
+    // haya ni horario cargado ni staff titular ni ninguna preentrega
+    // estructurada — en vez de dejar el acordeón vacío tras cargar, se
+    // avisa explícitamente.
     if (!partes.length) partes.push('<p class="est-sin-preentregas">No hay información adicional para esta cursada.</p>');
     slotEl.innerHTML = partes.join('');
     slotEl.dataset.loaded = '1';
@@ -2251,7 +2322,7 @@
         slotEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar las entregas: ${estEscapeHtml(mensaje + detalle)}</p>`;
         return;
       }
-      const resultado = { preentregas: data.preentregas || [], horario: data.horario || null };
+      const resultado = { preentregas: data.preentregas || [], horario: data.horario || null, staffTitular: data.staffTitular || [] };
       estEntregasCache.set(cacheKey, resultado);
       estPintarEntregasEnSlot(slotEl, resultado);
     } catch (err) {
