@@ -558,130 +558,6 @@
     "promo": "FLASH SALE ⚡"
   },
   {
-    "id": "product-manager-online",
-    "titulo": "Coderhouse",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 218300,
-        "final": 174640,
-        "currency": "ARS",
-        "discount_pct": 20
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 313500,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 724350,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 704,
-        "final": 352,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1375,
-        "final": 688,
-        "currency": "PEN",
-        "discount_pct": 50
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    },
-    "promo": "CODER SALE 🔥"
-  },
-  {
-    "id": "tableau",
-    "titulo": "Coderhouse",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 184300,
-        "final": 147440,
-        "currency": "ARS",
-        "discount_pct": 20
-      },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 495000,
-        "final": 247500,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1174800,
-        "final": 587400,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 616,
-        "final": 308,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 5720,
-        "final": 2288,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 770,
-        "final": 385,
-        "currency": "PEN",
-        "discount_pct": 50
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    },
-    "promo": "CODER SALE 🔥"
-  },
-  {
     "id": "community-manager",
     "titulo": "Community Manager",
     "tipo": "curso",
@@ -2728,6 +2604,68 @@
     "promo": "FLASH SALE ⚡"
   },
   {
+    "id": "product-manager-online",
+    "titulo": "Product Manager",
+    "tipo": "curso",
+    "precios": {
+      "AR": {
+        "list": 218300,
+        "final": 174640,
+        "currency": "ARS",
+        "discount_pct": 20
+      },
+      "UY": {
+        "list": 18810,
+        "final": 9405,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "CL": {
+        "list": 627000,
+        "final": 313500,
+        "currency": "CLP",
+        "discount_pct": 50
+      },
+      "CO": {
+        "list": 1448700,
+        "final": 724350,
+        "currency": "COP",
+        "discount_pct": 50
+      },
+      "ES": {
+        "list": 704,
+        "final": 352,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 1375,
+        "final": 688,
+        "currency": "PEN",
+        "discount_pct": 50
+      },
+      "US": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      }
+    },
+    "promo": "FLASH SALE ⚡"
+  },
+  {
     "id": "programacion-backend-desarrollo-avanzado-de-backend",
     "titulo": "Programación Backend I: Desarrollo Avanzado",
     "tipo": "curso",
@@ -3348,6 +3286,68 @@
     "promo": "FLASH SALE ⚡"
   },
   {
+    "id": "tableau",
+    "titulo": "Tableau",
+    "tipo": "curso",
+    "precios": {
+      "AR": {
+        "list": 184300,
+        "final": 147440,
+        "currency": "ARS",
+        "discount_pct": 20
+      },
+      "UY": {
+        "list": 14630,
+        "final": 7315,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "CL": {
+        "list": 495000,
+        "final": 247500,
+        "currency": "CLP",
+        "discount_pct": 50
+      },
+      "CO": {
+        "list": 1174800,
+        "final": 587400,
+        "currency": "COP",
+        "discount_pct": 50
+      },
+      "ES": {
+        "list": 616,
+        "final": 308,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
+      "MX": {
+        "list": 5720,
+        "final": 2288,
+        "currency": "MXN",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 770,
+        "final": 385,
+        "currency": "PEN",
+        "discount_pct": 50
+      },
+      "US": {
+        "list": 493,
+        "final": 247,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 493,
+        "final": 247,
+        "currency": "USD",
+        "discount_pct": 50
+      }
+    },
+    "promo": "FLASH SALE ⚡"
+  },
+  {
     "id": "testing-qa-manual",
     "titulo": "Testing QA Manual",
     "tipo": "curso",
@@ -3357,6 +3357,54 @@
         "final": 200800,
         "currency": "ARS",
         "discount_pct": 20
+      },
+      "UY": {
+        "list": 18810,
+        "final": 9405,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "CL": {
+        "list": 627000,
+        "final": 313500,
+        "currency": "CLP",
+        "discount_pct": 50
+      },
+      "CO": {
+        "list": 1448700,
+        "final": 724350,
+        "currency": "COP",
+        "discount_pct": 50
+      },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
+      "MX": {
+        "list": 7370,
+        "final": 2948,
+        "currency": "MXN",
+        "discount_pct": 60
+      },
+      "PE": {
+        "list": 1045,
+        "final": 523,
+        "currency": "PEN",
+        "discount_pct": 50
+      },
+      "US": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
       }
     },
     "promo": "FLASH SALE ⚡"
