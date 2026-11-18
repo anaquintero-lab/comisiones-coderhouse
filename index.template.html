@@ -25,6 +25,30 @@
 <body>
 
 <div id="dash-root">
+
+<!-- Pantalla de login global (Parte 2): tapa toda la pantalla hasta que se
+     valide la contraseña contra el Worker (ver /auth en estudiantes-worker.js
+     y el script "Login global" más abajo). El logo se clona en vivo desde
+     .brand-row del header de abajo (ver ese script), para reutilizar
+     EXACTAMENTE el mismo logo/pill sin duplicar los PNG en base64 acá. -->
+<div class="login-gate" id="login-gate">
+  <div class="brand-row" id="login-gate-brand"></div>
+  <div class="login-gate-card">
+    <p class="login-gate-eyebrow">Atención a Estudiantes</p>
+    <p class="login-gate-subtitle">Ingresá la contraseña de acceso para continuar.</p>
+    <p class="login-gate-banner is-hidden" id="login-gate-banner">Cerraste la sesión.</p>
+    <div class="login-gate-field-wrap">
+      <div class="field-icon-wrap field-icon-left field-icon-right">
+        <span class="field-icon" aria-hidden="true">🔒</span>
+        <input type="password" id="login-gate-pw" class="filter-input" placeholder="Contraseña" autocomplete="off">
+        <button type="button" id="login-gate-toggle" class="login-gate-toggle" aria-label="Mostrar contraseña" title="Mostrar contraseña">👁️</button>
+      </div>
+    </div>
+    <button type="button" id="login-gate-btn" class="btn-reset login-gate-btn">Ingresar</button>
+    <p class="login-gate-note" id="login-gate-note"></p>
+  </div>
+</div>
+
 <div class="page">
   <header class="page-head">
     <h1 class="sr-only">Coderhouse Tools</h1>
@@ -39,6 +63,7 @@
       <span class="status-banner-sep" aria-hidden="true">·</span>
       <span class="status-banner-detail" id="takeaway">—</span>
     </div>
+    <button type="button" id="logout-btn" class="logout-btn" aria-label="Cerrar sesión" title="Cerrar sesión">Cerrar sesión</button>
     <button type="button" id="theme-toggle-btn" class="theme-toggle-btn" aria-label="Cambiar a modo oscuro" title="Cambiar a modo oscuro">🌙</button>
   </header>
 
@@ -205,19 +230,11 @@
 
   <div id="tab-panel-estudiantes" class="tab-panel">
     <section class="card est-search-card">
-      <div class="control-group est-pin-group" id="est-pin-group">
-        <label for="est-pin">Clave de equipo</label>
-        <div class="est-pin-row">
-          <div class="field-icon-wrap field-icon-left field-icon-right">
-            <span class="field-icon" aria-hidden="true">🔒</span>
-            <input type="password" id="est-pin" class="filter-input" placeholder="Clave de equipo" autocomplete="off">
-            <button type="button" id="est-pin-toggle" class="est-pin-toggle" aria-label="Mostrar clave" title="Mostrar clave">👁️</button>
-          </div>
-          <button type="button" id="est-pin-ingresar-btn" class="btn-reset est-pin-ingresar-btn">Ingresar</button>
-        </div>
-      </div>
-
-      <div class="est-search-area is-hidden" id="est-search-area">
+      <!-- La clave de equipo ya no se pide acá (ver Parte 2): se usa
+           automáticamente la contraseña validada en la pantalla de login
+           global (localStorage, ver appGetSessionPassword en el script
+           "Login global" más abajo) como X-Team-Pin para estas consultas. -->
+      <div class="est-search-area" id="est-search-area">
         <div class="control-group est-search-group">
           <label for="est-buscar">Buscar estudiante (nombre o mail)</label>
           <div class="field-icon-wrap field-icon-left est-autocomplete-wrap">
@@ -231,6 +248,13 @@
       </div>
 
       <p class="est-note" id="est-note">Conectado al Back Office en vivo. Puede tardar unos segundos.</p>
+    </section>
+
+    <!-- "Últimas búsquedas del equipo" (Parte 3): se muestra cuando no hay
+         ningún perfil abierto (ver estActualizarVisibilidadRecientes). -->
+    <section class="card est-recientes" id="est-recientes">
+      <p class="est-recientes-titulo">Últimas búsquedas del equipo</p>
+      <div id="est-recientes-body"><p class="est-recientes-vacio">Cargando…</p></div>
     </section>
 
     <div id="est-resultados" class="est-resultados"></div>
@@ -326,6 +350,10 @@
     --ch-bad: #d64545;
     --ch-hover: #fff8f4;
     --ch-shadow: rgba(23, 23, 23, .07);
+    /* Gris medio, un poco más oscuro que --ch-ink-muted, para las líneas de
+       fechas/horario/profesor de la pestaña Estudiantes — pedido explícito
+       para que se lean mejor sin llegar a negro puro ni a negrita. */
+    --ch-fechas: #4b5563;
     max-width: 1400px;
     margin: 0 auto;
     padding: 1.5rem 1rem;
@@ -350,6 +378,10 @@
     --ch-bad: #ff6f6f;
     --ch-hover: #352c1f;
     --ch-shadow: rgba(0, 0, 0, .35);
+    /* En modo oscuro el mismo gris oscuro de arriba casi no se leería contra
+       el fondo negro, así que acá se mantiene el tono claro que ya se
+       usaba (igual a --ch-ink-muted de este tema) en vez de oscurecerlo. */
+    --ch-fechas: #ad9f8c;
   }
 
   #dash-root, #dash-root *, #dash-root *::before, #dash-root *::after {
@@ -488,6 +520,84 @@
     white-space: nowrap; flex: none;
   }
   #dash-root .est-pin-ingresar-btn:hover { background: var(--ch-ink); border-color: var(--ch-ink); }
+
+  /* --- Login global (Parte 2) --- */
+  #dash-root .login-gate {
+    position: fixed; inset: 0; z-index: 1000;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1.1rem;
+    background: var(--ch-bg);
+    padding: 1.5rem 1rem;
+  }
+  #dash-root .login-gate.is-hidden { display: none; }
+  #dash-root .page.is-hidden { display: none; }
+  #dash-root .login-gate .brand-row { margin-bottom: 0; }
+  #dash-root .login-gate-card {
+    width: 100%; max-width: 360px;
+    background: var(--ch-card); border: 1px solid var(--ch-border); border-radius: 16px;
+    padding: 1.5rem 1.4rem; box-shadow: 0 12px 34px var(--ch-shadow);
+  }
+  #dash-root .login-gate-eyebrow {
+    margin: 0 0 .5rem 0; font-size: .7rem; font-weight: 800; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--ch-ink-muted);
+  }
+  #dash-root .login-gate-subtitle { margin: 0 0 1rem 0; font-size: .88rem; color: var(--ch-ink-muted); }
+  #dash-root .login-gate-banner {
+    margin: 0 0 1rem 0; padding: .55rem .8rem; border-radius: 10px;
+    background: #e6f6ec; color: var(--ch-ok); font-size: .82rem; font-weight: 600;
+  }
+  html[data-theme="dark"] #dash-root .login-gate-banner { background: #15351f; }
+  #dash-root .login-gate-banner.is-hidden { display: none; }
+  #dash-root .login-gate-field-wrap { position: relative; margin-bottom: .85rem; }
+  #dash-root .login-gate-toggle {
+    position: absolute; top: 50%; right: .6rem; transform: translateY(-50%);
+    background: none; border: none; padding: .1rem; font-size: .92rem; line-height: 1;
+    cursor: pointer; opacity: .6;
+  }
+  #dash-root .login-gate-toggle:hover { opacity: 1; }
+  #dash-root .login-gate-btn {
+    width: 100%; background: var(--ch-accent); color: var(--ch-accent-ink); border-color: var(--ch-accent);
+    font-weight: 700;
+  }
+  #dash-root .login-gate-btn:hover { background: var(--ch-ink); border-color: var(--ch-ink); }
+  #dash-root .login-gate-note { margin: .7rem 0 0 0; font-size: .78rem; color: var(--ch-ink-muted); min-height: 1em; }
+  #dash-root .login-gate-note.is-error { color: var(--ch-bad); }
+
+  /* Botón "Cerrar sesión": discreto, justo a la izquierda del botón
+     circular de modo oscuro (ver .page-head, que ya reserva el espacio a
+     la derecha para ese botón). */
+  #dash-root .page-head { padding-right: 9.3rem; }
+  #dash-root .logout-btn {
+    position: absolute; top: 0; right: 3.1rem;
+    height: 2.2rem; display: inline-flex; align-items: center;
+    font-size: .78rem; font-weight: 600; white-space: nowrap;
+    background: var(--ch-card); color: var(--ch-ink-muted);
+    border: 1.5px solid var(--ch-border); border-radius: 999px;
+    padding: 0 .85rem; cursor: pointer;
+    transition: color .15s ease, border-color .15s ease;
+  }
+  #dash-root .logout-btn:hover { color: var(--ch-ink); border-color: var(--ch-ink-muted); }
+
+  /* --- Últimas búsquedas del equipo (Parte 3) --- */
+  #dash-root .est-recientes { margin-bottom: 1rem; }
+  #dash-root .est-recientes.is-hidden { display: none; }
+  #dash-root .est-recientes-titulo { font-weight: 700; font-size: .92rem; margin: 0 0 .6rem 0; }
+  #dash-root .est-recientes-tabla { width: 100%; border-collapse: collapse; }
+  #dash-root .est-recientes-tabla td { padding: .5rem .3rem; border-top: 1px solid var(--ch-border); font-size: .85rem; }
+  #dash-root .est-recientes-tabla tr:first-child td { border-top: none; }
+  #dash-root .est-recientes-fila { cursor: pointer; }
+  #dash-root .est-recientes-fila:hover td { background: var(--ch-hover); }
+  #dash-root .est-recientes-nombre { font-weight: 600; display: block; }
+  #dash-root .est-recientes-email { color: var(--ch-ink-muted); font-size: .78rem; display: block; }
+  #dash-root .est-recientes-fecha { text-align: right; color: var(--ch-ink-muted); font-size: .8rem; white-space: nowrap; }
+  #dash-root .est-recientes-vacio { color: var(--ch-ink-muted); font-size: .85rem; margin: 0; }
+
+  /* --- Filtro de estado de cursos (Parte 4) --- */
+  #dash-root .est-filtro-row { display: flex; align-items: center; gap: .5rem; margin: .6rem 0 .8rem 0; flex-wrap: wrap; }
+  #dash-root .est-filtro-row label { font-size: .82rem; color: var(--ch-ink-muted); }
+  #dash-root .est-filtro-row select { max-width: 220px; }
+  #dash-root [data-estado-filtro].is-hidden { display: none; }
+
   #dash-root .est-buscar-btn { background: var(--ch-accent); color: var(--ch-accent-ink); border-color: var(--ch-accent); white-space: nowrap; }
   #dash-root .est-buscar-btn:hover { background: var(--ch-ink); border-color: var(--ch-ink); }
   #dash-root .est-limpiar-btn { white-space: nowrap; }
@@ -573,7 +683,7 @@
   #dash-root .est-curso-fijo-header .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
   #dash-root .est-curso-fijo-header .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso-fijo-header .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
-  #dash-root .est-curso-fechas { color: var(--ch-ink-muted); margin: 0 0 .6rem 0; font-size: .8rem; }
+  #dash-root .est-curso-fechas { color: var(--ch-fechas); margin: 0 0 .6rem 0; font-size: .8rem; }
   /* Título "Preentregas y Entrega Final": margen superior sutil (~9px) para
      separarlo del bloque de arriba (fechas, horario y staff titular). */
   #dash-root .est-preentregas-titulo { margin: .58rem 0 .4rem 0; font-weight: 700; }
@@ -586,9 +696,10 @@
      listado de entregas de arriba (~9px); entre los dos links (Habilitar
      entregas / Abrir comisión) el espacio es chico, para que se vean como
      una continuación prolija y no como dos bloques sueltos. */
-  #dash-root .est-cursada-bo-links { margin: .58rem 0 0 0; }
-  #dash-root .est-cursada-bo-links .est-cursada-bo-link { margin: 0 0 .25rem 0; font-size: .85rem; }
-  #dash-root .est-cursada-bo-links .est-cursada-bo-link:last-child { margin-bottom: 0; }
+  /* Un solo renglón: los dos links (cuando hay dos) separados por "·", en
+     vez de apilados como antes (ver estEnlacesCursadaBO). */
+  #dash-root .est-cursada-bo-links { margin: .58rem 0 0 0; font-size: .85rem; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
+  #dash-root .est-cursada-bo-links .est-cursada-bo-sep { color: var(--ch-ink-muted); }
   #dash-root .est-sin-preentregas { color: var(--ch-ink-muted); font-size: .85rem; margin: 0; }
   #dash-root .est-saldo-line { font-size: .88rem; margin: 0 0 .9rem 0; }
   /* Margen superior claro (24px) antes de cada título de sección, ahora que
@@ -1474,6 +1585,13 @@
     el.addEventListener('input', applyFiltersAndRender);
     el.addEventListener('change', applyFiltersAndRender);
   });
+  // El filtro ya se aplica en vivo con cada tecla (ver 'input' arriba), pero
+  // se agrega igual un listener de Enter (a pedido explícito, Parte 4): al
+  // apretar Enter se re-aplica el filtro de una y se le saca el foco al
+  // campo, en vez de no hacer nada visible.
+  searchEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); applyFiltersAndRender(); searchEl.blur(); }
+  });
 
   // Cambiar de país no filtra filas: recalcula los horarios mostrados y el
   // desplegable de Hora en la nueva zona, y vuelve a filtrar/ordenar (el
@@ -1536,6 +1654,141 @@
 <script>
   window.__PRECIOS_DATA__ = [];
 </script>
+
+<script>
+  // --- Config + sesión compartida (Parte 2) ---
+  const WORKER_URL = 'https://estudiantes-coderhouse.ana-quintero.workers.dev';
+  const APP_SESSION_KEY = 'coderhouse_tools_session_pw';
+  function appGetSessionPassword() {
+    try { return localStorage.getItem(APP_SESSION_KEY) || ''; } catch (e) { return ''; }
+  }
+  function appSetSessionPassword(pw) {
+    try { localStorage.setItem(APP_SESSION_KEY, pw); } catch (e) { /* no-op */ }
+  }
+  function appClearSessionPassword() {
+    try { localStorage.removeItem(APP_SESSION_KEY); } catch (e) { /* no-op */ }
+  }
+  function appWorkerConfigurado() {
+    return !!WORKER_URL && WORKER_URL.indexOf('PEGAR_ACA') === -1;
+  }
+</script>
+
+<script>
+(function () {
+  const gateEl = document.getElementById('login-gate');
+  const pageEl = document.querySelector('#dash-root .page');
+  const brandSlotEl = document.getElementById('login-gate-brand');
+  const bannerEl = document.getElementById('login-gate-banner');
+  const pwEl = document.getElementById('login-gate-pw');
+  const toggleEl = document.getElementById('login-gate-toggle');
+  const btnEl = document.getElementById('login-gate-btn');
+  const noteEl = document.getElementById('login-gate-note');
+  const logoutBtnEl = document.getElementById('logout-btn');
+  if (!gateEl || !pageEl || !pwEl || !btnEl) return;
+
+  if (brandSlotEl) {
+    const original = pageEl.querySelector('.brand-row');
+    if (original) {
+      const clon = original.cloneNode(true);
+      clon.removeAttribute('class');
+      clon.classList.add('brand-row');
+      brandSlotEl.replaceWith(clon);
+    }
+  }
+
+  function mostrarApp() {
+    gateEl.classList.add('is-hidden');
+    pageEl.classList.remove('is-hidden');
+    document.dispatchEvent(new CustomEvent('app:logged-in'));
+  }
+  function mostrarGate(mensajeBanner) {
+    pageEl.classList.add('is-hidden');
+    gateEl.classList.remove('is-hidden');
+    if (bannerEl) {
+      if (mensajeBanner) {
+        bannerEl.textContent = mensajeBanner;
+        bannerEl.classList.remove('is-hidden');
+      } else {
+        bannerEl.classList.add('is-hidden');
+      }
+    }
+    if (pwEl) { pwEl.value = ''; pwEl.focus(); }
+  }
+
+  if (appGetSessionPassword()) {
+    mostrarApp();
+  } else {
+    mostrarGate(null);
+  }
+
+  if (toggleEl && pwEl) {
+    toggleEl.addEventListener('click', () => {
+      const mostrando = pwEl.type === 'text';
+      pwEl.type = mostrando ? 'password' : 'text';
+      toggleEl.textContent = mostrando ? '👁️' : '🙈';
+      const etiqueta = mostrando ? 'Mostrar contraseña' : 'Ocultar contraseña';
+      toggleEl.setAttribute('aria-label', etiqueta);
+      toggleEl.setAttribute('title', etiqueta);
+    });
+  }
+
+  async function intentarIngresar() {
+    const pw = pwEl.value;
+    if (!pw) {
+      noteEl.classList.add('is-error');
+      noteEl.textContent = 'Escribí la contraseña antes de ingresar.';
+      return;
+    }
+    if (!appWorkerConfigurado()) {
+      noteEl.classList.add('is-error');
+      noteEl.textContent = 'Falta conectar esta pantalla con el Worker de Cloudflare (ver estudiantes-worker.js para las instrucciones de despliegue).';
+      return;
+    }
+    noteEl.classList.remove('is-error');
+    noteEl.textContent = 'Validando…';
+    btnEl.disabled = true;
+    try {
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/auth`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      });
+      if (res.status === 401) {
+        noteEl.classList.add('is-error');
+        noteEl.textContent = 'Contraseña incorrecta.';
+        return;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      appSetSessionPassword(pw);
+      noteEl.classList.remove('is-error');
+      noteEl.textContent = '';
+      mostrarApp();
+    } catch (err) {
+      noteEl.classList.add('is-error');
+      noteEl.textContent = `No se pudo validar la contraseña: ${err.message || err}`;
+    } finally {
+      btnEl.disabled = false;
+    }
+  }
+  btnEl.addEventListener('click', intentarIngresar);
+  pwEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') intentarIngresar();
+  });
+
+  if (logoutBtnEl) {
+    logoutBtnEl.addEventListener('click', () => {
+      appClearSessionPassword();
+      mostrarGate('Cerraste la sesión.');
+    });
+  }
+
+  document.addEventListener('app:session-expired', () => {
+    appClearSessionPassword();
+    mostrarGate('Tu sesión expiró o la contraseña cambió. Volvé a ingresar.');
+  });
+})();
+</script>
+
 <script>
 (function () {
   // --- Tabs ---
@@ -1821,6 +2074,11 @@
   // seguir tipeando sin que nada fuerce una selección a mitad de camino
   // (ej. "AI Automation" -> "AI Automation Avanzado").
   calcBuscarEl.addEventListener('input', recalcular);
+  // Mismo criterio que en Comisiones (Parte 4): ya filtra en vivo con cada
+  // tecla, pero Enter también lo re-aplica explícitamente y saca el foco.
+  calcBuscarEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { e.preventDefault(); recalcular(); calcBuscarEl.blur(); }
+  });
 
   [
     [copyListaBtn, 'lista'],
@@ -1845,10 +2103,9 @@
 <script>
 (function () {
   // --- Estudiantes ---
-  // IMPORTANTE: esta URL hay que completarla después de desplegar el Worker
-  // "estudiantes-coderhouse" en Cloudflare (ver estudiantes-worker.js).
-  // Sin esto, la pestaña Estudiantes muestra un aviso y no busca nada.
-  const WORKER_URL = 'https://estudiantes-coderhouse.ana-quintero.workers.dev';
+  // WORKER_URL ya está declarada arriba, fuera de esta IIFE (ver script
+  // "Config + sesión compartida" más arriba en el archivo) — se usa tal
+  // cual, sin volver a declararla acá.
 
   // IMPORTANTE: completar con la URL del panel web del Back Office (NO la
   // URL del API). No encontré ningún patrón de URL del panel administrativo
@@ -1866,15 +2123,12 @@
   const estNoteEl = document.getElementById('est-note');
   const EST_NOTE_DEFAULT = estNoteEl ? estNoteEl.textContent : '';
   const estResultadosEl = document.getElementById('est-resultados');
-  const estPinEl = document.getElementById('est-pin');
-  const estPinGroupEl = document.getElementById('est-pin-group');
-  const estPinToggleEl = document.getElementById('est-pin-toggle');
-  const estPinIngresarBtn = document.getElementById('est-pin-ingresar-btn');
-  const estSearchAreaEl = document.getElementById('est-search-area');
+  const estRecientesEl = document.getElementById('est-recientes');
+  const estRecientesBodyEl = document.getElementById('est-recientes-body');
   const estAutocompleteListEl = document.getElementById('est-autocomplete-list');
   if (!estBuscarEl || !estBuscarBtn || !estResultadosEl) return;
 
-  const EST_WORKER_CONFIGURADO = !!WORKER_URL && WORKER_URL.indexOf('PEGAR_ACA') === -1;
+  const EST_WORKER_CONFIGURADO = appWorkerConfigurado();
   const EST_COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.2"/><path d="M3.5 10.5h-1A1 1 0 0 1 1.5 9.5v-7A1 1 0 0 1 2.5 1.5h7a1 1 0 0 1 1 1v1"/></svg>';
   const EST_CHECK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 7-7"/></svg>';
 
@@ -1882,94 +2136,14 @@
     return !!BACKOFFICE_WEB_URL && BACKOFFICE_WEB_URL.indexOf('PEGAR_ACA') === -1;
   }
 
-  // --- PIN de equipo ---
-  // Se guarda en localStorage (persiste entre sesiones del navegador, no
-  // solo mientras la pestaña está abierta) para que el equipo no tenga que
-  // volver a escribirla cada vez que cierra y abre el navegador. Login en
-  // dos pasos: primero se ve SOLO el campo de clave + "Ingresar"; una vez
-  // validada, se oculta y recién ahí aparece la barra de "Buscar
-  // estudiante". No hay botón para resetear la clave desde la interfaz a
-  // propósito (para que el equipo no la toque ni la edite): si alguna vez
-  // hace falta cambiarla, se borra el caché/los datos del sitio en el
-  // navegador y vuelve a pedir el PIN. También se borra sola si el Worker
-  // la rechaza (401).
-  const EST_PIN_KEY = 'coderhouse_estudiantes_pin';
-
-  function estGetPin() {
-    try { return localStorage.getItem(EST_PIN_KEY) || ''; } catch (e) { return ''; }
-  }
-  function estSetPin(pin) {
-    try { localStorage.setItem(EST_PIN_KEY, pin); } catch (e) { /* sin localStorage, se pedirá cada vez */ }
-  }
-  function estClearPin() {
-    try { localStorage.removeItem(EST_PIN_KEY); } catch (e) { /* no-op */ }
-  }
-
-  function estUpdatePinUi() {
-    const tienePin = !!estGetPin();
-    if (estPinGroupEl) estPinGroupEl.classList.toggle('is-hidden', tienePin);
-    if (estSearchAreaEl) estSearchAreaEl.classList.toggle('is-hidden', !tienePin);
-  }
-  estUpdatePinUi();
-
-  // Mostrar/ocultar la clave mientras se escribe (ojito).
-  if (estPinToggleEl && estPinEl) {
-    estPinToggleEl.addEventListener('click', () => {
-      const mostrando = estPinEl.type === 'text';
-      estPinEl.type = mostrando ? 'password' : 'text';
-      estPinToggleEl.textContent = mostrando ? '👁️' : '🙈';
-      estPinToggleEl.setAttribute('aria-label', mostrando ? 'Mostrar clave' : 'Ocultar clave');
-      estPinToggleEl.setAttribute('title', mostrando ? 'Mostrar clave' : 'Ocultar clave');
-    });
-  }
-
-  // Botón "Ingresar": valida el PIN contra el Worker (ruta /ping, liviana,
-  // no consulta el Back Office) antes de guardarlo, para confirmar al
-  // toque si la clave es correcta en vez de recién enterarse al buscar.
-  async function estIngresarPin() {
-    const pin = estPinEl ? estPinEl.value.trim() : '';
-    if (!pin) {
-      estNoteEl.classList.add('is-error');
-      estNoteEl.textContent = 'Escribí la clave de equipo antes de ingresar.';
-      return;
-    }
-    if (!EST_WORKER_CONFIGURADO) {
-      estNoteEl.classList.add('is-error');
-      estNoteEl.textContent = 'Falta conectar esta pestaña con el Worker de Cloudflare (ver estudiantes-worker.js para las instrucciones de despliegue).';
-      return;
-    }
-    estNoteEl.classList.remove('is-error');
-    estNoteEl.textContent = 'Validando clave…';
-    if (estPinIngresarBtn) estPinIngresarBtn.disabled = true;
-    try {
-      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/ping`, {
-        headers: { 'X-Team-Pin': pin },
-      });
-      if (res.status === 401) {
-        estNoteEl.classList.add('is-error');
-        estNoteEl.textContent = 'Clave de equipo incorrecta.';
-        return;
-      }
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      estSetPin(pin);
-      estUpdatePinUi();
-      estNoteEl.classList.remove('is-error');
-      estNoteEl.textContent = 'Clave correcta. Ya podés buscar.';
-      estBuscarEl.focus();
-    } catch (err) {
-      estNoteEl.classList.add('is-error');
-      estNoteEl.textContent = `No se pudo validar la clave: ${err.message || err}`;
-    } finally {
-      if (estPinIngresarBtn) estPinIngresarBtn.disabled = false;
-    }
-  }
-  if (estPinIngresarBtn) {
-    estPinIngresarBtn.addEventListener('click', estIngresarPin);
-  }
-  if (estPinEl) {
-    estPinEl.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') estIngresarPin();
-    });
+  // La clave de equipo (PIN) YA NO se pide acá — ver Parte 2: se reutiliza
+  // automáticamente la contraseña validada en la pantalla de login global
+  // (appGetSessionPassword(), localStorage) como X-Team-Pin en /buscar,
+  // /entregas y /recent-searches. Si el Worker la rechaza (401) en
+  // cualquiera de esas llamadas, se dispara "app:session-expired" para que
+  // el script de login global fuerce a volver a ingresarla.
+  function estSesionExpirada() {
+    document.dispatchEvent(new CustomEvent('app:session-expired'));
   }
 
   function estEscapeHtml(s) {
@@ -2009,21 +2183,18 @@
   function estBadgeCertificado(cert, url) {
     if (!cert) return '<span class="badge badge-neutral">Sin certificar</span>';
     if (url) {
-      return `<a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="badge badge-ok est-badge-cert-link">Certificado</a>`;
+      return `<a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="badge badge-ok est-badge-cert-link">Certificado<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a>`;
     }
     return '<span class="badge badge-ok">Certificado</span>';
   }
 
-  // Badge de inscripción TRANSFERRED: se deja la etiqueta en inglés tal
-  // como la devuelve el Back Office, acompañada de un segundo badge en
-  // español con el motivo real — "Transferido" salvo que la comisión
-  // original esté realmente cancelada, en cuyo caso dice "Cancelada" (ver
-  // motivoTransferencia en estudiantes-worker.js → buildCursoDetalle).
+  // Badge de inscripción TRANSFERRED (a pedido explícito, nov/2026): un
+  // solo badge claro, "Cambio de comisión" — nunca "Cancelada" (confundía
+  // al equipo con una baja real) ni el número de comisión (no hay forma
+  // confiable de recuperarlo — ver nota en estudiantes-worker.js →
+  // buildCursoDetalle).
   function estBadgeTransferida(motivo) {
-    const motivoBadge = motivo
-      ? `<span class="badge badge-neutral">${estEscapeHtml(motivo)}</span>`
-      : '';
-    return `<span class="badge badge-warn">TRANSFERRED</span>${motivoBadge}`;
+    return `<span class="badge badge-neutral">${estEscapeHtml(motivo || 'Cambio de comisión')}</span>`;
   }
 
   function estBadgePreentrega(estado, nota) {
@@ -2103,13 +2274,14 @@
   function estEnlacesCursadaBO(enrollmentUrl, comisionUrl) {
     const links = [];
     if (enrollmentUrl) {
-      links.push(`<p class="est-cursada-bo-link"><a href="${estEscapeHtml(enrollmentUrl)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">Habilitar entregas en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a></p>`);
+      links.push(`<a href="${estEscapeHtml(enrollmentUrl)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">Habilitar entregas en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a>`);
     }
     if (comisionUrl) {
-      links.push(`<p class="est-cursada-bo-link"><a href="${estEscapeHtml(comisionUrl)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">Abrir comisión en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a></p>`);
+      links.push(`<a href="${estEscapeHtml(comisionUrl)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link">Abrir comisión en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a>`);
     }
     if (!links.length) return '';
-    return `<div class="est-cursada-bo-links">${links.join('')}</div>`;
+    // Un solo renglón, separados por "·" (antes iban apilados en <p> aparte).
+    return `<div class="est-cursada-bo-links">${links.join('<span class="est-cursada-bo-sep" aria-hidden="true">·</span>')}</div>`;
   }
 
   // CORREGIDO (nov/2026 — arquitectura en 2 pasos, lazy-loading por
@@ -2130,6 +2302,8 @@
   function estRenderCurso(curso, studentId) {
     const cabecera = `<span><span class="est-curso-titulo">${estEscapeHtml(curso.titulo)}</span>${curso.comision ? ` <span class="est-curso-comision">— Comisión ${estEscapeHtml(curso.comision)}</span>` : ''}</span>
           <span class="est-curso-tags">${estTagsCurso(curso)}</span>`;
+    // Clave para el filtro de estado (Parte 4) — ver estEstadoFiltroCurso.
+    const filtroAttr = ` data-estado-filtro="${estEstadoFiltroCurso(curso)}"`;
 
     // Sin desplegable vacío (ver sinContenido en buildCursoDetalle, Worker):
     // cuando esta inscripción realmente no tiene ningún cohortId (nunca va
@@ -2138,13 +2312,13 @@
     // en vez de un acordeón que al abrirlo queda vacío.
     if (curso.sinContenido) {
       return `
-        <div class="est-curso est-curso-fijo">
+        <div class="est-curso est-curso-fijo"${filtroAttr}>
           <div class="est-curso-fijo-header">${cabecera}</div>
         </div>`;
     }
 
     return `
-      <details class="est-curso">
+      <details class="est-curso"${filtroAttr}>
         <summary>${cabecera}</summary>
         <div class="est-curso-body">
           ${estLineaFechas(curso)}
@@ -2301,10 +2475,9 @@
     }
 
     if (!EST_WORKER_CONFIGURADO) return;
-    const pinGuardado = estGetPin();
-    const pin = pinGuardado || (estPinEl ? estPinEl.value.trim() : '');
+    const pin = appGetSessionPassword();
     if (!pin) {
-      slotEl.innerHTML = '<p class="est-sin-preentregas is-error">Ingresá la clave de equipo para cargar las entregas.</p>';
+      slotEl.innerHTML = '<p class="est-sin-preentregas is-error">Iniciá sesión para cargar las entregas.</p>';
       return;
     }
 
@@ -2312,6 +2485,11 @@
       const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/entregas?studentId=${encodeURIComponent(studentId)}&cohortId=${encodeURIComponent(cohortId)}`, {
         headers: { 'X-Team-Pin': pin },
       });
+      if (res.status === 401) {
+        estSesionExpirada();
+        slotEl.innerHTML = '<p class="est-sin-preentregas is-error">Tu sesión expiró. Volvé a ingresar.</p>';
+        return;
+      }
       const data = await res.json().catch(() => null);
       // Igual que en estFetchMatchesRaw: si viene, se suma el "detail" real
       // del Worker (ej. el 429/timeout exacto de Cloudflare) para no tapar
@@ -2367,12 +2545,27 @@
           <p class="est-sin-preentregas">Existe como usuario pero no tiene perfil de estudiante (no se anotó a ningún curso).</p>
         </section>`;
     }
-    const cursosHtml = (match.cursos && match.cursos.length)
+    const hayCursos = !!(match.cursos && match.cursos.length);
+    const cursosHtml = hayCursos
       ? match.cursos.map((c) => estRenderCurso(c, match.studentId)).join('')
       : '<p class="est-sin-preentregas">No se encontraron cursos para este estudiante.</p>';
     const workshopsHtml = (match.workshops && match.workshops.length)
       ? match.workshops.map((w) => estRenderWorkshop(w, match.studentId)).join('')
       : '<p class="est-sin-preentregas">No hizo workshops.</p>';
+    // Filtro de estado (Parte 4): solo tiene sentido cuando hay al menos un
+    // curso para filtrar.
+    const filtroHtml = hayCursos ? `
+        <div class="est-filtro-row">
+          <label for="est-curso-filtro">Filtrar por estado</label>
+          <select id="est-curso-filtro" class="filter-input">
+            <option value="todos">Todos</option>
+            <option value="en_curso">En curso</option>
+            <option value="finalizada">Finalizada</option>
+            <option value="no_iniciada">No iniciada</option>
+            <option value="cambio_comision">Cambio de comisión</option>
+            <option value="cancelada">Cancelada</option>
+          </select>
+        </div>` : '';
     return `
       <section class="card est-student-card">
         <div class="est-student-header">
@@ -2381,6 +2574,7 @@
         </div>
         <div class="est-badges-row">${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}</div>
         <p class="est-section-title">Cursos y Diplomaturas</p>
+        ${filtroHtml}
         ${cursosHtml}
         <p class="est-section-title">Workshops y Webinars</p>
         ${workshopsHtml}
@@ -2405,14 +2599,13 @@
   }
 
   // Lógica compartida de búsqueda (la usan tanto el botón Buscar como el
-  // autocompletado): pide /buscar al Worker con el PIN guardado o el que
-  // se esté escribiendo, y guarda el PIN si funcionó y no estaba guardado.
+  // autocompletado): pide /buscar al Worker con la contraseña de la sesión
+  // global (ver Parte 2 — ya no hay PIN propio de esta pestaña).
   // No toca la UI de resultados ni el texto de estado — eso lo hace cada
   // quien la llama, porque el botón Buscar y el autocompletado muestran
   // cosas distintas.
   async function estFetchMatchesRaw(q, signal) {
-    const pinGuardado = estGetPin();
-    const pin = pinGuardado || (estPinEl ? estPinEl.value.trim() : '');
+    const pin = appGetSessionPassword();
     if (!pin) return { pinFaltante: true };
     const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/buscar?q=${encodeURIComponent(q)}`, {
       headers: { 'X-Team-Pin': pin },
@@ -2429,10 +2622,6 @@
       const mensaje = data && data.error ? data.error : `HTTP ${res.status}`;
       const detalle = (data && data.detail) ? ` (${data.detail})` : '';
       throw new Error(mensaje + detalle);
-    }
-    if (!pinGuardado) {
-      estSetPin(pin);
-      estUpdatePinUi();
     }
     return { matches: data.matches || [] };
   }
@@ -2453,20 +2642,20 @@
     estNoteEl.classList.remove('is-error');
     estNoteEl.textContent = 'Buscando en el Back Office…';
     estResultadosEl.innerHTML = '';
+    estActualizarVisibilidadRecientes();
     estBuscarBtn.disabled = true;
     try {
       const r = await estFetchMatchesRaw(q);
       if (r.pinFaltante) {
-        estNoteEl.textContent = 'Ingresá la clave de equipo para poder buscar.';
+        estNoteEl.textContent = 'Iniciá sesión para poder buscar.';
         estNoteEl.classList.add('is-error');
-        estUpdatePinUi();
+        estSesionExpirada();
         return;
       }
       if (r.pinInvalido) {
-        estClearPin();
-        estUpdatePinUi();
         estNoteEl.classList.add('is-error');
-        estNoteEl.textContent = 'Clave de equipo incorrecta. Volvé a ingresarla.';
+        estNoteEl.textContent = 'Tu sesión expiró. Volvé a ingresar.';
+        estSesionExpirada();
         return;
       }
       const matches = r.matches;
@@ -2480,6 +2669,13 @@
       } else {
         estRenderMatchPicker(matches);
       }
+      estActualizarVisibilidadRecientes();
+      // La búsqueda recién hecha ya quedó registrada del lado del Worker
+      // (ver registrarBusquedasEnHistorial en estudiantes-worker.js) — se
+      // vuelve a pedir la lista para que el/la alumno/a buscado/a aparezca
+      // de una en "Últimas búsquedas del equipo", sin esperar a la próxima
+      // vez que se visite la pestaña.
+      estCargarRecientes();
     } catch (err) {
       estNoteEl.classList.add('is-error');
       estNoteEl.textContent = `Error al buscar: ${err.message || err}`;
@@ -2538,6 +2734,7 @@
         estNoteEl.classList.remove('is-error');
         estNoteEl.textContent = 'Mostrando ficha del estudiante.';
         estResultadosEl.innerHTML = estRenderStudentCard(elegido);
+        estActualizarVisibilidadRecientes();
       });
     });
   }
@@ -2556,6 +2753,7 @@
       if (miPedidoId !== estAutocompleteReqId) return; // llegó tarde: ya se escribió otra cosa
       if (r.pinFaltante || r.pinInvalido) {
         estHideAutocomplete();
+        if (r.pinInvalido) estSesionExpirada();
         return;
       }
       estRenderAutocompleteList(r.matches);
@@ -2616,6 +2814,8 @@
     estHideAutocomplete();
     estNoteEl.classList.remove('is-error');
     estNoteEl.textContent = EST_NOTE_DEFAULT;
+    estActualizarVisibilidadRecientes();
+    estCargarRecientes();
     estBuscarEl.focus();
   }
 
@@ -2626,6 +2826,102 @@
   if (estLimpiarBtn) {
     estLimpiarBtn.addEventListener('click', estLimpiar);
   }
+
+  // --- "Últimas búsquedas del equipo" (Parte 3) ---
+  // Visible cuando no hay ningún perfil/picker mostrado en estResultadosEl
+  // (recién entrando a la pestaña, o justo después de "Limpiar") — oculta
+  // mientras se ve una ficha o el selector de varias coincidencias, para no
+  // competir visualmente con eso. Nunca se borra sola al cambiar de
+  // pestaña ni al cerrar sesión: vive en su propio contenedor
+  // (est-recientes), fuera de estResultadosEl, así que el reseteo de la
+  // pestaña (estLimpiar, disparado también al abandonar la pestaña — ver
+  // Tabs IIFE) nunca la toca.
+  function estActualizarVisibilidadRecientes() {
+    if (!estRecientesEl) return;
+    const hayResultado = estResultadosEl.innerHTML.trim().length > 0;
+    estRecientesEl.classList.toggle('is-hidden', hayResultado);
+  }
+
+  function estEscapeHtmlSafe(s) { return estEscapeHtml(s); }
+
+  function estRenderRecientes(historial) {
+    if (!estRecientesBodyEl) return;
+    if (!historial || !historial.length) {
+      estRecientesBodyEl.innerHTML = '<p class="est-recientes-vacio">Todavía no se buscó a nadie en esta pestaña.</p>';
+      return;
+    }
+    const filas = historial.map((h, i) => (
+      `<tr class="est-recientes-fila" data-idx="${i}">
+         <td><span class="est-recientes-nombre">${estEscapeHtmlSafe(h.nombre)}</span><span class="est-recientes-email">${estEscapeHtmlSafe(h.email)}</span></td>
+         <td class="est-recientes-fecha">${estEscapeHtmlSafe(h.fechaHora)}</td>
+       </tr>`
+    )).join('');
+    estRecientesBodyEl.innerHTML = `<table class="est-recientes-tabla"><tbody>${filas}</tbody></table>`;
+    estRecientesBodyEl.querySelectorAll('.est-recientes-fila').forEach((fila) => {
+      fila.addEventListener('click', () => {
+        const idx = Number(fila.dataset.idx);
+        const item = historial[idx];
+        if (!item || !item.email) return;
+        estBuscarEl.value = item.email;
+        estBuscar();
+      });
+    });
+  }
+
+  async function estCargarRecientes() {
+    if (!estRecientesBodyEl || !EST_WORKER_CONFIGURADO) return;
+    const pin = appGetSessionPassword();
+    if (!pin) return;
+    try {
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/recent-searches`, {
+        headers: { 'X-Team-Pin': pin },
+      });
+      if (res.status === 401) { estSesionExpirada(); return; }
+      if (!res.ok) return;
+      const data = await res.json().catch(() => null);
+      estRenderRecientes(data && data.historial);
+    } catch (err) {
+      // Nunca rompe la pestaña por esto — la tabla simplemente no se
+      // actualiza esta vez.
+    }
+  }
+
+  document.addEventListener('app:logged-in', () => {
+    estActualizarVisibilidadRecientes();
+    estCargarRecientes();
+  });
+  // Si al cargar la página la sesión ya estaba validada (localStorage de
+  // una recarga anterior, incluso en otra pestaña o tras cerrar el navegador), el evento
+  // "app:logged-in" ya se disparó antes de que este script llegara a
+  // engancharse — por eso también se intenta una vez acá, directamente.
+  if (appGetSessionPassword()) {
+    estActualizarVisibilidadRecientes();
+    estCargarRecientes();
+  }
+
+  // --- Filtro de estado de cursos (Parte 4) ---
+  function estEstadoFiltroCurso(curso) {
+    if (String(curso.estadoInscripcion || '').toUpperCase() === 'TRANSFERRED') return 'cambio_comision';
+    const s = String(curso.estadoComision || '').toUpperCase();
+    if (/CANCEL/.test(s)) return 'cancelada';
+    if (/NOT_STARTED|NO_INICIAD/.test(s)) return 'no_iniciada';
+    if (/FINALIZ|FINISHED|COMPLETED|ENDED/.test(s)) return 'finalizada';
+    if (/PROGRESO|PROGRESS|ACTIVE|IN_PROGRESS|^STARTED$/.test(s)) return 'en_curso';
+    return 'otro';
+  }
+
+  function estAplicarFiltroCursos(valor) {
+    estResultadosEl.querySelectorAll('[data-estado-filtro]').forEach((el) => {
+      const coincide = valor === 'todos' || el.dataset.estadoFiltro === valor;
+      el.classList.toggle('is-hidden', !coincide);
+    });
+  }
+
+  estResultadosEl.addEventListener('change', (e) => {
+    if (e.target && e.target.id === 'est-curso-filtro') {
+      estAplicarFiltroCursos(e.target.value);
+    }
+  });
 })();
 </script>
 
