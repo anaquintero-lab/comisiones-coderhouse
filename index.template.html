@@ -350,10 +350,11 @@
     --ch-bad: #d64545;
     --ch-hover: #fff8f4;
     --ch-shadow: rgba(23, 23, 23, .07);
-    /* Gris medio, un poco más oscuro que --ch-ink-muted, para las líneas de
-       fechas/horario/profesor de la pestaña Estudiantes — pedido explícito
-       para que se lean mejor sin llegar a negro puro ni a negrita. */
-    --ch-fechas: #4b5563;
+    /* Gris oscuro (pedido explícito, nov/2026 — segunda vuelta de ajuste)
+       para las líneas de fechas/horario/profesor de la pestaña
+       Estudiantes, para que se lean con buen contraste sin llegar a negro
+       puro ni a negrita. */
+    --ch-fechas: #374151;
     max-width: 1400px;
     margin: 0 auto;
     padding: 1.5rem 1rem;
@@ -658,33 +659,37 @@
   #dash-root .est-curso { border: 1px solid var(--ch-border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
   #dash-root .est-curso:last-child { margin-bottom: 0; }
   #dash-root .est-curso summary {
-    list-style: none; cursor: pointer; padding: .7rem .9rem; display: flex; align-items: center;
+    list-style: none; cursor: pointer; padding: .5rem .9rem; display: flex; align-items: center;
     justify-content: space-between; gap: .6rem; flex-wrap: wrap; background: #fdfaf5;
   }
   #dash-root .est-curso summary::-webkit-details-marker { display: none; }
   #dash-root .est-curso summary::after { content: '▾'; color: var(--ch-ink-muted); margin-left: auto; }
   #dash-root .est-curso[open] summary::after { content: '▴'; }
-  /* Jerarquía interna del acordeón: título ~16.8px bold (destaca claramente
-     por encima de fechas/horario/profesores), número de comisión en gris
-     medio (para que no compita con el título), badges de estado más chicos
-     (~11.5px) que el título. */
-  #dash-root .est-curso summary .est-curso-titulo { font-weight: 700; font-size: 1.05rem; }
-  #dash-root .est-curso summary .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
+  /* Jerarquía interna del acordeón (ajustada, nov/2026 — segunda vuelta):
+     título + número de comisión a 13.5px, EXACTAMENTE el mismo tamaño que
+     el detalle interno (Inicio/Fin, horario, Profesores — ver
+     .est-curso-fechas más abajo), para que no compita con "Cursos y
+     Diplomaturas"/"Workshops y Webinars" (encabezados de sección, ahora
+     más grandes) ni con el nombre del alumno. El peso (bold en el título,
+     normal en el número de comisión) sigue siendo lo que separa uno de
+     otro, no el tamaño. Badges de estado más chicos (~11.5px) que ambos. */
+  #dash-root .est-curso summary .est-curso-titulo { font-weight: 700; font-size: .844rem; }
+  #dash-root .est-curso summary .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .844rem; }
   #dash-root .est-curso summary .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso summary .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
-  #dash-root .est-curso-body { padding: .75rem .9rem .9rem; border-top: 1px solid var(--ch-border); font-size: .88rem; }
+  #dash-root .est-curso-body { padding: .55rem .9rem .65rem; border-top: 1px solid var(--ch-border); font-size: .844rem; }
   /* Fila fija (sin acordeón): mismo look que el summary de .est-curso, pero
      sin flechita y sin cursor de "clickeable" — para inscripciones que
      realmente no tienen nada para desplegar adentro. */
   #dash-root .est-curso-fijo-header {
-    cursor: default; padding: .7rem .9rem; display: flex; align-items: center;
+    cursor: default; padding: .5rem .9rem; display: flex; align-items: center;
     justify-content: space-between; gap: .6rem; flex-wrap: wrap;
   }
-  #dash-root .est-curso-fijo-header .est-curso-titulo { font-weight: 700; font-size: 1.05rem; }
-  #dash-root .est-curso-fijo-header .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
+  #dash-root .est-curso-fijo-header .est-curso-titulo { font-weight: 700; font-size: .844rem; }
+  #dash-root .est-curso-fijo-header .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .844rem; }
   #dash-root .est-curso-fijo-header .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso-fijo-header .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
-  #dash-root .est-curso-fechas { color: var(--ch-fechas); margin: 0 0 .6rem 0; font-size: .8rem; }
+  #dash-root .est-curso-fechas { color: var(--ch-fechas); margin: 0 0 .6rem 0; font-size: .844rem; }
   /* Título "Preentregas y Entrega Final": margen superior sutil (~9px) para
      separarlo del bloque de arriba (fechas, horario y staff titular). */
   #dash-root .est-preentregas-titulo { margin: .58rem 0 .4rem 0; font-weight: 700; }
@@ -705,7 +710,7 @@
   #dash-root .est-saldo-line { font-size: .88rem; margin: 0 0 .9rem 0; }
   /* Margen superior claro (24px) antes de cada título de sección, ahora que
      arriba hay una fila de badges en vez de texto corrido. */
-  #dash-root .est-section-title { font-weight: 700; font-size: 1rem; margin: 24px 0 .5rem 0; }
+  #dash-root .est-section-title { font-weight: 700; font-size: 1.0625rem; margin: 24px 0 .5rem 0; }
   #dash-root .calc-update-bar {
     display: flex;
     align-items: center;
@@ -2241,10 +2246,13 @@
   }
 
   function estTagsCurso(curso) {
-    // Una inscripción TRANSFERRED muestra su propio badge (con el motivo
-    // real) en vez del badge genérico de estado de comisión, y nunca
-    // "Sin certificar" (no corresponde certificar algo transferido).
-    if (String(curso.estadoInscripcion || '').toUpperCase() === 'TRANSFERRED') {
+    // Ojo: NO se mira curso.estadoInscripcion acá (puede ser "TRANSFERRED"
+    // aunque la comisión real a la que apunta esté cancelada — ver nota en
+    // estudiantes-worker.js → buildCursoDetalle). "motivoTransferencia"
+    // solo viene cargado cuando es un "Cambio de comisión" de verdad (sin
+    // cancelar); si la comisión real está CANCELLED, el Worker ya lo deja
+    // en null para que acá se trate como cualquier otra tarjeta Cancelada.
+    if (curso.motivoTransferencia) {
       return estBadgeTransferida(curso.motivoTransferencia);
     }
     const certBadge = (curso.mostrarCertificado === false) ? '' : estBadgeCertificado(curso.certificado, curso.certificadoUrl);
@@ -2901,7 +2909,10 @@
 
   // --- Filtro de estado de cursos (Parte 4) ---
   function estEstadoFiltroCurso(curso) {
-    if (String(curso.estadoInscripcion || '').toUpperCase() === 'TRANSFERRED') return 'cambio_comision';
+    // Igual que en estTagsCurso: se mira motivoTransferencia, no
+    // estadoInscripcion, porque un TRANSFERRED por comisión cancelada debe
+    // filtrar como "cancelada", no como "cambio_comision".
+    if (curso.motivoTransferencia) return 'cambio_comision';
     const s = String(curso.estadoComision || '').toUpperCase();
     if (/CANCEL/.test(s)) return 'cancelada';
     if (/NOT_STARTED|NO_INICIAD/.test(s)) return 'no_iniciada';
