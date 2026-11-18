@@ -664,10 +664,11 @@
   #dash-root .est-curso summary::-webkit-details-marker { display: none; }
   #dash-root .est-curso summary::after { content: '▾'; color: var(--ch-ink-muted); margin-left: auto; }
   #dash-root .est-curso[open] summary::after { content: '▴'; }
-  /* Jerarquía interna del acordeón: título ~14.5px semi-bold, número de
-     comisión en gris medio (para que no compita con el título), badges de
-     estado más chicos (~11.5px) que el título. */
-  #dash-root .est-curso summary .est-curso-titulo { font-weight: 600; font-size: .906rem; }
+  /* Jerarquía interna del acordeón: título ~16.8px bold (destaca claramente
+     por encima de fechas/horario/profesores), número de comisión en gris
+     medio (para que no compita con el título), badges de estado más chicos
+     (~11.5px) que el título. */
+  #dash-root .est-curso summary .est-curso-titulo { font-weight: 700; font-size: 1.05rem; }
   #dash-root .est-curso summary .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
   #dash-root .est-curso summary .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso summary .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
@@ -679,7 +680,7 @@
     cursor: default; padding: .7rem .9rem; display: flex; align-items: center;
     justify-content: space-between; gap: .6rem; flex-wrap: wrap;
   }
-  #dash-root .est-curso-fijo-header .est-curso-titulo { font-weight: 600; font-size: .906rem; }
+  #dash-root .est-curso-fijo-header .est-curso-titulo { font-weight: 700; font-size: 1.05rem; }
   #dash-root .est-curso-fijo-header .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
   #dash-root .est-curso-fijo-header .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso-fijo-header .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
@@ -2190,9 +2191,9 @@
 
   // Badge de inscripción TRANSFERRED (a pedido explícito, nov/2026): un
   // solo badge claro, "Cambio de comisión" — nunca "Cancelada" (confundía
-  // al equipo con una baja real) ni el número de comisión (no hay forma
-  // confiable de recuperarlo — ver nota en estudiantes-worker.js →
-  // buildCursoDetalle).
+  // al equipo con una baja real). El número de comisión real (cuando la
+  // API lo trae — ver nota en estudiantes-worker.js → buildCursoDetalle)
+  // se muestra en el título junto al nombre del curso, no acá en el badge.
   function estBadgeTransferida(motivo) {
     return `<span class="badge badge-neutral">${estEscapeHtml(motivo || 'Cambio de comisión')}</span>`;
   }
@@ -2562,7 +2563,6 @@
             <option value="en_curso">En curso</option>
             <option value="finalizada">Finalizada</option>
             <option value="no_iniciada">No iniciada</option>
-            <option value="cambio_comision">Cambio de comisión</option>
             <option value="cancelada">Cancelada</option>
           </select>
         </div>` : '';
