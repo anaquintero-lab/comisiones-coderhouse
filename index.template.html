@@ -350,11 +350,10 @@
     --ch-bad: #d64545;
     --ch-hover: #fff8f4;
     --ch-shadow: rgba(23, 23, 23, .07);
-    /* Gris oscuro (pedido explícito, nov/2026 — segunda vuelta de ajuste)
-       para las líneas de fechas/horario/profesor de la pestaña
-       Estudiantes, para que se lean con buen contraste sin llegar a negro
-       puro ni a negrita. */
-    --ch-fechas: #374151;
+    /* Gris muy oscuro (pedido explícito, nov/2026 — tercera vuelta de
+       ajuste, para más contraste todavía) para las líneas de fechas/
+       horario/profesor de la pestaña Estudiantes. */
+    --ch-fechas: #1f2937;
     max-width: 1400px;
     margin: 0 auto;
     padding: 1.5rem 1rem;
@@ -593,10 +592,18 @@
   #dash-root .est-recientes-fecha { text-align: right; color: var(--ch-ink-muted); font-size: .8rem; white-space: nowrap; }
   #dash-root .est-recientes-vacio { color: var(--ch-ink-muted); font-size: .85rem; margin: 0; }
 
-  /* --- Filtro de estado de cursos (Parte 4) --- */
-  #dash-root .est-filtro-row { display: flex; align-items: center; gap: .5rem; margin: .6rem 0 .8rem 0; flex-wrap: wrap; }
-  #dash-root .est-filtro-row label { font-size: .82rem; color: var(--ch-ink-muted); }
-  #dash-root .est-filtro-row select { max-width: 220px; }
+  /* --- Filtro de estado de cursos (Parte 4, ajustado a pedido explícito:
+     alineado a la derecha, bien chico y fino) --- */
+  #dash-root .est-filtro-row { display: flex; align-items: center; justify-content: flex-end; gap: .4rem; margin: .3rem 0 .6rem 0; flex-wrap: wrap; }
+  #dash-root .est-filtro-row label { font-size: .781rem; color: var(--ch-ink-muted); }
+  #dash-root .est-filtro-row select {
+    max-width: 180px;
+    font-size: .781rem;
+    padding: 3px 10px;
+    line-height: 1.3;
+    border-radius: 999px;
+    box-shadow: none;
+  }
   #dash-root [data-estado-filtro].is-hidden { display: none; }
 
   #dash-root .est-buscar-btn { background: var(--ch-accent); color: var(--ch-accent-ink); border-color: var(--ch-accent); white-space: nowrap; }
@@ -665,16 +672,16 @@
   #dash-root .est-curso summary::-webkit-details-marker { display: none; }
   #dash-root .est-curso summary::after { content: '▾'; color: var(--ch-ink-muted); margin-left: auto; }
   #dash-root .est-curso[open] summary::after { content: '▴'; }
-  /* Jerarquía interna del acordeón (ajustada, nov/2026 — segunda vuelta):
-     título + número de comisión a 13.5px, EXACTAMENTE el mismo tamaño que
-     el detalle interno (Inicio/Fin, horario, Profesores — ver
-     .est-curso-fechas más abajo), para que no compita con "Cursos y
-     Diplomaturas"/"Workshops y Webinars" (encabezados de sección, ahora
-     más grandes) ni con el nombre del alumno. El peso (bold en el título,
-     normal en el número de comisión) sigue siendo lo que separa uno de
-     otro, no el tamaño. Badges de estado más chicos (~11.5px) que ambos. */
-  #dash-root .est-curso summary .est-curso-titulo { font-weight: 700; font-size: .844rem; }
-  #dash-root .est-curso summary .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .844rem; }
+  /* Jerarquía interna del acordeón (ajustada, nov/2026 — tercera vuelta):
+     título + número de comisión a 14.5px — un escalón apenas por encima del
+     detalle interno (13.5px, ver .est-curso-fechas más abajo), para que se
+     note una mínima diferencia visual sin competir con "Cursos y
+     Diplomaturas"/"Workshops y Webinars" (encabezados de sección, ~17px) ni
+     con el nombre del alumno. El peso (bold en el título, normal en el
+     número de comisión) sigue reforzando esa jerarquía. Badges de estado
+     más chicos (~11.5px) que ambos. */
+  #dash-root .est-curso summary .est-curso-titulo { font-weight: 700; font-size: .906rem; }
+  #dash-root .est-curso summary .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
   #dash-root .est-curso summary .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso summary .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
   #dash-root .est-curso-body { padding: .55rem .9rem .65rem; border-top: 1px solid var(--ch-border); font-size: .844rem; }
@@ -685,10 +692,16 @@
     cursor: default; padding: .5rem .9rem; display: flex; align-items: center;
     justify-content: space-between; gap: .6rem; flex-wrap: wrap;
   }
-  #dash-root .est-curso-fijo-header .est-curso-titulo { font-weight: 700; font-size: .844rem; }
-  #dash-root .est-curso-fijo-header .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .844rem; }
+  #dash-root .est-curso-fijo-header .est-curso-titulo { font-weight: 700; font-size: .906rem; }
+  #dash-root .est-curso-fijo-header .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
   #dash-root .est-curso-fijo-header .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso-fijo-header .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
+  /* Línea de fechas dentro de una fila fija (Cancelada/Cambio de
+     comisión con fechas reales, ver estRenderCurso) — mismo padding
+     horizontal que el header de arriba; acá no hay acordeón, así que no
+     repite el borde superior del cuerpo normal. */
+  #dash-root .est-curso-fijo-fechas { padding: 0 .9rem .5rem; }
+  #dash-root .est-curso-fijo-fechas .est-curso-fechas { margin: 0; }
   #dash-root .est-curso-fechas { color: var(--ch-fechas); margin: 0 0 .6rem 0; font-size: .844rem; }
   /* Título "Preentregas y Entrega Final": margen superior sutil (~9px) para
      separarlo del bloque de arriba (fechas, horario y staff titular). */
@@ -2314,15 +2327,24 @@
     // Clave para el filtro de estado (Parte 4) — ver estEstadoFiltroCurso.
     const filtroAttr = ` data-estado-filtro="${estEstadoFiltroCurso(curso)}"`;
 
-    // Sin desplegable vacío (ver sinContenido en buildCursoDetalle, Worker):
-    // cuando esta inscripción realmente no tiene ningún cohortId (nunca va
-    // a haber fechas, horario ni preentregas que traer), se renderiza como
-    // fila fija — sin <details>, sin flechita y sin cursor de acordeón —
-    // en vez de un acordeón que al abrirlo queda vacío.
-    if (curso.sinContenido) {
+    // Fila fija, sin acordeón: se usa siempre que no haya cohortId de cara
+    // al front (ver "cohortIdParaFrontend" en buildCursoDetalle, Worker) —
+    // cubre dos casos bien distintos:
+    //   (a) curso.sinContenido real (típico on-demand/SOLO_MODE sin
+    //       comisión asignada): nunca va a haber fechas, horario ni
+    //       preentregas que traer, así que no se muestra nada más.
+    //   (b) "Cancelada"/"Cambio de comisión" (a pedido explícito): el
+    //       Worker manda cohortId=null para que acá NO se arme el
+    //       acordeón ni los links de Back Office/entregas — pero sí puede
+    //       traer fechaInicio/fechaFin reales (una Cancelada las conserva),
+    //       así que esas se muestran igual, en una línea aparte, sin
+    //       convertir la tarjeta en un desplegable.
+    if (!curso.cohortId) {
+      const fechasHtml = estLineaFechas(curso);
       return `
         <div class="est-curso est-curso-fijo"${filtroAttr}>
           <div class="est-curso-fijo-header">${cabecera}</div>
+          ${fechasHtml ? `<div class="est-curso-fijo-fechas">${fechasHtml}</div>` : ''}
         </div>`;
     }
 
