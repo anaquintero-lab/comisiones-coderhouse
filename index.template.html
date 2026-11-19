@@ -2901,7 +2901,14 @@
 
   async function estBuscar() {
     const q = estBuscarEl.value.trim();
+    // CORREGIDO (nov/2026, a pedido explícito): se corta cualquier
+    // debounce pendiente (ej. se apretó Enter antes de que venza el
+    // debounce del autocompletado) y cualquier pedido anterior todavía en
+    // vuelo (autocompletado o una búsqueda completa previa) — para que
+    // nunca una respuesta vieja se muestre encima de esta búsqueda nueva.
+    if (estAutocompleteTimer) { clearTimeout(estAutocompleteTimer); estAutocompleteTimer = null; }
     estHideAutocomplete();
+    estCancelarBusquedaPrincipal();
     if (!q) {
       estNoteEl.textContent = 'Escribí un nombre o un mail para buscar.';
       estNoteEl.classList.add('is-error');
@@ -2912,13 +2919,17 @@
       estNoteEl.classList.add('is-error');
       return;
     }
+    const miController = new AbortController();
+    estBusquedaAbortController = miController;
+    const miPedidoId = ++estBusquedaReqId;
     estNoteEl.classList.remove('is-error');
     estNoteEl.textContent = 'Buscando en el Back Office…';
     estResultadosEl.innerHTML = '';
     estActualizarVisibilidadRecientes();
     estBuscarBtn.disabled = true;
     try {
-      const r = await estFetchMatchesRaw(q);
+      const r = await estFetchMatchesRaw(q, miController.signal);
+      if (miPedidoId !== estBusquedaReqId) return; // llegó tarde: ya se disparó otra búsqueda
       if (r.pinFaltante) {
         estNoteEl.textContent = 'Iniciá sesión para poder buscar.';
         estNoteEl.classList.add('is-error');
@@ -2950,27 +2961,50 @@
       // vez que se visite la pestaña.
       estCargarRecientes();
     } catch (err) {
+      if (err && err.name === 'AbortError') return; // cancelada a propósito: no es un error real
+      if (miPedidoId !== estBusquedaReqId) return;
       estNoteEl.classList.add('is-error');
       estNoteEl.textContent = `Error al buscar: ${err.message || err}`;
     } finally {
-      estBuscarBtn.disabled = false;
+      if (miPedidoId === estBusquedaReqId) estBuscarBtn.disabled = false;
     }
   }
 
   // --- Autocompletado: sugerencias EN VIVO mientras se escribe ---
-  // Debounce suave (~300ms) + cancelación real (AbortController) de la
-  // request anterior: si se tipea rápido, cada letra nueva cancela el
-  // pedido en curso y dispara uno nuevo, para que una respuesta vieja
-  // nunca pueda pisar a la más reciente. Nunca se muestra ningún mensaje
-  // de "no encontrado" acá (ni mientras se escribe ni con 0 resultados):
-  // si no hay coincidencias, la lista simplemente queda oculta, sin
-  // ningún texto de error — eso evita el falso cartel de "no existe" que
-  // podía aparecer mientras la búsqueda seguía en curso.
+  // CORREGIDO (nov/2026, a pedido explícito — la búsqueda por email tardaba
+  // varios segundos en devolverse porque, además de los tiempos del Back
+  // Office, se disparaban búsquedas intermedias mientras todavía se estaba
+  // escribiendo o pegando): debounce subido de 300 a
+  // EST_AUTOCOMPLETE_DEBOUNCE_MS (~480ms), y la cancelación con
+  // AbortController ahora cubre TANTO el autocompletado como una búsqueda
+  // completa (estBuscar) que haya quedado en vuelo — ver
+  // estCancelarBusquedaPrincipal más abajo — así, si se sigue escribiendo o
+  // se pega un mail nuevo encima, cualquier pedido anterior de cualquiera
+  // de los dos caminos se corta de una, y nunca una respuesta vieja puede
+  // pisar a la más reciente. Nunca se muestra ningún mensaje de "no
+  // encontrado" acá (ni mientras se escribe ni con 0 resultados): si no
+  // hay coincidencias, la lista simplemente queda oculta, sin ningún texto
+  // de error — eso evita el falso cartel de "no existe" que podía aparecer
+  // mientras la búsqueda seguía en curso.
   const EST_AUTOCOMPLETE_MIN_CHARS = 3;
-  const EST_AUTOCOMPLETE_DEBOUNCE_MS = 300;
+  const EST_AUTOCOMPLETE_DEBOUNCE_MS = 480;
   let estAutocompleteTimer = null;
   let estAutocompleteReqId = 0;
   let estAutocompleteAbortController = null;
+
+  // Token + AbortController propios de la búsqueda COMPLETA (estBuscar) —
+  // un camino de pedido distinto al del autocompletado de arriba (uno
+  // pinta una lista de sugerencias, el otro la ficha completa), pero cada
+  // uno cancela al otro cuando corresponde.
+  let estBusquedaReqId = 0;
+  let estBusquedaAbortController = null;
+
+  function estCancelarBusquedaPrincipal() {
+    if (estBusquedaAbortController) {
+      estBusquedaAbortController.abort();
+      estBusquedaAbortController = null;
+    }
+  }
 
   function estHideAutocomplete() {
     if (estAutocompleteAbortController) {
@@ -3016,7 +3050,11 @@
     if (!EST_WORKER_CONFIGURADO) return;
     // Cancela de verdad (AbortController) cualquier pedido anterior todavía
     // en vuelo antes de lanzar este, para que una respuesta vieja nunca
-    // pueda pisar a la nueva.
+    // pueda pisar a la nueva — tanto del autocompletado anterior como de
+    // una búsqueda completa (estBuscar) que haya quedado en vuelo (por
+    // ejemplo, se completó un mail, se disparó esa búsqueda, y después se
+    // borró una letra).
+    estCancelarBusquedaPrincipal();
     if (estAutocompleteAbortController) estAutocompleteAbortController.abort();
     const miController = new AbortController();
     estAutocompleteAbortController = miController;
@@ -3057,6 +3095,11 @@
   estBuscarEl.addEventListener('input', () => {
     const q = estBuscarEl.value.trim();
     if (estAutocompleteTimer) clearTimeout(estAutocompleteTimer);
+    // Cualquier tecla nueva corta, de una, lo que haya quedado en vuelo de
+    // la letra anterior (ver nota de causa raíz arriba) — nunca se deja
+    // una búsqueda completa vieja corriendo de fondo mientras se sigue
+    // escribiendo o se pega un mail nuevo encima.
+    estCancelarBusquedaPrincipal();
     if (EST_EMAIL_COMPLETO.test(q)) {
       // Se cancela cualquier autocompletado programado o en vuelo (en vez
       // de dejarlo correr en silencio) y se programa la búsqueda real con
