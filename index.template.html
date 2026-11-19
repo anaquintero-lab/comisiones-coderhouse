@@ -697,13 +697,37 @@
   #dash-root .est-curso-fijo-header .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso-fijo-header .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
   #dash-root .est-curso-fechas { color: var(--ch-fechas); margin: 0 0 .6rem 0; font-size: .844rem; }
-  /* Fila de Pagos (nov/2026): mismo look compacto de fila fija que un
-     curso/workshop sin acordeón (.est-curso-fijo), con una segunda línea
-     de detalle (monto · cuotas · fecha · proveedor) debajo del encabezado
-     — ver estRenderPago. */
-  #dash-root .est-pago-item { padding-bottom: .5rem; }
-  #dash-root .est-pago-item .est-curso-fijo-header { padding-bottom: .15rem; }
-  #dash-root .est-pago-detalle { color: var(--ch-fechas); margin: 0 .9rem 0 .9rem; font-size: .844rem; }
+  /* Sección "Pagos" (nov/2026): acordeón cerrado por defecto a nivel de
+     TODA la sección (no solo por pago individual) — se carga perezosamente
+     recién al abrirla, ver estCargarPagos. Mismo encabezado que
+     .est-section-title pero clickeable, con flechita propia. */
+  #dash-root .est-pagos-section { margin: 24px 0 0 0; }
+  #dash-root .est-pagos-summary {
+    list-style: none; cursor: pointer; font-weight: 700; font-size: 1.0625rem;
+    display: flex; align-items: center; gap: .35rem;
+  }
+  #dash-root .est-pagos-summary::-webkit-details-marker { display: none; }
+  #dash-root .est-pagos-summary::after { content: '▾'; color: var(--ch-ink-muted); font-size: .8rem; }
+  #dash-root .est-pagos-section[open] .est-pagos-summary::after { content: '▴'; }
+  #dash-root .est-pagos-body { margin-top: .5rem; }
+  /* Cada pago es su propio acordeón chico, cerrado por defecto — una sola
+     línea (concepto/curso + monto + badge de estado) cuando está cerrado,
+     igual de compacta que una fila cerrada de curso; al abrirlo, una
+     segunda línea discreta con cuotas y fecha (ver estRenderPago). */
+  #dash-root .est-pago { border: 1px solid var(--ch-border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  #dash-root .est-pago:last-child { margin-bottom: 0; }
+  #dash-root .est-pago summary {
+    list-style: none; cursor: pointer; padding: .42rem .8rem; display: flex; align-items: center;
+    justify-content: space-between; gap: .5rem; flex-wrap: wrap; background: #fdfaf5;
+  }
+  #dash-root .est-pago summary::-webkit-details-marker { display: none; }
+  #dash-root .est-pago summary::after { content: '▾'; color: var(--ch-ink-muted); margin-left: auto; font-size: .76rem; }
+  #dash-root .est-pago[open] summary::after { content: '▴'; }
+  #dash-root .est-pago-titulo { font-weight: 700; font-size: .844rem; }
+  #dash-root .est-pago-tags { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
+  #dash-root .est-pago-tags .est-pago-monto { font-weight: 600; font-size: .82rem; color: var(--ch-ink); white-space: nowrap; }
+  #dash-root .est-pago-tags .badge { font-size: .7rem; padding: .16rem .42rem; }
+  #dash-root .est-pago-body { padding: .4rem .8rem .5rem; border-top: 1px solid var(--ch-border); font-size: .8rem; color: var(--ch-fechas); }
   /* Título "Preentregas y Entrega Final": margen superior sutil (~9px) para
      separarlo del bloque de arriba (fechas, horario y staff titular). */
   #dash-root .est-preentregas-titulo { margin: .58rem 0 .4rem 0; font-weight: 700; }
@@ -2442,7 +2466,7 @@
     }
   }
 
-  // --- Pagos (nov/2026, a pedido explícito) ---
+  // --- Pagos (nov/2026) ---
   // "DECIMALES" ya viene resuelto en el monto que manda el Worker (ver
   // formatearMontoPago en estudiantes-worker.js — ARS/USD/MXN/BRL /100,
   // COP/CLP literal); acá solo hace falta saber cuántos decimales mostrar
@@ -2476,39 +2500,47 @@
     return estado ? `<span class="badge badge-neutral">${estEscapeHtml(estado)}</span>` : '<span class="badge badge-neutral">Sin estado</span>';
   }
 
-  // Línea de detalle de un pago: Monto · Cuotas (si el dato está
-  // disponible — ver extraerCuotasPago en el Worker) · Fecha · Proveedor.
-  // Cualquier dato ausente se omite sin dejar un separador vacío ni texto
-  // "undefined" (a pedido explícito).
-  function estLineaPago(pago) {
-    const partes = [estFormatMontoPago(pago.monto, pago.moneda)];
+  // Línea de detalle de UN pago, solo visible al desplegarlo: Cuotas (si el
+  // dato está disponible — ver extraerCuotasPago en el Worker) · Fecha. El
+  // monto y el estado ya se ven siempre en el renglón cerrado (ver
+  // estRenderPago) — acá va lo que sobra, para mantener la fila cerrada en
+  // una sola línea compacta.
+  function estLineaPagoDetalle(pago) {
+    const partes = [];
     if (pago.cuotas != null) partes.push(pago.cuotas === 1 ? '1 pago' : `${pago.cuotas} cuotas`);
     partes.push(estFormatFecha(pago.fecha));
-    if (pago.proveedor) partes.push(estEscapeHtml(pago.proveedor));
     return partes.join(' · ');
   }
 
-  // Un pago se muestra como fila fija y compacta (mismo look que una
-  // tarjeta de curso sin acordeón) — nunca se despliega nada más: no tiene
-  // preentregas, horario ni links de Back Office.
+  // CORREGIDO (nov/2026, a pedido explícito — antes era una tarjeta fija
+  // siempre abierta, ocupando demasiado alto): cada pago es ahora su propio
+  // acordeón chico, cerrado por defecto — una sola línea con el curso/
+  // carrera, el monto y el badge de estado; al abrirlo, una segunda línea
+  // discreta con cuotas y fecha. Clase ".est-pago" propia (no ".est-curso")
+  // para no confundirse con el listener de "toggle" de las cursadas, que
+  // busca ".est-entregas-slot" — acá no hace falta, nunca se carga nada por
+  // Worker al abrir un pago puntual (todo viene ya resuelto de /pagos).
   function estRenderPago(pago) {
     const concepto = pago.concepto
       ? estEscapeHtml(pago.concepto)
-      : 'Pago por enlace / Sin curso asociado';
+      : 'Pago sin curso asociado';
     return `
-      <div class="est-curso est-curso-fijo est-pago-item">
-        <div class="est-curso-fijo-header">
-          <span class="est-curso-titulo">${concepto}</span>
-          <span class="est-curso-tags">${estBadgeEstadoPago(pago.estado)}</span>
-        </div>
-        <p class="est-pago-detalle">${estLineaPago(pago)}</p>
-      </div>`;
+      <details class="est-pago">
+        <summary>
+          <span class="est-pago-titulo">${concepto}</span>
+          <span class="est-pago-tags">
+            <span class="est-pago-monto">${estEscapeHtml(estFormatMontoPago(pago.monto, pago.moneda))}</span>
+            ${estBadgeEstadoPago(pago.estado)}
+          </span>
+        </summary>
+        <div class="est-pago-body">${estEscapeHtml(estLineaPagoDetalle(pago))}</div>
+      </details>`;
   }
 
   // "pagosInfo" es el objeto { pagos, error, sinConfigurar } que devuelve
-  // consultarPagosSeguro() en el Worker — nunca rompe la ficha del
-  // estudiante, así que acá solo hay que elegir qué aviso mostrar cuando
-  // no hay pagos reales para listar.
+  // consultarPagosSeguro() en el Worker (vía la ruta /pagos) — nunca rompe
+  // la ficha del estudiante, así que acá solo hay que elegir qué aviso
+  // mostrar cuando no hay pagos reales para listar.
   function estRenderPagos(pagosInfo) {
     if (!pagosInfo || pagosInfo.sinConfigurar) {
       return '<p class="est-sin-preentregas">Sección de pagos no disponible todavía (falta configurar la clave de finanzas en el Worker).</p>';
@@ -2520,6 +2552,68 @@
       return '<p class="est-sin-preentregas">No se encontraron pagos para este estudiante.</p>';
     }
     return pagosInfo.pagos.map((p) => estRenderPago(p)).join('');
+  }
+
+  // CORREGIDO (nov/2026, causa raíz real de la lentitud al abrir acordeones
+  // de cursos y de los porcentajes de entregas que dejaron de aparecer): la
+  // consulta de pagos se pedía antes DENTRO de /buscar — y /buscar se
+  // dispara en cada tecla que se escribe en el buscador (autocompletado
+  // debounced, ver estBuscarEl más abajo), así que esa consulta extra a
+  // finance-checkout se repetía en cada letra, para cada persona sugerida,
+  // sobrecargando el mismo Back Office que usan /entregas y las revisiones
+  // de correcciones. Ahora Pagos es su propia sección perezosa (acordeón
+  // cerrado por defecto a nivel de TODA la sección, no solo por pago): el
+  // Worker ya no la pide nunca desde /buscar, y el front recién llama a
+  // /pagos cuando el equipo abre esta sección puntual de una ficha ya
+  // mostrada — igual que /entregas con las preentregas de un curso.
+  const estPagosCache = new Map();
+
+  function estPintarPagosEnBody(bodyEl, pagosInfo) {
+    bodyEl.innerHTML = estRenderPagos(pagosInfo);
+    bodyEl.dataset.loaded = '1';
+  }
+
+  async function estCargarPagos(seccionEl) {
+    const bodyEl = seccionEl.querySelector('.est-pagos-body');
+    if (!bodyEl || bodyEl.dataset.loaded === '1') return;
+    const email = seccionEl.dataset.email || '';
+    if (!email) return;
+
+    const cacheada = estPagosCache.get(email);
+    if (cacheada) {
+      estPintarPagosEnBody(bodyEl, cacheada);
+      return;
+    }
+
+    if (!EST_WORKER_CONFIGURADO) return;
+    const pin = appGetSessionPassword();
+    if (!pin) {
+      bodyEl.innerHTML = '<p class="est-sin-preentregas is-error">Iniciá sesión para cargar los pagos.</p>';
+      return;
+    }
+
+    try {
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/pagos?email=${encodeURIComponent(email)}`, {
+        headers: { 'X-Team-Pin': pin },
+      });
+      if (res.status === 401) {
+        estSesionExpirada();
+        bodyEl.innerHTML = '<p class="est-sin-preentregas is-error">Tu sesión expiró. Volvé a ingresar.</p>';
+        return;
+      }
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        const mensaje = (data && data.error) ? data.error : `HTTP ${res.status}`;
+        const detalle = (data && data.detail) ? ` (${data.detail})` : '';
+        bodyEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar los pagos: ${estEscapeHtml(mensaje + detalle)}</p>`;
+        return;
+      }
+      const resultado = { pagos: data.pagos || [], error: !!data.error, sinConfigurar: !!data.sinConfigurar };
+      estPagosCache.set(email, resultado);
+      estPintarPagosEnBody(bodyEl, resultado);
+    } catch (err) {
+      bodyEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar los pagos: ${estEscapeHtml(err.message || String(err))}</p>`;
+    }
   }
 
   function estRenderWorkshop(ws, studentId) {
@@ -2641,9 +2735,18 @@
   // en cada búsqueda nueva.
   estResultadosEl.addEventListener('toggle', (e) => {
     const details = e.target;
-    if (!details || !details.classList || !details.classList.contains('est-curso') || !details.open) return;
-    const slot = details.querySelector('.est-entregas-slot');
-    if (slot) estCargarEntregas(slot);
+    if (!details || !details.classList || !details.open) return;
+    if (details.classList.contains('est-curso')) {
+      const slot = details.querySelector('.est-entregas-slot');
+      if (slot) estCargarEntregas(slot);
+      return;
+    }
+    // Sección "Pagos" (ver estCargarPagos): acordeón propio a nivel de
+    // sección, distinto de ".est-curso" — se carga UNA sola vez al abrirla
+    // (cacheado por email), nunca en cada tecla del buscador.
+    if (details.classList.contains('est-pagos-section')) {
+      estCargarPagos(details);
+    }
   }, true);
 
   function estBadgeCoderPro(coderPro) {
@@ -2701,8 +2804,12 @@
         ${cursosHtml}
         <p class="est-section-title">Workshops y Webinars</p>
         ${workshopsHtml}
-        <p class="est-section-title">Pagos</p>
-        ${estRenderPagos(match.pagos)}
+        <details class="est-pagos-section" data-email="${estEscapeHtml(match.email || '')}">
+          <summary class="est-pagos-summary">Pagos</summary>
+          <div class="est-pagos-body">
+            <p class="est-sin-preentregas est-entregas-cargando">Cargando pagos…</p>
+          </div>
+        </details>
       </section>`;
   }
 
