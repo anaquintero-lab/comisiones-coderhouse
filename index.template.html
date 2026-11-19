@@ -2242,11 +2242,14 @@
   }
 
   function estBadgePreentrega(estado, nota) {
-    // 5 estados posibles (ver mapEstadoEntrega() en estudiantes-worker.js):
+    // 6 estados posibles (ver mapEstadoEntrega() en estudiantes-worker.js):
     // Aprobada (verde), Desaprobada (rojo — solo cuando ya la corrigieron y
     // no pasó), En corrección (amarillo/ámbar — enviada, esperando
-    // corrección), No enviada (gris), Solicitud de reentrega (naranja).
-    // Se deja un "Sin dato" de respaldo por si algún día llega algo
+    // corrección), No enviada (gris), Solicitud de reentrega (naranja), y
+    // "No se pudo verificar" (ámbar, nov/2026 — el repuesto de
+    // multi-inscripción falló o el Back Office tardó demasiado: nunca se
+    // inventa "No enviada" sobre una entrega que puede estar hecha de
+    // verdad). Se deja un "Sin dato" de respaldo por si algún día llega algo
     // inesperado, pero no debería pasar.
     //
     // "nota" (ver obtenerPuntajesReview() en el Worker) es el porcentaje
@@ -2263,6 +2266,7 @@
     if (estado === 'En corrección') return '<span class="badge badge-warn">En corrección</span>';
     if (estado === 'Solicitud de reentrega') return '<span class="badge badge-retry">Solicitud de reentrega</span>';
     if (estado === 'No enviada') return '<span class="badge badge-neutral">No enviada</span>';
+    if (estado === 'No se pudo verificar') return '<span class="badge badge-warn">No se pudo verificar</span>';
     return '<span class="badge badge-neutral">Sin dato</span>';
   }
 
@@ -2331,19 +2335,68 @@
     return `<div class="est-cursada-bo-links">${links.join('<span class="est-cursada-bo-sep" aria-hidden="true">·</span>')}</div>`;
   }
 
-  // CORREGIDO (nov/2026 — arquitectura en 2 pasos, lazy-loading por
-  // comisión): las preentregas/Entrega Final (y, más abajo en
-  // estRenderWorkshop, el horario) ya no vienen armadas en la respuesta de
-  // /buscar — ver nota en buildCursoDetalle del Worker. Acá solo se deja un
-  // "slot" vacío con los datos (studentId + cohortId + los dos enlaces de
-  // Back Office) que hacen falta para pedirlas recién cuando se abre el
-  // acordeón — ver estCargarEntregas más abajo, enganchado al evento
-  // "toggle" del <details>.
-  function estSlotEntregas(studentId, cohortId, boEnrollmentUrl, boComisionUrl) {
-    if (!cohortId || !studentId) return '';
-    return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(cohortId)}" data-bo-url="${estEscapeHtml(boEnrollmentUrl || '')}" data-bo-comision-url="${estEscapeHtml(boComisionUrl || '')}" data-loaded="0">
+  // REVERTIDO A CARGA INSTANTÁNEA (nov/2026, a pedido explícito: "eliminar
+  // el lazy loading de entregas al hacer clic, volver a la apertura
+  // instantánea") — ver nota larga en buildCursoDetalle/buildStudentCard
+  // del Worker. Las preentregas/Entrega Final/horario/staff titular vuelven
+  // a venir armadas en la respuesta de /buscar para la gran mayoría de los
+  // casos (curso.entregasPendientes === false): acá se pinta ese contenido
+  // DIRECTO, sin ningún pedido extra al abrir el acordeón.
+  //
+  // El único caso que sigue pidiendo algo al desplegar (curso.
+  // entregasPendientes === true) es el resguardo contra el límite de
+  // Cloudflare: un alumno con MUCHAS cursadas a la vez a quien se le acabó
+  // el presupuesto de carga instantánea (PRESUPUESTO_ENTREGAS_EAGER en el
+  // Worker) — un caso raro en la práctica — o una falla puntual real al
+  // armar la ficha (curso.entregasError). Ahí se deja el mismo slot de
+  // antes, que recién pide /entregas al abrir — ver estCargarEntregas más
+  // abajo, enganchado al evento "toggle" del <details>.
+  function estContenidoEntregasHtml(resultado) {
+    const partes = [];
+    if (resultado.horario) {
+      partes.push(`<p class="est-curso-fechas">${estEscapeHtml(resultado.horario)}</p>`);
+    }
+    // Profesor(es) titular(es) (cohortRole === PROFESOR, status ACTIVE en
+    // esta comisión, sin tutores ni suplentes — ver obtenerStaffTitularCohort
+    // en el Worker): misma línea discreta que el horario, sin botón de
+    // copiar. Etiqueta en singular o plural según la cantidad de nombres.
+    const staffTexto = estFormatListaY(resultado.staffTitular);
+    if (staffTexto) {
+      const etiquetaProfesor = (resultado.staffTitular && resultado.staffTitular.length > 1) ? 'Profesores' : 'Profesor';
+      partes.push(`<p class="est-curso-fechas">${etiquetaProfesor}: ${estEscapeHtml(staffTexto)}</p>`);
+    }
+    if (resultado.preentregas && resultado.preentregas.length) {
+      partes.push(`<p class="est-preentregas-titulo">Preentregas y Entrega Final</p>
+         <ul class="est-preentregas">${resultado.preentregas.map((p) => (
+           `<li>${estNombreEntrega(p.nombre)} — ${estBadgePreentrega(p.estado, p.nota)}</li>`
+         )).join('')}</ul>`);
+    }
+    return partes;
+  }
+
+  function estSlotEntregas(item, studentId) {
+    if (!item || !item.cohortId || !studentId) return '';
+
+    if (item.entregasPendientes) {
+      // Se quedó sin presupuesto de carga instantánea (o falló al armarla,
+      // ver entregasError) — mismo mecanismo de antes: se pide recién al
+      // desplegar este acordeón puntual.
+      return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(item.cohortId)}" data-bo-url="${estEscapeHtml(item.boEnrollmentUrl || '')}" data-bo-comision-url="${estEscapeHtml(item.boComisionUrl || '')}" data-loaded="0">
       <p class="est-sin-preentregas est-entregas-cargando">Cargando entregas…</p>
     </div>`;
+    }
+
+    // Caso normal: ya viene todo resuelto en /buscar — se pinta de una,
+    // instantáneo, sin pedir nada al abrir el acordeón.
+    const partes = estContenidoEntregasHtml(item);
+    const boLinksHtml = estEnlacesCursadaBO(item.boEnrollmentUrl, item.boComisionUrl);
+    if (boLinksHtml) partes.push(boLinksHtml);
+    if (item.entregasError) {
+      partes.push('<p class="est-sin-preentregas is-error">No se pudo verificar automáticamente el estado de las entregas de esta cursada (el Back Office tardó demasiado). Podés revisarlo a mano desde los enlaces de arriba.</p>');
+    } else if (!partes.length) {
+      partes.push('<p class="est-sin-preentregas">No hay información adicional para esta cursada.</p>');
+    }
+    return `<div class="est-entregas-slot" data-loaded="1">${partes.join('')}</div>`;
   }
 
   function estRenderCurso(curso, studentId) {
@@ -2390,7 +2443,7 @@
         <summary>${cabecera}</summary>
         <div class="est-curso-body">
           ${estLineaFechas(curso)}
-          ${estSlotEntregas(studentId, curso.cohortId, curso.boEnrollmentUrl, curso.boComisionUrl)}
+          ${estSlotEntregas(curso, studentId)}
         </div>
       </details>`;
   }
@@ -2490,12 +2543,15 @@
   }
 
   // Badge de estado de pago: Aprobado (verde, SUCCEEDED), Pendiente
-  // (ámbar, PENDING/PROCESSING), Fallido (rojo, FAILED). Cualquier otro
-  // valor no reconocido se muestra tal cual, en gris, en vez de ocultarse.
+  // (ámbar, PENDING/PROCESSING), Acción requerida (ámbar, REQUIRES_ACTION —
+  // nov/2026, a pedido explícito: apareció en inglés en producción),
+  // Fallido (rojo, FAILED). Cualquier otro valor no reconocido se muestra
+  // tal cual, en gris, en vez de ocultarse.
   function estBadgeEstadoPago(estado) {
     const s = String(estado || '').toUpperCase();
     if (s === 'SUCCEEDED') return '<span class="badge badge-ok">Aprobado</span>';
     if (s === 'PENDING' || s === 'PROCESSING') return '<span class="badge badge-warn">Pendiente</span>';
+    if (s === 'REQUIRES_ACTION') return '<span class="badge badge-warn">Acción requerida</span>';
     if (s === 'FAILED') return '<span class="badge badge-bad">Fallido</span>';
     return estado ? `<span class="badge badge-neutral">${estEscapeHtml(estado)}</span>` : '<span class="badge badge-neutral">Sin estado</span>';
   }
@@ -2635,39 +2691,24 @@
         <summary>${cabecera}</summary>
         <div class="est-curso-body">
           ${estLineaFechas(ws)}
-          ${estSlotEntregas(studentId, ws.cohortId, ws.boEnrollmentUrl, ws.boComisionUrl)}
+          ${estSlotEntregas(ws, studentId)}
         </div>
       </details>`;
   }
 
   // --- Carga diferida de preentregas/Entrega Final + horario, por comisión ---
-  // (ver nota en buildCursoDetalle del Worker y estSlotEntregas más arriba):
-  // se pide recién cuando se abre el acordeón de esa cursada puntual, nunca
-  // todas juntas al buscar. Se cachea en memoria del navegador por
-  // "studentId|cohortId" para que cerrar y volver a abrir la misma
-  // comisión no dispare una llamada nueva al Worker.
+  // (RESGUARDO — ver nota en buildCursoDetalle del Worker y estSlotEntregas
+  // más arriba): desde nov/2026 esto YA NO es el camino normal — la gran
+  // mayoría de las cursadas vienen resueltas de una en /buscar, instantáneo.
+  // Esto solo se dispara para el caso raro de un alumno con tantas cursadas
+  // a la vez que superó el presupuesto de carga instantánea del Worker (o
+  // para una falla puntual real al armar la ficha). Se cachea en memoria
+  // del navegador por "studentId|cohortId" para que cerrar y volver a abrir
+  // la misma comisión no dispare una llamada nueva al Worker.
   const estEntregasCache = new Map();
 
   function estPintarEntregasEnSlot(slotEl, resultado) {
-    const partes = [];
-    if (resultado.horario) {
-      partes.push(`<p class="est-curso-fechas">${estEscapeHtml(resultado.horario)}</p>`);
-    }
-    // Profesor(es) titular(es) (cohortRole === PROFESOR, status ACTIVE en
-    // esta comisión, sin tutores ni suplentes — ver obtenerStaffTitularCohort
-    // en el Worker): misma línea discreta que el horario, sin botón de
-    // copiar. Etiqueta en singular o plural según la cantidad de nombres.
-    const staffTexto = estFormatListaY(resultado.staffTitular);
-    if (staffTexto) {
-      const etiquetaProfesor = (resultado.staffTitular && resultado.staffTitular.length > 1) ? 'Profesores' : 'Profesor';
-      partes.push(`<p class="est-curso-fechas">${etiquetaProfesor}: ${estEscapeHtml(staffTexto)}</p>`);
-    }
-    if (resultado.preentregas && resultado.preentregas.length) {
-      partes.push(`<p class="est-preentregas-titulo">Preentregas y Entrega Final</p>
-         <ul class="est-preentregas">${resultado.preentregas.map((p) => (
-           `<li>${estNombreEntrega(p.nombre)} — ${estBadgePreentrega(p.estado, p.nota)}</li>`
-         )).join('')}</ul>`);
-    }
+    const partes = estContenidoEntregasHtml(resultado);
     const boLinksHtml = estEnlacesCursadaBO(slotEl.dataset.boUrl, slotEl.dataset.boComisionUrl);
     if (boLinksHtml) partes.push(boLinksHtml);
     // Puede pasar que la comisión tenga cohortId pero, en los hechos, no
