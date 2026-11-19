@@ -696,13 +696,14 @@
   #dash-root .est-curso-fijo-header .est-curso-comision { font-weight: 500; color: var(--ch-ink-muted); font-size: .906rem; }
   #dash-root .est-curso-fijo-header .est-curso-tags { display: flex; align-items: center; gap: .35rem; flex-wrap: wrap; }
   #dash-root .est-curso-fijo-header .est-curso-tags .badge { font-size: .72rem; padding: .18rem .45rem; }
-  /* Línea de fechas dentro de una fila fija (Cancelada/Cambio de
-     comisión con fechas reales, ver estRenderCurso) — mismo padding
-     horizontal que el header de arriba; acá no hay acordeón, así que no
-     repite el borde superior del cuerpo normal. */
-  #dash-root .est-curso-fijo-fechas { padding: 0 .9rem .5rem; }
-  #dash-root .est-curso-fijo-fechas .est-curso-fechas { margin: 0; }
   #dash-root .est-curso-fechas { color: var(--ch-fechas); margin: 0 0 .6rem 0; font-size: .844rem; }
+  /* Fila de Pagos (nov/2026): mismo look compacto de fila fija que un
+     curso/workshop sin acordeón (.est-curso-fijo), con una segunda línea
+     de detalle (monto · cuotas · fecha · proveedor) debajo del encabezado
+     — ver estRenderPago. */
+  #dash-root .est-pago-item { padding-bottom: .5rem; }
+  #dash-root .est-pago-item .est-curso-fijo-header { padding-bottom: .15rem; }
+  #dash-root .est-pago-detalle { color: var(--ch-fechas); margin: 0 .9rem 0 .9rem; font-size: .844rem; }
   /* Título "Preentregas y Entrega Final": margen superior sutil (~9px) para
      separarlo del bloque de arriba (fechas, horario y staff titular). */
   #dash-root .est-preentregas-titulo { margin: .58rem 0 .4rem 0; font-weight: 700; }
@@ -2327,27 +2328,39 @@
     // Clave para el filtro de estado (Parte 4) — ver estEstadoFiltroCurso.
     const filtroAttr = ` data-estado-filtro="${estEstadoFiltroCurso(curso)}"`;
 
-    // Fila fija, sin acordeón: se usa siempre que no haya cohortId de cara
-    // al front (ver "cohortIdParaFrontend" en buildCursoDetalle, Worker) —
-    // cubre dos casos bien distintos:
+    // "Cancelada" de verdad (no "Cambio de comisión" — ver nota en
+    // estTagsCurso/estEstadoFiltroCurso sobre por qué se mira
+    // motivoTransferencia y no estadoInscripcion acá también).
+    const esCancelada = !curso.motivoTransferencia && /CANCEL/.test(String(curso.estadoComision || '').toUpperCase());
+
+    // Fila fija, sin acordeón ni flechita: solo para los dos casos donde
+    // de verdad no hay nada más para mostrar ni para desplegar —
     //   (a) curso.sinContenido real (típico on-demand/SOLO_MODE sin
     //       comisión asignada): nunca va a haber fechas, horario ni
-    //       preentregas que traer, así que no se muestra nada más.
-    //   (b) "Cancelada"/"Cambio de comisión" (a pedido explícito): el
-    //       Worker manda cohortId=null para que acá NO se arme el
-    //       acordeón ni los links de Back Office/entregas — pero sí puede
-    //       traer fechaInicio/fechaFin reales (una Cancelada las conserva),
-    //       así que esas se muestran igual, en una línea aparte, sin
-    //       convertir la tarjeta en un desplegable.
-    if (!curso.cohortId) {
-      const fechasHtml = estLineaFechas(curso);
+    //       preentregas que traer.
+    //   (b) "Cambio de comisión" (a pedido explícito): no corresponde
+    //       ofrecer nada de una cursada de la que el alumno ya salió, ni
+    //       siquiera un desplegable vacío.
+    // "Cancelada" YA NO entra acá (a pedido explícito, nov/2026 — antes
+    // quedaba fija y abierta mostrando las fechas, con el doble de alto
+    // que una tarjeta cerrada) — ver la rama de acordeón de abajo.
+    if (!curso.cohortId && !esCancelada) {
       return `
         <div class="est-curso est-curso-fijo"${filtroAttr}>
           <div class="est-curso-fijo-header">${cabecera}</div>
-          ${fechasHtml ? `<div class="est-curso-fijo-fechas">${fechasHtml}</div>` : ''}
         </div>`;
     }
 
+    // Acordeón, cerrado por defecto (comportamiento nativo de <details> sin
+    // el atributo "open"), misma altura compacta que una fila fija hasta
+    // que se despliega. Dos casos:
+    //   - curso normal (con cohortId real): al abrir, entregas + links de
+    //     Back Office como siempre (ver estSlotEntregas).
+    //   - "Cancelada" (cohortId siempre null de cara al front — ver
+    //     "cohortIdParaFrontend" en buildCursoDetalle, Worker): al abrir
+    //     SOLO se ve la línea de fechas (estLineaFechas) — estSlotEntregas
+    //     devuelve '' sin cohortId, así que no aparece ningún link de Back
+    //     Office ni intento de cargar entregas.
     return `
       <details class="est-curso"${filtroAttr}>
         <summary>${cabecera}</summary>
@@ -2427,6 +2440,86 @@
     } catch (e) {
       return `${monto} ${moneda || ''}`.trim();
     }
+  }
+
+  // --- Pagos (nov/2026, a pedido explícito) ---
+  // "DECIMALES" ya viene resuelto en el monto que manda el Worker (ver
+  // formatearMontoPago en estudiantes-worker.js — ARS/USD/MXN/BRL /100,
+  // COP/CLP literal); acá solo hace falta saber cuántos decimales mostrar
+  // al formatear ese número ya convertido (2 para la mayoría, 0 para
+  // COP/CLP, que no tienen centavos).
+  const EST_DECIMALES_MONEDA_PAGO = { ARS: 2, USD: 2, MXN: 2, BRL: 2, COP: 0, CLP: 0 };
+
+  function estFormatMontoPago(monto, moneda) {
+    if (monto == null || Number.isNaN(monto)) return 'Monto no disponible';
+    const decimales = Object.prototype.hasOwnProperty.call(EST_DECIMALES_MONEDA_PAGO, moneda)
+      ? EST_DECIMALES_MONEDA_PAGO[moneda]
+      : 2;
+    try {
+      const numero = new Intl.NumberFormat('es-AR', {
+        minimumFractionDigits: decimales, maximumFractionDigits: decimales,
+      }).format(monto);
+      return moneda ? `${numero} ${moneda}` : numero;
+    } catch (e) {
+      return `${monto} ${moneda || ''}`.trim();
+    }
+  }
+
+  // Badge de estado de pago: Aprobado (verde, SUCCEEDED), Pendiente
+  // (ámbar, PENDING/PROCESSING), Fallido (rojo, FAILED). Cualquier otro
+  // valor no reconocido se muestra tal cual, en gris, en vez de ocultarse.
+  function estBadgeEstadoPago(estado) {
+    const s = String(estado || '').toUpperCase();
+    if (s === 'SUCCEEDED') return '<span class="badge badge-ok">Aprobado</span>';
+    if (s === 'PENDING' || s === 'PROCESSING') return '<span class="badge badge-warn">Pendiente</span>';
+    if (s === 'FAILED') return '<span class="badge badge-bad">Fallido</span>';
+    return estado ? `<span class="badge badge-neutral">${estEscapeHtml(estado)}</span>` : '<span class="badge badge-neutral">Sin estado</span>';
+  }
+
+  // Línea de detalle de un pago: Monto · Cuotas (si el dato está
+  // disponible — ver extraerCuotasPago en el Worker) · Fecha · Proveedor.
+  // Cualquier dato ausente se omite sin dejar un separador vacío ni texto
+  // "undefined" (a pedido explícito).
+  function estLineaPago(pago) {
+    const partes = [estFormatMontoPago(pago.monto, pago.moneda)];
+    if (pago.cuotas != null) partes.push(pago.cuotas === 1 ? '1 pago' : `${pago.cuotas} cuotas`);
+    partes.push(estFormatFecha(pago.fecha));
+    if (pago.proveedor) partes.push(estEscapeHtml(pago.proveedor));
+    return partes.join(' · ');
+  }
+
+  // Un pago se muestra como fila fija y compacta (mismo look que una
+  // tarjeta de curso sin acordeón) — nunca se despliega nada más: no tiene
+  // preentregas, horario ni links de Back Office.
+  function estRenderPago(pago) {
+    const concepto = pago.concepto
+      ? estEscapeHtml(pago.concepto)
+      : 'Pago por enlace / Sin curso asociado';
+    return `
+      <div class="est-curso est-curso-fijo est-pago-item">
+        <div class="est-curso-fijo-header">
+          <span class="est-curso-titulo">${concepto}</span>
+          <span class="est-curso-tags">${estBadgeEstadoPago(pago.estado)}</span>
+        </div>
+        <p class="est-pago-detalle">${estLineaPago(pago)}</p>
+      </div>`;
+  }
+
+  // "pagosInfo" es el objeto { pagos, error, sinConfigurar } que devuelve
+  // consultarPagosSeguro() en el Worker — nunca rompe la ficha del
+  // estudiante, así que acá solo hay que elegir qué aviso mostrar cuando
+  // no hay pagos reales para listar.
+  function estRenderPagos(pagosInfo) {
+    if (!pagosInfo || pagosInfo.sinConfigurar) {
+      return '<p class="est-sin-preentregas">Sección de pagos no disponible todavía (falta configurar la clave de finanzas en el Worker).</p>';
+    }
+    if (pagosInfo.error) {
+      return '<p class="est-sin-preentregas is-error">No se pudo verificar el historial de pagos en este momento.</p>';
+    }
+    if (!pagosInfo.pagos || !pagosInfo.pagos.length) {
+      return '<p class="est-sin-preentregas">No se encontraron pagos para este estudiante.</p>';
+    }
+    return pagosInfo.pagos.map((p) => estRenderPago(p)).join('');
   }
 
   function estRenderWorkshop(ws, studentId) {
@@ -2608,6 +2701,8 @@
         ${cursosHtml}
         <p class="est-section-title">Workshops y Webinars</p>
         ${workshopsHtml}
+        <p class="est-section-title">Pagos</p>
+        ${estRenderPagos(match.pagos)}
       </section>`;
   }
 
