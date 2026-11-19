@@ -2899,8 +2899,15 @@
     return { matches: data.matches || [] };
   }
 
+  // Último mail/texto para el que ya se disparó estBuscar (en vuelo o
+  // terminado) — evita que el blur de más abajo repita la misma búsqueda
+  // de nuevo si el debounce ya la había lanzado antes de que se fuera el
+  // foco del campo.
+  let estUltimoQueryBuscado = null;
+
   async function estBuscar() {
     const q = estBuscarEl.value.trim();
+    estUltimoQueryBuscado = q;
     // CORREGIDO (nov/2026, a pedido explícito): se corta cualquier
     // debounce pendiente (ej. se apretó Enter antes de que venza el
     // debounce del autocompletado) y cualquier pedido anterior todavía en
@@ -2988,6 +2995,16 @@
   // mientras la búsqueda seguía en curso.
   const EST_AUTOCOMPLETE_MIN_CHARS = 3;
   const EST_AUTOCOMPLETE_DEBOUNCE_MS = 480;
+  // CORREGIDO (nov/2026, a pedido explícito — "la búsqueda inicial del
+  // perfil sigue demorando varios segundos" incluso con el debounce de
+  // arriba): un mail completo dispara la ficha entera (varios cursos +
+  // entregas + pagos), mucho más pesada que una sugerencia de
+  // autocompletado — vale la pena esperar un poco más (~600ms en vez de
+  // 480) antes de lanzarla, para no disparar la ficha completa por cada
+  // letra que todavía se sigue corrigiendo/pegando de a partes. El blur
+  // (ver más abajo) cubre el caso de irse del campo antes de que venza
+  // este debounce más largo.
+  const EST_EMAIL_DEBOUNCE_MS = 600;
   let estAutocompleteTimer = null;
   let estAutocompleteReqId = 0;
   let estAutocompleteAbortController = null;
@@ -3108,7 +3125,7 @@
       // pedidos de más por cada tecla: solo se busca una vez que se deja
       // de escribir.
       estHideAutocomplete();
-      estAutocompleteTimer = setTimeout(estBuscar, EST_AUTOCOMPLETE_DEBOUNCE_MS);
+      estAutocompleteTimer = setTimeout(estBuscar, EST_EMAIL_DEBOUNCE_MS);
       return;
     }
     if (q.length < EST_AUTOCOMPLETE_MIN_CHARS) {
@@ -3116,6 +3133,21 @@
       return;
     }
     estAutocompleteTimer = setTimeout(() => estAutocompleteBuscar(q), EST_AUTOCOMPLETE_DEBOUNCE_MS);
+  });
+
+  // CORREGIDO (nov/2026, a pedido explícito): si se completa el mail y se
+  // pasa a otro campo (Tab/click afuera) ANTES de que venza
+  // EST_EMAIL_DEBOUNCE_MS, antes había que esperar igual los 600ms sin
+  // necesidad — acá ya se sabe que no se va a seguir escribiendo. Blur con
+  // un mail completo dispara la búsqueda de una, cancelando el debounce
+  // pendiente (sigue cancelando con AbortController cualquier pedido
+  // anterior en vuelo, vía estBuscar → estCancelarBusquedaPrincipal).
+  estBuscarEl.addEventListener('blur', () => {
+    const q = estBuscarEl.value.trim();
+    if (!EST_EMAIL_COMPLETO.test(q)) return;
+    if (q === estUltimoQueryBuscado) return; // ya se había disparado (o está en vuelo): no repetir
+    if (estAutocompleteTimer) { clearTimeout(estAutocompleteTimer); estAutocompleteTimer = null; }
+    estBuscar();
   });
 
   document.addEventListener('click', (e) => {
