@@ -2386,7 +2386,7 @@
       // Se quedó sin presupuesto de carga instantánea (o falló al armarla,
       // ver entregasError) — mismo mecanismo de antes: se pide recién al
       // desplegar este acordeón puntual.
-      return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(item.cohortId)}" data-bo-url="${estEscapeHtml(item.boEnrollmentUrl || '')}" data-bo-comision-url="${estEscapeHtml(item.boComisionUrl || '')}" data-loaded="0">
+      return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(item.cohortId)}" data-enrollment-id="${estEscapeHtml(item.enrollmentId || '')}" data-bo-url="${estEscapeHtml(item.boEnrollmentUrl || '')}" data-bo-comision-url="${estEscapeHtml(item.boComisionUrl || '')}" data-loaded="0">
       <p class="est-sin-preentregas est-entregas-cargando">Cargando entregas…</p>
     </div>`;
     }
@@ -2407,7 +2407,7 @@
       // propio presupuesto de 50 subrequests completo, sin compartir nada
       // con el resto de la ficha — y reemplaza este aviso por el resultado
       // real en caso de éxito.
-      return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(item.cohortId)}" data-bo-url="${estEscapeHtml(item.boEnrollmentUrl || '')}" data-bo-comision-url="${estEscapeHtml(item.boComisionUrl || '')}" data-loaded="1">
+      return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(item.cohortId)}" data-enrollment-id="${estEscapeHtml(item.enrollmentId || '')}" data-bo-url="${estEscapeHtml(item.boEnrollmentUrl || '')}" data-bo-comision-url="${estEscapeHtml(item.boComisionUrl || '')}" data-loaded="1">
         ${boLinksHtml}
         <p class="est-sin-preentregas is-error">No se pudo verificar automáticamente el estado de las entregas de esta cursada (el Back Office tardó demasiado). <button type="button" class="est-reintentar-entregas">Reintentar</button></p>
       </div>`;
@@ -2771,7 +2771,16 @@
     }
 
     try {
-      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/entregas?studentId=${encodeURIComponent(studentId)}&cohortId=${encodeURIComponent(cohortId)}`, {
+      // CORREGIDO (nov/2026, a pedido explícito — ver nota larga en
+      // armarListaDeEntregas/mapEstadoEntrega del Worker): se manda también
+      // el enrollmentId real de esta cursada puntual (si el slot lo trae —
+      // ver estSlotEntregas) para que el Worker pueda descartar una entrega
+      // que en los hechos pertenece a OTRA inscripción (recursada real,
+      // mismo programVersionId/contentUnitId entre dos comisiones distintas
+      // del mismo alumno).
+      const enrollmentId = slotEl.dataset.enrollmentId || '';
+      const enrollmentIdParam = enrollmentId ? `&enrollmentId=${encodeURIComponent(enrollmentId)}` : '';
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/entregas?studentId=${encodeURIComponent(studentId)}&cohortId=${encodeURIComponent(cohortId)}${enrollmentIdParam}`, {
         headers: { 'X-Team-Pin': pin },
       });
       if (res.status === 401) {
