@@ -727,7 +727,8 @@
   #dash-root .est-pago-tags { display: flex; align-items: center; gap: .4rem; flex-wrap: wrap; }
   #dash-root .est-pago-tags .est-pago-monto { font-weight: 600; font-size: .82rem; color: var(--ch-ink); white-space: nowrap; }
   #dash-root .est-pago-tags .badge { font-size: .7rem; padding: .16rem .42rem; }
-  #dash-root .est-pago-body { padding: .4rem .8rem .5rem; border-top: 1px solid var(--ch-border); font-size: .8rem; color: var(--ch-fechas); }
+  #dash-root .est-pago-body { padding: .4rem .8rem .5rem; border-top: 1px solid var(--ch-border); font-size: .8rem; color: var(--ch-fechas); display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+  #dash-root .est-pago-bo-link { font-size: .8rem; }
   /* Título "Preentregas y Entrega Final": margen superior sutil (~9px) para
      separarlo del bloque de arriba (fechas, horario y staff titular). */
   #dash-root .est-preentregas-titulo { margin: .58rem 0 .4rem 0; font-weight: 700; }
@@ -2606,6 +2607,17 @@
   // para no confundirse con el listener de "toggle" de las cursadas, que
   // busca ".est-entregas-slot" — acá no hace falta, nunca se carga nada por
   // Worker al abrir un pago puntual (todo viene ya resuelto de /pagos).
+  // Link "Ver en Back Office ↗" de este pago puntual (ver backofficeUrl /
+  // armarUrlBackOfficeDePago en estudiantes-worker.js) — mismo estilo
+  // naranja/terracota y mismo ícono que los demás enlaces ↗ de la ficha
+  // (.est-entrega-link, ya usado en Habilitar entregas/Abrir comisión).
+  // Ausente (pago.backofficeUrl null, por ejemplo si no se pudo resolver el
+  // userId) simplemente no se muestra ninguna línea.
+  function estLineaPagoBackOffice(pago) {
+    if (!pago.backofficeUrl) return '';
+    return `<a href="${estEscapeHtml(pago.backofficeUrl)}" target="_blank" rel="noopener noreferrer" class="est-entrega-link est-pago-bo-link">Ver en Back Office<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a>`;
+  }
+
   function estRenderPago(pago) {
     const concepto = pago.concepto
       ? estEscapeHtml(pago.concepto)
@@ -2619,7 +2631,10 @@
             ${estBadgeEstadoPago(pago.estado)}
           </span>
         </summary>
-        <div class="est-pago-body">${estEscapeHtml(estLineaPagoDetalle(pago))}</div>
+        <div class="est-pago-body">
+          <span class="est-pago-detalle">${estEscapeHtml(estLineaPagoDetalle(pago))}</span>
+          ${estLineaPagoBackOffice(pago)}
+        </div>
       </details>`;
   }
 
@@ -2664,6 +2679,11 @@
     if (!bodyEl || bodyEl.dataset.loaded === '1') return;
     const email = seccionEl.dataset.email || '';
     if (!email) return;
+    // userId (ver data-user-id en estRenderStudentCard y backofficeUrl en
+    // estudiantes-worker.js): si falta, /pagos simplemente no arma el link
+    // "Ver en Back Office" de cada pago — nunca rompe la carga.
+    const userId = seccionEl.dataset.userId || '';
+    const userIdParam = userId ? `&userId=${encodeURIComponent(userId)}` : '';
 
     const cacheada = estPagosCache.get(email);
     if (cacheada) {
@@ -2679,7 +2699,7 @@
     }
 
     try {
-      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/pagos?email=${encodeURIComponent(email)}`, {
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/pagos?email=${encodeURIComponent(email)}${userIdParam}`, {
         headers: { 'X-Team-Pin': pin },
       });
       if (res.status === 401) {
@@ -2875,14 +2895,29 @@
     return estFigmaIndexPromise;
   }
 
+  // Año en 2 dígitos a partir de la fecha DD/MM/AAAA tal como viene en
+  // figma.json (ver nota arriba) — "30/10/2026" → "30/10/26". Si el string
+  // no tiene el formato esperado, se devuelve tal cual (nunca se rompe el
+  // badge por un dato raro).
+  function estFechaFigmaCortaAnio(fecha) {
+    const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(fecha || ''));
+    if (!m) return fecha;
+    return `${m[1]}/${m[2]}/${m[3].slice(-2)}`;
+  }
+
+  // UNIFICADO (nov/2026, a pedido explícito): "solicitado" y "ya_solicitado"
+  // son, de cara al equipo, el mismo estado positivo — antes mostraban dos
+  // textos distintos ("Solicitado" vs "Ya solicitado") sin ninguna
+  // diferencia real que justificara distinguirlos. Ahora los dos muestran
+  // siempre el mismo texto "Figma Estudiante: Solicitado", con la fecha en
+  // formato corto (DD/MM/AA) cuando ese registro la tiene, o a secas cuando
+  // no (ver "sin fecha" en figma.json — 12 registros reales sin ese dato).
+  // Nunca se muestra "Ya solicitado".
   function estBadgeFigma(email, indiceFigma) {
     const clave = String(email || '').trim().toLowerCase();
     const entrada = (clave && indiceFigma) ? indiceFigma[clave] : null;
     if (!entrada) return '<span class="badge badge-neutral">Figma Estudiante: Sin solicitud</span>';
-    const sufijoFecha = entrada.fecha ? ` (${entrada.fecha})` : '';
-    if (entrada.estado === 'ya_solicitado') {
-      return `<span class="badge badge-ok">Figma Estudiante: Ya solicitado${sufijoFecha}</span>`;
-    }
+    const sufijoFecha = entrada.fecha ? ` (${estFechaFigmaCortaAnio(entrada.fecha)})` : '';
     return `<span class="badge badge-ok">Figma Estudiante: Solicitado${sufijoFecha}</span>`;
   }
 
@@ -2904,9 +2939,23 @@
           <p class="est-sin-preentregas">Existe como usuario pero no tiene perfil de estudiante (no se anotó a ningún curso).</p>
         </section>`;
     }
-    const hayCursos = !!(match.cursos && match.cursos.length);
+    // FILTRO POR SEGURIDAD (nov/2026, a pedido explícito): el Worker ya
+    // filtra de raíz las inscripciones contenedor de Carreras y
+    // Diplomaturas (tipoProducto CAREER/DIPLOMA — ver buildStudentCard en
+    // estudiantes-worker.js), así que en el caso normal esto nunca
+    // encuentra nada que sacar. Queda acá como resguardo extra: un
+    // contenedor real nunca tiene comisión ni cohortId ni fechas (a
+    // diferencia de Cancelada/Cambio de comisión, que sí conservan esos
+    // datos reales — ver comision/cohortId/fechaInicio/fechaFin en
+    // buildCursoDetalle), así que si por lo que sea llegara uno sin filtrar
+    // desde el Worker, tampoco se muestra acá.
+    const esContenedorSinComision = (c) => (
+      !c.comision && !c.cohortId && !c.motivoTransferencia && !c.fechaInicio && !c.fechaFin
+    );
+    const cursosFiltrados = (match.cursos || []).filter((c) => !esContenedorSinComision(c));
+    const hayCursos = !!cursosFiltrados.length;
     const cursosHtml = hayCursos
-      ? match.cursos.map((c) => estRenderCurso(c, match.studentId)).join('')
+      ? cursosFiltrados.map((c) => estRenderCurso(c, match.studentId)).join('')
       : '<p class="est-sin-preentregas">No se encontraron cursos para este estudiante.</p>';
     const workshopsHtml = (match.workshops && match.workshops.length)
       ? match.workshops.map((w) => estRenderWorkshop(w, match.studentId)).join('')
@@ -2936,7 +2985,7 @@
         ${cursosHtml}
         <p class="est-section-title">Workshops y Webinars</p>
         ${workshopsHtml}
-        <details class="est-pagos-section" data-email="${estEscapeHtml(match.email || '')}">
+        <details class="est-pagos-section" data-email="${estEscapeHtml(match.email || '')}" data-user-id="${estEscapeHtml(match.backOfficeUserId || '')}">
           <summary class="est-pagos-summary">Pagos</summary>
           <div class="est-pagos-body">
             <p class="est-sin-preentregas est-entregas-cargando">Cargando pagos…</p>
