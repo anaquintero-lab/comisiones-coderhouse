@@ -272,9 +272,9 @@
       },
       "CO": {
         "list": 861300,
-        "final": 344520,
+        "final": 430650,
         "currency": "COP",
-        "discount_pct": 60
+        "discount_pct": 50
       },
       "ES": {
         "list": 341,
@@ -396,9 +396,9 @@
       },
       "CO": {
         "list": 1383800,
-        "final": 553520,
+        "final": 691900,
         "currency": "COP",
-        "discount_pct": 60
+        "discount_pct": 50
       },
       "ES": {
         "list": 440,
@@ -452,9 +452,9 @@
       },
       "CL": {
         "list": 627000,
-        "final": 250800,
+        "final": 313500,
         "currency": "CLP",
-        "discount_pct": 60
+        "discount_pct": 50
       },
       "CO": {
         "list": 1448700,
@@ -1326,9 +1326,9 @@
       },
       "CO": {
         "list": 1787500,
-        "final": 715000,
+        "final": 893750,
         "currency": "COP",
-        "discount_pct": 60
+        "discount_pct": 50
       },
       "ES": {
         "list": 935,
@@ -1338,9 +1338,9 @@
       },
       "MX": {
         "list": 9130,
-        "final": 3652,
+        "final": 4565,
         "currency": "MXN",
-        "discount_pct": 60
+        "discount_pct": 50
       },
       "PE": {
         "list": 1265,
@@ -3000,9 +3000,9 @@
       },
       "CO": {
         "list": 1448700,
-        "final": 579480,
+        "final": 724350,
         "currency": "COP",
-        "discount_pct": 60
+        "discount_pct": 50
       },
       "ES": {
         "list": 770,
@@ -3358,34 +3358,28 @@
         "currency": "ARS",
         "discount_pct": 20
       },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 313500,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
       "CO": {
         "list": 1448700,
         "final": 724350,
         "currency": "COP",
         "discount_pct": 50
       },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
       "MX": {
         "list": 7370,
         "final": 3685,
         "currency": "MXN",
+        "discount_pct": 50
+      },
+      "US": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
+        "discount_pct": 50
+      },
+      "VE": {
+        "list": 608,
+        "final": 304,
+        "currency": "USD",
         "discount_pct": 50
       }
     },
