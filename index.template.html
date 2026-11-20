@@ -745,6 +745,11 @@
   #dash-root .est-cursada-bo-links { margin: .58rem 0 0 0; font-size: .85rem; display: flex; flex-wrap: wrap; align-items: center; gap: .4rem; }
   #dash-root .est-cursada-bo-links .est-cursada-bo-sep { color: var(--ch-ink-muted); }
   #dash-root .est-sin-preentregas { color: var(--ch-ink-muted); font-size: .85rem; margin: 0; }
+  /* Botón "Reintentar" (nov/2026, a pedido explícito) dentro del aviso de
+     error de entregas — mismo tamaño chico que .est-copy-btn, en línea con
+     el texto del aviso. */
+  #dash-root .est-reintentar-entregas { font: inherit; font-size: .8rem; font-weight: 600; margin-left: .3rem; padding: .15rem .55rem; border-radius: 999px; border: 1px solid var(--ch-bad); background: transparent; color: var(--ch-bad); cursor: pointer; }
+  #dash-root .est-reintentar-entregas:hover { background: var(--ch-bad); color: #fff; }
   #dash-root .est-saldo-line { font-size: .88rem; margin: 0 0 .9rem 0; }
   /* Margen superior claro (24px) antes de cada título de sección, ahora que
      arriba hay una fila de badges en vez de texto corrido. */
@@ -2392,8 +2397,22 @@
     const boLinksHtml = estEnlacesCursadaBO(item.boEnrollmentUrl, item.boComisionUrl);
     if (boLinksHtml) partes.push(boLinksHtml);
     if (item.entregasError) {
-      partes.push('<p class="est-sin-preentregas is-error">No se pudo verificar automáticamente el estado de las entregas de esta cursada (el Back Office tardó demasiado). Podés revisarlo a mano desde los enlaces de arriba.</p>');
-    } else if (!partes.length) {
+      // CORREGIDO (nov/2026, a pedido explícito): antes esto quedaba fijo,
+      // sin ninguna forma de reintentar sin cerrar y volver a abrir el
+      // acordeón (lo cual, encima, acá no servía de nada: el slot ya
+      // quedaba marcado data-loaded="1", así que ni siquiera eso disparaba
+      // una consulta nueva). Ahora el botón "Reintentar" (ver
+      // estReintentarEntregas más abajo) pide /entregas?studentId=&cohortId=
+      // para ESTA comisión puntual — la misma ruta de siempre, con su
+      // propio presupuesto de 50 subrequests completo, sin compartir nada
+      // con el resto de la ficha — y reemplaza este aviso por el resultado
+      // real en caso de éxito.
+      return `<div class="est-entregas-slot" data-student-id="${estEscapeHtml(studentId)}" data-cohort-id="${estEscapeHtml(item.cohortId)}" data-bo-url="${estEscapeHtml(item.boEnrollmentUrl || '')}" data-bo-comision-url="${estEscapeHtml(item.boComisionUrl || '')}" data-loaded="1">
+        ${boLinksHtml}
+        <p class="est-sin-preentregas is-error">No se pudo verificar automáticamente el estado de las entregas de esta cursada (el Back Office tardó demasiado). <button type="button" class="est-reintentar-entregas">Reintentar</button></p>
+      </div>`;
+    }
+    if (!partes.length) {
       partes.push('<p class="est-sin-preentregas">No hay información adicional para esta cursada.</p>');
     }
     return `<div class="est-entregas-slot" data-loaded="1">${partes.join('')}</div>`;
@@ -2488,6 +2507,17 @@
     const btn = e.target.closest('.est-copy-btn');
     if (!btn || !estResultadosEl.contains(btn)) return;
     estCopyValue(btn, btn.dataset.copyValue || '');
+  });
+
+  // CORREGIDO (nov/2026, a pedido explícito): botón "Reintentar" de una
+  // tarjeta de entregas con error (ver estSlotEntregas/estCargarEntregas y
+  // estReintentarEntregas, más abajo) — delegado acá porque el contenido de
+  // cada tarjeta se reemplaza por completo al buscar o al reintentar, así
+  // que un listener puesto directo en el botón se perdería.
+  estResultadosEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.est-reintentar-entregas');
+    if (!btn || !estResultadosEl.contains(btn)) return;
+    estReintentarEntregas(btn.closest('.est-entregas-slot'));
   });
 
   // --- Enlace directo al Back Office ---
@@ -2756,15 +2786,36 @@
       if (!res.ok) {
         const mensaje = (data && data.error) ? data.error : `HTTP ${res.status}`;
         const detalle = (data && data.detail) ? ` (${data.detail})` : '';
-        slotEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar las entregas: ${estEscapeHtml(mensaje + detalle)}</p>`;
+        // CORREGIDO (nov/2026, a pedido explícito): se agrega el mismo botón
+        // "Reintentar" que el caso eager (ver estSlotEntregas) — antes había
+        // que cerrar y volver a abrir el acordeón para reintentar, sin
+        // ningún indicio visual de que eso funcionaba.
+        slotEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar las entregas: ${estEscapeHtml(mensaje + detalle)} <button type="button" class="est-reintentar-entregas">Reintentar</button></p>`;
         return;
       }
       const resultado = { preentregas: data.preentregas || [], horario: data.horario || null, staffTitular: data.staffTitular || [] };
       estEntregasCache.set(cacheKey, resultado);
       estPintarEntregasEnSlot(slotEl, resultado);
     } catch (err) {
-      slotEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar las entregas: ${estEscapeHtml(err.message || String(err))}</p>`;
+      slotEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar las entregas: ${estEscapeHtml(err.message || String(err))} <button type="button" class="est-reintentar-entregas">Reintentar</button></p>`;
     }
+  }
+
+  // CORREGIDO (nov/2026, a pedido explícito — botón "Reintentar" para
+  // cualquier aviso de error de entregas, tanto el que puede aparecer de
+  // una en /buscar (ver estSlotEntregas, item.entregasError) como el de esta
+  // misma función (estCargarEntregas) cuando la carga diferida falla: pide
+  // /entregas de nuevo para ESA comisión puntual, con su propio presupuesto
+  // de 50 subrequests completo — nunca hace falta cerrar y reabrir el
+  // acordeón a mano.
+  function estReintentarEntregas(slotEl) {
+    if (!slotEl) return;
+    const studentId = slotEl.dataset.studentId;
+    const cohortId = slotEl.dataset.cohortId;
+    if (studentId && cohortId) estEntregasCache.delete(`${studentId}|${cohortId}`);
+    slotEl.dataset.loaded = '0';
+    slotEl.innerHTML = '<p class="est-sin-preentregas est-entregas-cargando">Reintentando…</p>';
+    estCargarEntregas(slotEl);
   }
 
   // Delegación en fase de CAPTURA: el evento "toggle" de <details> no hace
