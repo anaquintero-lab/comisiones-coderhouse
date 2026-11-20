@@ -2797,10 +2797,41 @@
       : '<span class="badge badge-neutral">Coder Pro: Inactivo</span>';
   }
 
-  function estRenderStudentCard(match) {
+  // --- Figma Estudiante (PRUEBA, nov/2026): badge de estado de la
+  // solicitud de acceso a Figma, leído de un índice estático ./figma.json
+  // (generado aparte, fuera de este front y del Worker, desde la planilla
+  // "base interna Figma" — ver figma.json para el detalle de cómo se arma)
+  // indexado por email en minúsculas. Se pide una sola vez por pestaña
+  // (estCargarFigmaIndex cachea la misma Promise) y nunca pasa por el
+  // Worker — es un fetch relativo a este mismo HTML, así que tiene que
+  // servirse desde el mismo lugar que index.html/index.template.html.
+  let estFigmaIndexPromise = null;
+  function estCargarFigmaIndex() {
+    if (!estFigmaIndexPromise) {
+      estFigmaIndexPromise = fetch('./figma.json')
+        .then((r) => (r.ok ? r.json() : {}))
+        .catch(() => ({})); // sin figma.json (o con error): se trata como "sin datos" en vez de romper la ficha
+    }
+    return estFigmaIndexPromise;
+  }
+
+  function estBadgeFigma(email, indiceFigma) {
+    const clave = String(email || '').trim().toLowerCase();
+    const entrada = (clave && indiceFigma) ? indiceFigma[clave] : null;
+    if (!entrada) return '<span class="badge badge-neutral">Figma Estudiante: Sin solicitud</span>';
+    const sufijoFecha = entrada.fecha ? ` (${entrada.fecha})` : '';
+    if (entrada.estado === 'ya_solicitado') {
+      return `<span class="badge badge-ok">Figma Estudiante: Ya solicitado${sufijoFecha}</span>`;
+    }
+    return `<span class="badge badge-ok">Figma Estudiante: Solicitado${sufijoFecha}</span>`;
+  }
+
+  async function estRenderStudentCard(match) {
     const emailSpan = `<span class="est-student-email">${estEscapeHtml(match.email)}${estCopyBtn('email', match.email)}</span>`;
     const boLink = estBackOfficeLink(match.backOfficeUserId);
     const coderProBadge = estBadgeCoderPro(match.coderPro);
+    const indiceFigma = await estCargarFigmaIndex();
+    const figmaBadge = estBadgeFigma(match.email, indiceFigma);
 
     if (match.sinPerfilDeEstudiante) {
       return `
@@ -2809,7 +2840,7 @@
             <h3>${estEscapeHtml(match.nombre)}</h3>
             <div class="est-student-header-right">${emailSpan}${boLink}</div>
           </div>
-          <div class="est-badges-row">${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}</div>
+          <div class="est-badges-row">${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}${figmaBadge}</div>
           <p class="est-sin-preentregas">Existe como usuario pero no tiene perfil de estudiante (no se anotó a ningún curso).</p>
         </section>`;
     }
@@ -2839,7 +2870,7 @@
           <h3>${estEscapeHtml(match.nombre)}</h3>
           <div class="est-student-header-right">${emailSpan}${boLink}</div>
         </div>
-        <div class="est-badges-row">${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}</div>
+        <div class="est-badges-row">${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}${figmaBadge}</div>
         <p class="est-section-title">Cursos y Diplomaturas</p>
         ${filtroHtml}
         ${cursosHtml}
@@ -2864,9 +2895,9 @@
       <p class="est-sin-preentregas">Varias personas coinciden con esa búsqueda. Elegí una:</p>
       <div class="est-match-list">${items}</div>`;
     estResultadosEl.querySelectorAll('.est-match-item').forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const idx = Number(btn.dataset.idx);
-        estResultadosEl.innerHTML = estRenderStudentCard(matches[idx]);
+        estResultadosEl.innerHTML = await estRenderStudentCard(matches[idx]);
       });
     });
   }
@@ -2956,7 +2987,7 @@
       }
       estNoteEl.textContent = `${matches.length} resultado${matches.length === 1 ? '' : 's'}.`;
       if (matches.length === 1) {
-        estResultadosEl.innerHTML = estRenderStudentCard(matches[0]);
+        estResultadosEl.innerHTML = await estRenderStudentCard(matches[0]);
       } else {
         estRenderMatchPicker(matches);
       }
@@ -3050,14 +3081,14 @@
     estAutocompleteListEl.innerHTML = items;
     estAutocompleteListEl.classList.remove('is-hidden');
     estAutocompleteListEl.querySelectorAll('.est-autocomplete-item').forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const idx = Number(btn.dataset.idx);
         const elegido = matches[idx];
         estHideAutocomplete();
         estBuscarEl.value = elegido.email || elegido.nombre || '';
         estNoteEl.classList.remove('is-error');
         estNoteEl.textContent = 'Mostrando ficha del estudiante.';
-        estResultadosEl.innerHTML = estRenderStudentCard(elegido);
+        estResultadosEl.innerHTML = await estRenderStudentCard(elegido);
         estActualizarVisibilidadRecientes();
       });
     });
@@ -3237,6 +3268,7 @@
   document.addEventListener('app:logged-in', () => {
     estActualizarVisibilidadRecientes();
     estCargarRecientes();
+    estCargarFigmaIndex();
   });
   // Si al cargar la página la sesión ya estaba validada (localStorage de
   // una recarga anterior, incluso en otra pestaña o tras cerrar el navegador), el evento
@@ -3245,7 +3277,13 @@
   if (appGetSessionPassword()) {
     estActualizarVisibilidadRecientes();
     estCargarRecientes();
+    estCargarFigmaIndex();
   }
+  // Dispara también la precarga de ./figma.json de una, sin esperar el
+  // login (es un archivo estático propio, no pasa por el Worker ni por la
+  // sesión del equipo) — así, para cuando se renderice la primera ficha,
+  // lo normal es que ya esté resuelta y no haya ningún parpadeo del badge.
+  estCargarFigmaIndex();
 
   // --- Filtro de estado de cursos (Parte 4) ---
   function estEstadoFiltroCurso(curso) {
