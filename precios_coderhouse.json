@@ -3358,16 +3358,40 @@
         "currency": "ARS",
         "discount_pct": 20
       },
+      "UY": {
+        "list": 18810,
+        "final": 9405,
+        "currency": "UYU",
+        "discount_pct": 50
+      },
+      "CL": {
+        "list": 627000,
+        "final": 313500,
+        "currency": "CLP",
+        "discount_pct": 50
+      },
       "CO": {
         "list": 1448700,
         "final": 724350,
         "currency": "COP",
         "discount_pct": 50
       },
+      "ES": {
+        "list": 770,
+        "final": 385,
+        "currency": "EUR",
+        "discount_pct": 50
+      },
       "MX": {
         "list": 7370,
         "final": 3685,
         "currency": "MXN",
+        "discount_pct": 50
+      },
+      "PE": {
+        "list": 1045,
+        "final": 523,
+        "currency": "PEN",
         "discount_pct": 50
       },
       "US": {
