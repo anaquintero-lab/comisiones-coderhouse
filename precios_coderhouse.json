@@ -6,9 +6,9 @@
     "precios": {
       "AR": {
         "list": 225500,
-        "final": 180400,
+        "final": 146575,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18700,
@@ -18,15 +18,15 @@
       },
       "CL": {
         "list": 625900,
-        "final": 312950,
+        "final": 250360,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1447050,
-        "final": 723525,
+        "final": 578820,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 699,
@@ -36,15 +36,15 @@
       },
       "MX": {
         "list": 7315,
-        "final": 3658,
+        "final": 2926,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1293,
-        "final": 646,
+        "final": 517,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 611,
@@ -59,7 +59,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ai-automation",
@@ -68,9 +68,9 @@
     "precios": {
       "AR": {
         "list": 245000,
-        "final": 196000,
+        "final": 159250,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 20240,
@@ -80,15 +80,15 @@
       },
       "CL": {
         "list": 676500,
-        "final": 338250,
+        "final": 270600,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1564200,
-        "final": 782100,
+        "final": 625680,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 759,
@@ -98,15 +98,15 @@
       },
       "MX": {
         "list": 7920,
-        "final": 3960,
+        "final": 3168,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1375,
-        "final": 688,
+        "final": 550,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 658,
@@ -121,7 +121,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ai-automation-avanzado",
@@ -130,9 +130,9 @@
     "precios": {
       "AR": {
         "list": 207700,
-        "final": 166160,
+        "final": 135005,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 17160,
@@ -142,15 +142,15 @@
       },
       "CL": {
         "list": 575300,
-        "final": 287650,
+        "final": 230120,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1329900,
-        "final": 664950,
+        "final": 531960,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 638,
@@ -160,15 +160,15 @@
       },
       "MX": {
         "list": 6710,
-        "final": 3355,
+        "final": 2684,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1210,
-        "final": 605,
+        "final": 484,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 565,
@@ -183,7 +183,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ai-engineering",
@@ -192,9 +192,9 @@
     "precios": {
       "AR": {
         "list": 240100,
-        "final": 192080,
+        "final": 156065,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 19840,
@@ -204,15 +204,15 @@
       },
       "CL": {
         "list": 664000,
-        "final": 332000,
+        "final": 265600,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1535000,
-        "final": 767500,
+        "final": 614000,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 741,
@@ -222,15 +222,15 @@
       },
       "MX": {
         "list": 7761,
-        "final": 3881,
+        "final": 3104,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1371,
-        "final": 686,
+        "final": 548,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 649,
@@ -245,7 +245,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "administracion-de-empresas",
@@ -254,9 +254,9 @@
     "precios": {
       "AR": {
         "list": 98700,
-        "final": 78960,
+        "final": 64155,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 6160,
@@ -266,15 +266,15 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
-        "final": 430650,
+        "final": 344520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 341,
@@ -284,15 +284,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -307,7 +307,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "business-analytics",
@@ -316,9 +316,9 @@
     "precios": {
       "AR": {
         "list": 229200,
-        "final": 183360,
+        "final": 148980,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -328,15 +328,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -346,15 +346,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -369,7 +369,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "canva",
@@ -378,9 +378,9 @@
     "precios": {
       "AR": {
         "list": 103200,
-        "final": 82560,
+        "final": 67080,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 11660,
@@ -390,15 +390,15 @@
       },
       "CL": {
         "list": 469700,
-        "final": 234850,
+        "final": 187880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1383800,
-        "final": 691900,
+        "final": 553520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 440,
@@ -408,15 +408,15 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 358,
@@ -431,7 +431,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ciber-seguridad",
@@ -440,9 +440,9 @@
     "precios": {
       "AR": {
         "list": 242600,
-        "final": 194080,
+        "final": 157690,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -452,15 +452,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -470,15 +470,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -493,7 +493,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "cloudcomputing-aws",
@@ -502,9 +502,9 @@
     "precios": {
       "AR": {
         "list": 277700,
-        "final": 222160,
+        "final": 180505,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 20460,
@@ -514,15 +514,15 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
-        "final": 826100,
+        "final": 660880,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 847,
@@ -532,15 +532,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -555,7 +555,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "community-manager",
@@ -564,9 +564,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -576,15 +576,15 @@
       },
       "CL": {
         "list": 532400,
-        "final": 266200,
+        "final": 212960,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 704,
@@ -594,15 +594,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -617,7 +617,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "contabilidad",
@@ -626,9 +626,9 @@
     "precios": {
       "AR": {
         "list": 98700,
-        "final": 78960,
+        "final": 64155,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 6160,
@@ -638,15 +638,15 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
-        "final": 430650,
+        "final": 344520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 319,
@@ -656,15 +656,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -679,7 +679,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "contenido-para-redesociales",
@@ -688,9 +688,9 @@
     "precios": {
       "AR": {
         "list": 175800,
-        "final": 140640,
+        "final": 114270,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 14630,
@@ -700,15 +700,15 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
-        "final": 587400,
+        "final": 469920,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 616,
@@ -718,15 +718,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -741,7 +741,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "copywriting",
@@ -750,9 +750,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -762,15 +762,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 638,
@@ -780,15 +780,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -803,7 +803,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "creacion-de-contenido-con-ai",
@@ -812,9 +812,9 @@
     "precios": {
       "AR": {
         "list": 245000,
-        "final": 196000,
+        "final": 159250,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 20240,
@@ -824,15 +824,15 @@
       },
       "CL": {
         "list": 676500,
-        "final": 338250,
+        "final": 270600,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1564200,
-        "final": 782100,
+        "final": 625680,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 759,
@@ -842,15 +842,15 @@
       },
       "MX": {
         "list": 7920,
-        "final": 3960,
+        "final": 3168,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1375,
-        "final": 688,
+        "final": 550,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 658,
@@ -865,7 +865,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "customer-experience",
@@ -874,9 +874,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -886,15 +886,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -904,15 +904,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -927,7 +927,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "data-analytics",
@@ -936,9 +936,9 @@
     "precios": {
       "AR": {
         "list": 291100,
-        "final": 232880,
+        "final": 189215,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 20460,
@@ -948,15 +948,15 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
-        "final": 826100,
+        "final": 660880,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -966,15 +966,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 935,
-        "final": 468,
+        "final": 374,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -989,7 +989,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "data-engineering",
@@ -998,9 +998,9 @@
     "precios": {
       "AR": {
         "list": 242600,
-        "final": 194080,
+        "final": 157690,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 19840,
@@ -1010,15 +1010,15 @@
       },
       "CL": {
         "list": 664000,
-        "final": 332000,
+        "final": 265600,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1535000,
-        "final": 767500,
+        "final": 614000,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 741,
@@ -1028,15 +1028,15 @@
       },
       "MX": {
         "list": 7761,
-        "final": 3881,
+        "final": 3104,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1371,
-        "final": 686,
+        "final": 548,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 649,
@@ -1051,7 +1051,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "data-science-fundamentos-para-la-ciencia-de-datos",
@@ -1060,9 +1060,9 @@
     "precios": {
       "AR": {
         "list": 361400,
-        "final": 289120,
+        "final": 234910,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 31900,
@@ -1072,15 +1072,15 @@
       },
       "CL": {
         "list": 1117600,
-        "final": 558800,
+        "final": 447040,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 3121800,
-        "final": 1560900,
+        "final": 1248720,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 1419,
@@ -1090,15 +1090,15 @@
       },
       "MX": {
         "list": 13640,
-        "final": 6820,
+        "final": 5456,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1980,
-        "final": 990,
+        "final": 792,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 1101,
@@ -1113,7 +1113,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "data-science-machine-learning-para-la-ciencia-de-datos",
@@ -1122,9 +1122,9 @@
     "precios": {
       "AR": {
         "list": 431900,
-        "final": 345520,
+        "final": 280735,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 38120,
@@ -1134,15 +1134,15 @@
       },
       "CL": {
         "list": 1180300,
-        "final": 590150,
+        "final": 472120,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 3166900,
-        "final": 1583450,
+        "final": 1266760,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 1694,
@@ -1152,15 +1152,15 @@
       },
       "MX": {
         "list": 14520,
-        "final": 7260,
+        "final": 5808,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 2365,
-        "final": 1183,
+        "final": 946,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 1316,
@@ -1175,7 +1175,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "data-science-nlp-deep-learning-aplicado-a-ciencia-de-datos",
@@ -1184,9 +1184,9 @@
     "precios": {
       "AR": {
         "list": 191600,
-        "final": 153280,
+        "final": 124540,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 14630,
@@ -1196,15 +1196,15 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
-        "final": 587400,
+        "final": 469920,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 616,
@@ -1214,15 +1214,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -1237,7 +1237,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "desarrollo-web-online",
@@ -1246,9 +1246,9 @@
     "precios": {
       "AR": {
         "list": 229200,
-        "final": 183360,
+        "final": 148980,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -1258,15 +1258,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 704,
@@ -1276,15 +1276,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -1299,7 +1299,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "desarrollo-aplicaciones",
@@ -1308,9 +1308,9 @@
     "precios": {
       "AR": {
         "list": 293500,
-        "final": 234800,
+        "final": 190775,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 22550,
@@ -1320,15 +1320,15 @@
       },
       "CL": {
         "list": 772200,
-        "final": 386100,
+        "final": 308880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1787500,
-        "final": 893750,
+        "final": 715000,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 935,
@@ -1338,15 +1338,15 @@
       },
       "MX": {
         "list": 9130,
-        "final": 4565,
+        "final": 3652,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1265,
-        "final": 633,
+        "final": 506,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 736,
@@ -1361,7 +1361,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "devops-cloud",
@@ -1370,9 +1370,9 @@
     "precios": {
       "AR": {
         "list": 264600,
-        "final": 211680,
+        "final": 171990,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 21640,
@@ -1382,15 +1382,15 @@
       },
       "CL": {
         "list": 724400,
-        "final": 362200,
+        "final": 289760,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1675000,
-        "final": 837500,
+        "final": 670000,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 808,
@@ -1400,15 +1400,15 @@
       },
       "MX": {
         "list": 8467,
-        "final": 4234,
+        "final": 3387,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1496,
-        "final": 748,
+        "final": 598,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 708,
@@ -1423,7 +1423,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ux-ui-online",
@@ -1432,9 +1432,9 @@
     "precios": {
       "AR": {
         "list": 274900,
-        "final": 219920,
+        "final": 178685,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 20460,
@@ -1444,15 +1444,15 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
-        "final": 826100,
+        "final": 660880,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 847,
@@ -1462,15 +1462,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1430,
-        "final": 715,
+        "final": 572,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -1485,7 +1485,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ux-ui-avanzado-online",
@@ -1494,9 +1494,9 @@
     "precios": {
       "AR": {
         "list": 261800,
-        "final": 209440,
+        "final": 170170,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 20460,
@@ -1506,15 +1506,15 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
-        "final": 826100,
+        "final": 660880,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 847,
@@ -1524,15 +1524,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1430,
-        "final": 715,
+        "final": 572,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -1547,7 +1547,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ecommerce-online",
@@ -1556,9 +1556,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -1568,15 +1568,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -1586,15 +1586,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -1609,7 +1609,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "fotografia-rrss",
@@ -1618,9 +1618,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -1630,15 +1630,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 638,
@@ -1648,15 +1648,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -1671,7 +1671,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "excel",
@@ -1680,9 +1680,9 @@
     "precios": {
       "AR": {
         "list": 169800,
-        "final": 135840,
+        "final": 110370,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 14630,
@@ -1692,15 +1692,15 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
-        "final": 587400,
+        "final": 469920,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 561,
@@ -1710,15 +1710,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -1733,7 +1733,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "excel-avanzado",
@@ -1742,9 +1742,9 @@
     "precios": {
       "AR": {
         "list": 116900,
-        "final": 93520,
+        "final": 75985,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 10000,
@@ -1754,15 +1754,15 @@
       },
       "CL": {
         "list": 342000,
-        "final": 171000,
+        "final": 136800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 810000,
-        "final": 405000,
+        "final": 324000,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 390,
@@ -1772,15 +1772,15 @@
       },
       "MX": {
         "list": 3950,
-        "final": 1975,
+        "final": 1580,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 490,
-        "final": 245,
+        "final": 196,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 338,
@@ -1795,7 +1795,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "finanzas-personales",
@@ -1804,9 +1804,9 @@
     "precios": {
       "AR": {
         "list": 98700,
-        "final": 78960,
+        "final": 64155,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 6160,
@@ -1816,15 +1816,15 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
-        "final": 430650,
+        "final": 344520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 319,
@@ -1834,15 +1834,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -1857,7 +1857,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "forward-deployed-engineer",
@@ -1866,9 +1866,9 @@
     "precios": {
       "AR": {
         "list": 255000,
-        "final": 204000,
+        "final": 165750,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 21080,
@@ -1878,15 +1878,15 @@
       },
       "CL": {
         "list": 704400,
-        "final": 352200,
+        "final": 281760,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1628800,
-        "final": 814400,
+        "final": 651520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 790,
@@ -1896,15 +1896,15 @@
       },
       "MX": {
         "list": 8247,
-        "final": 4124,
+        "final": 3299,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1432,
-        "final": 716,
+        "final": 573,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 685,
@@ -1919,7 +1919,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "fundamentos-diseno-grafico",
@@ -1928,9 +1928,9 @@
     "precios": {
       "AR": {
         "list": 216100,
-        "final": 172880,
+        "final": 140465,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -1940,15 +1940,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -1958,15 +1958,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -1981,7 +1981,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "fundamentos-del-marketing-digital",
@@ -1990,9 +1990,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -2002,15 +2002,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -2020,15 +2020,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 536,
@@ -2043,7 +2043,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "google-ads-v2",
@@ -2052,9 +2052,9 @@
     "precios": {
       "AR": {
         "list": 122500,
-        "final": 98000,
+        "final": 79625,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 11660,
@@ -2064,15 +2064,15 @@
       },
       "CL": {
         "list": 426800,
-        "final": 213400,
+        "final": 170720,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1383800,
-        "final": 691900,
+        "final": 553520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 374,
@@ -2082,15 +2082,15 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 307,
@@ -2105,7 +2105,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "growth-marketing",
@@ -2114,9 +2114,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -2126,15 +2126,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -2144,15 +2144,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2167,7 +2167,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "introduccion-inteligencia-artificial",
@@ -2176,9 +2176,9 @@
     "precios": {
       "AR": {
         "list": 114000,
-        "final": 91200,
+        "final": 74100,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 11660,
@@ -2188,15 +2188,15 @@
       },
       "CL": {
         "list": 469700,
-        "final": 234850,
+        "final": 187880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1383800,
-        "final": 691900,
+        "final": 553520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 693,
@@ -2206,15 +2206,15 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 358,
@@ -2229,7 +2229,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "javascript",
@@ -2238,9 +2238,9 @@
     "precios": {
       "AR": {
         "list": 264400,
-        "final": 211520,
+        "final": 171860,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 20460,
@@ -2250,15 +2250,15 @@
       },
       "CL": {
         "list": 687500,
-        "final": 343750,
+        "final": 275000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1652200,
-        "final": 826100,
+        "final": 660880,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 825,
@@ -2268,15 +2268,15 @@
       },
       "MX": {
         "list": 8250,
-        "final": 4125,
+        "final": 3300,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 935,
-        "final": 468,
+        "final": 374,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 672,
@@ -2291,7 +2291,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "liderazgo-gestion-equipos",
@@ -2300,9 +2300,9 @@
     "precios": {
       "AR": {
         "list": 114500,
-        "final": 91600,
+        "final": 74425,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 11660,
@@ -2312,15 +2312,15 @@
       },
       "CL": {
         "list": 469700,
-        "final": 234850,
+        "final": 187880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1383800,
-        "final": 691900,
+        "final": 553520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 440,
@@ -2330,15 +2330,15 @@
       },
       "MX": {
         "list": 5610,
-        "final": 2805,
+        "final": 2244,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 358,
@@ -2353,7 +2353,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "oratoria",
@@ -2362,9 +2362,9 @@
     "precios": {
       "AR": {
         "list": 76100,
-        "final": 60880,
+        "final": 49465,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 6160,
@@ -2374,15 +2374,15 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
-        "final": 430650,
+        "final": 344520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 319,
@@ -2392,15 +2392,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -2415,7 +2415,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "marketing-digital-ch-online",
@@ -2424,9 +2424,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -2436,15 +2436,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 704,
@@ -2454,15 +2454,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2477,7 +2477,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "photoshop-e-illustrator-online",
@@ -2486,9 +2486,9 @@
     "precios": {
       "AR": {
         "list": 216100,
-        "final": 172880,
+        "final": 140465,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -2498,15 +2498,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 704,
@@ -2516,15 +2516,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2539,7 +2539,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "power-bi",
@@ -2548,9 +2548,9 @@
     "precios": {
       "AR": {
         "list": 169800,
-        "final": 135840,
+        "final": 110370,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 14630,
@@ -2560,15 +2560,15 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
-        "final": 587400,
+        "final": 469920,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 616,
@@ -2578,15 +2578,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -2601,7 +2601,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "product-manager-online",
@@ -2610,9 +2610,9 @@
     "precios": {
       "AR": {
         "list": 218300,
-        "final": 174640,
+        "final": 141895,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -2622,15 +2622,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 704,
@@ -2640,15 +2640,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1375,
-        "final": 688,
+        "final": 550,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2663,7 +2663,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "programacion-backend-desarrollo-avanzado-de-backend",
@@ -2672,9 +2672,9 @@
     "precios": {
       "AR": {
         "list": 221900,
-        "final": 177520,
+        "final": 144235,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 19580,
@@ -2684,15 +2684,15 @@
       },
       "CL": {
         "list": 541200,
-        "final": 270600,
+        "final": 216480,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1538900,
-        "final": 769450,
+        "final": 615560,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 792,
@@ -2702,15 +2702,15 @@
       },
       "MX": {
         "list": 7480,
-        "final": 3740,
+        "final": 2992,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1155,
-        "final": 578,
+        "final": 462,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 629,
@@ -2725,7 +2725,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "programacion-backend-diseno-y-arquitectura-backend",
@@ -2734,9 +2734,9 @@
     "precios": {
       "AR": {
         "list": 289800,
-        "final": 231840,
+        "final": 188370,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 17600,
@@ -2746,15 +2746,15 @@
       },
       "CL": {
         "list": 503800,
-        "final": 251900,
+        "final": 201520,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1436600,
-        "final": 718300,
+        "final": 574640,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -2764,15 +2764,15 @@
       },
       "MX": {
         "list": 7040,
-        "final": 3520,
+        "final": 2816,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 935,
-        "final": 468,
+        "final": 374,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 579,
@@ -2787,7 +2787,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "programacion-backend-testing-y-escalabilidad-backend",
@@ -2796,9 +2796,9 @@
     "precios": {
       "AR": {
         "list": 280100,
-        "final": 224080,
+        "final": 182065,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 21560,
@@ -2808,15 +2808,15 @@
       },
       "CL": {
         "list": 558800,
-        "final": 279400,
+        "final": 223520,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1641200,
-        "final": 820600,
+        "final": 656480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 825,
@@ -2826,15 +2826,15 @@
       },
       "MX": {
         "list": 8360,
-        "final": 4180,
+        "final": 3344,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 658,
@@ -2849,7 +2849,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "prototipado",
@@ -2858,9 +2858,9 @@
     "precios": {
       "AR": {
         "list": 286900,
-        "final": 229520,
+        "final": 186485,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -2870,15 +2870,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -2888,15 +2888,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -2911,7 +2911,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "python",
@@ -2920,9 +2920,9 @@
     "precios": {
       "AR": {
         "list": 352800,
-        "final": 282240,
+        "final": 229320,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 25740,
@@ -2932,15 +2932,15 @@
       },
       "CL": {
         "list": 863500,
-        "final": 431750,
+        "final": 345400,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 2059200,
-        "final": 1029600,
+        "final": 823680,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 891,
@@ -2950,15 +2950,15 @@
       },
       "MX": {
         "list": 10120,
-        "final": 5060,
+        "final": 4048,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1210,
-        "final": 605,
+        "final": 484,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 829,
@@ -2973,7 +2973,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "qa-automation",
@@ -2982,9 +2982,9 @@
     "precios": {
       "AR": {
         "list": 251000,
-        "final": 200800,
+        "final": 163150,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -2994,15 +2994,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -3012,15 +3012,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3035,7 +3035,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "reactjs",
@@ -3044,9 +3044,9 @@
     "precios": {
       "AR": {
         "list": 238900,
-        "final": 191120,
+        "final": 155285,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -3056,15 +3056,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 704,
@@ -3074,15 +3074,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 825,
-        "final": 413,
+        "final": 330,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3097,7 +3097,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "seo-online",
@@ -3106,9 +3106,9 @@
     "precios": {
       "AR": {
         "list": 165700,
-        "final": 132560,
+        "final": 107705,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 14630,
@@ -3118,15 +3118,15 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
-        "final": 587400,
+        "final": 469920,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 616,
@@ -3136,15 +3136,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -3159,7 +3159,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "sql",
@@ -3168,9 +3168,9 @@
     "precios": {
       "AR": {
         "list": 320200,
-        "final": 256160,
+        "final": 208130,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 22550,
@@ -3180,15 +3180,15 @@
       },
       "CL": {
         "list": 772200,
-        "final": 386100,
+        "final": 308880,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1787500,
-        "final": 893750,
+        "final": 715000,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 935,
@@ -3198,15 +3198,15 @@
       },
       "MX": {
         "list": 9130,
-        "final": 4565,
+        "final": 3652,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1265,
-        "final": 633,
+        "final": 506,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 736,
@@ -3221,7 +3221,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "scrum-metodologias-agiles",
@@ -3230,9 +3230,9 @@
     "precios": {
       "AR": {
         "list": 161300,
-        "final": 129040,
+        "final": 104845,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 14630,
@@ -3242,15 +3242,15 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
-        "final": 587400,
+        "final": 469920,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 616,
@@ -3260,15 +3260,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -3283,7 +3283,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "tableau",
@@ -3292,9 +3292,9 @@
     "precios": {
       "AR": {
         "list": 184300,
-        "final": 147440,
+        "final": 119795,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 14630,
@@ -3304,15 +3304,15 @@
       },
       "CL": {
         "list": 495000,
-        "final": 247500,
+        "final": 198000,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1174800,
-        "final": 587400,
+        "final": 469920,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 616,
@@ -3322,15 +3322,15 @@
       },
       "MX": {
         "list": 5720,
-        "final": 2860,
+        "final": 2288,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 770,
-        "final": 385,
+        "final": 308,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 493,
@@ -3345,7 +3345,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "testing-qa-manual",
@@ -3354,9 +3354,9 @@
     "precios": {
       "AR": {
         "list": 251000,
-        "final": 200800,
+        "final": 163150,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -3366,15 +3366,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -3384,15 +3384,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1045,
-        "final": 523,
+        "final": 418,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3407,7 +3407,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "tecnicas-de-negociacion",
@@ -3416,9 +3416,9 @@
     "precios": {
       "AR": {
         "list": 98700,
-        "final": 78960,
+        "final": 64155,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 6160,
@@ -3428,15 +3428,15 @@
       },
       "CL": {
         "list": 335500,
-        "final": 167750,
+        "final": 134200,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 861300,
-        "final": 430650,
+        "final": 344520,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 319,
@@ -3446,15 +3446,15 @@
       },
       "MX": {
         "list": 4070,
-        "final": 2035,
+        "final": 1628,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 715,
-        "final": 358,
+        "final": 286,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 250,
@@ -3469,7 +3469,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ux-research",
@@ -3478,9 +3478,9 @@
     "precios": {
       "AR": {
         "list": 216100,
-        "final": 172880,
+        "final": 140465,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -3490,15 +3490,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -3508,15 +3508,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3531,7 +3531,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "ux-writing",
@@ -3540,9 +3540,9 @@
     "precios": {
       "AR": {
         "list": 216100,
-        "final": 172880,
+        "final": 140465,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 18810,
@@ -3552,15 +3552,15 @@
       },
       "CL": {
         "list": 627000,
-        "final": 313500,
+        "final": 250800,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1448700,
-        "final": 724350,
+        "final": 579480,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 770,
@@ -3570,15 +3570,15 @@
       },
       "MX": {
         "list": 7370,
-        "final": 3685,
+        "final": 2948,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1320,
-        "final": 660,
+        "final": 528,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 608,
@@ -3593,7 +3593,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "productos-ai",
@@ -3602,9 +3602,9 @@
     "precios": {
       "AR": {
         "list": 207700,
-        "final": 166160,
+        "final": 135005,
         "currency": "ARS",
-        "discount_pct": 20
+        "discount_pct": 35
       },
       "UY": {
         "list": 17160,
@@ -3614,15 +3614,15 @@
       },
       "CL": {
         "list": 575300,
-        "final": 287650,
+        "final": 230120,
         "currency": "CLP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "CO": {
         "list": 1329900,
-        "final": 664950,
+        "final": 531960,
         "currency": "COP",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "ES": {
         "list": 638,
@@ -3632,15 +3632,15 @@
       },
       "MX": {
         "list": 6710,
-        "final": 3355,
+        "final": 2684,
         "currency": "MXN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "PE": {
         "list": 1210,
-        "final": 605,
+        "final": 484,
         "currency": "PEN",
-        "discount_pct": 50
+        "discount_pct": 60
       },
       "US": {
         "list": 565,
@@ -3655,7 +3655,7 @@
         "discount_pct": 50
       }
     },
-    "promo": "FLASH SALE ⚡"
+    "promo": "BLACK CODER 💥"
   },
   {
     "id": "wordpress",
@@ -3716,7 +3716,6 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    },
-    "promo": "FLASH SALE ⚡"
+    }
   }
 ]
