@@ -3163,7 +3163,7 @@
   },
   {
     "id": "sql",
-    "titulo": "SQL",
+    "titulo": "SQL online en vivo con certificado",
     "tipo": "curso",
     "precios": {
       "AR": {
@@ -3656,66 +3656,5 @@
       }
     },
     "promo": "BLACK CODER 💥"
-  },
-  {
-    "id": "wordpress",
-    "titulo": "Wordpress",
-    "tipo": "curso",
-    "precios": {
-      "AR": {
-        "list": 167400,
-        "final": 133920,
-        "currency": "ARS",
-        "discount_pct": 20
-      },
-      "UY": {
-        "list": 14630,
-        "final": 7315,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 495000,
-        "final": 247500,
-        "currency": "CLP",
-        "discount_pct": 50
-      },
-      "CO": {
-        "list": 1174800,
-        "final": 587400,
-        "currency": "COP",
-        "discount_pct": 50
-      },
-      "ES": {
-        "list": 517,
-        "final": 259,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 5720,
-        "final": 2860,
-        "currency": "MXN",
-        "discount_pct": 50
-      },
-      "PE": {
-        "list": 770,
-        "final": 385,
-        "currency": "PEN",
-        "discount_pct": 50
-      },
-      "US": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 493,
-        "final": 247,
-        "currency": "USD",
-        "discount_pct": 50
-      }
-    }
   }
 ]
