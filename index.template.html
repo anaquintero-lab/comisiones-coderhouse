@@ -2297,14 +2297,17 @@
   // del acordeón (ver estContenidoEntregasHtml más abajo, que también lo
   // imprime) — quedaba duplicado. Se saca de acá; sigue viéndose una sola
   // vez, en su línea propia de estContenidoEntregasHtml.
+  // CORREGIDO (nov/2026, a pedido explícito, para TODAS las tarjetas de
+  // comisiones): esta línea mostraba también "· Certificado emitido:
+  // DD/MM/AAAA" al final — información redundante, porque el estado de
+  // certificación ya se muestra arriba en el badge "Certificado ↗" (ver
+  // estBadgeCertificado/estTagsCurso). Ahora esta línea muestra
+  // únicamente "Inicio: DD/MM/AAAA · Fin: DD/MM/AAAA" (u omitida por
+  // completo si no hay ninguna fecha cargada — nunca "Inicio: Sin fecha ·
+  // Fin: Sin fecha").
   function estLineaFechas(item) {
-    const partes = [];
-    if (item.fechaInicio || item.fechaFin) {
-      partes.push(`Inicio: ${estFormatFecha(item.fechaInicio)} · Fin: ${estFormatFecha(item.fechaFin)}`);
-    }
-    if (item.certificado && item.certificadoFecha) partes.push(`Certificado emitido: ${estFormatFecha(item.certificadoFecha)}`);
-    if (!partes.length) return '';
-    return `<p class="est-curso-fechas">${partes.join(' · ')}</p>`;
+    if (!item.fechaInicio && !item.fechaFin) return '';
+    return `<p class="est-curso-fechas">Inicio: ${estFormatFecha(item.fechaInicio)} · Fin: ${estFormatFecha(item.fechaFin)}</p>`;
   }
 
   function estTagsCurso(curso) {
