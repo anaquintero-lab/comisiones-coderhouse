@@ -368,8 +368,7 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    },
-    "promo": "BLACK CODER 💥"
+    }
   },
   {
     "id": "canva",
@@ -1670,8 +1669,7 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    },
-    "promo": "BLACK CODER 💥"
+    }
   },
   {
     "id": "excel",
@@ -2600,8 +2598,7 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    },
-    "promo": "BLACK CODER 💥"
+    }
   },
   {
     "id": "product-manager-online",
@@ -3220,8 +3217,7 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    },
-    "promo": "BLACK CODER 💥"
+    }
   },
   {
     "id": "scrum-metodologias-agiles",
@@ -3344,8 +3340,7 @@
         "currency": "USD",
         "discount_pct": 50
       }
-    },
-    "promo": "BLACK CODER 💥"
+    }
   },
   {
     "id": "testing-qa-manual",
@@ -3357,54 +3352,6 @@
         "final": 163150,
         "currency": "ARS",
         "discount_pct": 35
-      },
-      "UY": {
-        "list": 18810,
-        "final": 9405,
-        "currency": "UYU",
-        "discount_pct": 50
-      },
-      "CL": {
-        "list": 627000,
-        "final": 250800,
-        "currency": "CLP",
-        "discount_pct": 60
-      },
-      "CO": {
-        "list": 1448700,
-        "final": 579480,
-        "currency": "COP",
-        "discount_pct": 60
-      },
-      "ES": {
-        "list": 770,
-        "final": 385,
-        "currency": "EUR",
-        "discount_pct": 50
-      },
-      "MX": {
-        "list": 7370,
-        "final": 2948,
-        "currency": "MXN",
-        "discount_pct": 60
-      },
-      "PE": {
-        "list": 1045,
-        "final": 418,
-        "currency": "PEN",
-        "discount_pct": 60
-      },
-      "US": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
-      },
-      "VE": {
-        "list": 608,
-        "final": 304,
-        "currency": "USD",
-        "discount_pct": 50
       }
     },
     "promo": "BLACK CODER 💥"
