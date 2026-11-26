@@ -1471,6 +1471,45 @@
   // en el buscador o en los desplegables (ver recomputeFilteredRows más
   // abajo, que ya no llama a ninguna función de fecha/estado por
   // defecto).
+  //
+  // ORDEN inicial "desde hoy" (nov/2026, a pedido explícito): esto NO es
+  // un filtro — ninguna fila se descarta, las 3.348 comisiones siguen
+  // estando siempre en el dataset y en "filteredSortedRows" (ver
+  // recomputeFilteredRows) — es solo el ORDEN con el que arrancan
+  // posicionadas al entrar a la pestaña o tocar "Limpiar filtros": primero
+  // las vigentes/futuras (fecha_inicio >= hoy, hora Argentina), ordenadas
+  // ascendente por fecha (la más próxima primero), y DESPUÉS las pasadas,
+  // ordenadas descendente (la más reciente primero, los cursos de 2025
+  // quedan al final de todo en vez de arriba). Se desactiva (y se vuelve
+  // al orden elegido en los desplegables "Ordenar por"/dirección, plano,
+  // sin esta mezcla) en cuanto el usuario toca esos desplegables a
+  // propósito — ver listeners de sortFieldEl/sortDirEl más abajo — y se
+  // reactiva solo con "Limpiar filtros".
+  function hoyArgentinaTimestamp() {
+    const fmt = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'America/Argentina/Buenos_Aires',
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+    const parts = fmt.formatToParts(new Date());
+    const y = Number(parts.find((p) => p.type === 'year').value);
+    const m = Number(parts.find((p) => p.type === 'month').value);
+    const d = Number(parts.find((p) => p.type === 'day').value);
+    return new Date(y, m - 1, d).getTime();
+  }
+  const HOY_ARG_TS = hoyArgentinaTimestamp();
+
+  function compararDesdeHoy(a, b) {
+    const va = parseFechaDMY(a.fecha_inicio);
+    const vb = parseFechaDMY(b.fecha_inicio);
+    const aFutura = va >= HOY_ARG_TS;
+    const bFutura = vb >= HOY_ARG_TS;
+    if (aFutura !== bFutura) return aFutura ? -1 : 1;
+    return aFutura ? (va - vb) : (vb - va);
+  }
+
+  let ordenDesdeHoyActivo = true;
 
   function populateFilters(rows) {
     const cursos2 = [...new Set(rows.map((r) => r.curso).filter(Boolean))]
@@ -1535,7 +1574,9 @@
         (!estado || r.estado === estado)
       );
     });
-    filteredSortedRows = sortRows(filtradas, sortFieldEl.value, sortDirEl.value);
+    filteredSortedRows = ordenDesdeHoyActivo
+      ? filtradas.slice().sort(compararDesdeHoy)
+      : sortRows(filtradas, sortFieldEl.value, sortDirEl.value);
   }
 
   function renderPage() {
@@ -1607,9 +1648,19 @@
 
   copyConsecutiveBtn.addEventListener('click', copyConsecutive);
 
-  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl, sortFieldEl, sortDirEl].forEach((el) => {
+  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl].forEach((el) => {
     el.addEventListener('input', applyFiltersAndRender);
     el.addEventListener('change', applyFiltersAndRender);
+  });
+  // Elegir a propósito un "Ordenar por"/dirección distinto apaga el orden
+  // especial "desde hoy" de la vista inicial (ver ordenDesdeHoyActivo más
+  // arriba) y pasa a usar literalmente lo que el desplegable dice — se
+  // reactiva solo con "Limpiar filtros".
+  [sortFieldEl, sortDirEl].forEach((el) => {
+    el.addEventListener('change', () => {
+      ordenDesdeHoyActivo = false;
+      applyFiltersAndRender();
+    });
   });
   // El filtro ya se aplica en vivo con cada tecla (ver 'input' arriba), pero
   // se agrega igual un listener de Enter (a pedido explícito, Parte 4): al
@@ -1652,6 +1703,9 @@
     mesEl.value = '';
     diaEl.value = '';
     estadoEl.value = '';
+    sortFieldEl.value = 'fecha_inicio';
+    sortDirEl.value = 'asc';
+    ordenDesdeHoyActivo = true;
     const cambioPais = paisEl.value !== 'AR';
     paisEl.value = 'AR';
     horaEl.value = '';
