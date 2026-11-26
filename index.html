@@ -110,10 +110,6 @@
         <option value="desc">Descendente</option>
       </select>
       <button class="filter-input f-copy-consecutive" type="button">Copiar consecutivas</button>
-      <label class="filter-input f-mostrar-todas-wrap" for="f-mostrar-todas">
-        <input type="checkbox" id="f-mostrar-todas" class="f-mostrar-todas">
-        Mostrar todas (incluye finalizadas y pasadas)
-      </label>
       <button class="btn-reset f-reset" type="button">Limpiar filtros</button>
     </div>
     <p class="count-line" id="count"></p>
@@ -897,20 +893,6 @@
   #dash-root .f-search { border-radius: 999px; }
   #dash-root .filters-search-wrap { flex: 1 1 14rem; min-width: 12rem; }
 
-  /* "Mostrar todas" (nov/2026, a pedido explícito): checkbox que levanta,
-     con un clic, el filtro por defecto de la pestaña Comisiones (ver
-     pasaFiltroFecha/hayOverride más abajo) sin necesitar el buscador ni
-     elegir un Estado puntual. */
-  #dash-root .f-mostrar-todas-wrap {
-    display: inline-flex;
-    align-items: center;
-    gap: .45rem;
-    cursor: pointer;
-    white-space: nowrap;
-    user-select: none;
-  }
-  #dash-root .f-mostrar-todas { cursor: pointer; width: 1rem; height: 1rem; accent-color: var(--ch-accent); }
-
   #dash-root .btn-reset {
     font-family: inherit;
     font-weight: 600;
@@ -1237,7 +1219,6 @@
   const horaEl = document.querySelector('.f-hora');
   const thHorario = document.getElementById('th-horario');
   const estadoEl = document.querySelector('.f-estado');
-  const mostrarTodasEl = document.querySelector('.f-mostrar-todas');
   const sortFieldEl = document.querySelector('.f-sort-field');
   const sortDirEl = document.querySelector('.f-sort-dir');
   const resetBtn = document.querySelector('.f-reset');
@@ -1478,51 +1459,18 @@
     return sorted;
   }
 
-  // Vista por defecto: solo comisiones "En curso" o "No iniciada" con fecha
-  // de inicio desde hoy (hora Argentina) en adelante. No se borran del
-  // dataset ni de la tabla: siguen pudiendo encontrarse buscando por
-  // número de comisión o nombre de curso, o eligiendo un Estado/Curso
-  // puntual en los desplegables (eso "levanta" el filtro por defecto).
-  function hoyArgentinaTimestamp() {
-    const fmt = new Intl.DateTimeFormat('en-CA', {
-      timeZone: 'America/Argentina/Buenos_Aires',
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    });
-    const parts = fmt.formatToParts(new Date());
-    const y = Number(parts.find((p) => p.type === 'year').value);
-    const m = Number(parts.find((p) => p.type === 'month').value);
-    const d = Number(parts.find((p) => p.type === 'day').value);
-    return new Date(y, m - 1, d).getTime();
-  }
-  const HOY_ARG_TS = hoyArgentinaTimestamp();
-
-  function esVigenteOFutura(estado, fechaInicioStr) {
-    const esVigente = estado === 'IN_PROGRESS' || estado === 'NOT_STARTED';
-    return esVigente && parseFechaDMY(fechaInicioStr) >= HOY_ARG_TS;
-  }
-
-  // Combina la restricción de fecha con el resto de los filtros. Las "No
-  // iniciada" NUNCA deben mostrarse con fecha de inicio pasada: ni en la
-  // vista por defecto ni aunque el usuario las busque a propósito con el
-  // desplegable de Estado (a diferencia de Cancelada/Finalizada, donde
-  // elegir el Estado sí "levanta" la restricción para poder encontrarlas
-  // aunque sean viejas).
-  // "mostrarTodas" (nov/2026, a pedido explícito — checkbox "Mostrar
-  // todas" en la barra de filtros): levanta CUALQUIER restricción de
-  // fecha/estado de esta función, incluida la de "No iniciada" con fecha
-  // pasada (la única que ni siquiera "hayOverride" podía levantar antes)
-  // — con el checkbox tildado se ven literalmente todas las comisiones
-  // del dataset, sin ningún filtro de fecha ni estado.
-  function pasaFiltroFecha(estado, fechaInicioStr, hayOverride, mostrarTodas) {
-    if (mostrarTodas) return true;
-    if (estado === 'NOT_STARTED') {
-      return parseFechaDMY(fechaInicioStr) >= HOY_ARG_TS;
-    }
-    if (hayOverride) return true;
-    return esVigenteOFutura(estado, fechaInicioStr);
-  }
+  // ELIMINADO (nov/2026, a pedido explícito): esta pestaña tenía antes una
+  // "vista por defecto" que ocultaba comisiones Finalizadas/Canceladas o
+  // con fecha de inicio pasada mientras no se buscara o eligiera un
+  // Estado puntual (y, por un momento, un checkbox "Mostrar todas" para
+  // levantar esa restricción con un clic). A pedido explícito se elimina
+  // por completo: la tabla ahora muestra SIEMPRE todas las comisiones de
+  // TODOS los estados (En curso, No iniciada, Finalizada, Cancelada, o
+  // cualquier otro que devuelva el Back Office) y TODOS los meses — el
+  // único filtrado que se aplica es el que el usuario elige a propósito
+  // en el buscador o en los desplegables (ver recomputeFilteredRows más
+  // abajo, que ya no llama a ninguna función de fecha/estado por
+  // defecto).
 
   function populateFilters(rows) {
     const cursos2 = [...new Set(rows.map((r) => r.curso).filter(Boolean))]
@@ -1569,9 +1517,11 @@
     const hora = horaEl.value;
     const estado = estadoEl.value;
     const paisCod = paisEl.value;
-    const mostrarTodas = Boolean(mostrarTodasEl && mostrarTodasEl.checked);
-    const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
 
+    // Sin filtro por fecha ni por estado implícito (a pedido explícito,
+    // nov/2026): se muestran todas las comisiones de todos los estados y
+    // todos los meses salvo que el usuario elija algo a propósito acá
+    // arriba (buscador o desplegables).
     const filtradas = latestRows.filter((r) => {
       const curso = String(r.curso || '').toLowerCase();
       const comisionStr = String(r.comision || '').toLowerCase();
@@ -1582,8 +1532,7 @@
         (!mes || r.mes === mes) &&
         (!dia || diasRow.includes(dia)) &&
         (!hora || getHorarioEnZona(r, paisCod).inicio === hora) &&
-        (!estado || r.estado === estado) &&
-        pasaFiltroFecha(r.estado, r.fecha_inicio, hayOverride, mostrarTodas)
+        (!estado || r.estado === estado)
       );
     });
     filteredSortedRows = sortRows(filtradas, sortFieldEl.value, sortDirEl.value);
@@ -1658,8 +1607,7 @@
 
   copyConsecutiveBtn.addEventListener('click', copyConsecutive);
 
-  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl, sortFieldEl, sortDirEl, mostrarTodasEl].forEach((el) => {
-    if (!el) return;
+  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl, sortFieldEl, sortDirEl].forEach((el) => {
     el.addEventListener('input', applyFiltersAndRender);
     el.addEventListener('change', applyFiltersAndRender);
   });
@@ -1704,7 +1652,6 @@
     mesEl.value = '';
     diaEl.value = '';
     estadoEl.value = '';
-    if (mostrarTodasEl) mostrarTodasEl.checked = false;
     const cambioPais = paisEl.value !== 'AR';
     paisEl.value = 'AR';
     horaEl.value = '';
