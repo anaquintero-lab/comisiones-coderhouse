@@ -110,6 +110,10 @@
         <option value="desc">Descendente</option>
       </select>
       <button class="filter-input f-copy-consecutive" type="button">Copiar consecutivas</button>
+      <label class="filter-input f-mostrar-todas-wrap" for="f-mostrar-todas">
+        <input type="checkbox" id="f-mostrar-todas" class="f-mostrar-todas">
+        Mostrar todas (incluye finalizadas y pasadas)
+      </label>
       <button class="btn-reset f-reset" type="button">Limpiar filtros</button>
     </div>
     <p class="count-line" id="count"></p>
@@ -893,6 +897,20 @@
   #dash-root .f-search { border-radius: 999px; }
   #dash-root .filters-search-wrap { flex: 1 1 14rem; min-width: 12rem; }
 
+  /* "Mostrar todas" (nov/2026, a pedido explícito): checkbox que levanta,
+     con un clic, el filtro por defecto de la pestaña Comisiones (ver
+     pasaFiltroFecha/hayOverride más abajo) sin necesitar el buscador ni
+     elegir un Estado puntual. */
+  #dash-root .f-mostrar-todas-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+  }
+  #dash-root .f-mostrar-todas { cursor: pointer; width: 1rem; height: 1rem; accent-color: var(--ch-accent); }
+
   #dash-root .btn-reset {
     font-family: inherit;
     font-weight: 600;
@@ -1219,6 +1237,7 @@
   const horaEl = document.querySelector('.f-hora');
   const thHorario = document.getElementById('th-horario');
   const estadoEl = document.querySelector('.f-estado');
+  const mostrarTodasEl = document.querySelector('.f-mostrar-todas');
   const sortFieldEl = document.querySelector('.f-sort-field');
   const sortDirEl = document.querySelector('.f-sort-dir');
   const resetBtn = document.querySelector('.f-reset');
@@ -1490,7 +1509,14 @@
   // desplegable de Estado (a diferencia de Cancelada/Finalizada, donde
   // elegir el Estado sí "levanta" la restricción para poder encontrarlas
   // aunque sean viejas).
-  function pasaFiltroFecha(estado, fechaInicioStr, hayOverride) {
+  // "mostrarTodas" (nov/2026, a pedido explícito — checkbox "Mostrar
+  // todas" en la barra de filtros): levanta CUALQUIER restricción de
+  // fecha/estado de esta función, incluida la de "No iniciada" con fecha
+  // pasada (la única que ni siquiera "hayOverride" podía levantar antes)
+  // — con el checkbox tildado se ven literalmente todas las comisiones
+  // del dataset, sin ningún filtro de fecha ni estado.
+  function pasaFiltroFecha(estado, fechaInicioStr, hayOverride, mostrarTodas) {
+    if (mostrarTodas) return true;
     if (estado === 'NOT_STARTED') {
       return parseFechaDMY(fechaInicioStr) >= HOY_ARG_TS;
     }
@@ -1543,6 +1569,7 @@
     const hora = horaEl.value;
     const estado = estadoEl.value;
     const paisCod = paisEl.value;
+    const mostrarTodas = Boolean(mostrarTodasEl && mostrarTodasEl.checked);
     const hayOverride = Boolean(q) || Boolean(curso2) || Boolean(estado);
 
     const filtradas = latestRows.filter((r) => {
@@ -1556,7 +1583,7 @@
         (!dia || diasRow.includes(dia)) &&
         (!hora || getHorarioEnZona(r, paisCod).inicio === hora) &&
         (!estado || r.estado === estado) &&
-        pasaFiltroFecha(r.estado, r.fecha_inicio, hayOverride)
+        pasaFiltroFecha(r.estado, r.fecha_inicio, hayOverride, mostrarTodas)
       );
     });
     filteredSortedRows = sortRows(filtradas, sortFieldEl.value, sortDirEl.value);
@@ -1631,7 +1658,8 @@
 
   copyConsecutiveBtn.addEventListener('click', copyConsecutive);
 
-  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl, sortFieldEl, sortDirEl].forEach((el) => {
+  [searchEl, cursoEl, mesEl, diaEl, horaEl, estadoEl, sortFieldEl, sortDirEl, mostrarTodasEl].forEach((el) => {
+    if (!el) return;
     el.addEventListener('input', applyFiltersAndRender);
     el.addEventListener('change', applyFiltersAndRender);
   });
@@ -1676,6 +1704,7 @@
     mesEl.value = '';
     diaEl.value = '';
     estadoEl.value = '';
+    if (mostrarTodasEl) mostrarTodasEl.checked = false;
     const cambioPais = paisEl.value !== 'AR';
     paisEl.value = 'AR';
     horaEl.value = '';
