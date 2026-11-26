@@ -147,7 +147,7 @@
 
   <div id="tab-panel-calculadora" class="tab-panel">
     <div class="calc-update-bar">
-      <span class="calc-update-timestamp" id="precios-last-updated">Precios: se actualizan solos todos los días mediante GitHub Actions. Ver fecha del último scrapeo automático en el historial del repo.</span>
+      <span class="calc-update-timestamp" id="precios-last-updated">Precios: se actualizan solos todos los días mediante GitHub Actions.</span>
     </div>
     <section class="card calc-card">
       <div class="calc-grid">
@@ -2248,46 +2248,60 @@
   }
 
   function estBadgePreentrega(estado, nota) {
-    // 6 estados posibles (ver mapEstadoEntrega() en estudiantes-worker.js):
-    // Aprobada (verde), Desaprobada (rojo — solo cuando ya la corrigieron y
-    // no pasó), En corrección (amarillo/ámbar — enviada, esperando
-    // corrección), No enviada (gris), Solicitud de reentrega (naranja), y
-    // "No se pudo verificar" (ámbar, nov/2026 — el repuesto de
-    // multi-inscripción falló o el Back Office tardó demasiado: nunca se
-    // inventa "No enviada" sobre una entrega que puede estar hecha de
-    // verdad). Se deja un "Sin dato" de respaldo por si algún día llega algo
-    // inesperado, pero no debería pasar.
+    // 6 estados posibles a nivel interno (ver mapEstadoEntrega() en
+    // estudiantes-worker.js): Aprobada (verde), Desaprobada (rojo — solo
+    // cuando ya la corrigieron y no pasó), En corrección (amarillo/ámbar —
+    // enviada, esperando corrección), No enviada (gris), Solicitud de
+    // reentrega (naranja), y "No se pudo verificar" (ámbar, nov/2026 — el
+    // repuesto de multi-inscripción falló o el Back Office tardó
+    // demasiado: nunca se inventa "No enviada" sobre una entrega que puede
+    // estar hecha de verdad). Se deja un "Sin dato" de respaldo por si
+    // algún día llega algo inesperado, pero no debería pasar.
     //
-    // "nota" (ver obtenerPuntajesReview() en el Worker) es el porcentaje
-    // real de 0 a 100 que usa el Back Office ("se aprueba con 70% o más"),
-    // nunca una etiqueta de texto — sale del endpoint de revisión de
-    // correcciones, no del endpoint de submission (que solo trae una
-    // categoría sin número). Si una entrega vieja no tiene ese porcentaje
+    // CORREGIDO (nov/2026, a pedido explícito): el TEXTO visible de
+    // Aprobada/Desaprobada/No enviada pasa a masculino
+    // (Aprobado/Desaprobado/No enviado) y el porcentaje se muestra pegado
+    // con " · " en vez de entre paréntesis — a pedido explícito, nunca una
+    // etiqueta categórica tipo "Excelente"/"Bien"/"Mal" (esas jamás salen
+    // de acá: "nota" es siempre el puntaje numérico 0-100, nunca una
+    // etiqueta de texto — ver nota abajo). Los otros tres estados (En
+    // corrección / Solicitud de reentrega / No se pudo verificar) no
+    // forman parte de este pedido puntual y se dejan igual que antes.
+    //
+    // "nota" (ver obtenerPuntajesReview() en el Worker, y el respaldo por
+    // certificado para comisiones previas a julio sin preentregas, ver
+    // obtenerEntregaFinalPorCertificado()) es el porcentaje real de 0 a 100
+    // que usa el Back Office ("se aprueba con 70% o más"), nunca una
+    // etiqueta de texto. Si una entrega vieja no tiene ese porcentaje
     // cargado, se muestra solo el estado, sin ninguna etiqueta de respaldo.
     const sufijoNota = (nota != null && (estado === 'Aprobada' || estado === 'Desaprobada'))
-      ? ` (${nota}%)`
+      ? ` · ${nota}%`
       : '';
-    if (estado === 'Aprobada') return `<span class="badge badge-ok">Aprobada${sufijoNota}</span>`;
-    if (estado === 'Desaprobada') return `<span class="badge badge-bad">Desaprobada${sufijoNota}</span>`;
+    if (estado === 'Aprobada') return `<span class="badge badge-ok">Aprobado${sufijoNota}</span>`;
+    if (estado === 'Desaprobada') return `<span class="badge badge-bad">Desaprobado${sufijoNota}</span>`;
     if (estado === 'En corrección') return '<span class="badge badge-warn">En corrección</span>';
     if (estado === 'Solicitud de reentrega') return '<span class="badge badge-retry">Solicitud de reentrega</span>';
-    if (estado === 'No enviada') return '<span class="badge badge-neutral">No enviada</span>';
+    if (estado === 'No enviada') return '<span class="badge badge-neutral">No enviado</span>';
     if (estado === 'No se pudo verificar') return '<span class="badge badge-warn">No se pudo verificar</span>';
     return '<span class="badge badge-neutral">Sin dato</span>';
   }
 
-  // Línea "Inicio: ... · Fin: ..." (+ horario y certificado cuando
-  // corresponda), u omitida por completo si no hay ninguna fecha cargada
-  // — nunca "Inicio: Sin fecha · Fin: Sin fecha".
+  // Línea "Inicio: ... · Fin: ..." (+ certificado cuando corresponda), u
+  // omitida por completo si no hay ninguna fecha cargada — nunca
+  // "Inicio: Sin fecha · Fin: Sin fecha".
+  //
+  // CORREGIDO (nov/2026, a pedido explícito — caso real AI Automation,
+  // Comisión 97400): el horario de cursada (días y hora) se mostraba acá,
+  // pegado al final de esta misma línea ("... · Fin: DD/MM/AAAA · Martes y
+  // Jueves 19:00 a 21:00 hs"), Y OTRA VEZ como su propia línea aparte dentro
+  // del acordeón (ver estContenidoEntregasHtml más abajo, que también lo
+  // imprime) — quedaba duplicado. Se saca de acá; sigue viéndose una sola
+  // vez, en su línea propia de estContenidoEntregasHtml.
   function estLineaFechas(item) {
     const partes = [];
     if (item.fechaInicio || item.fechaFin) {
       partes.push(`Inicio: ${estFormatFecha(item.fechaInicio)} · Fin: ${estFormatFecha(item.fechaFin)}`);
     }
-    // Días y horario de cursada (ver obtenerHorarioCursada en el Worker):
-    // null para un curso asincrónico/on-demand o sin horario cargado — se
-    // omite sin mostrar texto vacío.
-    if (item.horario) partes.push(estEscapeHtml(item.horario));
     if (item.certificado && item.certificadoFecha) partes.push(`Certificado emitido: ${estFormatFecha(item.certificadoFecha)}`);
     if (!partes.length) return '';
     return `<p class="est-curso-fechas">${partes.join(' · ')}</p>`;
