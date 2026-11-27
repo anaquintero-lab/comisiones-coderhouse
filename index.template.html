@@ -354,6 +354,13 @@
        ajuste, para más contraste todavía) para las líneas de fechas/
        horario/profesor de la pestaña Estudiantes. */
     --ch-fechas: #1f2937;
+    /* Pill "Observaciones (N)" / "Pagos (N)" (nov/2026, a pedido explícito):
+       acento cálido propio para que se note a simple vista y no se
+       confunda con el botón "Copiar". */
+    --ch-mini-pill-bg: #FFF4ED;
+    --ch-mini-pill-border: #FF6B2B;
+    --ch-mini-pill-ink: #D9480F;
+    --ch-mini-pill-hover-bg: #FFE3D1;
     max-width: 1400px;
     margin: 0 auto;
     padding: 1.5rem 1rem;
@@ -382,6 +389,10 @@
        el fondo negro, así que acá se mantiene el tono claro que ya se
        usaba (igual a --ch-ink-muted de este tema) en vez de oscurecerlo. */
     --ch-fechas: #ad9f8c;
+    --ch-mini-pill-bg: #3a271c;
+    --ch-mini-pill-border: #ff7a46;
+    --ch-mini-pill-ink: #ffb088;
+    --ch-mini-pill-hover-bg: #472f21;
   }
 
   #dash-root, #dash-root *, #dash-root *::before, #dash-root *::after {
@@ -662,6 +673,70 @@
   /* Fila única con los badges Coder Pro + Saldo a favor, lado a lado
      debajo del nombre (antes eran dos <p> apiladas). */
   #dash-root .est-badges-row { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; margin: 0 0 .9rem 0; }
+
+  /* Cabecera (nov/2026, a pedido explícito — segunda vuelta de ajuste):
+     Fila 1 = nombre a la izquierda + mail/Copiar/Back Office a la derecha
+     (vuelve a estRenderStudentCard con .est-student-header-right, como en
+     el resto de la app). Fila 2 = badges a la izquierda + los 2 botones
+     mini-pill a la derecha, con aire (margin-top) respecto de la Fila 1. */
+  #dash-root .est-compact-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 .4rem 0; }
+  /* Menos aire antes de "Cursos y Diplomaturas" — a pedido explícito,
+     nov/2026, tercer ajuste: con los mini-panel cerrados (sin alto propio)
+     quedaba un hueco muy grande entre la fila de badges y ese título. El
+     título "Workshops y Webinars" (segundo .est-section-title) conserva el
+     margen normal porque ahí sí hay contenido arriba (los cursos). */
+  #dash-root .est-student-card > p.est-section-title:first-of-type { margin-top: 8px; }
+  #dash-root .est-mini-pill-group { display: flex; align-items: center; gap: .4rem; margin-left: auto; }
+  /* Botones "Observaciones (N)" / "Pagos (N)": un poco más grandes que
+     "Copiar" y con acento cálido propio (--ch-mini-pill-*) para que se
+     noten a simple vista y no se confundan con "Copiar" — pedido
+     explícito, nov/2026, segunda vuelta de ajuste. */
+  #dash-root .est-mini-pill-btn {
+    font-size: 13px; padding: 6px 14px; font-weight: 600; width: auto;
+    border-radius: 999px; border: 1px solid var(--ch-mini-pill-border);
+    background: var(--ch-mini-pill-bg); color: var(--ch-mini-pill-ink);
+    cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: .3rem;
+  }
+  #dash-root .est-mini-pill-btn:hover { background: var(--ch-mini-pill-hover-bg); }
+  #dash-root .est-mini-pill-btn.is-active { background: var(--ch-mini-pill-border); color: var(--ch-accent-ink); }
+  #dash-root .est-mini-count { font-variant-numeric: tabular-nums; }
+  /* Panel que se despliega DEBAJO de toda la fila compacta al abrir
+     cualquiera de los 2 mini-pill (ver JS: panelEl.open se controla desde
+     el botón, no clickeando el <summary>, que queda oculto). CORREGIDO
+     (nov/2026, a pedido explícito): antes el borde/radio se aplicaban
+     siempre, así que con los 2 <details> cerrados (estado inicial) se
+     veían como dos líneas vacías apiladas debajo de la fila de badges —
+     ahora el borde/fondo/margen solo aparecen cuando el panel está
+     realmente abierto; cerrado, no ocupa ni dibuja nada. */
+  #dash-root .est-mini-panel { overflow: hidden; }
+  #dash-root .est-mini-panel[open] { border: 1px solid var(--ch-border); border-radius: 10px; margin: 0 0 .9rem 0; }
+  #dash-root .est-mini-panel > summary { display: none; }
+  #dash-root .est-mini-panel-body, #dash-root .est-mini-panel .est-pagos-body { padding: .7rem .9rem; }
+  #dash-root .est-obs-bloque { margin-bottom: .9rem; }
+  #dash-root .est-obs-bloque:last-child { margin-bottom: 0; }
+  #dash-root .est-obs-subtitulo { font-weight: 700; font-size: .86rem; margin: 0 0 .35rem 0; }
+  #dash-root .est-obs-lista { margin: 0; padding-left: 1.1rem; font-size: .84rem; }
+  #dash-root .est-obs-lista li { margin-bottom: .3rem; }
+  #dash-root .est-obs-lista li:last-child { margin-bottom: 0; }
+  #dash-root .est-nota-form { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .6rem; }
+  #dash-root .est-nota-textarea {
+    font: inherit; font-size: .84rem; padding: .4rem .6rem; border: 1px solid var(--ch-border);
+    border-radius: 8px; resize: vertical; min-height: 44px; background: var(--ch-card); color: var(--ch-ink);
+  }
+  #dash-root .est-nota-guardar {
+    align-self: flex-end; font-size: .78rem; padding: .3rem .8rem; border-radius: 8px;
+    border: 1px solid var(--ch-accent); background: var(--ch-accent); color: var(--ch-accent-ink); cursor: pointer;
+  }
+  #dash-root .est-nota-guardar:hover { background: var(--ch-ink); border-color: var(--ch-ink); }
+  #dash-root .est-nota-guardar:disabled { opacity: .6; cursor: not-allowed; }
+  #dash-root .est-notas-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: .4rem; }
+  #dash-root .est-nota-item { border: 1px solid var(--ch-border); border-radius: 8px; padding: .4rem .6rem; font-size: .82rem; }
+  #dash-root .est-nota-meta { display: flex; align-items: center; justify-content: space-between; gap: .5rem; margin-bottom: .2rem; }
+  #dash-root .est-nota-fecha { font-size: .74rem; color: var(--ch-ink-muted); }
+  #dash-root .est-nota-borrar { font-size: .74rem; border: none; background: none; color: var(--ch-bad); cursor: pointer; padding: 0 .2rem; }
+  #dash-root .est-nota-borrar:hover { text-decoration: underline; }
+  #dash-root .est-nota-borrar:disabled { opacity: .5; cursor: not-allowed; }
+  #dash-root .est-nota-texto { white-space: pre-wrap; word-break: break-word; }
 
   #dash-root .est-curso { border: 1px solid var(--ch-border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; }
   #dash-root .est-curso:last-child { margin-bottom: 0; }
@@ -1557,10 +1632,18 @@
     const estado = estadoEl.value;
     const paisCod = paisEl.value;
 
-    // Sin filtro por fecha ni por estado implícito (a pedido explícito,
-    // nov/2026): se muestran todas las comisiones de todos los estados y
-    // todos los meses salvo que el usuario elija algo a propósito acá
-    // arriba (buscador o desplegables).
+    // REINTRODUCIDO (nov/2026, a pedido explícito — alcance acotado, NO es
+    // lo mismo que lo que se había eliminado antes, ver nota de arriba):
+    // ahora SÍ se ocultan por defecto las comisiones "Cancelada" — pero
+    // SOLO esas (ninguna otra cosa cambia: fecha pasada, Finalizada, etc.
+    // siguen mostrándose siempre, como ya quedó arriba). Nunca se eliminan
+    // del dataset (siguen en "latestRows" / filtradas si corresponde) — se
+    // vuelven a mostrar en cuanto el usuario elige "Cancelada" a propósito
+    // en el desplegable de Estado, o escribe algo en el buscador (q): en
+    // ese caso, si de casualidad matchea una Cancelada por curso/comisión,
+    // tiene que seguir apareciendo.
+    const ocultarCanceladasPorDefecto = !q && estado !== 'CANCELLED';
+
     const filtradas = latestRows.filter((r) => {
       const curso = String(r.curso || '').toLowerCase();
       const comisionStr = String(r.comision || '').toLowerCase();
@@ -1571,7 +1654,8 @@
         (!mes || r.mes === mes) &&
         (!dia || diasRow.includes(dia)) &&
         (!hora || getHorarioEnZona(r, paisCod).inicio === hora) &&
-        (!estado || r.estado === estado)
+        (!estado || r.estado === estado) &&
+        (!ocultarCanceladasPorDefecto || r.estado !== 'CANCELLED')
       );
     });
     filteredSortedRows = ordenDesdeHoyActivo
@@ -1751,6 +1835,17 @@
   function appWorkerConfigurado() {
     return !!WORKER_URL && WORKER_URL.indexOf('PEGAR_ACA') === -1;
   }
+
+  // MODO PREVISUALIZACIÓN (nov/2026, a pedido explícito): cuando esta
+  // página se abre dentro de un preview de Claude (hostname con "claude"),
+  // se saltea la pantalla de "Clave de equipo" y la pestaña Estudiantes
+  // carga directo un estudiante de EJEMPLO con datos inventados (ver
+  // EST_MOCK_MATCH más abajo) — para poder revisar de un vistazo cómo
+  // quedaron los mini-botones "Observaciones (N)"/"Pagos (N)", sin
+  // necesitar el PIN real ni pegarle al Worker real. El sitio real para el
+  // equipo (su propio dominio, sin "claude" en el hostname) sigue pidiendo
+  // la Clave de equipo siempre, sin ningún cambio.
+  const EST_PREVIEW_MODE = /claude/i.test(window.location.hostname || '');
 </script>
 
 <script>
@@ -1795,7 +1890,13 @@
     if (pwEl) { pwEl.value = ''; pwEl.focus(); }
   }
 
-  if (appGetSessionPassword()) {
+  if (EST_PREVIEW_MODE) {
+    // Ver EST_PREVIEW_MODE (declarado en "Config + sesión compartida" más
+    // arriba): dentro de un preview de Claude se entra directo, sin pedir
+    // la Clave de equipo — la pestaña Estudiantes se encarga de mostrar el
+    // estudiante de ejemplo (ver EST_MOCK_MATCH).
+    mostrarApp();
+  } else if (appGetSessionPassword()) {
     mostrarApp();
   } else {
     mostrarGate(null);
@@ -2568,6 +2669,40 @@
     estReintentarEntregas(btn.closest('.est-entregas-slot'));
   });
 
+  // Botones mini-pill "Observaciones (N)" / "Pagos (N)" (nov/2026): abren
+  // y cierran el <details.est-mini-panel> correspondiente DENTRO de la
+  // misma tarjeta (no por id — puede haber varias tarjetas a la vez en
+  // pantalla, ver estRenderMatchPicker). Cambiar la propiedad ".open" por
+  // script dispara igual el evento "toggle" nativo (ver listener de
+  // captura más abajo), así que la carga perezosa de cada panel sigue
+  // funcionando sin tocarla.
+  estResultadosEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.est-mini-pill-btn');
+    if (!btn || !estResultadosEl.contains(btn)) return;
+    const card = btn.closest('.est-student-card');
+    if (!card) return;
+    const kind = btn.dataset.miniToggle;
+    const panel = card.querySelector(`.est-mini-panel[data-mini-panel="${kind}"]`);
+    if (!panel) return;
+    panel.open = !panel.open;
+    btn.classList.toggle('is-active', panel.open);
+  });
+
+  // "Guardar" del bloque de Notas internas del equipo (ver
+  // estRenderObservacionesPanel/estGuardarNota más abajo).
+  estResultadosEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.est-nota-guardar');
+    if (!btn || !estResultadosEl.contains(btn)) return;
+    estGuardarNota(btn);
+  });
+
+  // "✕" para eliminar una nota puntual (ver estEliminarNota más abajo).
+  estResultadosEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.est-nota-borrar');
+    if (!btn || !estResultadosEl.contains(btn)) return;
+    estEliminarNota(btn);
+  });
+
   // --- Enlace directo al Back Office ---
   function estBackOfficeLink(studentId) {
     if (!studentId) return '';
@@ -2719,6 +2854,12 @@
   function estPintarPagosEnBody(bodyEl, pagosInfo) {
     bodyEl.innerHTML = estRenderPagos(pagosInfo);
     bodyEl.dataset.loaded = '1';
+    // Actualiza el contador "Pagos (N)" del mini-pill con la cantidad real
+    // de pagos recién cargados (antes de esto, el botón nunca mostraba
+    // ningún número — se agrega ahora para que el label sea consistente
+    // con "Observaciones (N)").
+    const card = bodyEl.closest('.est-student-card');
+    if (card) estActualizarContadorMini(card, 'pagos', (pagosInfo && pagosInfo.pagos) ? pagosInfo.pagos.length : null);
   }
 
   async function estCargarPagos(seccionEl) {
@@ -2726,6 +2867,13 @@
     if (!bodyEl || bodyEl.dataset.loaded === '1') return;
     const email = seccionEl.dataset.email || '';
     if (!email) return;
+
+    // MODO PREVISUALIZACIÓN (ver EST_PREVIEW_MODE): pinta directo los pagos
+    // de ejemplo, sin pegarle al Worker real.
+    if (EST_PREVIEW_MODE) {
+      estPintarPagosEnBody(bodyEl, EST_MOCK_PAGOS);
+      return;
+    }
     // userId (ver data-user-id en estRenderStudentCard y backofficeUrl en
     // estudiantes-worker.js): si falta, /pagos simplemente no arma el link
     // "Ver en Back Office" de cada pago — nunca rompe la carga.
@@ -2767,6 +2915,226 @@
     } catch (err) {
       bodyEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar los pagos: ${estEscapeHtml(err.message || String(err))}</p>`;
     }
+  }
+
+  // --- Observaciones (nov/2026): Excepciones de asistencia + Cancelaciones
+  // y beneficios + Notas internas del equipo, los 3 bloques que trae en un
+  // solo viaje GET /observaciones (ver ruta en estudiantes-worker.js). ---
+  const estObsCache = new Map(); // email -> respuesta completa de /observaciones
+
+  function estRenderExcepciones(items) {
+    if (!items || !items.length) return '<p class="est-sin-preentregas">Sin excepciones de asistencia registradas.</p>';
+    return `<ul class="est-obs-lista">${items.map((it) => `<li><strong>${estEscapeHtml(it.alcance)}</strong> — ${estEscapeHtml(it.motivo)}</li>`).join('')}</ul>`;
+  }
+
+  function estRenderCancelaciones(lineas) {
+    if (!lineas || !lineas.length) return '<p class="est-sin-preentregas">Sin cancelaciones ni beneficios registrados.</p>';
+    return `<ul class="est-obs-lista">${lineas.map((l) => `<li>${estEscapeHtml(l)}</li>`).join('')}</ul>`;
+  }
+
+  function estRenderNotas(notas) {
+    if (!notas || !notas.length) return '<p class="est-sin-preentregas">Sin notas internas todavía.</p>';
+    return `<ul class="est-notas-lista">${notas.map((n) => `
+      <li class="est-nota-item">
+        <div class="est-nota-meta">
+          <span class="est-nota-fecha">${estEscapeHtml(n.fechaHora || '')}</span>
+          <button type="button" class="est-nota-borrar" data-nota-id="${estEscapeHtml(n.id || '')}" title="Eliminar nota">✕</button>
+        </div>
+        <div class="est-nota-texto">${estEscapeHtml(n.texto || '')}</div>
+      </li>`).join('')}</ul>`;
+  }
+
+  function estRenderObservacionesPanel(data) {
+    return `
+      <div class="est-obs-bloque">
+        <p class="est-obs-subtitulo">Excepciones de asistencia</p>
+        ${data.excepcionesError
+          ? '<p class="est-sin-preentregas is-error">No se pudo leer la planilla de excepciones en este momento.</p>'
+          : estRenderExcepciones(data.excepciones)}
+      </div>
+      <div class="est-obs-bloque">
+        <p class="est-obs-subtitulo">Cancelaciones y beneficios</p>
+        ${data.cancelacionError
+          ? '<p class="est-sin-preentregas is-error">No se pudo leer la planilla de cancelaciones en este momento.</p>'
+          : estRenderCancelaciones(data.cancelacionLineas)}
+      </div>
+      <div class="est-obs-bloque">
+        <p class="est-obs-subtitulo">Notas internas del equipo</p>
+        <div class="est-nota-form">
+          <textarea class="est-nota-textarea" rows="2" placeholder="Agregar una nota interna…" maxlength="2000"></textarea>
+          <button type="button" class="est-nota-guardar">Guardar</button>
+        </div>
+        ${estRenderNotas(data.notas)}
+      </div>`;
+  }
+
+  function estActualizarContadorMini(card, kind, n) {
+    const el = card && card.querySelector(`.est-mini-count[data-mini-count="${kind}"]`);
+    if (el) el.textContent = (n == null) ? '' : `(${n})`;
+  }
+
+  // "eager": true cuando se llama apenas se muestra la ficha (ver
+  // estInsertarFichaYPrecargar), para que el contador "Observaciones (N)"
+  // ya aparezca sin que el equipo tenga que abrir el panel — en ese modo
+  // NO se pinta el body si el panel sigue cerrado (evita parpadeos), salvo
+  // que para cuando la respuesta llegue el panel ya se haya abierto solo.
+  async function estCargarObservaciones(panelEl, { eager } = {}) {
+    const card = panelEl.closest('.est-student-card');
+    const bodyEl = panelEl.querySelector('.est-obs-body');
+    const email = panelEl.dataset.email || '';
+    if (!email || !bodyEl) return;
+
+    // MODO PREVISUALIZACIÓN (ver EST_PREVIEW_MODE): pinta directo las
+    // observaciones de ejemplo, sin pegarle a las planillas ni al Worker.
+    if (EST_PREVIEW_MODE) {
+      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(EST_MOCK_OBSERVACIONES);
+      if (card) estActualizarContadorMini(card, 'obs', EST_MOCK_OBSERVACIONES.contadorTotal);
+      return;
+    }
+
+    const cacheada = estObsCache.get(email);
+    if (cacheada) {
+      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(cacheada);
+      if (card) estActualizarContadorMini(card, 'obs', cacheada.contadorTotal);
+      return;
+    }
+    if (panelEl.dataset.cargando === '1') return; // ya hay una carga en vuelo (precarga + apertura casi simultáneas)
+    panelEl.dataset.cargando = '1';
+
+    if (!EST_WORKER_CONFIGURADO) { panelEl.dataset.cargando = ''; return; }
+    const pin = appGetSessionPassword();
+    if (!pin) {
+      if (!eager) bodyEl.innerHTML = '<p class="est-sin-preentregas is-error">Iniciá sesión para cargar las observaciones.</p>';
+      panelEl.dataset.cargando = '';
+      return;
+    }
+    const coderProActivo = panelEl.dataset.coderPro === '1' ? '1' : '0';
+    try {
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/observaciones?email=${encodeURIComponent(email)}&coderProActivo=${coderProActivo}`, {
+        headers: { 'X-Team-Pin': pin },
+      });
+      if (res.status === 401) {
+        estSesionExpirada();
+        if (!eager) bodyEl.innerHTML = '<p class="est-sin-preentregas is-error">Tu sesión expiró. Volvé a ingresar.</p>';
+        return;
+      }
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data) {
+        const mensaje = (data && data.error) ? data.error : `HTTP ${res.status}`;
+        if (!eager) bodyEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar las observaciones: ${estEscapeHtml(mensaje)}</p>`;
+        return;
+      }
+      estObsCache.set(email, data);
+      if (card) estActualizarContadorMini(card, 'obs', data.contadorTotal);
+      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(data);
+    } catch (err) {
+      if (!eager) bodyEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar las observaciones: ${estEscapeHtml(err.message || String(err))}</p>`;
+    } finally {
+      panelEl.dataset.cargando = '';
+    }
+  }
+
+  async function estGuardarNota(btn) {
+    const panelEl = btn.closest('.est-mini-panel');
+    if (!panelEl) return;
+    const textarea = panelEl.querySelector('.est-nota-textarea');
+    const texto = (textarea && textarea.value || '').trim();
+    if (!texto) return;
+
+    // MODO PREVISUALIZACIÓN (ver EST_PREVIEW_MODE): guarda la nota en el
+    // array mock en memoria (nunca en un KV real) para poder ver el
+    // formulario funcionando en el preview sin pegarle al Worker.
+    if (EST_PREVIEW_MODE) {
+      EST_MOCK_OBSERVACIONES.notas.unshift({
+        id: `mock-nota-${Date.now()}`,
+        fechaHora: new Intl.DateTimeFormat('es-AR', {
+          timeZone: 'America/Argentina/Buenos_Aires', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false,
+        }).format(new Date()),
+        texto,
+      });
+      EST_MOCK_OBSERVACIONES.contadorTotal += 1;
+      textarea.value = '';
+      await estCargarObservaciones(panelEl, {});
+      return;
+    }
+
+    const email = panelEl.dataset.email || '';
+    if (!email || !EST_WORKER_CONFIGURADO) return;
+    const pin = appGetSessionPassword();
+    if (!pin) { estSesionExpirada(); return; }
+    btn.disabled = true;
+    try {
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/notas`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Team-Pin': pin },
+        body: JSON.stringify({ email, texto }),
+      });
+      if (res.status === 401) { estSesionExpirada(); return; }
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data || !data.ok) return; // error silencioso: el texto queda en el textarea para reintentar
+      estObsCache.delete(email); // fuerza traer la lista/contador real de nuevo
+      await estCargarObservaciones(panelEl, {});
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  async function estEliminarNota(btn) {
+    const panelEl = btn.closest('.est-mini-panel');
+    if (!panelEl) return;
+    const id = btn.dataset.notaId || '';
+    if (!id) return;
+
+    // MODO PREVISUALIZACIÓN (ver EST_PREVIEW_MODE): borra del array mock en
+    // memoria, nunca de un KV real.
+    if (EST_PREVIEW_MODE) {
+      const antes = EST_MOCK_OBSERVACIONES.notas.length;
+      EST_MOCK_OBSERVACIONES.notas = EST_MOCK_OBSERVACIONES.notas.filter((n) => n.id !== id);
+      EST_MOCK_OBSERVACIONES.contadorTotal -= (antes - EST_MOCK_OBSERVACIONES.notas.length);
+      await estCargarObservaciones(panelEl, {});
+      return;
+    }
+
+    const email = panelEl.dataset.email || '';
+    if (!email || !EST_WORKER_CONFIGURADO) return;
+    const pin = appGetSessionPassword();
+    if (!pin) { estSesionExpirada(); return; }
+    if (!window.confirm('¿Eliminar esta nota?')) return;
+    btn.disabled = true;
+    try {
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/notas`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', 'X-Team-Pin': pin },
+        body: JSON.stringify({ email, id }),
+      });
+      if (res.status === 401) { estSesionExpirada(); return; }
+      if (!res.ok) return;
+      estObsCache.delete(email);
+      await estCargarObservaciones(panelEl, {});
+    } finally {
+      btn.disabled = false;
+    }
+  }
+
+  // Inserta la ficha de un estudiante en el DOM y, de una, dispara la
+  // precarga "eager" del contador de Observaciones (ver estCargarObservaciones)
+  // — así "Observaciones (N)" ya aparece sin que el equipo tenga que abrir
+  // el panel. Nunca se hace lo mismo con Pagos a propósito: esa consulta sí
+  // pega contra el Back Office (no contra las planillas públicas) y es
+  // justamente la que había que volver perezosa por performance — ver nota
+  // larga en estCargarPagos/consultarPagosSeguro.
+  function estInsertarFichaYPrecargar(html) {
+    estResultadosEl.innerHTML = html;
+    // CORREGIDO (nov/2026, a pedido explícito): antes algunos puntos de
+    // inserción de ficha (el match picker con varios resultados, y el modo
+    // vista previa de Claude) no llamaban a estActualizarVisibilidadRecientes,
+    // así que "Últimas búsquedas del equipo" quedaba visible por encima de
+    // la ficha. Centralizando la llamada acá, toda inserción de ficha —
+    // venga de donde venga — oculta ese bloque de una.
+    estActualizarVisibilidadRecientes();
+    estResultadosEl.querySelectorAll('.est-mini-panel[data-mini-panel="obs"]').forEach((panelEl) => {
+      estCargarObservaciones(panelEl, { eager: true });
+    });
   }
 
   function estRenderWorkshop(ws, studentId) {
@@ -2914,6 +3282,14 @@
     // (cacheado por email), nunca en cada tecla del buscador.
     if (details.classList.contains('est-pagos-section')) {
       estCargarPagos(details);
+      return;
+    }
+    // Panel "Observaciones" (nov/2026, ver estCargarObservaciones): en la
+    // práctica ya suele estar precargado (ver estInsertarFichaYPrecargar,
+    // que lo pide "eager" apenas se muestra la ficha) — este toggle solo
+    // dispara una carga real si por algún motivo todavía no había terminado.
+    if (details.dataset.miniPanel === 'obs') {
+      estCargarObservaciones(details, {});
     }
   }, true);
 
@@ -2969,7 +3345,9 @@
   }
 
   async function estRenderStudentCard(match) {
-    const emailSpan = `<span class="est-student-email">${estEscapeHtml(match.email)}${estCopyBtn('email', match.email)}</span>`;
+    // CORREGIDO (nov/2026, a pedido explícito): se sacó el botón "Copiar"
+    // de al lado del mail — queda solo el mail + el enlace a Back Office.
+    const emailSpan = `<span class="est-student-email">${estEscapeHtml(match.email)}</span>`;
     const boLink = estBackOfficeLink(match.backOfficeUserId);
     const coderProBadge = estBadgeCoderPro(match.coderPro);
     const indiceFigma = await estCargarFigmaIndex();
@@ -3020,24 +3398,46 @@
             <option value="cancelada">Cancelada</option>
           </select>
         </div>` : '';
+    // Cabecera (nov/2026, a pedido explícito — segunda vuelta de ajuste):
+    // Fila 1 = nombre a la izquierda, mail+Copiar+Back Office a la derecha
+    // (igual que en el resto de la app — ver sinPerfilDeEstudiante acá
+    // arriba). Fila 2 = Figma + Coder Pro + Saldo a favor a la izquierda y
+    // los 2 mini-pill a la derecha, con margin-top propio. El teléfono se
+    // sacó por completo (ya no se muestra ni se manda desde el Worker).
+    // Los <details> de abajo (Observaciones/Pagos) se abren y cierran
+    // desde esos botones (ver listener de .est-mini-pill-btn más abajo) —
+    // su <summary> queda vacío y oculto por CSS a propósito.
+    const coderProActivoAttr = (match.coderPro && match.coderPro.activo) ? '1' : '0';
     return `
       <section class="card est-student-card">
         <div class="est-student-header">
           <h3>${estEscapeHtml(match.nombre)}</h3>
           <div class="est-student-header-right">${emailSpan}${boLink}</div>
         </div>
-        <div class="est-badges-row">${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}${figmaBadge}</div>
+        <div class="est-compact-row">
+          ${figmaBadge}${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}
+          <div class="est-mini-pill-group">
+            <button type="button" class="est-mini-pill-btn" data-mini-toggle="obs">Observaciones <span class="est-mini-count" data-mini-count="obs"></span></button>
+            <button type="button" class="est-mini-pill-btn" data-mini-toggle="pagos">Pagos<span class="est-mini-count" data-mini-count="pagos"></span></button>
+          </div>
+        </div>
+        <details class="est-mini-panel" data-mini-panel="obs" data-email="${estEscapeHtml(match.email || '')}" data-coder-pro="${coderProActivoAttr}">
+          <summary></summary>
+          <div class="est-mini-panel-body est-obs-body">
+            <p class="est-sin-preentregas est-entregas-cargando">Cargando observaciones…</p>
+          </div>
+        </details>
+        <details class="est-mini-panel est-pagos-section" data-mini-panel="pagos" data-email="${estEscapeHtml(match.email || '')}" data-user-id="${estEscapeHtml(match.backOfficeUserId || '')}">
+          <summary></summary>
+          <div class="est-pagos-body">
+            <p class="est-sin-preentregas est-entregas-cargando">Cargando pagos…</p>
+          </div>
+        </details>
         <p class="est-section-title">Cursos y Diplomaturas</p>
         ${filtroHtml}
         ${cursosHtml}
         <p class="est-section-title">Workshops y Webinars</p>
         ${workshopsHtml}
-        <details class="est-pagos-section" data-email="${estEscapeHtml(match.email || '')}" data-user-id="${estEscapeHtml(match.backOfficeUserId || '')}">
-          <summary class="est-pagos-summary">Pagos</summary>
-          <div class="est-pagos-body">
-            <p class="est-sin-preentregas est-entregas-cargando">Cargando pagos…</p>
-          </div>
-        </details>
       </section>`;
   }
 
@@ -3053,7 +3453,7 @@
     estResultadosEl.querySelectorAll('.est-match-item').forEach((btn) => {
       btn.addEventListener('click', async () => {
         const idx = Number(btn.dataset.idx);
-        estResultadosEl.innerHTML = await estRenderStudentCard(matches[idx]);
+        estInsertarFichaYPrecargar(await estRenderStudentCard(matches[idx]));
       });
     });
   }
@@ -3143,7 +3543,7 @@
       }
       estNoteEl.textContent = `${matches.length} resultado${matches.length === 1 ? '' : 's'}.`;
       if (matches.length === 1) {
-        estResultadosEl.innerHTML = await estRenderStudentCard(matches[0]);
+        estInsertarFichaYPrecargar(await estRenderStudentCard(matches[0]));
       } else {
         estRenderMatchPicker(matches);
       }
@@ -3244,7 +3644,7 @@
         estBuscarEl.value = elegido.email || elegido.nombre || '';
         estNoteEl.classList.remove('is-error');
         estNoteEl.textContent = 'Mostrando ficha del estudiante.';
-        estResultadosEl.innerHTML = await estRenderStudentCard(elegido);
+        estInsertarFichaYPrecargar(await estRenderStudentCard(elegido));
         estActualizarVisibilidadRecientes();
       });
     });
@@ -3440,6 +3840,89 @@
   // sesión del equipo) — así, para cuando se renderice la primera ficha,
   // lo normal es que ya esté resuelta y no haya ningún parpadeo del badge.
   estCargarFigmaIndex();
+
+  // --- Modo previsualización (nov/2026, a pedido explícito) — ver
+  // EST_PREVIEW_MODE, declarado en "Config + sesión compartida" al
+  // principio del archivo. Estudiante 100% inventado, nunca un dato real,
+  // con cursos, Figma, Coder Pro, excepciones, pagos y notas de ejemplo —
+  // solo para revisar visualmente los mini-botones "Observaciones (N)"/
+  // "Pagos (N)" dentro de un preview de Claude. ---
+  const EST_MOCK_MATCH = {
+    nombre: 'Estudiante de Ejemplo (vista previa)',
+    email: 'estudiante.demo@coderhouse.com',
+    studentId: 'mock-student-id',
+    backOfficeUserId: 'mock-user-id',
+    sinPerfilDeEstudiante: false,
+    saldoAFavor: { disponible: true, monto: 5000, moneda: 'ARS', error: false },
+    coderPro: { activo: true, error: false }, // "Coder Pro activo", a pedido explícito
+    cursos: [
+      {
+        titulo: 'Diseño UX/UI', comision: '97430', cohortId: 'mock-cohort-1', enrollmentId: 'mock-enrollment-1',
+        estadoComision: 'IN_PROGRESS', certificado: false, certificadoUrl: null, motivoTransferencia: null,
+        fechaInicio: '2026-09-01', fechaFin: '2026-12-01', entregasPendientes: false, entregasError: false,
+        horario: 'Martes y Jueves 19:00 a 21:00 hs', staffTitular: ['Juana Pérez'],
+        preentregas: [
+          { nombre: 'Preentrega 1', estado: 'Aprobada', nota: 92 },
+          { nombre: 'Preentrega 2', estado: 'En corrección', nota: null },
+          { nombre: 'Entrega Final', estado: 'No enviada', nota: null },
+        ],
+        boEnrollmentUrl: null, boComisionUrl: null,
+      },
+      {
+        titulo: 'Full Stack Developer', comision: '93210', cohortId: 'mock-cohort-2', enrollmentId: 'mock-enrollment-2',
+        estadoComision: 'COMPLETED', certificado: true, certificadoUrl: null, motivoTransferencia: null,
+        fechaInicio: '2026-01-10', fechaFin: '2026-06-10', entregasPendientes: false, entregasError: false,
+        horario: null, staffTitular: [], preentregas: [], boEnrollmentUrl: null, boComisionUrl: null,
+      },
+    ],
+    workshops: [
+      {
+        titulo: 'Workshop de Power BI', estadoComision: 'COMPLETED', certificado: true, certificadoUrl: null,
+        cohortId: null, sinContenido: true, fechaInicio: '2026-05-05', fechaFin: '2026-05-05',
+      },
+    ],
+  };
+
+  // Se muta en memoria (nunca persiste de verdad) cuando el equipo prueba
+  // "Guardar"/"✕" en el formulario de notas del preview — ver
+  // estGuardarNota/estEliminarNota más arriba.
+  const EST_MOCK_OBSERVACIONES = {
+    excepciones: [
+      { alcance: 'Carrera de Diseño UX/UI', motivo: 'Sin requisito de asistencia (inscripción previa / comercial)' },
+      { alcance: 'Power BI', motivo: 'Trabajo' },
+    ],
+    excepcionesError: false,
+    cancelacionLineas: [
+      'Coder Pro: Activo — Gratuito por beneficio hasta el 16/12/2026 (Comisión origen: 93680)',
+      'Se brindó comisión 93680 por experiencia',
+    ],
+    cancelacionError: false,
+    notas: [
+      { id: 'mock-nota-1', fechaHora: '20/11/2026 10:15', texto: 'Contactó por WhatsApp para pedir prórroga de la entrega final.' },
+      { id: 'mock-nota-2', fechaHora: '05/11/2026 16:40', texto: 'Se reagendó la llamada de seguimiento para la semana próxima.' },
+    ],
+    contadorTotal: 5, // 2 excepciones + 1 gestión de cancelación + 2 notas
+  };
+
+  const EST_MOCK_PAGOS = {
+    pagos: [
+      { concepto: 'Diseño UX/UI — Comisión 97430', monto: 45000, moneda: 'ARS', estado: 'SUCCEEDED', cuotas: 3, fecha: '2026-08-15', backofficeUrl: null },
+      { concepto: 'Full Stack Developer — Comisión 93210', monto: 60000, moneda: 'ARS', estado: 'PENDING', cuotas: 1, fecha: '2026-01-05', backofficeUrl: null },
+    ],
+    error: false,
+    sinConfigurar: false,
+  };
+
+  if (EST_PREVIEW_MODE) {
+    (async () => {
+      if (estNoteEl) {
+        estNoteEl.classList.remove('is-error');
+        estNoteEl.textContent = 'Vista previa (Claude): mostrando un estudiante de ejemplo, no un dato real.';
+      }
+      if (estBuscarEl) estBuscarEl.value = EST_MOCK_MATCH.nombre;
+      estInsertarFichaYPrecargar(await estRenderStudentCard(EST_MOCK_MATCH));
+    })();
+  }
 
   // --- Filtro de estado de cursos (Parte 4) ---
   function estEstadoFiltroCurso(curso) {
