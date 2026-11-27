@@ -239,7 +239,7 @@
           <label for="est-buscar">Buscar estudiante (nombre o mail)</label>
           <div class="field-icon-wrap field-icon-left est-autocomplete-wrap">
             <span class="field-icon" aria-hidden="true">🔎</span>
-            <input type="text" id="est-buscar" class="filter-input" placeholder="Ej: Juan Pérez o juan@mail.com" autocomplete="off">
+            <input type="text" id="est-buscar" name="student_search_nocache" class="filter-input" placeholder="Ej: Juan Pérez o juan@mail.com" autocomplete="off">
             <div class="est-autocomplete-list is-hidden" id="est-autocomplete-list"></div>
           </div>
         </div>
@@ -715,9 +715,14 @@
   #dash-root .est-obs-bloque { margin-bottom: .9rem; }
   #dash-root .est-obs-bloque:last-child { margin-bottom: 0; }
   #dash-root .est-obs-subtitulo { font-weight: 700; font-size: .86rem; margin: 0 0 .35rem 0; }
-  #dash-root .est-obs-lista { margin: 0; padding-left: 1.1rem; font-size: .84rem; }
-  #dash-root .est-obs-lista li { margin-bottom: .3rem; }
-  #dash-root .est-obs-lista li:last-child { margin-bottom: 0; }
+  /* Excepciones de asistencia / Cancelaciones y beneficios (nov/2026, a
+     pedido explícito — estructura real confirmada): cada ítem como una
+     pill/badge compacta, mismo estilo que Figma Estudiante/Coder Pro
+     (.badge), apiladas una debajo de la otra porque el texto es de
+     oración y necesita poder hacer wrap (a diferencia de los badges
+     cortos de la fila compacta, que nunca hacen wrap). */
+  #dash-root .est-obs-pill-list { display: flex; flex-direction: column; align-items: flex-start; gap: .4rem; }
+  #dash-root .est-obs-pill { white-space: normal; text-align: left; line-height: 1.35; }
   #dash-root .est-nota-form { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .6rem; }
   #dash-root .est-nota-textarea {
     font: inherit; font-size: .84rem; padding: .4rem .6rem; border: 1px solid var(--ch-border);
@@ -2309,6 +2314,14 @@
   const estAutocompleteListEl = document.getElementById('est-autocomplete-list');
   if (!estBuscarEl || !estBuscarBtn || !estResultadosEl) return;
 
+  // CORREGIDO (nov/2026, a pedido explícito): algunos navegadores
+  // precargan el último valor tipeado en este campo al reabrir la página
+  // (autofill por nombre de campo, más allá de autocomplete="off") — se
+  // fuerza vacío al iniciar la vista de Estudiantes para que siempre
+  // arranque limpia, salvo que el modo previsualización ya lo haya llenado
+  // más abajo con el nombre del estudiante mock.
+  estBuscarEl.value = '';
+
   const EST_WORKER_CONFIGURADO = appWorkerConfigurado();
   const EST_COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.2"/><path d="M3.5 10.5h-1A1 1 0 0 1 1.5 9.5v-7A1 1 0 0 1 2.5 1.5h7a1 1 0 0 1 1 1v1"/></svg>';
   const EST_CHECK_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 8.5l3 3 7-7"/></svg>';
@@ -2922,14 +2935,23 @@
   // solo viaje GET /observaciones (ver ruta en estudiantes-worker.js). ---
   const estObsCache = new Map(); // email -> respuesta completa de /observaciones
 
+  // CORREGIDO (nov/2026, a pedido explícito — estructura real confirmada):
+  // si no hay nada que mostrar, la función devuelve '' (nunca un mensaje
+  // tipo "Sin excepciones…") — es estRenderObservacionesPanel quien decide,
+  // con ese '', si directamente oculta todo el bloque. Cada ítem se pinta
+  // como una pill/badge compacta (mismo estilo que Figma Estudiante/Coder
+  // Pro — ver .est-obs-pill), no como lista con viñetas.
   function estRenderExcepciones(items) {
-    if (!items || !items.length) return '<p class="est-sin-preentregas">Sin excepciones de asistencia registradas.</p>';
-    return `<ul class="est-obs-lista">${items.map((it) => `<li><strong>${estEscapeHtml(it.alcance)}</strong> — ${estEscapeHtml(it.motivo)}</li>`).join('')}</ul>`;
+    if (!items || !items.length) return '';
+    return `<div class="est-obs-pill-list">${items.map((it) => {
+      const alcance = (it.alcance && it.alcance !== '(sin especificar)') ? ` (${estEscapeHtml(it.alcance)})` : '';
+      return `<span class="badge badge-neutral est-obs-pill">Excepción de asistencia: ${estEscapeHtml(it.motivo)}${alcance}</span>`;
+    }).join('')}</div>`;
   }
 
   function estRenderCancelaciones(lineas) {
-    if (!lineas || !lineas.length) return '<p class="est-sin-preentregas">Sin cancelaciones ni beneficios registrados.</p>';
-    return `<ul class="est-obs-lista">${lineas.map((l) => `<li>${estEscapeHtml(l)}</li>`).join('')}</ul>`;
+    if (!lineas || !lineas.length) return '';
+    return `<div class="est-obs-pill-list">${lineas.map((l) => `<span class="badge badge-neutral est-obs-pill">${estEscapeHtml(l)}</span>`).join('')}</div>`;
   }
 
   function estRenderNotas(notas) {
@@ -2944,20 +2966,44 @@
       </li>`).join('')}</ul>`;
   }
 
+  // CORREGIDO (nov/2026, a pedido explícito — estructura real confirmada):
+  // "Excepciones de asistencia" y "Cancelaciones y beneficios" ahora son
+  // bloques CONDICIONALES — si no hay error y tampoco hay ítems, el bloque
+  // entero ni se agrega (nunca un título con un mensaje vacío debajo). Si
+  // ninguno de los dos tiene nada, "Notas internas del equipo" queda como
+  // primer y único bloque.
   function estRenderObservacionesPanel(data) {
-    return `
+    const bloques = [];
+
+    if (data.excepcionesError) {
+      bloques.push(`
       <div class="est-obs-bloque">
         <p class="est-obs-subtitulo">Excepciones de asistencia</p>
-        ${data.excepcionesError
-          ? '<p class="est-sin-preentregas is-error">No se pudo leer la planilla de excepciones en este momento.</p>'
-          : estRenderExcepciones(data.excepciones)}
-      </div>
+        <p class="est-sin-preentregas is-error">No se pudo leer la planilla de excepciones en este momento.</p>
+      </div>`);
+    } else if (data.excepciones && data.excepciones.length) {
+      bloques.push(`
+      <div class="est-obs-bloque">
+        <p class="est-obs-subtitulo">Excepciones de asistencia</p>
+        ${estRenderExcepciones(data.excepciones)}
+      </div>`);
+    }
+
+    if (data.cancelacionError) {
+      bloques.push(`
       <div class="est-obs-bloque">
         <p class="est-obs-subtitulo">Cancelaciones y beneficios</p>
-        ${data.cancelacionError
-          ? '<p class="est-sin-preentregas is-error">No se pudo leer la planilla de cancelaciones en este momento.</p>'
-          : estRenderCancelaciones(data.cancelacionLineas)}
-      </div>
+        <p class="est-sin-preentregas is-error">No se pudo leer la planilla de cancelaciones en este momento.</p>
+      </div>`);
+    } else if (data.cancelacionLineas && data.cancelacionLineas.length) {
+      bloques.push(`
+      <div class="est-obs-bloque">
+        <p class="est-obs-subtitulo">Cancelaciones y beneficios</p>
+        ${estRenderCancelaciones(data.cancelacionLineas)}
+      </div>`);
+    }
+
+    bloques.push(`
       <div class="est-obs-bloque">
         <p class="est-obs-subtitulo">Notas internas del equipo</p>
         <div class="est-nota-form">
@@ -2965,7 +3011,9 @@
           <button type="button" class="est-nota-guardar">Guardar</button>
         </div>
         ${estRenderNotas(data.notas)}
-      </div>`;
+      </div>`);
+
+    return bloques.join('');
   }
 
   function estActualizarContadorMini(card, kind, n) {
