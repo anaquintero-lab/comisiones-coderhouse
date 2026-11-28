@@ -751,7 +751,6 @@
      sin tocar badge-neutral (que se sigue usando igual en el resto de la
      app — estados de cursos, notas, etc.). */
   #dash-root .est-obs-pill-excepcion { background: #FFF9F2; border: 1px solid #F5DEC4; color: #663C1F; }
-  #dash-root .est-obs-pill-beneficio { background: #FFF7F9; border: 1px solid #FAD4DF; color: #6B2138; }
   #dash-root .est-obs-pill-figma { background: #F5F2EB; border: 1px solid #E7E2D8; color: #44403C; }
   #dash-root .est-nota-form { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .6rem; }
   #dash-root .est-nota-textarea {
@@ -1160,13 +1159,14 @@
      cursos. Estado neutro/inactivo: piedra/gris opaco, un pelín más suave
      que badge-neutral. */
   #dash-root .badge-header-warm { background: #FDF3E7; color: #8C5319; border: 1px solid #EAD4BC; }
-  /* "Coder Pro: Activo" / "Saldo a favor: <monto>" (nov/2026 — recoloreados
-     de nuevo en la decimoquinta vuelta de ajuste, a pedido explícito:
-     paleta pastel ultra suave). Clase propia badge-header-peach, separada
-     de badge-header-warm (que sigue tal cual para "Figma Estudiante:
-     Solicitado", sin tocar). Fondo #FFF5ED, borde #FFD5C2, texto #8C3B19.
-     El estado neutro/inactivo de ambos ("Coder Pro: Inactivo" / "Sin saldo
-     a favor") sigue en badge-header-neutral, sin cambios. */
+  /* "Coder Pro" (Activo/Inactivo) / "Saldo a favor" (con monto o "Sin saldo
+     a favor") — nov/2026, decimosexta vuelta de ajuste, a pedido explícito:
+     los 4 estados usan ahora el mismo pastel cálido badge-header-peach
+     (fondo #FFF5ED, borde #FFD5C2, texto #8C3B19), separado de
+     badge-header-warm (que sigue tal cual para "Figma Estudiante:
+     Solicitado", sin tocar). Solo el estado de error ("no se pudo
+     verificar") sigue en badge-header-neutral — ver estBadgeCoderPro /
+     estBadgeSaldo. */
   #dash-root .badge-header-peach { background: #FFF5ED; color: #8C3B19; border: 1px solid #FFD5C2; }
   #dash-root .badge-header-neutral { background: #EFECE6; color: #6E6A63; }
   /* AJUSTE (nov/2026, a pedido explícito — séptima vuelta de ajuste): se
@@ -2848,7 +2848,12 @@
   // fila horizontal que el badge de Coder Pro).
   function estBadgeSaldo(saldo) {
     if (!saldo || saldo.error) return '<span class="badge badge-header-neutral">Saldo a favor: no se pudo verificar</span>';
-    if (!saldo.disponible) return '<span class="badge badge-header-neutral">Sin saldo a favor</span>';
+    // CORREGIDO (nov/2026, a pedido explícito — decimosexta vuelta de
+    // ajuste): "Sin saldo a favor" pasa a usar el mismo pastel cálido
+    // (badge-header-peach) que cuando sí hay saldo — unificación de color
+    // pedida explícitamente. Solo el estado de error (no se pudo verificar)
+    // sigue en badge-header-neutral.
+    if (!saldo.disponible) return '<span class="badge badge-header-peach">Sin saldo a favor</span>';
     const monto = estFormatMonto(saldo.monto, saldo.moneda);
     return `<span class="badge badge-header-peach">Saldo a favor: ${estEscapeHtml(monto)}</span>`;
   }
@@ -3066,11 +3071,6 @@
     }).join('')}</div>`;
   }
 
-  function estRenderCancelaciones(lineas) {
-    if (!lineas || !lineas.length) return '';
-    return `<div class="est-obs-pill-list">${lineas.map((l) => `<span class="badge est-obs-pill est-obs-pill-beneficio">${estEscapeHtml(l)}</span>`).join('')}</div>`;
-  }
-
   function estRenderNotas(notas) {
     if (!notas || !notas.length) return '<p class="est-sin-preentregas">Sin notas internas todavía.</p>';
     return `<ul class="est-notas-lista">${notas.map((n) => `
@@ -3084,11 +3084,13 @@
   }
 
   // CORREGIDO (nov/2026, a pedido explícito — estructura real confirmada):
-  // "Excepciones de asistencia" y "Cancelaciones y beneficios" ahora son
-  // bloques CONDICIONALES — si no hay error y tampoco hay ítems, el bloque
-  // entero ni se agrega (nunca un título con un mensaje vacío debajo). Si
-  // ninguno de los dos tiene nada, "Notas internas del equipo" queda como
-  // primer y único bloque.
+  // "Excepciones de asistencia" es un bloque CONDICIONAL — si no hay error y
+  // tampoco hay ítems, el bloque entero ni se agrega (nunca un título con un
+  // mensaje vacío debajo). Si no tiene nada, "Notas internas del equipo"
+  // queda como primer y único bloque.
+  // ELIMINADO (nov/2026, a pedido explícito — decimosexta vuelta de ajuste):
+  // el bloque "Cancelaciones y beneficios" — esa planilla se sacó por
+  // completo del Worker (ver nota larga en estudiantes-worker.js).
   function estRenderObservacionesPanel(data, figmaTexto) {
     const bloques = [];
 
@@ -3111,22 +3113,14 @@
     // cartel ni un bloque vacío — tanto si el estudiante simplemente no
     // figura en la planilla (0 ítems) como si hubo un error al consultarla,
     // el bloque entero se omite por completo y en silencio. El error sigue
-    // llegando en la respuesta (excepcionesError/cancelacionError) por si
-    // hace falta diagnosticarlo con &debug=1, pero ya no se traduce en
-    // texto visible para el equipo.
+    // llegando en la respuesta (excepcionesError) por si hace falta
+    // diagnosticarlo con &debug=1, pero ya no se traduce en texto visible
+    // para el equipo.
     if (data.excepciones && data.excepciones.length) {
       bloques.push(`
       <div class="est-obs-bloque">
         <p class="est-obs-subtitulo">Excepciones de asistencia</p>
         ${estRenderExcepciones(data.excepciones)}
-      </div>`);
-    }
-
-    if (data.cancelacionLineas && data.cancelacionLineas.length) {
-      bloques.push(`
-      <div class="est-obs-bloque">
-        <p class="est-obs-subtitulo">Cancelaciones y beneficios</p>
-        ${estRenderCancelaciones(data.cancelacionLineas)}
       </div>`);
     }
 
@@ -3200,9 +3194,12 @@
       panelEl.dataset.cargando = '';
       return;
     }
-    const coderProActivo = panelEl.dataset.coderPro === '1' ? '1' : '0';
+    // ELIMINADO (nov/2026, a pedido explícito — decimosexta vuelta de
+    // ajuste): el parámetro coderProActivo en esta consulta — solo lo
+    // necesitaba Cancelaciones y beneficios, que se sacó por completo del
+    // Worker (ver nota larga en estudiantes-worker.js).
     try {
-      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/observaciones?email=${encodeURIComponent(email)}&coderProActivo=${coderProActivo}`, {
+      const res = await fetch(`${WORKER_URL.replace(/\/+$/, '')}/observaciones?email=${encodeURIComponent(email)}`, {
         headers: { 'X-Team-Pin': pin },
       });
       if (res.status === 401) {
@@ -3500,9 +3497,14 @@
 
   function estBadgeCoderPro(coderPro) {
     if (!coderPro || coderPro.error) return '<span class="badge badge-header-neutral">Coder Pro: no se pudo verificar</span>';
+    // CORREGIDO (nov/2026, a pedido explícito — decimosexta vuelta de
+    // ajuste): "Coder Pro: Inactivo" pasa a usar el mismo pastel cálido
+    // (badge-header-peach) que "Coder Pro: Activo" — unificación de color
+    // pedida explícitamente, igual que en estBadgeSaldo. Solo el estado de
+    // error (no se pudo verificar) sigue en badge-header-neutral.
     return coderPro.activo
       ? '<span class="badge badge-header-peach">Coder Pro: Activo</span>'
-      : '<span class="badge badge-header-neutral">Coder Pro: Inactivo</span>';
+      : '<span class="badge badge-header-peach">Coder Pro: Inactivo</span>';
   }
 
   // --- Figma Estudiante (PRUEBA, nov/2026): badge de estado de la
@@ -3629,29 +3631,30 @@
     // Los <details> de abajo (Observaciones/Pagos) se abren y cierran
     // desde esos botones (ver listener de .est-mini-pill-btn más abajo) —
     // su <summary> queda vacío y oculto por CSS a propósito.
-    const coderProActivoAttr = (match.coderPro && match.coderPro.activo) ? '1' : '0';
-
     // NUEVO (nov/2026, a pedido explícito — decimotercera vuelta de ajuste):
-    // ahora /buscar ya trae "observaciones" (excepciones + beneficios)
-    // adentro de cada match — se usa ACÁ, al armar la ficha, para pintar el
-    // contador "Observaciones (N)" y el contenido del panel al instante,
-    // sin esperar la consulta separada a /observaciones. Esa consulta
-    // (estCargarObservaciones con eager:true, más abajo) se sigue
-    // disparando igual que antes — sigue siendo necesaria para las notas
-    // internas del equipo (que no viajan en /buscar) y como respaldo si
-    // match.observaciones viniera vacío por algún motivo — y al resolver
-    // simplemente sobreescribe este contenido inicial con la versión
-    // definitiva (misma lógica de "eager" que ya existía).
+    // ahora /buscar ya trae "observaciones" (excepciones) adentro de cada
+    // match — se usa ACÁ, al armar la ficha, para pintar el contador
+    // "Observaciones (N)" y el contenido del panel al instante, sin esperar
+    // la consulta separada a /observaciones. Esa consulta (estCargarObservaciones
+    // con eager:true, más abajo) se sigue disparando igual que antes — sigue
+    // siendo necesaria para las notas internas del equipo (que no viajan en
+    // /buscar) y como respaldo si match.observaciones viniera vacío por
+    // algún motivo — y al resolver simplemente sobreescribe este contenido
+    // inicial con la versión definitiva (misma lógica de "eager" que ya
+    // existía).
+    // ELIMINADO (nov/2026, a pedido explícito — decimosexta vuelta de
+    // ajuste): "beneficios"/"cancelacionLineas" (Cancelaciones y
+    // beneficios) y el atributo data-coder-pro, que solo existía para
+    // mandarle ese dato a /observaciones — ver nota larga en
+    // estudiantes-worker.js.
     const obsInicial = match.observaciones || null;
     const obsInicialN = obsInicial
       ? (obsInicial.excepciones ? obsInicial.excepciones.length : 0)
-        + (obsInicial.beneficios ? obsInicial.beneficios.length : 0)
         + (figmaTexto ? 1 : 0)
       : null;
     const obsInicialBodyHtml = obsInicial
       ? estRenderObservacionesPanel({
           excepciones: obsInicial.excepciones || [],
-          cancelacionLineas: obsInicial.beneficios || [],
           notas: [], // las notas internas siempre llegan después, vía /observaciones (eager)
         }, figmaTexto)
       : '<p class="est-sin-preentregas est-entregas-cargando">Cargando observaciones…</p>';
@@ -3669,7 +3672,7 @@
           <button type="button" class="est-mini-pill-btn" data-mini-toggle="obs">Observaciones <span class="est-mini-count" data-mini-count="obs">${estFormatoContadorMini('obs', obsInicialN)}</span></button>
           <button type="button" class="est-mini-pill-btn" data-mini-toggle="pagos">Pagos<span class="est-mini-count" data-mini-count="pagos"></span></button>
         </div>
-        <details class="est-mini-panel" data-mini-panel="obs" data-email="${estEscapeHtml(match.email || '')}" data-coder-pro="${coderProActivoAttr}" data-figma-texto="${estEscapeHtml(figmaTexto)}">
+        <details class="est-mini-panel" data-mini-panel="obs" data-email="${estEscapeHtml(match.email || '')}" data-figma-texto="${estEscapeHtml(figmaTexto)}">
           <summary></summary>
           <div class="est-mini-panel-body est-obs-body">${obsInicialBodyHtml}</div>
         </details>
@@ -4138,16 +4141,11 @@
       { alcance: 'Power BI', motivo: 'Trabajo' },
     ],
     excepcionesError: false,
-    cancelacionLineas: [
-      'Coder Pro: Activo — Gratuito por beneficio hasta el 16/12/2026 (Comisión origen: 93680)',
-      'Se brindó comisión 93680 por experiencia',
-    ],
-    cancelacionError: false,
     notas: [
       { id: 'mock-nota-1', fechaHora: '20/11/2026 10:15', texto: 'Contactó por WhatsApp para pedir prórroga de la entrega final.' },
       { id: 'mock-nota-2', fechaHora: '05/11/2026 16:40', texto: 'Se reagendó la llamada de seguimiento para la semana próxima.' },
     ],
-    contadorTotal: 5, // 2 excepciones + 1 gestión de cancelación + 2 notas
+    contadorTotal: 4, // 2 excepciones + 2 notas
   };
 
   const EST_MOCK_PAGOS = {
