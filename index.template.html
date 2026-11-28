@@ -40,7 +40,7 @@
     <div class="login-gate-field-wrap">
       <div class="field-icon-wrap field-icon-left field-icon-right">
         <span class="field-icon" aria-hidden="true">🔒</span>
-        <input type="password" id="login-gate-pw" class="filter-input" placeholder="Contraseña" autocomplete="new-password">
+        <input type="text" id="login-gate-pw" class="filter-input login-gate-pw-input" placeholder="Contraseña" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
         <button type="button" id="login-gate-toggle" class="login-gate-toggle" aria-label="Mostrar contraseña" title="Mostrar contraseña">👁️</button>
       </div>
     </div>
@@ -567,6 +567,23 @@
   html[data-theme="dark"] #dash-root .login-gate-banner { background: #15351f; }
   #dash-root .login-gate-banner.is-hidden { display: none; }
   #dash-root .login-gate-field-wrap { position: relative; margin-bottom: .85rem; }
+  /* CORREGIDO (nov/2026, a pedido explícito — decimonovena vuelta de
+     ajuste, cartel de guardar contraseña de Chrome): el input de la clave
+     de acceso dejó de ser type="password" — Chrome mostraba "¿Quieres
+     guardar la contraseña?" al buscar un alumno por mail apenas detectaba
+     ESTE input en el DOM (le alcanza con que exista en la página, visible u
+     oculto, sin importar autocomplete/name/type del buscador), incluso al
+     cambiar de pestaña o cerrar el buscador. Ahora es type="text" (nunca
+     "huele" a campo de contraseña para Chrome) y el ocultamiento visual se
+     hace 100% con CSS: -webkit-text-security: disc simula los puntitos
+     (••••••••) sin que el navegador lo trate como contraseña. Nota: esta
+     propiedad es WebKit/Blink (Chrome, Edge, Safari) — Firefox no la
+     soporta y mostraría el texto plano, pero no vuelve a pedir guardar
+     nada, que es el problema que se pidió resolver acá. El toggle de
+     mostrar/ocultar (ver script "Login global" más abajo) ahora agrega o
+     saca la clase .is-pw-visible en vez de cambiar el type. */
+  #dash-root .login-gate-pw-input { -webkit-text-security: disc; }
+  #dash-root .login-gate-pw-input.is-pw-visible { -webkit-text-security: none; }
   #dash-root .login-gate-toggle {
     position: absolute; top: 50%; right: .6rem; transform: translateY(-50%);
     background: none; border: none; padding: .1rem; font-size: .92rem; line-height: 1;
@@ -2013,12 +2030,17 @@
     mostrarGate(null);
   }
 
+  // CORREGIDO (nov/2026, a pedido explícito — decimonovena vuelta de
+  // ajuste): el campo ya no es type="password" (ver nota larga en el CSS,
+  // .login-gate-pw-input, sobre el cartel de guardar contraseña de Chrome)
+  // — el toggle ahora alterna la clase .is-pw-visible, que es la que
+  // prende/apaga el enmascarado (-webkit-text-security), en vez de cambiar
+  // el type del input.
   if (toggleEl && pwEl) {
     toggleEl.addEventListener('click', () => {
-      const mostrando = pwEl.type === 'text';
-      pwEl.type = mostrando ? 'password' : 'text';
-      toggleEl.textContent = mostrando ? '👁️' : '🙈';
-      const etiqueta = mostrando ? 'Mostrar contraseña' : 'Ocultar contraseña';
+      const mostrando = pwEl.classList.toggle('is-pw-visible');
+      toggleEl.textContent = mostrando ? '🙈' : '👁️';
+      const etiqueta = mostrando ? 'Ocultar contraseña' : 'Mostrar contraseña';
       toggleEl.setAttribute('aria-label', etiqueta);
       toggleEl.setAttribute('title', etiqueta);
     });
