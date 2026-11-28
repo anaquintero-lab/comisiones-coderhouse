@@ -707,18 +707,19 @@
      El título "Workshops y Webinars" (segundo .est-section-title) conserva
      el margen normal porque ahí sí hay contenido arriba (los cursos). */
   #dash-root .est-student-card > p.est-section-title:first-of-type { margin-top: 26px; }
-  /* Botones "Observaciones (N)" / "Pagos (N)": un pelín más de presencia y
-     color cálido neutro (nov/2026, a pedido explícito — sexta vuelta de
-     ajuste) — ya no el naranja fuerte de antes, pero tampoco tan apagados
-     como el gris piedra de los acordeones de cursos. */
+  /* Botones "Observaciones (N)" / "Pagos (N)" (nov/2026 — recoloreados de
+     nuevo en la decimoquinta vuelta de ajuste, a pedido explícito: paleta
+     pastel ULTRA suave, durazno/crema muy claro, sin naranja fuerte).
+     Normal/cerrado: fondo #FFF8F5, borde #F5D0C5, texto #44403C. Hover o
+     activo/desplegado: fondo #FFEDE6, borde #E8B4A2, texto #292524. */
   #dash-root .est-mini-pill-btn {
     font-size: 13px; padding: 6px 14px; font-weight: 500; width: auto;
-    border-radius: 999px; border: 1px solid #DCD3C4;
-    background: #F4EFE6; color: #2D2A26;
+    border-radius: 999px; border: 1px solid #F5D0C5;
+    background: #FFF8F5; color: #44403C;
     cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: .3rem;
   }
-  #dash-root .est-mini-pill-btn:hover { background: #EBE3D5; border-color: #c9bda4; }
-  #dash-root .est-mini-pill-btn.is-active { background: #EBE3D5; border-color: #2D2A26; }
+  #dash-root .est-mini-pill-btn:hover { background: #FFEDE6; border-color: #E8B4A2; color: #292524; }
+  #dash-root .est-mini-pill-btn.is-active { background: #FFEDE6; border-color: #E8B4A2; color: #292524; }
   #dash-root .est-mini-count { font-variant-numeric: tabular-nums; }
   /* Panel que se despliega DEBAJO de toda la fila compacta al abrir
      cualquiera de los 2 mini-pill (ver JS: panelEl.open se controla desde
@@ -743,6 +744,15 @@
      cortos de la fila compacta, que nunca hacen wrap). */
   #dash-root .est-obs-pill-list { display: flex; flex-direction: column; align-items: flex-start; gap: .4rem; }
   #dash-root .est-obs-pill { white-space: normal; text-align: left; line-height: 1.35; }
+  /* Colores propios por tipo de pill dentro de Observaciones (nov/2026, a
+     pedido explícito — decimoquinta vuelta de ajuste, paleta pastel ultra
+     suave): antes las 3 (Excepciones, Cancelaciones/beneficios y Figma)
+     compartían badge-neutral sin distinguirse entre sí. Clases propias,
+     sin tocar badge-neutral (que se sigue usando igual en el resto de la
+     app — estados de cursos, notas, etc.). */
+  #dash-root .est-obs-pill-excepcion { background: #FFF9F2; border: 1px solid #F5DEC4; color: #663C1F; }
+  #dash-root .est-obs-pill-beneficio { background: #FFF7F9; border: 1px solid #FAD4DF; color: #6B2138; }
+  #dash-root .est-obs-pill-figma { background: #F5F2EB; border: 1px solid #E7E2D8; color: #44403C; }
   #dash-root .est-nota-form { display: flex; flex-direction: column; gap: .4rem; margin-bottom: .6rem; }
   #dash-root .est-nota-textarea {
     font: inherit; font-size: .84rem; padding: .4rem .6rem; border: 1px solid var(--ch-border);
@@ -1124,16 +1134,16 @@
   /* Badge "Certificado" clicable (abre el PDF): mismo look que el badge
      estático, con un cursor y hover sutiles para marcar que es un link. */
   #dash-root .est-badge-cert-link { cursor: pointer; }
-  #dash-root .est-badge-cert-link:hover { background: #d7f0e0; }
-  /* "Certificado" (nov/2026, a pedido explícito — séptima vuelta de
-     ajuste; recoloreado en la octava vuelta porque el tono coral se leía
-     rojizo/cancelado): clase propia badge-cert, ahora naranja cálido/ámbar
-     claro y positivo, para distinguirlo a simple vista del verde de "En
-     curso" (badge-ok, sin cambios) sin parecerse al rojo de "Cancelada"
-     (badge-bad, sin cambios). El resto de los estados de cursada
-     (Finalizada, No iniciada, Sin certificar) tampoco se tocan. */
-  #dash-root .badge-cert { background: #FFF0E0; color: #C2590A; border: 1px solid #F7C59F; }
-  #dash-root .badge-cert.est-badge-cert-link:hover { background: #FFE1BE; }
+  #dash-root .est-badge-cert-link:hover { background: #FFDCE7; }
+  /* "Certificado" (nov/2026 — recoloreado otra vez en la decimoquinta
+     vuelta de ajuste, a pedido explícito: paleta pastel ultra suave).
+     Fondo #FFF0F5, borde #F8C4D4, texto #7A1F3D — legible y distinguible a
+     simple vista del verde de "En curso" (badge-ok, sin cambios) y del
+     rojo de "Cancelada" (badge-bad, sin cambios). "Sin certificar" sigue
+     en badge-neutral (tono piedra, sin cambios) y el resto de los estados
+     de cursada (Finalizada, No iniciada) tampoco se tocan. */
+  #dash-root .badge-cert { background: #FFF0F5; color: #7A1F3D; border: 1px solid #F8C4D4; }
+  #dash-root .badge-cert.est-badge-cert-link:hover { background: #FFDCE7; }
   #dash-root .badge-neutral { background: #eeeae3; color: var(--ch-ink-muted); }
   /* Naranja distinto del ámbar de badge-warn, para diferenciar "En
      corrección" (amarillo/ámbar, badge-warn) de "Solicitud de reentrega"
@@ -1150,6 +1160,14 @@
      cursos. Estado neutro/inactivo: piedra/gris opaco, un pelín más suave
      que badge-neutral. */
   #dash-root .badge-header-warm { background: #FDF3E7; color: #8C5319; border: 1px solid #EAD4BC; }
+  /* "Coder Pro: Activo" / "Saldo a favor: <monto>" (nov/2026 — recoloreados
+     de nuevo en la decimoquinta vuelta de ajuste, a pedido explícito:
+     paleta pastel ultra suave). Clase propia badge-header-peach, separada
+     de badge-header-warm (que sigue tal cual para "Figma Estudiante:
+     Solicitado", sin tocar). Fondo #FFF5ED, borde #FFD5C2, texto #8C3B19.
+     El estado neutro/inactivo de ambos ("Coder Pro: Inactivo" / "Sin saldo
+     a favor") sigue en badge-header-neutral, sin cambios. */
+  #dash-root .badge-header-peach { background: #FFF5ED; color: #8C3B19; border: 1px solid #FFD5C2; }
   #dash-root .badge-header-neutral { background: #EFECE6; color: #6E6A63; }
   /* AJUSTE (nov/2026, a pedido explícito — séptima vuelta de ajuste): se
      igualan en tamaño "Coder Pro"/"Saldo a favor" (únicos badges que quedan
@@ -1158,7 +1176,7 @@
      (.est-mini-pill-btn: font-size 13px, padding 6px 14px), para que el
      bloque completo quede armónico entre el nombre y "Cursos y
      Diplomaturas". */
-  #dash-root .badge-header-warm, #dash-root .badge-header-neutral { font-size: 13px; padding: 6px 14px; font-weight: 500; }
+  #dash-root .badge-header-warm, #dash-root .badge-header-peach, #dash-root .badge-header-neutral { font-size: 13px; padding: 6px 14px; font-weight: 500; }
 
   #dash-root .copy-btn {
     display: inline-flex;
@@ -2769,6 +2787,16 @@
   // script dispara igual el evento "toggle" nativo (ver listener de
   // captura más abajo), así que la carga perezosa de cada panel sigue
   // funcionando sin tocarla.
+  //
+  // CORREGIDO (nov/2026, a pedido explícito — decimoquinta vuelta de
+  // ajuste): "Observaciones" y "Pagos" ahora son mutuamente excluyentes
+  // DENTRO DE LA MISMA TARJETA — nunca quedan los dos paneles abiertos uno
+  // debajo del otro. Al abrir uno, se cierra el otro (y se le saca
+  // "is-active" a su botón) ANTES de abrir el que se tocó, para que el
+  // "toggle" nativo de cada uno dispare en el orden correcto. Si se vuelve
+  // a clickear el botón ya abierto, simplemente se cierra su propio panel
+  // (mismo comportamiento de siempre, solo que ahora el otro panel nunca
+  // llega a estar abierto a la vez).
   estResultadosEl.addEventListener('click', (e) => {
     const btn = e.target.closest('.est-mini-pill-btn');
     if (!btn || !estResultadosEl.contains(btn)) return;
@@ -2777,7 +2805,16 @@
     const kind = btn.dataset.miniToggle;
     const panel = card.querySelector(`.est-mini-panel[data-mini-panel="${kind}"]`);
     if (!panel) return;
-    panel.open = !panel.open;
+    const vaAAbrir = !panel.open;
+    if (vaAAbrir) {
+      card.querySelectorAll('.est-mini-panel').forEach((otroPanel) => {
+        if (otroPanel === panel || !otroPanel.open) return;
+        otroPanel.open = false;
+        const otroBtn = card.querySelector(`.est-mini-pill-btn[data-mini-toggle="${otroPanel.dataset.miniPanel}"]`);
+        if (otroBtn) otroBtn.classList.remove('is-active');
+      });
+    }
+    panel.open = vaAAbrir;
     btn.classList.toggle('is-active', panel.open);
   });
 
@@ -2813,7 +2850,7 @@
     if (!saldo || saldo.error) return '<span class="badge badge-header-neutral">Saldo a favor: no se pudo verificar</span>';
     if (!saldo.disponible) return '<span class="badge badge-header-neutral">Sin saldo a favor</span>';
     const monto = estFormatMonto(saldo.monto, saldo.moneda);
-    return `<span class="badge badge-header-warm">Saldo a favor: ${estEscapeHtml(monto)}</span>`;
+    return `<span class="badge badge-header-peach">Saldo a favor: ${estEscapeHtml(monto)}</span>`;
   }
 
   function estFormatMonto(monto, moneda) {
@@ -3025,13 +3062,13 @@
     if (!items || !items.length) return '';
     return `<div class="est-obs-pill-list">${items.map((it) => {
       const alcance = (it.alcance && it.alcance !== '(sin especificar)') ? ` (${estEscapeHtml(it.alcance)})` : '';
-      return `<span class="badge badge-neutral est-obs-pill">Excepción de asistencia: ${estEscapeHtml(it.motivo)}${alcance}</span>`;
+      return `<span class="badge est-obs-pill est-obs-pill-excepcion">Excepción de asistencia: ${estEscapeHtml(it.motivo)}${alcance}</span>`;
     }).join('')}</div>`;
   }
 
   function estRenderCancelaciones(lineas) {
     if (!lineas || !lineas.length) return '';
-    return `<div class="est-obs-pill-list">${lineas.map((l) => `<span class="badge badge-neutral est-obs-pill">${estEscapeHtml(l)}</span>`).join('')}</div>`;
+    return `<div class="est-obs-pill-list">${lineas.map((l) => `<span class="badge est-obs-pill est-obs-pill-beneficio">${estEscapeHtml(l)}</span>`).join('')}</div>`;
   }
 
   function estRenderNotas(notas) {
@@ -3064,7 +3101,7 @@
       bloques.push(`
       <div class="est-obs-bloque">
         <p class="est-obs-subtitulo">Figma Estudiante</p>
-        <div class="est-obs-pill-list"><span class="badge badge-neutral est-obs-pill">${estEscapeHtml(figmaTexto)}</span></div>
+        <div class="est-obs-pill-list"><span class="badge est-obs-pill est-obs-pill-figma">${estEscapeHtml(figmaTexto)}</span></div>
       </div>`);
     }
 
@@ -3274,10 +3311,20 @@
   // Inserta la ficha de un estudiante en el DOM y, de una, dispara la
   // precarga "eager" del contador de Observaciones (ver estCargarObservaciones)
   // — así "Observaciones (N)" ya aparece sin que el equipo tenga que abrir
-  // el panel. Nunca se hace lo mismo con Pagos a propósito: esa consulta sí
-  // pega contra el Back Office (no contra las planillas públicas) y es
-  // justamente la que había que volver perezosa por performance — ver nota
-  // larga en estCargarPagos/consultarPagosSeguro.
+  // el panel.
+  //
+  // CORREGIDO (nov/2026, a pedido explícito — catorceava vuelta de ajuste):
+  // ahora también se precarga Pagos de la misma forma, silenciosamente, SIN
+  // abrir su panel — estCargarPagos ya estaba armado para no tocar
+  // panelEl.open (solo llena el body oculto y actualiza el contador vía
+  // estPintarPagosEnBody), así que llamarlo acá antes de que el equipo haga
+  // clic no cambia su comportamiento, solo lo adelanta. La única consulta
+  // que seguía pegándole al Back Office EN CADA TECLA tipeada era /buscar
+  // (ver nota vieja de estCargarPagos/consultarPagosSeguro, más abajo) —
+  // esa búsqueda sigue sin pedir pagos. Esto es distinto: se dispara UNA
+  // sola vez por ficha ya elegida/mostrada (no por cada letra del buscador),
+  // igual que ya pasa con Observaciones — así que no reintroduce el
+  // problema de performance que motivó volverla perezosa en su momento.
   function estInsertarFichaYPrecargar(html) {
     estResultadosEl.innerHTML = html;
     // CORREGIDO (nov/2026, a pedido explícito): antes algunos puntos de
@@ -3289,6 +3336,9 @@
     estActualizarVisibilidadRecientes();
     estResultadosEl.querySelectorAll('.est-mini-panel[data-mini-panel="obs"]').forEach((panelEl) => {
       estCargarObservaciones(panelEl, { eager: true });
+    });
+    estResultadosEl.querySelectorAll('.est-mini-panel[data-mini-panel="pagos"]').forEach((seccionEl) => {
+      estCargarPagos(seccionEl);
     });
   }
 
@@ -3451,7 +3501,7 @@
   function estBadgeCoderPro(coderPro) {
     if (!coderPro || coderPro.error) return '<span class="badge badge-header-neutral">Coder Pro: no se pudo verificar</span>';
     return coderPro.activo
-      ? '<span class="badge badge-header-warm">Coder Pro: Activo</span>'
+      ? '<span class="badge badge-header-peach">Coder Pro: Activo</span>'
       : '<span class="badge badge-header-neutral">Coder Pro: Inactivo</span>';
   }
 
