@@ -697,16 +697,16 @@
      justo debajo de la fila de badges — antes quedaban pegados a la
      derecha de esa fila y se perdían de vista. */
   #dash-root .est-mini-pill-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 10px 0 8px 0; }
-  /* Aire antes de "Cursos y Diplomaturas" — a pedido explícito, nov/2026,
-     sexta vuelta de ajuste: el margen de arriba (18px antes de la fila de
-     badges) y el de abajo (8px + 10px = 18px antes del título) quedan
-     iguales a propósito, para que todo el bloque Figma/Coder Pro/Saldo/
-     Observaciones/Pagos quede realmente centrado en el espacio entre el
-     nombre y "Cursos y Diplomaturas", ni pegado arriba ni con un salto más
-     grande después. El título "Workshops y Webinars" (segundo
-     .est-section-title) conserva el margen normal porque ahí sí hay
-     contenido arriba (los cursos). */
-  #dash-root .est-student-card > p.est-section-title:first-of-type { margin-top: 10px; }
+  /* Aire antes de "Cursos y Diplomaturas" (a pedido explícito, nov/2026 —
+     décima vuelta de ajuste: subido de 10px a 26px, para que el título
+     tenga más aire respecto de los botones Observaciones/Pagos y de sus
+     paneles desplegables cuando están abiertos — con un panel abierto
+     arriba, 10px quedaba demasiado pegado al borde de la tarjeta. La
+     distancia CORTA respecto de la primera tarjeta de curso de abajo no se
+     toca acá — la gobierna el margin-bottom de .est-filtro-row, más abajo).
+     El título "Workshops y Webinars" (segundo .est-section-title) conserva
+     el margen normal porque ahí sí hay contenido arriba (los cursos). */
+  #dash-root .est-student-card > p.est-section-title:first-of-type { margin-top: 26px; }
   /* Botones "Observaciones (N)" / "Pagos (N)": un pelín más de presencia y
      color cálido neutro (nov/2026, a pedido explícito — sexta vuelta de
      ajuste) — ya no el naranja fuerte de antes, pero tampoco tan apagados
@@ -3068,13 +3068,16 @@
       </div>`);
     }
 
-    if (data.excepcionesError) {
-      bloques.push(`
-      <div class="est-obs-bloque">
-        <p class="est-obs-subtitulo">Excepciones de asistencia</p>
-        <p class="est-sin-preentregas is-error">No se pudo leer la planilla de excepciones en este momento.</p>
-      </div>`);
-    } else if (data.excepciones && data.excepciones.length) {
+    // CORREGIDO (nov/2026, a pedido explícito — décima vuelta de ajuste):
+    // antes, si la planilla fallaba (error de red) se mostraba un cartel
+    // gris "No se pudo leer la planilla...". Ahora NUNCA se muestra ese
+    // cartel ni un bloque vacío — tanto si el estudiante simplemente no
+    // figura en la planilla (0 ítems) como si hubo un error al consultarla,
+    // el bloque entero se omite por completo y en silencio. El error sigue
+    // llegando en la respuesta (excepcionesError/cancelacionError) por si
+    // hace falta diagnosticarlo con &debug=1, pero ya no se traduce en
+    // texto visible para el equipo.
+    if (data.excepciones && data.excepciones.length) {
       bloques.push(`
       <div class="est-obs-bloque">
         <p class="est-obs-subtitulo">Excepciones de asistencia</p>
@@ -3082,13 +3085,7 @@
       </div>`);
     }
 
-    if (data.cancelacionError) {
-      bloques.push(`
-      <div class="est-obs-bloque">
-        <p class="est-obs-subtitulo">Cancelaciones y beneficios</p>
-        <p class="est-sin-preentregas is-error">No se pudo leer la planilla de cancelaciones en este momento.</p>
-      </div>`);
-    } else if (data.cancelacionLineas && data.cancelacionLineas.length) {
+    if (data.cancelacionLineas && data.cancelacionLineas.length) {
       bloques.push(`
       <div class="est-obs-bloque">
         <p class="est-obs-subtitulo">Cancelaciones y beneficios</p>
