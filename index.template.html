@@ -239,7 +239,22 @@
           <label for="est-buscar">Buscar estudiante (nombre o mail)</label>
           <div class="field-icon-wrap field-icon-left est-autocomplete-wrap">
             <span class="field-icon" aria-hidden="true">🔎</span>
-            <input type="text" id="est-buscar" name="student_search_nocache" class="filter-input" placeholder="Ej: Juan Pérez o juan@mail.com" autocomplete="off">
+            <!-- CORREGIDO (nov/2026, a pedido explícito — bloqueo de
+                 autofill de raíz): Chrome/Edge seguían autocompletando este
+                 campo con el último mail buscado (fondo celeste de
+                 autofill) pese a autocomplete="off" y al name "trampa"
+                 (student_search_nocache) — ambos truco son ignorados por
+                 Chrome en campos que "huelen" a mail/usuario. La combinación
+                 que sí funciona: type="search" (no es un campo de
+                 login/mail para el heurístico del navegador),
+                 autocomplete="new-password" (el único valor que Chrome
+                 realmente respeta para no sugerir nada guardado),
+                 autocorrect/autocapitalize/spellcheck apagados, y el truco
+                 readonly-hasta-el-primer-foco: con readonly puesto, el
+                 navegador nunca ofrece ni pinta el autofill; apenas el
+                 equipo hace click/tap en el campo, el propio onfocus saca
+                 el readonly y se puede escribir con total normalidad. -->
+            <input type="search" id="est-buscar" name="student_search_nocache" class="filter-input" placeholder="Ej: Juan Pérez o juan@mail.com" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly')">
             <div class="est-autocomplete-list is-hidden" id="est-autocomplete-list"></div>
           </div>
         </div>
@@ -2362,6 +2377,26 @@
   // arranque limpia, salvo que el modo previsualización ya lo haya llenado
   // más abajo con el nombre del estudiante mock.
   estBuscarEl.value = '';
+
+  // CORREGIDO (nov/2026, a pedido explícito — bloqueo de autofill de raíz,
+  // novena vuelta de ajuste): el "value = ''" de arriba corre una sola vez,
+  // al cargar este script — pero Chrome/Edge pueden restaurar el valor del
+  // campo DESPUÉS de eso (bfcache al volver con el botón "Atrás", o
+  // restauración de estado de formulario al recargar), repintando el mail
+  // guardado con el fondo celeste de autofill y a veces disparando la
+  // búsqueda solo. 'pageshow' se dispara en ambos casos (carga normal y
+  // restauración desde bfcache — event.persisted lo distingue, pero acá no
+  // hace falta: siempre conviene el campo vacío al mostrarse la pestaña) y
+  // se refuerza el vaciado a los 50ms y a los 200ms por si el navegador
+  // mete su propio valor en un tick posterior al evento. No se toca en modo
+  // previsualización (EST_PREVIEW_MODE), donde el mock de ejemplo sí tiene
+  // que quedar cargado para poder ver la ficha de muestra.
+  if (!EST_PREVIEW_MODE) {
+    window.addEventListener('pageshow', () => {
+      setTimeout(() => { if (estBuscarEl) estBuscarEl.value = ''; }, 50);
+      setTimeout(() => { if (estBuscarEl) estBuscarEl.value = ''; }, 200);
+    });
+  }
 
   const EST_WORKER_CONFIGURADO = appWorkerConfigurado();
   const EST_COPY_ICON = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="5.5" y="5.5" width="8.5" height="8.5" rx="1.2"/><path d="M3.5 10.5h-1A1 1 0 0 1 1.5 9.5v-7A1 1 0 0 1 2.5 1.5h7a1 1 0 0 1 1 1v1"/></svg>';
