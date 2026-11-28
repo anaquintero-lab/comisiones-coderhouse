@@ -354,13 +354,6 @@
        ajuste, para más contraste todavía) para las líneas de fechas/
        horario/profesor de la pestaña Estudiantes. */
     --ch-fechas: #1f2937;
-    /* Pill "Observaciones (N)" / "Pagos (N)" (nov/2026, a pedido explícito):
-       acento cálido propio para que se note a simple vista y no se
-       confunda con el botón "Copiar". */
-    --ch-mini-pill-bg: #FFF4ED;
-    --ch-mini-pill-border: #FF6B2B;
-    --ch-mini-pill-ink: #D9480F;
-    --ch-mini-pill-hover-bg: #FFE3D1;
     max-width: 1400px;
     margin: 0 auto;
     padding: 1.5rem 1rem;
@@ -389,10 +382,6 @@
        el fondo negro, así que acá se mantiene el tono claro que ya se
        usaba (igual a --ch-ink-muted de este tema) en vez de oscurecerlo. */
     --ch-fechas: #ad9f8c;
-    --ch-mini-pill-bg: #3a271c;
-    --ch-mini-pill-border: #ff7a46;
-    --ch-mini-pill-ink: #ffb088;
-    --ch-mini-pill-hover-bg: #472f21;
   }
 
   #dash-root, #dash-root *, #dash-root *::before, #dash-root *::after {
@@ -605,7 +594,13 @@
 
   /* --- Filtro de estado de cursos (Parte 4, ajustado a pedido explícito:
      alineado a la derecha, bien chico y fino) --- */
-  #dash-root .est-filtro-row { display: flex; align-items: center; justify-content: flex-end; gap: .4rem; margin: .3rem 0 .6rem 0; flex-wrap: wrap; }
+  /* CORREGIDO (nov/2026, a pedido explícito — octava vuelta de ajuste): se
+     bajan los márgenes (antes .3rem arriba / .6rem abajo) para que el hueco
+     entre "Cursos y Diplomaturas" y la primera tarjeta de curso quede lo
+     más parecido posible al de "Workshops y Webinars" (que no tiene esta
+     fila de filtro en el medio) — el margen de arriba se saca del todo
+     (colapsa con el margin-bottom del título) y el de abajo baja a 8px. */
+  #dash-root .est-filtro-row { display: flex; align-items: center; justify-content: flex-end; gap: .4rem; margin: 0 0 8px 0; flex-wrap: wrap; }
   #dash-root .est-filtro-row label { font-size: .781rem; color: var(--ch-ink-muted); }
   #dash-root .est-filtro-row select {
     max-width: 180px;
@@ -677,28 +672,38 @@
   /* Cabecera (nov/2026, a pedido explícito — segunda vuelta de ajuste):
      Fila 1 = nombre a la izquierda + mail/Copiar/Back Office a la derecha
      (vuelve a estRenderStudentCard con .est-student-header-right, como en
-     el resto de la app). Fila 2 = badges a la izquierda + los 2 botones
-     mini-pill a la derecha, con aire (margin-top) respecto de la Fila 1. */
-  #dash-root .est-compact-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 12px 0 .4rem 0; }
-  /* Menos aire antes de "Cursos y Diplomaturas" — a pedido explícito,
-     nov/2026, tercer ajuste: con los mini-panel cerrados (sin alto propio)
-     quedaba un hueco muy grande entre la fila de badges y ese título. El
-     título "Workshops y Webinars" (segundo .est-section-title) conserva el
-     margen normal porque ahí sí hay contenido arriba (los cursos). */
-  #dash-root .est-student-card > p.est-section-title:first-of-type { margin-top: 8px; }
-  #dash-root .est-mini-pill-group { display: flex; align-items: center; gap: .4rem; margin-left: auto; }
-  /* Botones "Observaciones (N)" / "Pagos (N)": un poco más grandes que
-     "Copiar" y con acento cálido propio (--ch-mini-pill-*) para que se
-     noten a simple vista y no se confundan con "Copiar" — pedido
-     explícito, nov/2026, segunda vuelta de ajuste. */
+     el resto de la app). Fila 2 = badges a la izquierda. */
+  /* AJUSTE (nov/2026, a pedido explícito — octava vuelta de ajuste): subido
+     de 18px a 22px — con el nombre en 1.45rem (grande) el margen de 18px
+     seguía leyéndose "pegado" al título. */
+  #dash-root .est-compact-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 22px 0 0 0; }
+  /* Fila 3 (nov/2026, a pedido explícito — cuarta vuelta de ajuste): los 2
+     botones mini-pill, ahora en su PROPIA fila alineada a la izquierda,
+     justo debajo de la fila de badges — antes quedaban pegados a la
+     derecha de esa fila y se perdían de vista. */
+  #dash-root .est-mini-pill-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 10px 0 8px 0; }
+  /* Aire antes de "Cursos y Diplomaturas" — a pedido explícito, nov/2026,
+     sexta vuelta de ajuste: el margen de arriba (18px antes de la fila de
+     badges) y el de abajo (8px + 10px = 18px antes del título) quedan
+     iguales a propósito, para que todo el bloque Figma/Coder Pro/Saldo/
+     Observaciones/Pagos quede realmente centrado en el espacio entre el
+     nombre y "Cursos y Diplomaturas", ni pegado arriba ni con un salto más
+     grande después. El título "Workshops y Webinars" (segundo
+     .est-section-title) conserva el margen normal porque ahí sí hay
+     contenido arriba (los cursos). */
+  #dash-root .est-student-card > p.est-section-title:first-of-type { margin-top: 10px; }
+  /* Botones "Observaciones (N)" / "Pagos (N)": un pelín más de presencia y
+     color cálido neutro (nov/2026, a pedido explícito — sexta vuelta de
+     ajuste) — ya no el naranja fuerte de antes, pero tampoco tan apagados
+     como el gris piedra de los acordeones de cursos. */
   #dash-root .est-mini-pill-btn {
-    font-size: 13px; padding: 6px 14px; font-weight: 600; width: auto;
-    border-radius: 999px; border: 1px solid var(--ch-mini-pill-border);
-    background: var(--ch-mini-pill-bg); color: var(--ch-mini-pill-ink);
+    font-size: 13px; padding: 6px 14px; font-weight: 500; width: auto;
+    border-radius: 999px; border: 1px solid #DCD3C4;
+    background: #F4EFE6; color: #2D2A26;
     cursor: pointer; white-space: nowrap; display: inline-flex; align-items: center; gap: .3rem;
   }
-  #dash-root .est-mini-pill-btn:hover { background: var(--ch-mini-pill-hover-bg); }
-  #dash-root .est-mini-pill-btn.is-active { background: var(--ch-mini-pill-border); color: var(--ch-accent-ink); }
+  #dash-root .est-mini-pill-btn:hover { background: #EBE3D5; border-color: #c9bda4; }
+  #dash-root .est-mini-pill-btn.is-active { background: #EBE3D5; border-color: #2D2A26; }
   #dash-root .est-mini-count { font-variant-numeric: tabular-nums; }
   /* Panel que se despliega DEBAJO de toda la fila compacta al abrir
      cualquiera de los 2 mini-pill (ver JS: panelEl.open se controla desde
@@ -781,7 +786,14 @@
      TODA la sección (no solo por pago individual) — se carga perezosamente
      recién al abrirla, ver estCargarPagos. Mismo encabezado que
      .est-section-title pero clickeable, con flechita propia. */
-  #dash-root .est-pagos-section { margin: 24px 0 0 0; }
+  /* CORREGIDO (nov/2026, a pedido explícito — octava vuelta de ajuste): este
+     margen de 24px se aplicaba SIEMPRE, incluso con el panel cerrado —
+     el <details> cerrado no dibuja nada pero igual conservaba ese margen
+     superior, dejando un bache vacío entre los botones Observaciones/Pagos
+     y "Cursos y Diplomaturas". Ahora solo se aplica cuando el panel está
+     realmente abierto (separación respecto del panel de Observaciones de
+     arriba), igual que el resto de las reglas de .est-mini-panel[open]. */
+  #dash-root .est-pagos-section[open] { margin-top: 24px; }
   #dash-root .est-pagos-summary {
     list-style: none; cursor: pointer; font-weight: 700; font-size: 1.0625rem;
     display: flex; align-items: center; gap: .35rem;
@@ -1098,11 +1110,40 @@
      estático, con un cursor y hover sutiles para marcar que es un link. */
   #dash-root .est-badge-cert-link { cursor: pointer; }
   #dash-root .est-badge-cert-link:hover { background: #d7f0e0; }
+  /* "Certificado" (nov/2026, a pedido explícito — séptima vuelta de
+     ajuste; recoloreado en la octava vuelta porque el tono coral se leía
+     rojizo/cancelado): clase propia badge-cert, ahora naranja cálido/ámbar
+     claro y positivo, para distinguirlo a simple vista del verde de "En
+     curso" (badge-ok, sin cambios) sin parecerse al rojo de "Cancelada"
+     (badge-bad, sin cambios). El resto de los estados de cursada
+     (Finalizada, No iniciada, Sin certificar) tampoco se tocan. */
+  #dash-root .badge-cert { background: #FFF0E0; color: #C2590A; border: 1px solid #F7C59F; }
+  #dash-root .badge-cert.est-badge-cert-link:hover { background: #FFE1BE; }
   #dash-root .badge-neutral { background: #eeeae3; color: var(--ch-ink-muted); }
   /* Naranja distinto del ámbar de badge-warn, para diferenciar "En
      corrección" (amarillo/ámbar, badge-warn) de "Solicitud de reentrega"
      (naranja/ámbar, badge-retry) — ver estBadgePreentrega(). */
   #dash-root .badge-retry { background: #fde4cf; color: var(--ch-amarillo); }
+  /* Badges de CABECERA únicamente — "Figma Estudiante", "Coder Pro", "Saldo
+     a favor" (nov/2026, a pedido explícito — sexta vuelta de ajuste):
+     clases propias y separadas de badge-ok/badge-neutral a propósito, para
+     no tocar ni un pixel los badges de estado de cursos/comisiones (En
+     curso, Finalizada, Cancelada, No iniciada, Certificado, etc. — esos
+     siguen usando badge-ok/badge-warn/badge-bad/badge-neutral tal cual).
+     Estado positivo: tono cálido crema/ámbar muy suave (en vez del verde
+     fuerte de badge-ok) para no competir visualmente con el verde de los
+     cursos. Estado neutro/inactivo: piedra/gris opaco, un pelín más suave
+     que badge-neutral. */
+  #dash-root .badge-header-warm { background: #FDF3E7; color: #8C5319; border: 1px solid #EAD4BC; }
+  #dash-root .badge-header-neutral { background: #EFECE6; color: #6E6A63; }
+  /* AJUSTE (nov/2026, a pedido explícito — séptima vuelta de ajuste): se
+     igualan en tamaño "Coder Pro"/"Saldo a favor" (únicos badges que quedan
+     en la cabecera, ya que "Figma Estudiante" se movió adentro de
+     Observaciones) con los botones Observaciones/Pagos de la fila de abajo
+     (.est-mini-pill-btn: font-size 13px, padding 6px 14px), para que el
+     bloque completo quede armónico entre el nombre y "Cursos y
+     Diplomaturas". */
+  #dash-root .badge-header-warm, #dash-root .badge-header-neutral { font-size: 13px; padding: 6px 14px; font-weight: 500; }
 
   #dash-root .copy-btn {
     display: inline-flex;
@@ -2376,10 +2417,14 @@
   // en una pestaña nueva. Sin URL disponible, sigue como badge estático.
   function estBadgeCertificado(cert, url) {
     if (!cert) return '<span class="badge badge-neutral">Sin certificar</span>';
+    // CORREGIDO (nov/2026, a pedido explícito — séptima vuelta de ajuste):
+    // clase propia badge-cert (coral/terracota) en vez de badge-ok, para que
+    // "Certificado" no se confunda a simple vista con "En curso" (que sigue
+    // siendo badge-ok, verde, sin cambios).
     if (url) {
-      return `<a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="badge badge-ok est-badge-cert-link">Certificado<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a>`;
+      return `<a href="${estEscapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="badge badge-cert est-badge-cert-link">Certificado<span class="est-entrega-link-icon" aria-hidden="true">↗</span></a>`;
     }
-    return '<span class="badge badge-ok">Certificado</span>';
+    return '<span class="badge badge-cert">Certificado</span>';
   }
 
   // Badge de inscripción TRANSFERRED (a pedido explícito, nov/2026): un
@@ -2730,10 +2775,10 @@
   // texto corrido — ahora es un badge más, para poder mostrarlo en la misma
   // fila horizontal que el badge de Coder Pro).
   function estBadgeSaldo(saldo) {
-    if (!saldo || saldo.error) return '<span class="badge badge-neutral">Saldo a favor: no se pudo verificar</span>';
-    if (!saldo.disponible) return '<span class="badge badge-neutral">Sin saldo a favor</span>';
+    if (!saldo || saldo.error) return '<span class="badge badge-header-neutral">Saldo a favor: no se pudo verificar</span>';
+    if (!saldo.disponible) return '<span class="badge badge-header-neutral">Sin saldo a favor</span>';
     const monto = estFormatMonto(saldo.monto, saldo.moneda);
-    return `<span class="badge badge-ok">Saldo a favor: ${estEscapeHtml(monto)}</span>`;
+    return `<span class="badge badge-header-warm">Saldo a favor: ${estEscapeHtml(monto)}</span>`;
   }
 
   function estFormatMonto(monto, moneda) {
@@ -2972,8 +3017,21 @@
   // entero ni se agrega (nunca un título con un mensaje vacío debajo). Si
   // ninguno de los dos tiene nada, "Notas internas del equipo" queda como
   // primer y único bloque.
-  function estRenderObservacionesPanel(data) {
+  function estRenderObservacionesPanel(data, figmaTexto) {
     const bloques = [];
+
+    // NUEVO (nov/2026, a pedido explícito — séptima vuelta de ajuste):
+    // "Figma Estudiante" ya no va en la cabecera — se muestra acá como una
+    // pill más, primero en la lista, solo cuando hay una solicitud
+    // registrada (figmaTexto llega '' en "Sin solicitud" y no se pinta
+    // nada, ver estFigmaTextoObservaciones).
+    if (figmaTexto) {
+      bloques.push(`
+      <div class="est-obs-bloque">
+        <p class="est-obs-subtitulo">Figma Estudiante</p>
+        <div class="est-obs-pill-list"><span class="badge badge-neutral est-obs-pill">${estEscapeHtml(figmaTexto)}</span></div>
+      </div>`);
+    }
 
     if (data.excepcionesError) {
       bloques.push(`
@@ -3031,19 +3089,25 @@
     const bodyEl = panelEl.querySelector('.est-obs-body');
     const email = panelEl.dataset.email || '';
     if (!email || !bodyEl) return;
+    // "Figma Estudiante" (nov/2026, a pedido explícito — séptima vuelta de
+    // ajuste): se calculó una sola vez en estRenderStudentCard (ya tenía el
+    // índice de Figma cargado) y quedó guardado acá — nunca pasa por el
+    // Worker, así que se suma al contador siempre del lado del cliente.
+    const figmaTexto = panelEl.dataset.figmaTexto || '';
+    const sumaFigma = figmaTexto ? 1 : 0;
 
     // MODO PREVISUALIZACIÓN (ver EST_PREVIEW_MODE): pinta directo las
     // observaciones de ejemplo, sin pegarle a las planillas ni al Worker.
     if (EST_PREVIEW_MODE) {
-      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(EST_MOCK_OBSERVACIONES);
-      if (card) estActualizarContadorMini(card, 'obs', EST_MOCK_OBSERVACIONES.contadorTotal);
+      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(EST_MOCK_OBSERVACIONES, figmaTexto);
+      if (card) estActualizarContadorMini(card, 'obs', EST_MOCK_OBSERVACIONES.contadorTotal + sumaFigma);
       return;
     }
 
     const cacheada = estObsCache.get(email);
     if (cacheada) {
-      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(cacheada);
-      if (card) estActualizarContadorMini(card, 'obs', cacheada.contadorTotal);
+      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(cacheada, figmaTexto);
+      if (card) estActualizarContadorMini(card, 'obs', cacheada.contadorTotal + sumaFigma);
       return;
     }
     if (panelEl.dataset.cargando === '1') return; // ya hay una carga en vuelo (precarga + apertura casi simultáneas)
@@ -3073,8 +3137,8 @@
         return;
       }
       estObsCache.set(email, data);
-      if (card) estActualizarContadorMini(card, 'obs', data.contadorTotal);
-      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(data);
+      if (card) estActualizarContadorMini(card, 'obs', data.contadorTotal + sumaFigma);
+      if (!eager || panelEl.open) bodyEl.innerHTML = estRenderObservacionesPanel(data, figmaTexto);
     } catch (err) {
       if (!eager) bodyEl.innerHTML = `<p class="est-sin-preentregas is-error">Error al cargar las observaciones: ${estEscapeHtml(err.message || String(err))}</p>`;
     } finally {
@@ -3342,10 +3406,10 @@
   }, true);
 
   function estBadgeCoderPro(coderPro) {
-    if (!coderPro || coderPro.error) return '<span class="badge badge-neutral">Coder Pro: no se pudo verificar</span>';
+    if (!coderPro || coderPro.error) return '<span class="badge badge-header-neutral">Coder Pro: no se pudo verificar</span>';
     return coderPro.activo
-      ? '<span class="badge badge-ok">Coder Pro: Activo</span>'
-      : '<span class="badge badge-neutral">Coder Pro: Inactivo</span>';
+      ? '<span class="badge badge-header-warm">Coder Pro: Activo</span>'
+      : '<span class="badge badge-header-neutral">Coder Pro: Inactivo</span>';
   }
 
   // --- Figma Estudiante (PRUEBA, nov/2026): badge de estado de la
@@ -3387,9 +3451,22 @@
   function estBadgeFigma(email, indiceFigma) {
     const clave = String(email || '').trim().toLowerCase();
     const entrada = (clave && indiceFigma) ? indiceFigma[clave] : null;
-    if (!entrada) return '<span class="badge badge-neutral">Figma Estudiante: Sin solicitud</span>';
+    if (!entrada) return '<span class="badge badge-header-neutral">Figma Estudiante: Sin solicitud</span>';
     const sufijoFecha = entrada.fecha ? ` (${estFechaFigmaCortaAnio(entrada.fecha)})` : '';
-    return `<span class="badge badge-ok">Figma Estudiante: Solicitado${sufijoFecha}</span>`;
+    return `<span class="badge badge-header-warm">Figma Estudiante: Solicitado${sufijoFecha}</span>`;
+  }
+
+  // NUEVO (nov/2026, a pedido explícito — séptima vuelta de ajuste): "Figma
+  // Estudiante" se saca de la cabecera y pasa a vivir dentro del panel
+  // desplegable Observaciones, como una pill más (junto a Excepciones y
+  // Beneficios). Si está en "Sin solicitud" no se muestra texto alguno (ni
+  // se suma al contador Observaciones (N)) — se devuelve '' en ese caso.
+  function estFigmaTextoObservaciones(email, indiceFigma) {
+    const clave = String(email || '').trim().toLowerCase();
+    const entrada = (clave && indiceFigma) ? indiceFigma[clave] : null;
+    if (!entrada) return '';
+    const sufijoFecha = entrada.fecha ? ` (${estFechaFigmaCortaAnio(entrada.fecha)})` : '';
+    return `Figma Estudiante: Solicitado${sufijoFecha}`;
   }
 
   async function estRenderStudentCard(match) {
@@ -3399,7 +3476,11 @@
     const boLink = estBackOfficeLink(match.backOfficeUserId);
     const coderProBadge = estBadgeCoderPro(match.coderPro);
     const indiceFigma = await estCargarFigmaIndex();
+    // "figmaBadge" (badge de cabecera) solo se usa en el caso sinPerfilDeEstudiante
+    // de acá abajo, que no tiene panel de Observaciones donde mover el dato.
+    // "figmaTexto" es la versión para dentro de Observaciones (ficha normal).
     const figmaBadge = estBadgeFigma(match.email, indiceFigma);
+    const figmaTexto = estFigmaTextoObservaciones(match.email, indiceFigma);
 
     if (match.sinPerfilDeEstudiante) {
       return `
@@ -3463,13 +3544,13 @@
           <div class="est-student-header-right">${emailSpan}${boLink}</div>
         </div>
         <div class="est-compact-row">
-          ${figmaBadge}${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}
-          <div class="est-mini-pill-group">
-            <button type="button" class="est-mini-pill-btn" data-mini-toggle="obs">Observaciones <span class="est-mini-count" data-mini-count="obs"></span></button>
-            <button type="button" class="est-mini-pill-btn" data-mini-toggle="pagos">Pagos<span class="est-mini-count" data-mini-count="pagos"></span></button>
-          </div>
+          ${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}
         </div>
-        <details class="est-mini-panel" data-mini-panel="obs" data-email="${estEscapeHtml(match.email || '')}" data-coder-pro="${coderProActivoAttr}">
+        <div class="est-mini-pill-row">
+          <button type="button" class="est-mini-pill-btn" data-mini-toggle="obs">Observaciones <span class="est-mini-count" data-mini-count="obs"></span></button>
+          <button type="button" class="est-mini-pill-btn" data-mini-toggle="pagos">Pagos<span class="est-mini-count" data-mini-count="pagos"></span></button>
+        </div>
+        <details class="est-mini-panel" data-mini-panel="obs" data-email="${estEscapeHtml(match.email || '')}" data-coder-pro="${coderProActivoAttr}" data-figma-texto="${estEscapeHtml(figmaTexto)}">
           <summary></summary>
           <div class="est-mini-panel-body est-obs-body">
             <p class="est-sin-preentregas est-entregas-cargando">Cargando observaciones…</p>
