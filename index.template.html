@@ -40,7 +40,7 @@
     <div class="login-gate-field-wrap">
       <div class="field-icon-wrap field-icon-left field-icon-right">
         <span class="field-icon" aria-hidden="true">🔒</span>
-        <input type="password" id="login-gate-pw" class="filter-input" placeholder="Contraseña" autocomplete="off">
+        <input type="password" id="login-gate-pw" class="filter-input" placeholder="Contraseña" autocomplete="new-password">
         <button type="button" id="login-gate-toggle" class="login-gate-toggle" aria-label="Mostrar contraseña" title="Mostrar contraseña">👁️</button>
       </div>
     </div>
@@ -239,22 +239,25 @@
           <label for="est-buscar">Buscar estudiante (nombre o mail)</label>
           <div class="field-icon-wrap field-icon-left est-autocomplete-wrap">
             <span class="field-icon" aria-hidden="true">🔎</span>
-            <!-- CORREGIDO (nov/2026, a pedido explícito — bloqueo de
-                 autofill de raíz): Chrome/Edge seguían autocompletando este
-                 campo con el último mail buscado (fondo celeste de
-                 autofill) pese a autocomplete="off" y al name "trampa"
-                 (student_search_nocache) — ambos truco son ignorados por
-                 Chrome en campos que "huelen" a mail/usuario. La combinación
-                 que sí funciona: type="search" (no es un campo de
-                 login/mail para el heurístico del navegador),
-                 autocomplete="new-password" (el único valor que Chrome
-                 realmente respeta para no sugerir nada guardado),
-                 autocorrect/autocapitalize/spellcheck apagados, y el truco
-                 readonly-hasta-el-primer-foco: con readonly puesto, el
-                 navegador nunca ofrece ni pinta el autofill; apenas el
-                 equipo hace click/tap en el campo, el propio onfocus saca
-                 el readonly y se puede escribir con total normalidad. -->
-            <input type="search" id="est-buscar" name="student_search_nocache" class="filter-input" placeholder="Ej: Juan Pérez o juan@mail.com" autocomplete="new-password" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly')">
+            <!-- CORREGIDO (nov/2026, a pedido explícito — decimoséptima
+                 vuelta de ajuste): autocomplete="new-password" (usado antes
+                 acá para bloquear el autofill de mails viejos) hacía que
+                 Chrome, al ver dos campos "new-password" en la misma página
+                 (este buscador + login-gate-pw), tratara este campo como el
+                 "usuario" de un formulario de alta de contraseña — así que
+                 cada vez que se buscaba un alumno por mail, el Administrador
+                 de contraseñas ofrecía "¿Quieres guardar la contraseña?"
+                 asociando ese mail con la clave de la página. Ahora usa
+                 autocomplete="off" + name="student-search" (sin ningún
+                 nombre genérico tipo email/user/username que "huela" a
+                 campo de login) para que Chrome deje de asociarlo con
+                 cualquier campo de contraseña. type="search" y el truco
+                 readonly-hasta-el-primer-foco se mantienen igual que antes:
+                 con readonly puesto, el navegador nunca ofrece ni pinta
+                 autofill; apenas el equipo hace click/tap en el campo, el
+                 propio onfocus saca el readonly y se puede escribir con
+                 total normalidad. -->
+            <input type="search" id="est-buscar" name="student-search" class="filter-input" placeholder="Ej: Juan Pérez o juan@mail.com" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" readonly onfocus="this.removeAttribute('readonly')">
             <div class="est-autocomplete-list is-hidden" id="est-autocomplete-list"></div>
           </div>
         </div>
