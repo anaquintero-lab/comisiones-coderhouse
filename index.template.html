@@ -1305,6 +1305,35 @@
   }
   #dash-root .saldo-limpiar-btn:hover { background: rgba(255, 255, 255, .15); border-color: #fff; }
 
+  /* CORREGIDO (nov/2026, a pedido explícito — decimoctava vuelta de ajuste,
+     contraste en modo oscuro): ".est-curso summary" y ".est-pago summary"
+     (filas de Cursos y Diplomaturas, Workshops y Webinars, y Pagos cuando
+     tienen acordeón) tenían un fondo claro fijo (#fdfaf5) sin variable de
+     tema — en modo oscuro el texto (color: var(--ch-ink), ya claro/blanco
+     en ese tema) quedaba ilegible sobre ese mismo fondo claro. Se fuerza acá
+     un fondo oscuro acorde al resto del tema oscuro; los badges de estado
+     (Finalizada/No iniciada/Certificado/Sin certificar) no se tocan — ya
+     tienen sus propios colores de fondo+texto fijos (badge-ok/warn/bad/
+     neutral/cert) y siguen leyéndose igual de bien arriba de este fondo. */
+  html[data-theme="dark"] #dash-root .est-curso summary,
+  html[data-theme="dark"] #dash-root .est-pago summary {
+    background: #26221E;
+    border-bottom: 1px solid #3D3730;
+  }
+
+  /* CORREGIDO (nov/2026, a pedido explícito — decimoctava vuelta de ajuste,
+     contraste en modo oscuro): el selector de divisa ("ARS $") de la
+     tarjeta de Saldo a favor usa fondo claro fijo (rgba(255,255,255,.92),
+     pensado para contrastar contra el degradé de color de esa tarjeta) +
+     color: var(--ch-ink) — en modo oscuro ese texto pasa a ser claro/blanco
+     y se pierde contra el mismo fondo claro. Se fuerza el texto (y la
+     flechita nativa del <select>, que también usa "color") a un tono
+     oscuro fijo, manteniendo el fondo claro de la píldora sin cambios. */
+  html[data-theme="dark"] #dash-root .saldo-moneda-select {
+    color: #1C1917;
+    font-weight: 600;
+  }
+
 </style>
 
 <style>
