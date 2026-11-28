@@ -3106,9 +3106,20 @@
     return bloques.join('');
   }
 
+  // CORREGIDO (nov/2026, a pedido explícito — decimotercera vuelta de
+  // ajuste): el botón "Pagos" nunca debe mostrar "Pagos (0)" — con 0 pagos
+  // (o todavía sin cargar) se ve directamente "Pagos", sin paréntesis;
+  // solo se muestra el número cuando es mayor a cero. "Observaciones" no
+  // cambia su comportamiento (0 sigue mostrándose como "(0)").
+  function estFormatoContadorMini(kind, n) {
+    const ocultarCero = kind === 'pagos';
+    const valorVisible = (n == null || (ocultarCero && n === 0)) ? null : n;
+    return (valorVisible == null) ? '' : `(${valorVisible})`;
+  }
+
   function estActualizarContadorMini(card, kind, n) {
     const el = card && card.querySelector(`.est-mini-count[data-mini-count="${kind}"]`);
-    if (el) el.textContent = (n == null) ? '' : `(${n})`;
+    if (el) el.textContent = estFormatoContadorMini(kind, n);
   }
 
   // "eager": true cuando se llama apenas se muestra la ficha (ver
@@ -3569,6 +3580,32 @@
     // desde esos botones (ver listener de .est-mini-pill-btn más abajo) —
     // su <summary> queda vacío y oculto por CSS a propósito.
     const coderProActivoAttr = (match.coderPro && match.coderPro.activo) ? '1' : '0';
+
+    // NUEVO (nov/2026, a pedido explícito — decimotercera vuelta de ajuste):
+    // ahora /buscar ya trae "observaciones" (excepciones + beneficios)
+    // adentro de cada match — se usa ACÁ, al armar la ficha, para pintar el
+    // contador "Observaciones (N)" y el contenido del panel al instante,
+    // sin esperar la consulta separada a /observaciones. Esa consulta
+    // (estCargarObservaciones con eager:true, más abajo) se sigue
+    // disparando igual que antes — sigue siendo necesaria para las notas
+    // internas del equipo (que no viajan en /buscar) y como respaldo si
+    // match.observaciones viniera vacío por algún motivo — y al resolver
+    // simplemente sobreescribe este contenido inicial con la versión
+    // definitiva (misma lógica de "eager" que ya existía).
+    const obsInicial = match.observaciones || null;
+    const obsInicialN = obsInicial
+      ? (obsInicial.excepciones ? obsInicial.excepciones.length : 0)
+        + (obsInicial.beneficios ? obsInicial.beneficios.length : 0)
+        + (figmaTexto ? 1 : 0)
+      : null;
+    const obsInicialBodyHtml = obsInicial
+      ? estRenderObservacionesPanel({
+          excepciones: obsInicial.excepciones || [],
+          cancelacionLineas: obsInicial.beneficios || [],
+          notas: [], // las notas internas siempre llegan después, vía /observaciones (eager)
+        }, figmaTexto)
+      : '<p class="est-sin-preentregas est-entregas-cargando">Cargando observaciones…</p>';
+
     return `
       <section class="card est-student-card">
         <div class="est-student-header">
@@ -3579,14 +3616,12 @@
           ${coderProBadge}${estBadgeSaldo(match.saldoAFavor)}
         </div>
         <div class="est-mini-pill-row">
-          <button type="button" class="est-mini-pill-btn" data-mini-toggle="obs">Observaciones <span class="est-mini-count" data-mini-count="obs"></span></button>
+          <button type="button" class="est-mini-pill-btn" data-mini-toggle="obs">Observaciones <span class="est-mini-count" data-mini-count="obs">${estFormatoContadorMini('obs', obsInicialN)}</span></button>
           <button type="button" class="est-mini-pill-btn" data-mini-toggle="pagos">Pagos<span class="est-mini-count" data-mini-count="pagos"></span></button>
         </div>
         <details class="est-mini-panel" data-mini-panel="obs" data-email="${estEscapeHtml(match.email || '')}" data-coder-pro="${coderProActivoAttr}" data-figma-texto="${estEscapeHtml(figmaTexto)}">
           <summary></summary>
-          <div class="est-mini-panel-body est-obs-body">
-            <p class="est-sin-preentregas est-entregas-cargando">Cargando observaciones…</p>
-          </div>
+          <div class="est-mini-panel-body est-obs-body">${obsInicialBodyHtml}</div>
         </details>
         <details class="est-mini-panel est-pagos-section" data-mini-panel="pagos" data-email="${estEscapeHtml(match.email || '')}" data-user-id="${estEscapeHtml(match.backOfficeUserId || '')}">
           <summary></summary>
